@@ -136,7 +136,12 @@ export function Overlay({
       behind.forEach((el) => el.removeAttribute("inert"));
       if (!takeFocus) return;
       const restore = restoreRef.current;
-      if (restore && document.contains(restore)) restore.focus();
+      if (!restore || !document.contains(restore)) return;
+      // WebKit judges focusability from the last layout it computed, in which
+      // the page is still inert, and drops the call without a word. Reading a
+      // layout value brings it up to date first.
+      if (behind.length > 0) void restore.offsetWidth;
+      restore.focus();
     };
   }, [isOpen, takeFocus, modal, layer]);
 
