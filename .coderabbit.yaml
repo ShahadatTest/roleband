@@ -3,12 +3,12 @@
 # is not a required check, and only a maintainer's request has to be met.
 language: en-GB
 tone_instructions: >-
-  Be brief and plain. Comment only on defects and on breaks of the rules in
-  AGENTS.md and the doc that owns the subject. Skip style the linters check.
-  Never use em-dashes.
+  Be brief and plain. Ground each comment in the code, in AGENTS.md or in the
+  doc that owns the subject. Skip style the linters check. Never use
+  em-dashes.
 
 reviews:
-  profile: chill
+  profile: assertive
   # It summarises in its own comment, and leaves the author's description alone.
   high_level_summary: false
   in_progress_fortune: false
