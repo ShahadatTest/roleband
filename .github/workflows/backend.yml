@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   checks:
+    name: backend
     runs-on: ubuntu-latest
     # Same reason as dashboard.yml: an unbounded step is billed minutes. Hosted
     # runners differ in speed, so this leaves room for a slow one to finish the

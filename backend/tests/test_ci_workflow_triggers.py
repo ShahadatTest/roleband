@@ -222,6 +222,36 @@ def test_every_workflow_can_be_run_by_hand(name):
     assert "workflow_dispatch" in triggers(yaml.safe_load((WORKFLOWS / name).read_text()))
 
 
+def check_names(data: dict) -> list[str]:
+    """The names GitHub gives a workflow's check runs, before any matrix suffix."""
+    return [job.get("name", job_id) for job_id, job in (data.get("jobs") or {}).items()]
+
+
+def shared_check_names(workflows: dict[str, dict]) -> dict[str, list[str]]:
+    owners: dict[str, list[str]] = {}
+    for name, data in workflows.items():
+        for check in check_names(data):
+            owners.setdefault(check, []).append(name)
+    return {check: names for check, names in owners.items() if len(names) > 1}
+
+
+def test_no_two_gate_jobs_report_under_one_check_name():
+    # Branch protection requires checks by name, so a name two gates share would let
+    # one workflow's result stand in for the other's.
+    gates = {name: yaml.safe_load((WORKFLOWS / name).read_text()) for name in GATES}
+    assert shared_check_names(gates) == {}
+
+
+def test_a_check_name_two_gates_share_is_reported():
+    """The control for the test above."""
+    gates = {
+        "a.yml": {"jobs": {"checks": {}}},
+        "b.yml": {"jobs": {"checks": {}, "lint": {"name": "b-lint"}}},
+        "c.yml": {"jobs": {"build": {"name": "checks"}}},
+    }
+    assert shared_check_names(gates) == {"checks": ["a.yml", "b.yml", "c.yml"]}
+
+
 def test_the_trigger_rules_see_a_filter_and_a_missing_manual_run():
     """The controls for the two tests above."""
     filtered = {True: {"push": {"branches": ["main"], "paths": ["docs/**"]}, "pull_request": None}}

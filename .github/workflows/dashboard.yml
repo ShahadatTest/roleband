@@ -25,6 +25,7 @@ concurrency:
 
 jobs:
   checks:
+    name: dashboard
     runs-on: ubuntu-latest
     # A hung step otherwise burns the 6-hour default, and these are billed
     # minutes on a private repo. The Playwright suite is its own job below, so
