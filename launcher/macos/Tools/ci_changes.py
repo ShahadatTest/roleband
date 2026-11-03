@@ -1,16 +1,19 @@
-"""Which tiers of the Mac workflow a change needs: the native tests, the full bundle, or neither.
+"""Which tiers of a gate workflow a change needs.
 
-The workflow is a pull-request gate, so it takes no `paths:` filter: a required check from
-a filtered workflow waits forever on a change the filter skips. Its first job runs this
-script instead, and a job that is not needed reports as skipped, which counts as passed.
+A pull-request gate takes no `paths:` filter: a required check from a filtered workflow
+waits forever on a change the filter skips. Its first job runs this script instead, and a
+job that is not needed reports as skipped, which counts as passed.
 
-The watched paths come from the workflow (`NATIVE_PATHS`, `BUNDLE_PATHS`), one GitHub glob
-per line: `**` crosses `/`, `*` and `?` do not. `backend/tests/test_ci_workflow_triggers.py`
-holds that each list covers every file its tier's steps read.
+The watched paths come from the workflow, one GitHub glob per line: `**` crosses `/`, `*`
+and `?` do not. `backend/tests/test_ci_workflow_triggers.py` holds that each list covers
+every file its tier's steps read.
+
+The Mac workflow names two tiers (`NATIVE_PATHS`, `BUNDLE_PATHS`) and gates pushes too. The
+bundle never runs for a pull request; it is the slow tier, and every release builds it.
+Any other gate names one tier (`TIER`, `PATHS`), which only a pull request can skip.
 
 Anything this script cannot judge runs everything: a release, a manual or scheduled run, a
-push with no previous commit, or a diff git cannot produce. The bundle never runs for a
-pull request; it is the slow tier, and every release builds it.
+push with no previous commit, or a diff git cannot produce.
 """
 
 import os
@@ -57,6 +60,11 @@ def decide(event, changed, native_paths, bundle_paths):
     return {'native': native, 'bundle': bundle}
 
 
+def needed(event, changed, globs):
+    """One tier of a gate other than the Mac workflow's."""
+    return event != 'pull_request' or changed is None or any(matches(path, globs) for path in changed)
+
+
 def changed_files(event, base, head):
     if not base or NO_COMMIT.fullmatch(base) or not head:
         return None
@@ -71,12 +79,15 @@ def changed_files(event, base, head):
 def main():
     event = os.environ['EVENT']
     changed = changed_files(event, os.environ.get('BASE', ''), os.environ.get('HEAD', ''))
-    tiers = decide(event, changed, patterns(os.environ['NATIVE_PATHS']), patterns(os.environ['BUNDLE_PATHS']))
+    if 'TIER' in os.environ:
+        tiers = {os.environ['TIER']: needed(event, changed, patterns(os.environ['PATHS']))}
+    else:
+        tiers = decide(event, changed, patterns(os.environ['NATIVE_PATHS']), patterns(os.environ['BUNDLE_PATHS']))
     seen = 'unknown' if changed is None else f'{len(changed)} changed files'
-    print(f'{event}, {seen}: native {tiers["native"]}, bundle {tiers["bundle"]}')
+    print(f'{event}, {seen}: ' + ', '.join(f'{tier} {run}' for tier, run in tiers.items()))
     with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
-        for tier, needed in tiers.items():
-            output.write(f'{tier}={str(needed).lower()}\n')
+        for tier, run in tiers.items():
+            output.write(f'{tier}={str(run).lower()}\n')
 
 
 if __name__ == '__main__':

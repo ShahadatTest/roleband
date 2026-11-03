@@ -269,6 +269,56 @@ test("Back steps back through setup, and a reload keeps the step and its answers
   expect(saves).toEqual([]);
 });
 
+/* A step takes focus to its question as it appears, never after: on a slow
+   machine a person can already be typing in the step's field, and a late move
+   would take the cursor out of it mid-word. A slow machine is modelled by
+   holding the tasks React schedules (its scheduler posts through
+   MessageChannel) from the moment the step's field is in the page until the
+   person has typed. Keystrokes do not wait for the scheduler, so typing still
+   works, and what the step does late runs when the tasks are let go. */
+test("a step that opens slowly keeps the field a person is already typing in", async ({ page }) => {
+  await page.addInitScript(() => {
+    const Channel = window.MessageChannel;
+    let holding = false;
+    const held: (() => void)[] = [];
+    new MutationObserver(() => {
+      if (document.querySelector('input[aria-label="Where are you based?"]')) holding = true;
+    }).observe(document, { childList: true, subtree: true });
+    class HeldChannel {
+      port1: { onmessage: ((event: MessageEvent) => void) | null } = { onmessage: null };
+      private readonly channel = new Channel();
+      constructor() {
+        this.channel.port1.onmessage = (event) => {
+          const run = () => this.port1.onmessage?.({ data: event.data } as MessageEvent);
+          if (holding) held.push(run);
+          else run();
+        };
+      }
+      port2 = { postMessage: (data: unknown) => this.channel.port2.postMessage(data) };
+    }
+    Object.assign(window, {
+      MessageChannel: HeldChannel,
+      letScheduledWorkGo: () => {
+        holding = false;
+        held.splice(0).forEach((run) => run());
+      },
+    });
+  });
+  await install(page, FRESH);
+  await page.goto("/profile/direction?setup=1");
+  await page.getByLabel("Leading a team").check();
+  await page.getByRole("button", { name: "Continue" }).click();
+  await page.locator(".stage-cell").filter({ hasText: "Staff" }).click();
+  await page.locator(".stage-cell").filter({ hasText: "Staff" }).click();
+  await page.getByRole("button", { name: "Continue" }).click();
+  const field = page.getByLabel("Where are you based?");
+  await field.pressSequentially("silicon");
+  await page.evaluate(() => (window as unknown as { letScheduledWorkGo: () => void }).letScheduledWorkGo());
+  await expect(field).toBeFocused();
+  await expect(field).toHaveValue("silicon");
+  await expect(page.getByRole("button", { name: "Add Silicon Valley" })).toBeVisible();
+});
+
 /* A save in Profile configures the install as setup's Start does: the notice
    that setup is unfinished goes at once, and the board says the radar is set. */
 test("a save in Profile ends an unfinished setup", async ({ page }) => {

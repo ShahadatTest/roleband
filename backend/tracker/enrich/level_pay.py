@@ -129,13 +129,20 @@ _WAGE_LEVELS = ("level_i", "level_ii", "level_iii", "level_iv")
 
 
 @cache
+def _filed_family(company: str, title: str) -> str | None:
+    """The family a filed title classifies into. A filing carries no department or
+    team, so company and title are the whole input; the same pair recurs across
+    states and years, and both the reader and the filing-only rules ask for it."""
+    return classify_family(RawJob(company=company, req_id="", title=title, url=""))
+
+
+@cache
 def _read_title(company: str, title: str) -> tuple[str, LevelBand] | None:
     """(family, band) the reader places this filed title at, or None."""
-    job = RawJob(company=company, req_id="", title=title, url="")
-    family = classify_family(job)
+    family = _filed_family(company, title)
     if family is None:
         return None
-    reading = read_level(job, family)
+    reading = read_level(RawJob(company=company, req_id="", title=title, url=""), family)
     if reading.basis in UNPLACED_BASES:
         return None
     return family, reading.band
@@ -160,7 +167,7 @@ def _place_filing(row: dict[str, str]) -> tuple[str, LevelBand] | None:
     placed = _read_title(row["company"], row["title"])
     if placed is not None:
         return placed
-    family = classify_family(RawJob(company=row["company"], req_id="", title=row["title"], url=""))
+    family = _filed_family(row["company"], row["title"])
     if family is None:
         return None
     # Filed titles can start with a literal atlas code (PMTS software ...),

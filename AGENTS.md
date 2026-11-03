@@ -17,6 +17,9 @@ for every surface you touched and say what you ran. The two you will need most:
 - Dashboard, from `dashboard/`: `npm run lint`, `npm run test:unit`, `npm run build`, and
   `npm run test:ux` for a screen.
 
+Pull requests also get an automated review; [CONTRIBUTING.md](CONTRIBUTING.md#automated-review)
+says how to answer it.
+
 This file owns two rules that apply to every change, by people and agents alike.
 
 ## Data safety

@@ -5,6 +5,8 @@ Contracts:
   no level ("Software Engineer") or one we cannot place ("Engineering Manager")
   answers no band, with filed-only atlas-code/wage-I/flat-rung exceptions;
   a product title files under product management.
+- A filed company and title are classified once, however many state and year
+  cells carry them.
 - The filed figure is the filings-weighted median of the latest year's cells;
   an older year never moves it.
 - A posted figure takes the range most anchoring postings carry, and a rung
@@ -252,6 +254,34 @@ def test_wage_levels_ii_to_iv_place_nothing_outside_a_flat_firm():
 def test_a_title_the_reader_places_keeps_its_band_whatever_the_wage_level():
     assert level_pay._place_filing(_filed("google", "Senior Software Engineer", i=10)) == (
         "software_engineering", LevelBand.SENIOR)
+
+
+def test_a_filed_title_is_classified_once_however_many_cells_carry_it(monkeypatch):
+    # One cell per company x title x state x year: a pair recurs, and the reader and
+    # the filing-only rules both need its family.
+    real = level_pay.classify_family
+    calls = []
+    monkeypatch.setattr(level_pay, "classify_family", lambda job: calls.append((job.company, job.title)) or real(job))
+    level_pay._filed_family.cache_clear()
+    level_pay._read_title.cache_clear()
+    pairs = {  # placed by the reader; wage level I; a flat firm's one rung; unplaced
+        ("google", "Senior Software Engineer"): {"i": 10},
+        ("palantir", "Software Engineer"): {"i": 50, "ii": 3},
+        ("jane-street", "Software Engineer"): {"ii": 20, "iii": 6},
+        ("anthropic", "Software Engineer"): {"ii": 65, "iii": 47, "iv": 78},
+    }
+    rows = [
+        {**_cell(title, year, 4, 150_000, company=company, state=state), **_filed(company, title, **levels)}
+        for (company, title), levels in pairs.items() for state in ("CA", "NY", "WA") for year in (2024, 2025)
+    ]
+
+    found = filed_bases(rows)
+
+    assert sorted(calls) == sorted(pairs)
+    assert set(found) == {
+        ("google", SWE, LevelBand.SENIOR), ("palantir", SWE, LevelBand.ENTRY), ("jane-street", SWE, LevelBand.MID),
+    }
+    assert all(base.year == 2025 and base.filings == 12 for base in found.values())
 
 
 def test_postings_never_read_the_filing_rules():

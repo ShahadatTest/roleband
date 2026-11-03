@@ -1,6 +1,6 @@
 import "../ScopeSection.css";
 import "./walk.css";
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Badge } from "../../../ui/Badge";
 import { Button } from "../../../ui/Button";
@@ -172,8 +172,11 @@ export function Walk({ setup }: { setup?: WalkSetup } = {}) {
      step opens in the same place under the Profile header. Not
      `scrollIntoView({ block: "nearest" })`: for a card taller than the
      screen, such as World, that means "align its top" and scrolls the
-     header away on that step alone. */
-  useEffect(() => {
+     header away on that step alone. A layout effect, so focus moves before
+     the step is painted: a step change renders in a transition, and an effect
+     run after the paint can take the cursor from someone already typing in
+     the step's field. */
+  useLayoutEffect(() => {
     if (firstRender.current) { firstRender.current = false; return; }
     const heading = headingRef.current;
     if (!heading) return;
