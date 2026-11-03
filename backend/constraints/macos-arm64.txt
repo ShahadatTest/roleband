@@ -181,7 +181,7 @@ playwright==1.63.0
     # via -r requirements-optional.txt
 pluggy==1.6.0
     # via pytest
-protobuf==7.35.1
+protobuf==7.36.2
     # via onnxruntime
 psutil==7.2.2
     # via pixeltable-pgserver
