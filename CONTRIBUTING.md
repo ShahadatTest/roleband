@@ -36,6 +36,8 @@ carries `verified`, an `area:` label and a priority from `priority:low` to
 
 Pull requests are squash-merged. A maintainer may ask for changes or close a PR
 that does not fit the project's direction; opening an issue first avoids that.
+An automated reviewer may also comment on your PR. Its comments are suggestions;
+only a maintainer's request has to be met.
 
 ## Where the rules are
 
