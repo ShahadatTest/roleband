@@ -307,3 +307,268 @@ def test_the_decision_script_reads_globs_as_this_test_does():
     tracked = subprocess.run(["git", "-C", str(REPO), "ls-files"], capture_output=True, text=True, check=True)
     for path in tracked.stdout.split():
         assert script.matches(path, native + bundle) == covered(path, native + bundle), path
+
+
+# The backend and dashboard gates filter the same way with one tier each (`TIER`, `PATHS`),
+# which only a pull request can skip. Their inputs are what the jobs' steps read, plus what
+# the code they test reads outside its own directory: the backend's code under test names
+# repository files off the repository root, and the dashboard reaches files with `../`.
+# The backend suite's own tests that read past backend/ run on every pull request
+# (tests/repo_wide.py), so only the code they test needs watching.
+
+ROOT_NAMES = {"REPO_ROOT"}
+#: Paths the code names that no checkout run reads, each with the reason.
+NOT_READ_IN_A_CHECKOUT = {
+    ("backend/tracker/platform/paths.py", "dashboard"): "the installed app's layout; a checkout serves dashboard/dist",
+}
+
+
+def _gate_tier(name: str) -> tuple[dict, list[str]]:
+    data = yaml.safe_load((WORKFLOWS / name).read_text())
+    decide = next(step for step in data["jobs"]["changes"]["steps"] if step.get("id") == "decide")
+    return data, _lines(decide["env"]["PATHS"])
+
+
+def _tracked() -> list[str]:
+    out = subprocess.run(["git", "-C", str(REPO), "ls-files"], capture_output=True, text=True, check=True)
+    return out.stdout.split()
+
+
+def tracked_under(paths: set[str], tracked: list[str]) -> set[str]:
+    """Each path as the tracked files it names: itself, or every file below a directory."""
+    return {f for f in tracked for p in paths if f == p or f.startswith(p.rstrip("/") + "/")}
+
+
+def _launched(tokens: list[str], wd: str) -> set[str]:
+    """What a step hands its tools: a script it runs, a package it installs, what ruff lints."""
+    found: set[str] = set()
+    if len(tokens) > 1 and tokens[0] in ("python", "python3", "node") and not tokens[1].startswith("-"):
+        found.add(_join(wd, tokens[1]))
+    if tokens[:3] == ["pip", "install", "-e"]:
+        found |= {_join(wd, arg) for arg in tokens[3:]}
+    if tokens[:2] == ["ruff", "check"]:
+        found |= {_join(wd, arg) for arg in tokens[2:] if not arg.startswith("-")}
+    return found
+
+
+def workflow_inputs(name: str, data: dict) -> set[str]:
+    inputs = step_inputs(name, data)
+    for job in data["jobs"].values():
+        default_wd = ((job.get("defaults") or {}).get("run") or {}).get("working-directory", ".")
+        for step in job.get("steps") or []:
+            wd = step.get("working-directory", default_wd)
+            for line in str(step.get("run") or "").splitlines():
+                try:
+                    inputs |= _launched(shlex.split(line, comments=True), wd)
+                except ValueError:
+                    continue
+    return inputs
+
+
+def _path_of(node: ast.expr, module: Path, names: dict[str, Path]) -> Path | None:
+    """The path an expression names, as far as its constant parts go."""
+    if isinstance(node, ast.Name):
+        return module if node.id == "__file__" else names.get(node.id)
+    if isinstance(node, ast.Call):
+        if isinstance(node.func, ast.Name) and node.func.id == "Path" and len(node.args) == 1:
+            return _path_of(node.args[0], module, names)
+        if isinstance(node.func, ast.Name) and node.func.id == "backend_dir":
+            return REPO / "backend"
+        if isinstance(node.func, ast.Attribute) and node.func.attr == "resolve":
+            return _path_of(node.func.value, module, names)
+    if isinstance(node, ast.Attribute) and node.attr == "parent":
+        base = _path_of(node.value, module, names)
+        return base.parent if base else None
+    if (isinstance(node, ast.Subscript) and isinstance(node.value, ast.Attribute)
+            and node.value.attr == "parents" and isinstance(node.slice, ast.Constant)):
+        base = _path_of(node.value.value, module, names)
+        return base.parents[node.slice.value] if base else None
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
+        base = _path_of(node.left, module, names)
+        if base and isinstance(node.right, ast.Constant) and isinstance(node.right.value, str):
+            return base / node.right.value
+        return base
+    return None
+
+
+def named_paths(module: Path, source: str) -> set[str]:
+    """Repository paths a module builds with `/` from the repository root, outside backend/.
+
+    A chain stops at its first part that is not a constant, so `ROOT / "docs" / name` names
+    `docs`, the whole directory. A module-level name only joined onto later is a base, not a read.
+    """
+    tree = ast.parse(source)
+    names = {name: REPO for name in ROOT_NAMES}
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
+            if (value := _path_of(node.value, module, names)) is not None:
+                names[node.targets[0].id] = value
+    divs = [n for n in ast.walk(tree) if isinstance(n, ast.BinOp) and isinstance(n.op, ast.Div)]
+    lefts = {id(n.left) for n in divs}
+    bases = {n.left.id for n in divs if isinstance(n.left, ast.Name)}
+    base_values = {
+        id(n.value) for n in tree.body
+        if isinstance(n, ast.Assign) and len(n.targets) == 1
+        and isinstance(n.targets[0], ast.Name) and n.targets[0].id in bases
+    }
+    found: set[str] = set()
+    for node in divs:
+        if id(node) in lefts or id(node) in base_values:
+            continue
+        path = _path_of(node, module, names)
+        if path and path.is_relative_to(REPO) and not path.is_relative_to(REPO / "backend"):
+            found.add(path.relative_to(REPO).as_posix())
+    return found
+
+
+def backend_code_reads(tracked: list[str]) -> set[str]:
+    found: set[str] = set()
+    for relative in tracked:
+        if not relative.startswith("backend/") or relative.startswith("backend/tests/") or not relative.endswith(".py"):
+            continue
+        module = REPO / relative
+        found |= {
+            path for path in named_paths(module, module.read_text(encoding="utf-8"))
+            if (relative, path) not in NOT_READ_IN_A_CHECKOUT
+        }
+    return found
+
+
+#: A `../` path in dashboard source, from the first part past the `../` steps.
+RELATIVE = re.compile(r"""["'`](?:\.\./)+([^"'`$\s]+)""")
+
+
+def reached_from(source: str, tops: set[str]) -> set[str]:
+    """Paths outside dashboard/ that a dashboard file names through `../`.
+
+    The base a `../` path starts from is not known here, so any whose first part is a
+    top-level entry of the repository other than dashboard/ counts. A path built from bare
+    `..` steps names no entry and is not seen.
+    """
+    return {
+        path.rstrip("/") for path in RELATIVE.findall(source)
+        if path.split("/", 1)[0] in tops and path.split("/", 1)[0] != "dashboard"
+    }
+
+
+def dashboard_code_reads(tracked: list[str]) -> set[str]:
+    tops = {path.split("/", 1)[0] for path in tracked}
+    found: set[str] = set()
+    for path in tracked:
+        if path.startswith("dashboard/") and (REPO / path).suffix in {
+            ".ts", ".tsx", ".js", ".mjs", ".mts", ".cjs", ".json", ".jsonc", ".html",
+        }:
+            found |= reached_from((REPO / path).read_text(encoding="utf-8"), tops)
+    return found
+
+
+def tier_inputs(name: str, tracked: list[str]) -> set[str]:
+    data, _ = _gate_tier(name)
+    code = backend_code_reads(tracked) if name == "backend.yml" else dashboard_code_reads(tracked)
+    return tracked_under(workflow_inputs(name, data) | code, tracked)
+
+
+def unwatched(inputs: set[str], paths: list[str]) -> list[str]:
+    return sorted(p for p in inputs if not covered(p, paths))
+
+
+@pytest.mark.parametrize("name", ["backend.yml", "dashboard.yml"])
+def test_each_gate_tier_watches_every_file_it_reads(name):
+    _, paths = _gate_tier(name)
+    missing = unwatched(tier_inputs(name, _tracked()), paths)
+    assert not missing, f"{name}: a pull request changing only these would skip the jobs that read them: {missing}"
+
+
+def test_the_gate_tier_inputs_are_derived_not_assumed():
+    """The control: the deriver finds what each tier reads, so the test above is not vacuous."""
+    tracked = _tracked()
+    backend, dashboard = tier_inputs("backend.yml", tracked), tier_inputs("dashboard.yml", tracked)
+    for expected in (".python-version", ".github/workflows/backend.yml", "backend/requirements.txt",
+                     "launcher/macos/Tools/ci_changes.py", "launcher/macos/test-transport.py",
+                     "sdk/python/pyproject.toml", "robots/python/pyproject.toml",
+                     "dashboard/csp-policy.json", "CHANGELOG.md", "docs/sources.md"):
+        assert expected in backend, expected
+    for expected in (".nvmrc", "dashboard/package-lock.json", "launcher/macos/Tools/ci_changes.py",
+                     "backend/tests/fixtures/notification_keys.json", "backend/tracker/skills/catalog.yaml",
+                     "launcher/contracts/status-cases.json"):
+        assert expected in dashboard, expected
+    _, paths = _gate_tier("backend.yml")
+    assert unwatched(backend, [p for p in paths if p != "dashboard/csp-policy.json"]) == ["dashboard/csp-policy.json"]
+
+
+def test_the_code_readers_see_a_path_built_from_the_root_or_reached_with_dots():
+    """The controls for the two code readers."""
+    module = REPO / "backend" / "scripts" / "demo.py"
+    source = (
+        'ROOT = Path(__file__).resolve().parents[2]\n'
+        'DOCS = ROOT / "docs"\n'
+        'GUIDE = DOCS / "testing.md"\n'
+        'POLICY = REPO_ROOT / "dashboard" / "csp-policy.json"\n'
+        'def page(name):\n'
+        '    return ROOT / "docs" / name\n'
+        'LOCAL = Path(__file__).parent / "fixtures" / "x.json"\n'
+    )
+    assert named_paths(module, source) == {"docs/testing.md", "dashboard/csp-policy.json", "docs"}
+    tops = {"backend", "launcher", "dashboard", "docs"}
+    source = (
+        'import data from "../../../../backend/tests/fixtures/a.json";\n'
+        'const tracker = join(src, "../../backend/tracker");\n'
+        'import { x } from "../../api/client";\n'
+        'import { y } from "../dashboard/src/z";\n'
+    )
+    assert reached_from(source, tops) == {"backend/tests/fixtures/a.json", "backend/tracker"}
+
+
+@pytest.mark.parametrize("name", ["backend.yml", "dashboard.yml"])
+def test_the_gate_decision_reads_globs_as_this_test_does(name):
+    spec = importlib.util.spec_from_file_location(
+        "ci_changes", REPO / "launcher" / "macos" / "Tools" / "ci_changes.py"
+    )
+    script = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(script)
+    _, paths = _gate_tier(name)
+    for path in _tracked():
+        assert script.matches(path, paths) == covered(path, paths), path
+
+
+def matrix_jobs_skipped_whole(data: dict) -> list[str]:
+    """Matrix jobs whose `if:` depends on a tier: skipped whole, they report one unsuffixed check."""
+    return sorted(
+        job_id for job_id, job in (data.get("jobs") or {}).items()
+        if "matrix" in (job.get("strategy") or {}) and "needs.changes.outputs" in str(job.get("if", ""))
+    )
+
+
+@pytest.mark.parametrize("name", GATES)
+def test_no_matrix_job_is_skipped_whole(name):
+    assert matrix_jobs_skipped_whole(yaml.safe_load((WORKFLOWS / name).read_text())) == []
+
+
+def test_a_matrix_job_skipped_whole_is_reported():
+    """The control for the test above."""
+    data = {"jobs": {
+        "ux": {"if": "needs.changes.outputs.dashboard == 'true'", "strategy": {"matrix": {"shard": [1, 2]}}},
+        "steps": {"if": "${{ !cancelled() }}", "strategy": {"matrix": {"shard": [1, 2]}}},
+        "lint": {"if": "needs.changes.outputs.dashboard == 'true'"},
+    }}
+    assert matrix_jobs_skipped_whole(data) == ["ux"]
+
+
+@pytest.mark.parametrize("name", ["backend.yml", "dashboard.yml"])
+def test_a_failed_decision_runs_the_gate(name):
+    """A job after `changes` runs when the decision fails, and reads an empty answer as yes."""
+    data = yaml.safe_load((WORKFLOWS / name).read_text())
+    for job_id, job in data["jobs"].items():
+        if job.get("needs") == "changes":
+            assert "!cancelled()" in job["if"], job_id
+            assert "== 'true'" not in job["if"], job_id
+
+
+def test_the_backend_runs_its_repo_wide_tests_whatever_changed():
+    data = yaml.safe_load((WORKFLOWS / "backend.yml").read_text())
+    pytest_steps = {
+        step["if"]: step["run"] for step in data["jobs"]["checks"]["steps"] if "pytest" in str(step.get("run", ""))
+    }
+    assert pytest_steps.keys() == {"env.WHOLE_SUITE == 'true'", "env.WHOLE_SUITE != 'true'"}
+    assert "repo_wide" not in pytest_steps["env.WHOLE_SUITE == 'true'"]
+    assert "-m repo_wide" in pytest_steps["env.WHOLE_SUITE != 'true'"]

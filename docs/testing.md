@@ -312,8 +312,8 @@ misjudged.
 
 | Workflow | Runs on | Steps |
 |---|---|---|
-| `backend.yml` | Every push and PR | Dependency audit of the locked graph; the MiniLM model for the embedding golden test; Postgres 16 with pgvector; install the prebuilt `pg_trgm`; ruff; mypy; import-linter; pytest with `ROLEBAND_REQUIRE_INTEGRATION=1` |
-| `dashboard.yml` | Every push and PR | Dependency audit of production packages; lint; knip; build; Vitest; Playwright on both projects against the built app, split by test across three shards |
+| `backend.yml` | Every push and PR; a PR that changes no backend input runs only the tests that read past `backend/` | Dependency audit of the locked graph; the MiniLM model for the embedding golden test; Postgres 16 with pgvector; install the prebuilt `pg_trgm`; ruff; mypy; import-linter; pytest with `ROLEBAND_REQUIRE_INTEGRATION=1` |
+| `dashboard.yml` | Every push and PR; a PR that changes no dashboard input skips its checks | Dependency audit of production packages; lint; knip; build; Vitest; Playwright on both projects against the built app, split by test across three shards |
 | `contract-drift.yml` | Every push and PR | Regenerates `openapi.json` and `api.gen.ts`, fails on any diff |
 | `hygiene.yml` | Every push and PR | `backend/scripts/check_project_name.py`, `backend/scripts/check_comment_hygiene.py` |
 | `mac-launcher.yml` | Every push and PR, weekly, and each release; its jobs run only when needed | A Linux `changes` job picks the tiers. Native tier (macOS): copy export check, Swift tests, installer and release tests, install guide in Chromium and WebKit, source app build, transport test. Bundle tier (macOS, never on a PR): the dashboard and the standalone app with its engine, launched read-only, packaged as a candidate for local signing |
@@ -349,7 +349,23 @@ is not needed reports as skipped, which a required check accepts. A release, a
 manual or weekly run, or a diff that cannot be read runs both tiers. The bundle
 copies the whole engine and dashboard but watches only its own inputs, so an
 engine change it does not name is built by the weekly run or the next release.
-The same test holds that each tier's list covers every file its steps read. In CI Playwright forbids `.only` and never
+The same test holds that each tier's list covers every file its steps read.
+
+The backend and dashboard workflows filter the same way, with one tier each (`TIER`,
+`PATHS` in their `changes` job), and only a pull request can skip it: a push to `main`
+or a manual run runs everything. A pull request that changes none of the backend's
+paths still runs the backend tests that read past `backend/` (`pytest -m repo_wide`;
+`backend/tests/repo_wide.py` marks them), because a change anywhere can break the
+secret scan, the vendor-name scan or a docs check; the rest of the suite and the
+linters are skipped. A dashboard pull request outside the dashboard's paths skips the
+`dashboard` job, and each `ux` shard starts and skips its steps, since a matrix job
+skipped whole reports a single `ux` check and the required shards would wait forever.
+When the `changes` job fails, both workflows run in full.
+`backend/tests/test_ci_workflow_triggers.py` derives each list from the jobs' steps and
+from the files the code under test names outside its directory, and fails on a path
+it misses.
+
+In CI Playwright forbids `.only` and never
 retries: a flaky test is diagnosed, not retried.
 
 Backend and dashboard workflows cancel superseded runs of the same pull request.

@@ -24,8 +24,42 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  # A gate takes no `paths:` filter, so this job decides whether a pull request needs the
+  # dashboard jobs at all. PATHS is every file they read.
+  changes:
+    name: dashboard-changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      dashboard: ${{ steps.decide.outputs.dashboard }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - id: decide
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+          TIER: dashboard
+          PATHS: |
+            dashboard/**
+            backend/tracker/**
+            backend/tests/fixtures/level_basis_gate.json
+            backend/tests/fixtures/notification_keys.json
+            launcher/contracts/status-cases.json
+            launcher/macos/Sources/LauncherCore/Resources/**
+            launcher/macos/Tools/ci_changes.py
+            .nvmrc
+            .github/workflows/dashboard.yml
+        run: python3 launcher/macos/Tools/ci_changes.py
+
   checks:
     name: dashboard
+    needs: changes
+    # Runs when `changes` fails too.
+    if: ${{ !cancelled() && needs.changes.outputs.dashboard != 'false' }}
     runs-on: ubuntu-latest
     # A hung step otherwise burns the 6-hour default, and these are billed
     # minutes on a private repo. The Playwright suite is its own job below, so
@@ -74,7 +108,13 @@ jobs:
   # three carry about the same load whatever the biggest spec weighs. Each
   # shard serves its own build: the cost of sharding is that build and the
   # browser install, paid three times.
+  #
+  # Every shard starts and skips its steps when the change does not need them: a matrix job
+  # skipped whole reports one check, `ux`, and the required `ux (1)` to `ux (3)` would wait
+  # forever.
   ux:
+    needs: changes
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     # About three times what a shard needs, so a slow runner still finishes and
     # a stall is still cut short. Below the job cap, the Playwright step has its
@@ -85,12 +125,16 @@ jobs:
       fail-fast: false
       matrix:
         shard: [1, 2, 3]
+    env:
+      NEEDED: ${{ needs.changes.outputs.dashboard != 'false' }}
     defaults:
       run:
         working-directory: dashboard
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: env.NEEDED == 'true'
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        if: env.NEEDED == 'true'
         with:
           # .nvmrc (24), the file setup.sh reads too. 24 not 22: npm 10 (bundled
           # with node 22) and npm 11 (local dev, and what Dependabot writes locks
@@ -100,12 +144,14 @@ jobs:
           cache: npm
           cache-dependency-path: dashboard/package-lock.json
       - run: npm ci
+        if: env.NEEDED == 'true'
       # Chromium + WebKit binaries are what playwright.config.ts's two projects
       # need. Split in two so the expensive half can be cached: the BINARIES are
       # a download keyed on the lockfile, while the apt system libraries cannot
       # be cached and are reinstalled each run. Splitting also shows which half
       # is hanging when one of them stalls.
       - name: cache playwright browsers
+        if: env.NEEDED == 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/ms-playwright
@@ -116,21 +162,25 @@ jobs:
       # package state beside them, while `actions/cache` restores files. A
       # stalled mirror fails in 6 minutes rather than riding the job cap.
       - name: install playwright system libraries
+        if: env.NEEDED == 'true'
         timeout-minutes: 6
         run: npx playwright install-deps chromium webkit
       - name: install playwright browsers
+        if: env.NEEDED == 'true'
         run: npx playwright install chromium webkit
       # A fresh runner's first page in a browser can take tens of seconds, and
       # a test that opened it would pay that inside its own timeout.
       - name: warm the browsers
+        if: env.NEEDED == 'true'
         timeout-minutes: 3
         run: node scripts/warm-browsers.mjs
       - name: playwright (chromium + mobile), shard ${{ matrix.shard }} of 3
+        if: env.NEEDED == 'true'
         timeout-minutes: 22
         run: npm run test:ux -- --shard=${{ matrix.shard }}/3
       # Successful timings make shard imbalance visible; failures also retain traces.
       - name: upload browser timings and outcomes
-        if: always()
+        if: always() && env.NEEDED == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: playwright-results-${{ matrix.shard }}

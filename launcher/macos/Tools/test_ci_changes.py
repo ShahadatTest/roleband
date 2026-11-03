@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from ci_changes import decide, glob_regex
+from ci_changes import decide, glob_regex, needed
 
 TOOLS = Path(__file__).resolve().parent
 NATIVE = ['launcher/**', 'dashboard/src/copy/**', '.nvmrc']
@@ -39,6 +39,14 @@ class TierTests(unittest.TestCase):
             self.assertEqual(decide(event, [], NATIVE, BUNDLE), {'native': True, 'bundle': True})
         self.assertEqual(decide('push', None, NATIVE, BUNDLE), {'native': True, 'bundle': True})
 
+    def test_a_single_tier_is_skipped_only_by_a_pull_request_that_misses_it(self):
+        backend = ['backend/**', '.python-version']
+        self.assertFalse(needed('pull_request', ['docs/testing.md', '.coderabbit.yaml'], backend))
+        self.assertTrue(needed('pull_request', ['docs/testing.md', 'backend/tracker/api/app.py'], backend))
+        self.assertTrue(needed('pull_request', None, backend))
+        for event in ('push', 'release', 'workflow_dispatch', 'schedule'):
+            self.assertTrue(needed(event, ['docs/testing.md'], backend), event)
+
     def test_globs_follow_github(self):
         self.assertTrue(glob_regex('launcher/**').fullmatch('launcher/macos/Tools/bundle.py'))
         self.assertFalse(glob_regex('backend/*').fullmatch('backend/tracker/api/app.py'))
@@ -49,10 +57,13 @@ class TierTests(unittest.TestCase):
 class WorkflowStepTests(unittest.TestCase):
     """The script as the workflow runs it: a real repository, a real diff, GITHUB_OUTPUT."""
 
-    def run_step(self, repo, event, base, head):
+    def run_step(self, repo, event, base, head, tier=None):
         with tempfile.NamedTemporaryFile('r', suffix='.txt') as output:
-            env = {**os.environ, 'EVENT': event, 'BASE': base, 'HEAD': head, 'GITHUB_OUTPUT': output.name,
-                   'NATIVE_PATHS': '\n'.join(NATIVE) + '\n', 'BUNDLE_PATHS': '\n'.join(BUNDLE) + '\n'}
+            env = {**os.environ, 'EVENT': event, 'BASE': base, 'HEAD': head, 'GITHUB_OUTPUT': output.name}
+            if tier:
+                env.update(TIER=tier, PATHS='backend/**\n')
+            else:
+                env.update(NATIVE_PATHS='\n'.join(NATIVE) + '\n', BUNDLE_PATHS='\n'.join(BUNDLE) + '\n')
             subprocess.run([sys.executable, str(TOOLS / 'ci_changes.py')], cwd=repo, env=env, check=True,
                            capture_output=True)
             return dict(line.split('=') for line in output.read().split())
@@ -81,6 +92,11 @@ class WorkflowStepTests(unittest.TestCase):
             self.assertEqual(self.run_step(repo, 'pull_request', base, entry), {'native': 'false', 'bundle': 'false'})
             self.assertEqual(self.run_step(repo, 'push', '0' * 40, entry), {'native': 'true', 'bundle': 'true'})
             self.assertEqual(self.run_step(repo, 'push', 'f' * 40, entry), {'native': 'true', 'bundle': 'true'})
+
+            self.assertEqual(self.run_step(repo, 'pull_request', base, notes, 'backend'), {'backend': 'false'})
+            self.assertEqual(self.run_step(repo, 'pull_request', base, entry, 'backend'), {'backend': 'true'})
+            self.assertEqual(self.run_step(repo, 'push', base, notes, 'backend'), {'backend': 'true'})
+            self.assertEqual(self.run_step(repo, 'pull_request', 'f' * 40, notes, 'backend'), {'backend': 'true'})
 
 
 if __name__ == '__main__':
