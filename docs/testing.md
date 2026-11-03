@@ -144,6 +144,14 @@ shortcut with two workers; local built mode uses the local worker default.
 the standalone worker budget, port and results directory. Every mode starts its
 own server with a strict port; an existing server is refused.
 
+`ROLEBAND_UX_SHARD=INDEX/TOTAL` runs one CI shard: whole spec files, balanced by
+the seconds each took in a recorded run (`tests/ux/shard-weights.json`). A spec
+with no recorded time weighs the median, so a stale file costs only balance. To
+refresh it, download the `playwright-results-*` artifacts of a green `dashboard`
+run and run `node scripts/ux-shard-weights.mjs <dir>/*/*/results.json` from
+`dashboard/`. A spec too heavy to balance fails `src/test/ux-shards.test.ts`;
+split it.
+
 `--docker-browsers` (for `all`, `dashboard` or `ux`) runs the checked build and
 both browser projects in Linux, in the Playwright image of the locked
 `@playwright/test` version, with 12 browser workers unless `--ux-workers` says
@@ -315,7 +323,7 @@ misjudged.
 | Workflow | Runs on | Steps |
 |---|---|---|
 | `backend.yml` | Every push and PR; a PR that changes no backend input runs only the tests that read past `backend/` | Dependency audit of the locked graph; the MiniLM model for the embedding golden test; Postgres 16 with pgvector; install the prebuilt `pg_trgm`; ruff; mypy; import-linter; pytest with `ROLEBAND_REQUIRE_INTEGRATION=1`, split by test file across two shards; the required `backend` check passes when both shards do |
-| `dashboard.yml` | Every push and PR; a PR that changes no dashboard input skips its checks | Dependency audit of production packages; lint; knip; build; Vitest; Playwright on both projects against the built app, split by test across three shards |
+| `dashboard.yml` | Every push and PR; a PR that changes no dashboard input skips its checks | Dependency audit of production packages; lint; knip; build; Vitest; Playwright on both projects against the built app, split across four shards by whole spec file and recorded time (`ROLEBAND_UX_SHARD`) |
 | `contract-drift.yml` | Every push and PR | Regenerates `openapi.json` and `api.gen.ts`, fails on any diff |
 | `hygiene.yml` | Every push and PR | `backend/scripts/check_project_name.py`, `backend/scripts/check_comment_hygiene.py` |
 | `mac-launcher.yml` | Every push and PR, weekly, and each release; its jobs run only when needed | A Linux `changes` job picks the tiers. Native tier (macOS): copy export check, Swift tests, installer and release tests, install guide in Chromium and WebKit, source app build, transport test. Bundle tier (macOS, never on a PR): the dashboard and the standalone app with its engine, launched read-only, packaged as a candidate for local signing |
