@@ -64,13 +64,42 @@ def _random(alphabet: str, n: int) -> str:
     return "".join(secrets.choice(alphabet) for _ in range(n))
 
 
-def _planted(rule: str) -> str:
-    """A line that reads as a live secret to `rule`: the rule its file's exception narrows."""
+def _candidate(rule: str) -> str:
+    """A line shaped like a live secret to `rule`: the rule its file's exception narrows."""
     lower, upper = string.ascii_lowercase + string.digits, string.ascii_uppercase + string.digits
     return {
         "generic-api-key": f'api_key = "{_random(lower + upper, 32)}"\n',
         "confluent-access-token": f'confluent_key = "{_random(upper, 16)}"\n',
     }[rule]
+
+
+def _defaults(base: Path) -> Path:
+    config = base / "defaults.toml"
+    config.write_text("[extend]\nuseDefault = true\n")
+    return config
+
+
+def _planted(base: Path) -> dict[str, str]:
+    """One secret per excused file that the default rules find on its own.
+
+    A random value that happens to contain one of gitleaks' stopwords reads as no
+    secret, so candidates are drawn in bulk and only flagged ones are planted.
+    """
+    pool = base / "candidates"
+    pool.mkdir()
+    lines: dict[str, tuple[str, str, str]] = {}
+    for path, rule in RULE.items():
+        for _ in range(8):
+            name, line = f"{len(lines)}.txt", _candidate(rule)
+            (pool / name).write_text(line)
+            lines[name] = (path, rule, line)
+    planted: dict[str, str] = {}
+    for name, rule in _scan(pool, _defaults(base)):
+        path, wanted, line = lines[name]
+        if rule == wanted:
+            planted.setdefault(path, line)
+    assert planted.keys() == RULE.keys(), "no candidate read as a secret"
+    return planted
 
 
 def _scan(source: Path, config: Path) -> list[tuple[str, str]]:
@@ -85,11 +114,11 @@ def _scan(source: Path, config: Path) -> list[tuple[str, str]]:
     return sorted((Path(f["File"]).relative_to(source).as_posix(), f["RuleID"]) for f in found)
 
 
-def _tree(base: Path, planted: bool = False) -> Path:
+def _tree(base: Path, planted: dict[str, str] | None = None) -> Path:
     tree = base / "tree"
     for path, line in EXCUSED.items():
         (tree / path).parent.mkdir(parents=True, exist_ok=True)
-        (tree / path).write_text(line + (_planted(RULE[path]) if planted else ""))
+        (tree / path).write_text(line + (planted or {}).get(path, ""))
     return tree
 
 
@@ -109,13 +138,11 @@ def test_the_tracked_tree_has_no_finding(tmp_path):
 
 def test_every_excused_line_passes_and_a_planted_secret_beside_it_is_found(tmp_path):
     assert _scan(_tree(tmp_path), CONFIG) == []
-    planted = _tree(tmp_path / "planted", planted=True)
+    planted = _tree(tmp_path / "planted", _planted(tmp_path))
     assert _scan(planted, CONFIG) == sorted(RULE.items())
 
 
 def test_every_exception_is_needed(tmp_path):
     """Without the exceptions, each excused line is a finding."""
-    defaults = tmp_path / "defaults.toml"
-    defaults.write_text("[extend]\nuseDefault = true\n")
-    flagged = {path for path, _rule in _scan(_tree(tmp_path), defaults)}
+    flagged = {path for path, _rule in _scan(_tree(tmp_path), _defaults(tmp_path))}
     assert flagged == set(EXCUSED)
