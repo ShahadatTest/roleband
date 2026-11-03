@@ -583,3 +583,56 @@ def test_the_backend_runs_its_repo_wide_tests_whatever_changed():
     assert pytest_steps.keys() == {"env.WHOLE_SUITE == 'true'", "env.WHOLE_SUITE != 'true'"}
     assert "repo_wide" not in pytest_steps["env.WHOLE_SUITE == 'true'"]
     assert "-m repo_wide" in pytest_steps["env.WHOLE_SUITE != 'true'"]
+
+
+def shard_gaps(job: dict) -> list[str]:
+    """How a sharded job's matrix and its `--shard INDEX/TOTAL` runs disagree."""
+    shards = sorted((job.get("strategy") or {}).get("matrix", {}).get("shard") or [])
+    gaps = []
+    for step in job.get("steps") or []:
+        run = str(step.get("run") or "")
+        if "pytest" not in run:
+            continue
+        found = re.search(r"--shard=\$\{\{ matrix\.shard \}\}/(\d+)\b", run)
+        if not found:
+            gaps.append(f"{step.get('name')}: runs the whole selection on every shard")
+        elif shards != list(range(1, int(found.group(1)) + 1)):
+            gaps.append(f"{step.get('name')}: cuts {found.group(1)} shards, the matrix runs {shards}")
+    return gaps
+
+
+def test_the_backend_shards_together_run_the_whole_suite():
+    """Too few shards for the cut leaves files unrun with every check green; one
+    pytest step without the cut runs the suite on each shard."""
+    data = yaml.safe_load((WORKFLOWS / "backend.yml").read_text())
+    assert shard_gaps(data["jobs"]["checks"]) == []
+
+
+def test_a_shard_cut_the_matrix_does_not_match_is_reported():
+    job = {
+        "strategy": {"matrix": {"shard": [1, 2]}},
+        "steps": [
+            {"name": "three", "run": "python -m pytest --shard=${{ matrix.shard }}/3"},
+            {"name": "whole", "run": "python -m pytest -m repo_wide"},
+            {"name": "two", "run": "python -m pytest --shard=${{ matrix.shard }}/2"},
+            {"name": "lint", "run": "ruff check tracker"},
+        ],
+    }
+    assert shard_gaps(job) == [
+        "three: cuts 3 shards, the matrix runs [1, 2]",
+        "whole: runs the whole selection on every shard",
+    ]
+
+
+def test_the_required_backend_check_passes_only_when_every_shard_did():
+    """The ruleset requires `backend`; the shards report under their own names, so
+    the one job named `backend` has to stand for all of them, even when one fails."""
+    jobs = yaml.safe_load((WORKFLOWS / "backend.yml").read_text())["jobs"]
+    named = [job for job in jobs.values() if job.get("name") == "backend"]
+    assert len(named) == 1
+    result = named[0]
+    assert result["needs"] == "checks"
+    assert "!cancelled()" in result["if"]
+    step = result["steps"][-1]
+    assert step["env"]["SHARDS"] == "${{ needs.checks.result }}"
+    assert 'test "$SHARDS" = success' in step["run"]

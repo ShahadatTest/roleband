@@ -57,15 +57,24 @@ jobs:
             .github/workflows/backend.yml
         run: python3 launcher/macos/Tools/ci_changes.py
 
+  # The suite split by test file across two runners (`--shard` in backend/conftest.py),
+  # each with its own Postgres service. A file stays whole on its shard, so its module
+  # fixtures are built once. The linters and the audit read the
+  # tree, not the tests, so only the first shard runs them.
   checks:
-    name: backend
+    name: backend shard ${{ matrix.shard }}
     needs: changes
     # Runs when `changes` fails too, and then runs the whole suite.
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
+    strategy:
+      # Every shard reports: one red shard must not hide another's failures.
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
     # Same reason as dashboard.yml: an unbounded step is billed minutes. Hosted
-    # runners differ in speed, so this leaves room for a slow one to finish the
-    # whole suite and still fails a stall within the half hour.
+    # runners differ in speed, so this leaves room for a slow one to finish its
+    # shard and still fails a stall within the half hour.
     timeout-minutes: 30
     defaults:
       run:
@@ -119,6 +128,7 @@ jobs:
       # Known advisories against every platform lock and the Mac app's runtime
       # lock; an accepted one needs a current entry in audit-exceptions.toml.
       - name: dependency audit
+        if: matrix.shard == 1
         run: python -m scripts.check_dependency_audit
       # The robots matcher is its own distribution, shared with the SDK's
       # fake host so both answer a robots file the same way.
@@ -151,25 +161,40 @@ jobs:
           echo "$RUNNER_TEMP/gitleaks" >> "$GITHUB_PATH"
           "$RUNNER_TEMP/gitleaks/gitleaks" version
       - name: ruff
-        if: env.WHOLE_SUITE == 'true'
+        if: env.WHOLE_SUITE == 'true' && matrix.shard == 1
         run: ruff check tracker tests scripts ../sdk/python ../robots/python ../examples ../launcher/macos/Tools ../launcher/macos/test-transport.py
       - name: mypy (the typed set in [tool.mypy], not the tree)
-        if: env.WHOLE_SUITE == 'true'
+        if: env.WHOLE_SUITE == 'true' && matrix.shard == 1
         run: mypy
       - name: import-linter
-        if: env.WHOLE_SUITE == 'true'
+        if: env.WHOLE_SUITE == 'true' && matrix.shard == 1
         run: lint-imports
-      - name: pytest (a skip outside tests/skip_policy.py fails)
+      - name: pytest shard ${{ matrix.shard }} of 2 (a skip outside tests/skip_policy.py fails)
         if: env.WHOLE_SUITE == 'true'
-        run: python -m pytest -q -rs --durations=30 --junitxml=test-results/pytest.xml
-      - name: pytest, the tests that read past backend/ only
+        run: python -m pytest -q -rs --shard=${{ matrix.shard }}/2 --durations=30 --junitxml=test-results/pytest.xml
+      - name: pytest shard ${{ matrix.shard }} of 2, the tests that read past backend/ only
         if: env.WHOLE_SUITE != 'true'
-        run: python -m pytest -q -rs -m repo_wide --durations=30 --junitxml=test-results/pytest.xml
+        run: python -m pytest -q -rs -m repo_wide --shard=${{ matrix.shard }}/2 --durations=30 --junitxml=test-results/pytest.xml
       - name: upload test timings and outcomes
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: backend-test-results
+          name: backend-test-results-${{ matrix.shard }}
           path: backend/test-results/
           if-no-files-found: ignore
           retention-days: 7
+
+  # The check the ruleset requires. It passes only when every shard passed, so a
+  # shard that failed, was skipped or never started fails it.
+  result:
+    name: backend
+    needs: checks
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - env:
+          SHARDS: ${{ needs.checks.result }}
+        run: |
+          echo "shards: $SHARDS"
+          test "$SHARDS" = success

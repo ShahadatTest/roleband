@@ -86,7 +86,9 @@ name or docstring, then write the smallest test that fails when it breaks.
 Backend commands run from `backend/`, dashboard commands from `dashboard/`.
 Backend tests run in parallel: `-n auto` in `backend/pytest.ini`, sized by
 `backend/conftest.py` to the machine (at least 4 workers, at most 10, leaving
-cores and memory free); unattended preflight runs 4. Use
+cores and memory free); unattended preflight runs 4. `--shard INDEX/TOTAL`
+(also in `backend/conftest.py`) runs one of TOTAL parts of the selection, split by
+test file, as CI does. Use
 `.venv/bin/python -m pytest -n 0` for `--pdb` or readable output. Install the
 Playwright browsers once with `npx playwright install chromium webkit`.
 
@@ -312,7 +314,7 @@ misjudged.
 
 | Workflow | Runs on | Steps |
 |---|---|---|
-| `backend.yml` | Every push and PR; a PR that changes no backend input runs only the tests that read past `backend/` | Dependency audit of the locked graph; the MiniLM model for the embedding golden test; Postgres 16 with pgvector; install the prebuilt `pg_trgm`; ruff; mypy; import-linter; pytest with `ROLEBAND_REQUIRE_INTEGRATION=1` |
+| `backend.yml` | Every push and PR; a PR that changes no backend input runs only the tests that read past `backend/` | Dependency audit of the locked graph; the MiniLM model for the embedding golden test; Postgres 16 with pgvector; install the prebuilt `pg_trgm`; ruff; mypy; import-linter; pytest with `ROLEBAND_REQUIRE_INTEGRATION=1`, split by test file across two shards; the required `backend` check passes when both shards do |
 | `dashboard.yml` | Every push and PR; a PR that changes no dashboard input skips its checks | Dependency audit of production packages; lint; knip; build; Vitest; Playwright on both projects against the built app, split by test across three shards |
 | `contract-drift.yml` | Every push and PR | Regenerates `openapi.json` and `api.gen.ts`, fails on any diff |
 | `hygiene.yml` | Every push and PR | `backend/scripts/check_project_name.py`, `backend/scripts/check_comment_hygiene.py` |
