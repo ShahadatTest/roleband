@@ -1,0 +1,4 @@
+# The app pins dataset files by their bytes (see backend/tests/test_dataset_lock.py).
+# Keep LF on every machine so a Windows clone with core.autocrlf=true does not
+# rewrite them to CRLF and fail the lock check. Matches roleband/roleband-data.
+* text=auto eol=lf
