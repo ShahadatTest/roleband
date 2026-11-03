@@ -26,7 +26,7 @@ pixeltable-pgserver==0.6.0
 # startup (tracker/semantic/provision.py + manifest.py).
 numpy==2.1.3
 onnxruntime==1.31.0
-tokenizers==0.22.2
+tokenizers==0.23.3
 scikit-learn==1.9.0  # KMeans + silhouette in keywords/cluster.py (was only transitive)
 
 # API
