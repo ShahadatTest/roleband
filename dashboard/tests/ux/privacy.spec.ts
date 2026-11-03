@@ -190,7 +190,10 @@ for (const pendingImport of [false, true]) {
       const stored = localStorage.getItem("ph_phc_test_posthog");
       return stored ? JSON.parse(stored) as { distinct_id: string; $device_id: string } : null;
     });
-    await page.goto("/settings/privacy");
+    /* WebKit counts an import started before `load` toward the load event, and
+       this test holds that import until after the reset, so waiting for
+       `load` here would wait for the test itself. */
+    await page.goto("/settings/privacy", { waitUntil: pendingImport ? "commit" : "load" });
     await expect(page.getByText(old.install_id!)).toBeVisible();
     if (pendingImport) await importing;
     else await expect.poll(async () => (await identity())?.distinct_id).toBe(old.install_id);
