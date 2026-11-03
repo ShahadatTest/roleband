@@ -10,7 +10,7 @@ import-linter==2.15
 # silent` is what keeps a narrow set narrow — without it those same modules drag
 # in 27 files and report 118 errors, which is how a pilot comes to look
 # impossible.
-mypy==2.3.1
+mypy==2.4.1
 
 # Known advisories against the locked graph (scripts/check_dependency_audit.py)
 pip-audit==2.10.1
