@@ -1,7 +1,7 @@
 {
   "index": {
-    "js": 347067,
-    "css": 61019,
+    "js": 347814,
+    "css": 61020,
     "slack": 512,
     "cap": 365000,
     "why": "The app shell: entry chunk, its static imports and their CSS, raw bytes, recorded by `npm run bundle:record`. Every screen is a lazy route chunk. `slack` absorbs chunk-name noise in the preload table; `cap` is the hard limit, raised only with a maintainer's agreement. Per-module attribution is startup-modules.json in the diff; lazy-only code in the shell fails by name against shell-boundary.json. A recorded measure with slack both ways, not a ceiling at the last measured byte, so growth is one number in the diff and the module delta says where it came from."
