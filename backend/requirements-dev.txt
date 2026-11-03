@@ -3,7 +3,7 @@
 # its platform: `-c constraints/<platform>.txt` (scripts/lock_dependencies.py).
 
 # Lint / layer contracts
-ruff==0.17.1
+ruff==0.17.3
 import-linter==2.15
 
 # Types. Checks the set named in `[tool.mypy]`, not the tree: `follow_imports =
@@ -16,8 +16,8 @@ mypy==2.3.1
 pip-audit==2.10.1
 
 # Test
-pytest==9.1.1
-pytest-asyncio==1.4.0
+pytest==9.2.0
+pytest-asyncio==1.4.1
 # `pytest -n auto` is the default in pytest.ini, sized by backend/conftest.py.
 # It works because tests/conftest.py names its scratch database per
 # PROCESS (`roleband_test_{os.getpid()}`).
