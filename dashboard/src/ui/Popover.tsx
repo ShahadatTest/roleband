@@ -68,6 +68,8 @@ export function Popover({
 
   // Place below the anchor, clamped to the viewport; flip above when the
   // measured panel would fall off the bottom (CompanyHoverCard convention).
+  // Content that arrives after opening changes the panel's height, and with it
+  // the side that fits, so a size change places the panel again.
   useLayoutEffect(() => {
     if (!isOpen || !anchor) return;
     const compute = () => {
@@ -88,8 +90,13 @@ export function Popover({
       setPos({ top, left });
     };
     compute();
+    const ro = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(compute);
+    if (inner) ro?.observe(inner);
     window.addEventListener("resize", compute);
-    return () => window.removeEventListener("resize", compute);
+    return () => {
+      ro?.disconnect();
+      window.removeEventListener("resize", compute);
+    };
   }, [isOpen, anchor, align, within, inner]);
 
   return (

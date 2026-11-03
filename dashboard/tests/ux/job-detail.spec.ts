@@ -583,8 +583,9 @@ test("Details says one age with its basis, and the history opens on demand", asy
 });
 
 /* The history opens in the side column it belongs to, edge to edge with the
-   stage select above it, under its button; it may cover what follows. */
-test("the listing history opens across the side column, under its button", async ({ page }) => {
+   stage select above it: under its button where it fits, above it where it
+   does not, and on screen either way; it may cover what follows. */
+async function openListingHistory(page: Page) {
   const event = { from_at: null, to_at: null, field: null, count: null, job_id: null, req_id: null, title: null, until: null, link: null };
   await page.route("/api/jobs/101/history", (route) => route.fulfill({ json: {
     headline: { since: "2026-10-24T00:00:00Z", days: 9, basis: "sighting" },
@@ -599,19 +600,46 @@ test("the listing history opens across the side column, under its button", async
   const cover = detail(page);
   const button = cover.locator("dl.kv").getByRole("button", { name: "History" });
   await button.click();
-  const panel = page.getByRole("dialog", { name: "Listing history" }).locator(".ui-popover-inner");
-  await expect(panel).toBeVisible();
+  const dialog = page.getByRole("dialog", { name: "Listing history" });
+  await expect(dialog.getByRole("list", { name: "Events" })).toBeVisible();
+  const panel = dialog.locator(".ui-popover-inner");
   // The pop-in scales the panel; measure where it settles.
   await panel.evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
+  return {
+    panel,
+    column: (await cover.locator(".jd-aside").boundingBox())!,
+    stage: (await cover.getByLabel("Stage").boundingBox())!,
+    opener: (await button.boundingBox())!,
+  };
+}
 
+const bottomOf = async (panel: Locator) => {
   const box = (await panel.boundingBox())!;
-  const column = (await cover.locator(".jd-aside").boundingBox())!;
-  const stage = (await cover.getByLabel("Stage").boundingBox())!;
-  const opener = (await button.boundingBox())!;
+  return box.y + box.height;
+};
+
+test("the listing history opens across the side column, under its button", async ({ page, isMobile }) => {
+  test.skip(isMobile, "a phone's History button sits at the screen's bottom edge; the next test covers it");
+  const { panel, column, stage, opener } = await openListingHistory(page);
+  await expect.poll(async () => (await panel.boundingBox())!.y).toBeGreaterThan(opener.y + opener.height);
+  const box = (await panel.boundingBox())!;
   expect(Math.abs(box.x - column.x), "left edge on the column's").toBeLessThanOrEqual(1);
   expect(Math.abs(box.x + box.width - (column.x + column.width)), "right edge on the column's").toBeLessThanOrEqual(1);
   expect(Math.abs(box.x - stage.x), "left edge on the stage select's").toBeLessThanOrEqual(1);
-  expect(box.y).toBeGreaterThan(opener.y + opener.height);
+  expect(box.y + box.height, "on screen").toBeLessThanOrEqual(page.viewportSize()!.height);
+});
+
+/* The job page scrolls only a little on a phone, so its History button sits
+   at the screen's bottom edge with no room for the history under it. */
+test("on a phone the listing history opens above its button, on screen", async ({ page, isMobile }) => {
+  test.skip(!isMobile, "phone-height layout");
+  const { panel, column, opener } = await openListingHistory(page);
+  await expect.poll(() => bottomOf(panel), { message: "the history never covers its button" }).toBeLessThanOrEqual(opener.y);
+  const box = (await panel.boundingBox())!;
+  expect(opener.y + opener.height + box.height, "no room under the button").toBeGreaterThan(page.viewportSize()!.height);
+  expect(Math.abs(box.x - column.x), "left edge on the column's").toBeLessThanOrEqual(1);
+  expect(Math.abs(box.x + box.width - (column.x + column.width)), "right edge on the column's").toBeLessThanOrEqual(1);
+  expect(box.y, "on screen").toBeGreaterThanOrEqual(0);
 });
 
 /* A posting showing two of three standing signs says which, and
