@@ -4,8 +4,7 @@ A key saved in Settings (the price feed's, a cloud or local model's) is stored
 as `sealed:v1:<Fernet token>`. The Fernet key lives in a file of its own,
 `~/.roleband/secret.key` (`ROLEBAND_SECRET_KEY_FILE` names another), readable by
 its owner only and outside `data/`, so a database dump or a backup copied
-elsewhere holds ciphertext, not the key. Decision 0004 says why a key file and
-not the system keychain.
+elsewhere holds ciphertext, not the key.
 
 A value without the prefix is a key saved before sealing existed: it reads as
 itself, and the next save seals it (`scripts.seal_secrets` seals them all at
