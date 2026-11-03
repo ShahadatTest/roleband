@@ -21,6 +21,10 @@ reviews:
 
   auto_review:
     enabled: true
+    # Reviews are rationed per hour across the repository, and follow-up
+    # commits are mostly small fixes: a pull request is reviewed when it
+    # opens, and again on request after a follow-up that changes behaviour.
+    auto_incremental_review: false
     ignore_title_keywords:
       - "[skip review]"
     # A bump of a package dependabot.yml lists as not cleared by green CI is
