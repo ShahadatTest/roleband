@@ -50,6 +50,8 @@ jobs:
             dashboard/package-lock.json
             backend/tracker/__init__.py
             backend/tracker/platform/**
+            backend/requirements.txt
+            backend/constraints/macos-arm64.txt
             .nvmrc
             .python-version
             .github/workflows/mac-launcher.yml

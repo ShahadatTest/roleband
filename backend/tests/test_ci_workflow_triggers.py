@@ -297,6 +297,17 @@ def test_the_mac_tier_inputs_are_derived_not_assumed():
     assert not covered("launcher/macos/packaging-requirements.txt", [p for p in native if p != "launcher/**"])
 
 
+def test_the_build_tier_watches_the_backend_files_the_runtime_lock_check_reads():
+    """`build` runs the launcher tool tests, and one holds `runtime-lock.txt` to the backend's
+    macOS pins. Those reads sit inside Python, out of the step deriver's sight."""
+    source = (REPO / "launcher" / "macos" / "Tools" / "bundle.py").read_text()
+    body = source.split("def check_runtime_lock(", 1)[1].split("\ndef ", 1)[0]
+    read = re.findall(r"root / '(backend/[^']+)'", body)
+    assert read, "the runtime lock check reads no backend file"
+    _, native, _ = _mac_tiers()
+    assert not [path for path in read if not covered(path, native)]
+
+
 def test_the_decision_script_reads_globs_as_this_test_does():
     spec = importlib.util.spec_from_file_location(
         "ci_changes", REPO / "launcher" / "macos" / "Tools" / "ci_changes.py"
