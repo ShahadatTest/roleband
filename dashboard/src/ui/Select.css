@@ -1,0 +1,62 @@
+/* ui/Select — see Select.tsx. The box is the control scale's `md` rank: the
+   same 36px / radius-md / meta as SearchField and a medium Button, so a
+   select beside a search field sits on one line at one height. */
+.ui-select {
+  position: relative;
+  display: inline-flex;
+  min-width: 0;
+}
+
+/* Text inset and chevron inset are ONE token, so the control cannot drift
+   asymmetric: the right pad is that inset twice around the 14px glyph. */
+.ui-select > select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  min-height: var(--app-control-md);
+  padding: 0 calc(var(--app-control-md-pad) * 2 + 14px) 0 var(--app-control-md-pad);
+  border: 1px solid var(--app-border-control);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface-subtle);
+  color: var(--app-text);
+  font: inherit;
+  font-size: var(--app-type-meta);
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color var(--app-duration-fast), box-shadow var(--app-duration-fast);
+}
+
+/* The glyph is positioned from the WRAPPER's edge, the text from inside the
+   select's 1px border; add the border so both measure from one line. */
+.ui-select > svg {
+  position: absolute;
+  top: 50%;
+  right: calc(var(--app-control-md-pad) + 1px);
+  transform: translateY(-50%);
+  color: var(--app-text-muted);
+  pointer-events: none;
+}
+
+.ui-select > select:hover:not(:disabled) {
+  border-color: var(--app-text-faint);
+}
+
+/* The keyboard ring (the app's one ring) and only the keyboard's:
+   pointer focus carries data-pointer (Select.tsx). A native select never
+   releases pointer focus, so the ring would stay lit after a click;
+   the pointer rule below cancels shell.css's global ring, which it out-ranks.
+   (A plain `outline: none` would lose the tie to the global outline and stay
+   lit.) */
+.ui-select > select[data-pointer]:focus-visible {
+  outline: none;
+}
+
+.ui-select > select:focus-visible:not([data-pointer]) {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+.ui-select > select:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

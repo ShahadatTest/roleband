@@ -1,0 +1,48 @@
+/* The two-column shell a screen wears when its filter register stands beside
+   the content instead of inside the toolbar's Filters panel.
+ *
+ * The physics are the same on every screen because they answer the same
+ * question; what genuinely
+ * differs per screen is the MEASURE (each keeps its own max-width arm) and the
+ * height of the bar the rail pins under, which the screen passes in as
+ * `--rail-shell-top`.
+ */
+
+/* `align-items: start` is load-bearing: a stretched rail is as tall as its
+   grid row and a full-height box has nowhere to stick. */
+.rail-shell {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: var(--app-space-4);
+  align-items: start;
+}
+
+/* The register pins under the docked toolbar, exactly like the sector index
+   pins in Settings > Companies. The max-height + own overflow is an
+   overflow-valve only: at rest the collapsed register fits the window, and
+   when an expanded long facet outgrows it the tail scrolls into reach and the
+   wheel CHAINS into the page (no overscroll trap — one scroll, everywhere).
+
+   The 0px fallback is not decoration: a screen that renders the rail with no
+   docked bar above it pins at the scrollport edge, which is what Saved's head
+   already does with `--board-toolbar-h`. */
+.rail-shell-rail {
+  position: sticky;
+  top: var(--rail-shell-top, 0px);
+  max-height: calc(100dvh - var(--rail-shell-top, 0px) - 64px);
+  overflow: hidden auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-border-strong) transparent;
+  padding-right: var(--app-space-1);
+  padding-bottom: var(--app-space-4);
+}
+
+/* JS decides which home the register renders in (RAIL_QUERY, ui/FilterRail);
+   this arm is the sheet-side guard for the frame between a resize and the
+   re-render — a shell that momentarily holds only the content column must not
+   keep a 240px track open for a rail that just unmounted. */
+@media (max-width: 1359px) {
+  .rail-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,433 @@
+{
+ "1password": [
+  "AGILEBITS USA INC."
+ ],
+ "accenture": [
+  "ACCENTURE LLP"
+ ],
+ "adobe": [
+  "ADOBE INC.",
+  "ADOBE, INC."
+ ],
+ "adyen": [
+  "ADYEN N.V."
+ ],
+ "affirm": [
+  "AFFIRM, INC."
+ ],
+ "airbnb": [
+  "AIRBNB, INC."
+ ],
+ "amazon": [
+  "AMAZON ADVERTISING LLC",
+  "AMAZON DATA SERVICES, INC",
+  "AMAZON DATA SERVICES, INC.",
+  "AMAZON DEVELOPMENT CENTER U.S., INC.",
+  "AMAZON WEB SERVICES, INC."
+ ],
+ "amd": [
+  "ADVANCED MICRO DEVICES, INC.",
+  "AMD DESIGN LLC",
+  "AMD DESIGN, LLC"
+ ],
+ "anthropic": [
+  "ANTHROPIC, PBC"
+ ],
+ "apple": [
+  "APPLE INC."
+ ],
+ "applied-materials": [
+  "APPLIED MATERIALS, INC",
+  "APPLIED MATERIALS, INC."
+ ],
+ "arm": [
+  "ARM, INC."
+ ],
+ "asana": [
+  "ASANA, INC."
+ ],
+ "asml": [
+  "ASML US, LLC",
+  "ASML US, LP"
+ ],
+ "atlassian": [
+  "ATLASSIAN US, INC",
+  "ATLASSIAN US, INC."
+ ],
+ "aurora": [
+  "AURORA INNOVATION, INC.",
+  "AURORA OPERATIONS, INC.",
+  "AURORA OPERATIONS, INC. (FKA AURORA INNOVATION, INC.)"
+ ],
+ "bain-company": [
+  "BAIN & COMPANY DC, LLC",
+  "BAIN & COMPANY, INC."
+ ],
+ "block": [
+  "BLOCK INC.",
+  "BLOCK, INC."
+ ],
+ "booking": [
+  "BOOKING.COM (USA) INC."
+ ],
+ "boston-consulting-group": [
+  "BOSTON CONSULTING GROUP, INC.",
+  "THE BOSTON CONSULTING GROUP, INC."
+ ],
+ "brex": [
+  "BREX INC.",
+  "BREX LLC"
+ ],
+ "broadcom": [
+  "BROADCOM CORPORATION"
+ ],
+ "cadence": [
+  "CADENCE DESIGN SYSTEMS, INC."
+ ],
+ "citadel": [
+  "CITADEL AMERICAS SERVICES LLC",
+  "CITADEL ENTERPRISE AMERICAS SERVICES LLC"
+ ],
+ "citadel-securities": [
+  "CITADEL SECURITIES AMERICAS SERVICES LLC"
+ ],
+ "cloudflare": [
+  "CLOUDFLARE, INC."
+ ],
+ "cohere": [
+  "COHERE US, INC."
+ ],
+ "coinbase": [
+  "COINBASE, INC."
+ ],
+ "confluent": [
+  "CONFLUENT, INC."
+ ],
+ "crowdstrike": [
+  "CROWDSTRIKE, INC."
+ ],
+ "databricks": [
+  "DATABRICKS, INC."
+ ],
+ "datadog": [
+  "DATADOG, INC."
+ ],
+ "deloitte": [
+  "DELOITTE & TOUCHE LLP",
+  "DELOITTE CONSULTING LLP",
+  "DELOITTE SERVICES LP",
+  "DELOITTE TAX LLP",
+  "DELOITTE TRANSACTIONS AND BUSINESS ANALYTICS LLP"
+ ],
+ "discord": [
+  "DISCORD INC.",
+  "DISCORD, INC."
+ ],
+ "docker": [
+  "DOCKER, INC."
+ ],
+ "doordash": [
+  "DOORDASH, INC."
+ ],
+ "dropbox": [
+  "DROPBOX, INC."
+ ],
+ "drw": [
+  "DRW HOLDINGS LLC",
+  "DRW HOLDINGS, LLC"
+ ],
+ "elastic": [
+  "ELASTICSEARCH, INC."
+ ],
+ "electronic-arts": [
+  "ELECTRONIC ARTS - TIBURON, A FLORIDA CORPORATION",
+  "ELECTRONIC ARTS INC.",
+  "ELECTRONIC ARTS, INC."
+ ],
+ "epic-games": [
+  "EPIC GAMES, INC",
+  "EPIC GAMES, INC."
+ ],
+ "ey": [
+  "ERNST & YOUNG U.S. LLP"
+ ],
+ "figma": [
+  "FIGMA, INC."
+ ],
+ "figure": [
+  "FIGURE AI INC."
+ ],
+ "flexport": [
+  "FLEXPORT, INC."
+ ],
+ "fortinet": [
+  "FORTINET, INC."
+ ],
+ "github": [
+  "GITHUB, INC."
+ ],
+ "google": [
+  "GOOGLE LLC"
+ ],
+ "gusto": [
+  "GUSTO, INC."
+ ],
+ "hashicorp": [
+  "HASHICORP, INC."
+ ],
+ "hudson-river-trading": [
+  "HUDSON RIVER TRADING LLC"
+ ],
+ "imc-trading": [
+  "IMC AMERICAS, INC."
+ ],
+ "instacart": [
+  "MAPLEBEAR INC."
+ ],
+ "intel": [
+  "INTEL CORPORATION"
+ ],
+ "jane-street": [
+  "JANE STREET GROUP, LLC"
+ ],
+ "jump-trading": [
+  "JUMP OPERATIONS, LLC"
+ ],
+ "klarna": [
+  "KLARNA INC."
+ ],
+ "kpmg": [
+  "KPMG LLP"
+ ],
+ "lovable": [
+  "LOVABLE LABS INCORPORATED"
+ ],
+ "lyft": [
+  "LYFT, INC."
+ ],
+ "mckinsey-company": [
+  "MCKINSEY & COMPANY INC. UNITED STATES",
+  "MCKINSEY & COMPANY, INC. UNITED STATES"
+ ],
+ "meta": [
+  "META PLATFORMS, INC",
+  "META PLATFORMS, INC."
+ ],
+ "micron": [
+  "MICRON SEMICONDUCTOR PRODUCTS, INC.",
+  "MICRON TECHNOLOGY, INC."
+ ],
+ "microsoft": [
+  "MICROSOFT CORPORATION"
+ ],
+ "mistral": [
+  "MISTRAL AI, INC."
+ ],
+ "mongodb": [
+  "MONGODB, INC."
+ ],
+ "netflix": [
+  "NETFLIX, INC."
+ ],
+ "nintendo": [
+  "NINTENDO OF AMERICA INC.",
+  "NINTENDO TECHNOLOGY DEVELOPMENT INC."
+ ],
+ "notion": [
+  "NOTION LABS INC.",
+  "NOTION LABS, INC."
+ ],
+ "nuro": [
+  "NURO, INC",
+  "NURO, INC."
+ ],
+ "nvidia": [
+  "NVIDIA CORPORATION"
+ ],
+ "okta": [
+  "OKTA, INC."
+ ],
+ "oliver-wyman": [
+  "OLIVER WYMAN, LLC"
+ ],
+ "openai": [
+  "OPENAI OPCO, LLC"
+ ],
+ "optiver": [
+  "OPTIVER SERVICES US LLC"
+ ],
+ "palantir": [
+  "PALANTIR TECHNOLOGIES INC."
+ ],
+ "palo-alto-networks": [
+  "PALO ALTO NETWORKS, INC",
+  "PALO ALTO NETWORKS, INC."
+ ],
+ "paypal": [
+  "PAYPAL, INC."
+ ],
+ "perplexity": [
+  "PERPLEXITY AI, INC."
+ ],
+ "pinterest": [
+  "PINTEREST, INC."
+ ],
+ "plaid": [
+  "PLAID INC",
+  "PLAID, INC."
+ ],
+ "playstation": [
+  "SONY INTERACTIVE ENTERTAINMENT LLC"
+ ],
+ "pwc": [
+  "PWC US BUSINESS ADVISORY LLP",
+  "PWC US CONSULTING LLP",
+  "PWC US GROUP LLP",
+  "PWC US TAX LLP"
+ ],
+ "qualcomm": [
+  "QUALCOMM ATHEROS, INC.",
+  "QUALCOMM INCORPORATED",
+  "QUALCOMM INNOVATION CENTER, INC.",
+  "QUALCOMM TECHNOLOGIES, INC."
+ ],
+ "ramp": [
+  "RAMP BUSINESS CORPORATION"
+ ],
+ "reddit": [
+  "REDDIT, INC."
+ ],
+ "riot-games": [
+  "RIOT GAMES, INC."
+ ],
+ "robinhood": [
+  "ROBINHOOD MARKETS, INC."
+ ],
+ "roblox": [
+  "ROBLOX CORPORATION"
+ ],
+ "rocket-lab": [
+  "ROCKET LAB USA, INC."
+ ],
+ "roland-berger": [
+  "ROLAND BERGER LP"
+ ],
+ "runway": [
+  "RUNWAY AI, INC",
+  "RUNWAY AI, INC."
+ ],
+ "salesforce": [
+  "SALESFORCE, INC."
+ ],
+ "samsara": [
+  "SAMSARA INC.",
+  "SAMSARA, INC."
+ ],
+ "scaleai": [
+  "SCALE AI, INC."
+ ],
+ "sentinelone": [
+  "SENTINELONE, INC."
+ ],
+ "servicenow": [
+  "SERVICENOW, INC."
+ ],
+ "shield-ai": [
+  "SHIELD AI, INC."
+ ],
+ "shopify": [
+  "SHOPIFY (USA) INC.",
+  "SHOPIFY USA INC."
+ ],
+ "skydio": [
+  "SKYDIO, INC."
+ ],
+ "snap": [
+  "SNAP INC."
+ ],
+ "snowflake": [
+  "SNOWFLAKE INC."
+ ],
+ "snyk": [
+  "SNYK LTD."
+ ],
+ "spotify": [
+  "SPOTIFY USA INC.",
+  "SPOTIFY USA, INC."
+ ],
+ "stripe": [
+  "STRIPE, INC.",
+  "STRIPE, LLC"
+ ],
+ "susquehanna-international-group": [
+  "SUSQUEHANNA INTERNATIONAL GROUP, LLP"
+ ],
+ "synopsys": [
+  "SYNOPSYS, INC."
+ ],
+ "take-two-interactive": [
+  "TAKE-TWO INTERACTIVE SOFTWARE, INC."
+ ],
+ "tesla": [
+  "TESLA, INC."
+ ],
+ "tiktok": [
+  "BD TIKTOK USA LLC",
+  "TIKTOK INC.",
+  "TIKTOK U.S. DATA SECURITY INC.",
+  "TIKTOK USDS JOINT VENTURE LLC"
+ ],
+ "tower-research-capital": [
+  "TOWER RESEARCH CAPITAL LLC"
+ ],
+ "tsmc": [
+  "TSMC ARIZONA CORPORATION",
+  "TSMC NORTH AMERICA",
+  "TSMC TECHNOLOGY, INC.",
+  "TSMC WASHINGTON, LLC"
+ ],
+ "twitch": [
+  "TWITCH INTERACTIVE, INC."
+ ],
+ "two-sigma": [
+  "TWO SIGMA INVESTMENTS, LP"
+ ],
+ "uber": [
+  "UBER TECHNOLOGIES, INC."
+ ],
+ "ubisoft": [
+  "UBISOFT, INC."
+ ],
+ "unity": [
+  "UNITY TECHNOLOGIES SF"
+ ],
+ "valve": [
+  "VALVE CORPORATION"
+ ],
+ "vercel": [
+  "VERCEL, INC."
+ ],
+ "waymo": [
+  "WAYMO LLC"
+ ],
+ "wise": [
+  "WISE US INC."
+ ],
+ "xai": [
+  "X.AI LLC"
+ ],
+ "xtx-markets": [
+  "XTX SERVICES LLC"
+ ],
+ "zipline": [
+  "ZIPLINE INTERNATIONAL INC",
+  "ZIPLINE INTERNATIONAL INC."
+ ],
+ "zoox": [
+  "ZOOX INC.",
+  "ZOOX, INC."
+ ],
+ "zscaler": [
+  "ZSCALER, INC."
+ ]
+}

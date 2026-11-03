@@ -1,0 +1,1012 @@
+/* Company profiles, a wearer of the register material. The screen
+ * keeps its master–detail skeleton and its CARDS, but everything on them
+ * speaks the register: a settings-style toolbar owns search and the roster
+ * counts, the list is a flat index with ink selection, and card heads carry a
+ * title + mono stat over a strong hairline. The cards keep the app's card
+ * radius.
+ *
+ * Buttons here are ui/Button: ghost for the toolbar action, link for Retry,
+ * ghost·sm for the controls that settle a flagged field. This sheet styles no
+ * button chrome; see docs/ui.md.
+ *
+ * Enrichment review has no queue surface: it lives in the field it concerns
+ * (FieldReview.tsx). Its signal reads in three tiers:
+ * toolbar count, health dot, flagged field.
+ *
+ * Type maps by FUNCTION: recognition text (field labels, source
+ * chips, freshness tags, review reasons) wears `whisper`; secondary facts
+ * (group counts) wear `micro`; chrome (band labels, column heads) stays at
+ * `label`; facts stay at `meta`.
+ */
+
+/* ---- route root ----------------------------------------------------------- */
+
+/* The root restates ink: body's legacy `--text` must not reach the fields.
+   Top padding sits on the toolbar, not the scroll container, so the sticky
+   toolbar's edge and the scrollport edge are the same line (as in
+   register-material.css). */
+.main.prof-main {
+  /* Local plumbing (manifest carveOuts.localPlumbing): the frozen toolbar's
+     height, stated as its one-line arithmetic: top air, one control, the gap
+     it holds open, its hairline. The honest default and the whole answer at
+     desktop widths; where the counts wrap it is CORRECTED BY MEASUREMENT
+     (CompanyProfilesView.tsx writes the real box height here), because the
+     sticky group bands below offset by this number and a stale one either
+     overlaps the toolbar or leaves a strip of rows visible above the band. */
+  --prof-toolbar-h: calc(
+    var(--app-space-2) + var(--app-control-md) + var(--app-space-4) + 1px
+  );
+  /* Local plumbing: the room from the company list's top to the bottom of
+     the scrollport, which bounds the list's own scroll. The default is the
+     viewport; CompanyProfilesView.tsx writes the measured room on the list
+     itself (`useListRoom`), because it grows as the page title scrolls away. */
+  --prof-list-room: 100dvh;
+  /* Local plumbing: the Settings register's row height (also its index's item
+     height) and label band, which the company list wears (see the list
+     section). */
+  --prof-row-h: 38px;
+  --prof-colhead-h: 32px;
+  padding-top: 0;
+  color: var(--app-text);
+}
+
+/* Error/loading states render without the toolbar; give them the air back. */
+.prof-main > .panel,
+.prof-main > .loading {
+  margin-top: var(--app-space-4);
+}
+
+/* The hero, the toolbar and the shell share one measure, wider than the app
+   default — three blocks, one pair of left edges. */
+.prof-main > .page-hero,
+.prof-main > .prof-toolbar,
+.prof-main > .prof-shell {
+  max-width: 1480px; /* 260 list + space-4 gutter + the 1200px `.main > *` measure */
+}
+
+
+/* The cards keep the app's card radius (--app-radius-lg, overlays.css), even
+   though Settings shows no rounded frame. What this
+   screen overrides is the GROUND, not the shape: an opaque raised surface
+   rather than the material's paper tone, so a card sits just above the canvas
+   instead of dissolving into it. */
+.prof-main[data-design-system="app"] .panel {
+  background: var(--app-surface-raised);
+}
+
+/* ---- toolbar: search on top of everything, the settings idiom ------------- */
+
+/* Hugs the top like the reference toolbar (space-2 above, space-4 held open
+   below), and ends in ONE strong hairline: that edge is what makes content
+   sliding under the frozen band read as intentional; without it rows and
+   cards are chopped at an invisible line. */
+.prof-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--app-space-3) var(--app-space-4);
+  padding: var(--app-space-2) 0 var(--app-space-4);
+  border-bottom: 1px solid var(--app-border-strong);
+  background-color: var(--app-canvas);
+  background-image: var(--app-ambient-image);
+  background-attachment: fixed, fixed;
+}
+
+/* ui/SearchField at md; the class only gives it its share of the band. */
+.prof-search-box {
+  flex: 1 1 260px;
+  max-width: 340px;
+}
+
+/* Load-bearing counts, in the data voice. The count is
+   `patterns/ResultsSummary`, as on the Board, so this treatment styles the
+   shared class rather than a private one. Its size is set below. */
+.prof-toolbar .results-count {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--app-space-1);
+  font-family: var(--app-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* This toolbar's count is deliberately at `body` where the shared rule says
+   `meta`. Carries the design-system marker so it outranks the base rule by
+   specificity rather than by import order, which a feature sheet does not
+   control: an override belongs beside what it overrides, and relocating one
+   silently inverts it. */
+[data-design-system="app"] .prof-toolbar .results-count {
+  font-size: var(--app-type-body);
+}
+
+/* "of" and the separator are the quiet parts of the fraction (board-shell). */
+.prof-toolbar .results-sep {
+  color: var(--app-text-faint);
+}
+
+.prof-toolbar .results-count b {
+  color: var(--app-text);
+  font-weight: var(--app-weight-name);
+}
+
+/* The one hue in the toolbar: the review count is a real status. */
+.prof-toolbar .results-count b.is-warn {
+  color: var(--app-warning);
+}
+
+.prof-toolbar-end {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-4);
+  margin-left: auto;
+}
+
+/* The toolbar action is `ui-btn-strong` (ui/Button.css): the register rank,
+   shipped by the primitive so no screen restates it or has to out-specify
+   surfaces.css. */
+
+/* ---- master–detail shell -------------------------------------------------- */
+/* The selector and the profile it drives are ONE block: the cap belongs to
+   the pair, so the gutter stays declared at every width. */
+
+.prof-main > .prof-shell {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  /* ONE gutter, and a narrow one: the selector belongs beside the profile it
+     drives (companies.spec.ts caps it at 24px), and the profile keeps its
+     1200px measure at wide viewports — the cap above is this arithmetic. */
+  gap: var(--app-space-4);
+  align-items: start;
+  /* Air between the frozen edge and the content it releases. */
+  margin-top: var(--app-space-3);
+}
+
+.prof-body,
+.prof-detail,
+.prof-list,
+.prof-shell {
+  min-width: 0;
+}
+
+/* ---- list column: register index idiom ------------------------------------ */
+
+/* The list scrolls ON ITS OWN: in the page's scroll, reaching a name in a long
+   roster would mean scrolling the whole page (and the profile with it) to the
+   bottom. The column sticks under the frozen
+   toolbar and is exactly as tall as the room left below it in the page's
+   scrollport (`--prof-list-room`, measured by CompanyProfilesView.tsx: the
+   room changes as the page title scrolls away, which CSS cannot see). The
+   profile keeps the page's scroll. `overscroll-behavior` stops a fling at the end of the list
+   from scrolling the profile behind it. */
+.prof-main > .prof-shell > .prof-list {
+  position: sticky;
+  top: calc(var(--prof-toolbar-h) + var(--app-space-3));
+  max-height: calc(var(--prof-list-room) - var(--app-space-3));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.prof-section + .prof-section {
+  margin-top: var(--app-space-5);
+}
+
+/* The list is Settings' Followed companies in a narrow column, and wears it
+   exactly: same content, same look. Its labels and
+   sector folds are the LEFT Sectors index, the same substance in the same
+   column; its company rows are the register's rows. Each rule below names the
+   rule it mirrors in features/companies/CompaniesSection.css;
+   `companies.spec.ts` measures both screens in one run and fails on any
+   difference. The heights are the register's local plumbing (`--register-row`
+   38, `--register-colhead-h` 32), restated here because that sheet is not
+   loaded on this route. */
+
+/* Section head = the Settings index's SECTORS label (`.ledger-index-label`):
+   whisper, mono, uppercase, muted. "Researched companies" and "Other companies"
+   sit a level above the sectors, as SECTORS does in Settings. */
+.prof-section-head,
+.prof-group-section > .prof-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+  min-height: var(--prof-colhead-h);
+  margin: 0;
+  padding: 0 var(--app-space-2);
+  /* The index draws no rule under its label: transparent, kept for its 1px. */
+  border-bottom: 1px solid transparent;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+/* Sector fold = the Settings left index's sector (`.ledger-index button`),
+   the same substance in the same column: the name at `body`, regular, muted,
+   ink on hover; the count in mono at `meta`, semibold; a 38px item with the
+   index's inset and no rule of its own. NOT the register's wide sector head in
+   the middle of the page (16px, name weight, ink). The fold STICKS to the top of the list while its group is open, so
+   a long group never leaves you reading unlabelled rows; each is bounded by
+   its own section, so the next pushes the previous away. Opaque canvas (+
+   ambient, the canvas rule) so rows visibly slide UNDER it. */
+.prof-group-fold > .prof-group-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+  min-height: var(--prof-row-h);
+  margin: 0;
+  padding: 0 var(--app-space-2);
+  border-radius: var(--app-radius-sm);
+  background-color: var(--app-canvas);
+  background-image: var(--app-ambient-image);
+  background-attachment: fixed, fixed;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-body);
+}
+
+.prof-group-fold > .prof-group-head:hover {
+  background: var(--app-surface-hover);
+  color: var(--app-text);
+}
+
+/* The section-level group (Other companies) sticks too once open: it holds
+   the longest run on the page. */
+.prof-group-section > .prof-group-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--app-canvas);
+  background-image: var(--app-ambient-image);
+  background-attachment: fixed, fixed;
+}
+
+/* The fold control is the register's disclosure (`.ledger-sector-disclose`):
+   a link-variant Button that takes the head's type, so it paints no chrome of
+   its own and the whole label is the hit target. At the register's size two
+   sector names may outgrow this 260px column; they wrap rather than lose their
+   ending. */
+.prof-group-head .prof-group-disclose {
+  display: inline-flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: var(--app-space-1);
+  min-height: var(--app-control-sm);
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-decoration: none;
+  justify-content: flex-start;
+  text-align: left;
+  white-space: normal;
+}
+
+.prof-group-head .prof-group-disclose svg {
+  flex: none;
+  color: var(--app-text-muted);
+}
+
+/* In the section label the count is one of its labels; in a sector fold it is
+   the index's count (`.ledger-index-row > b`): mono at `meta`, semibold, in
+   the item's colour. */
+.prof-group-count {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.prof-group-fold .prof-group-count {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+}
+
+.prof-group-hint {
+  margin: var(--app-space-1) 0;
+  padding: 0 var(--app-space-2);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+  line-height: 1.35;
+}
+
+.prof-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* A company row = the register's row (`.ledger-row`): a minimum height (WCAG
+   1.4.12), the register's inset, the mark-to-name gap of its columns and the
+   same hairline. */
+.prof-nav button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  min-height: var(--prof-row-h);
+  padding: 0 var(--app-space-2);
+  border: 0;
+  border-bottom: 1px solid var(--app-border);
+  border-radius: 0;
+  background: none;
+  color: var(--app-text);
+  font-size: var(--app-type-name);
+  text-align: left;
+  cursor: pointer;
+}
+
+.prof-nav button:hover {
+  background: var(--app-surface-hover);
+}
+
+/* The company on screen = the register index's current sector
+   (`.ledger-index button[aria-current]`): CHOSEN, gold wash and gold name,
+   never a weight. */
+.prof-nav button[aria-current="true"] {
+  background: var(--app-chosen-wash);
+}
+
+.prof-nav button[aria-current="true"] .prof-nav-name {
+  color: var(--app-chosen-text);
+}
+
+.prof-nav button:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: calc(-1 * var(--app-ring-offset));
+}
+
+/* The name = the register's followed-company name (`.ledger-name` on a
+   followed row):
+   every company here is one you follow, so every name is ink, at one weight. */
+.prof-nav-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: var(--app-weight-ui);
+  color: var(--app-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A ticker annotates the name, the register's quiet mono voice for one
+   (`.ledger-tag`), so it never competes with it. */
+.prof-nav .traj-ticker {
+  flex: none;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+}
+
+.prof-nav button .company-logo {
+  border-radius: 3px;
+}
+
+/* Compact health marker beside a name — hue is health, the material's one
+   colour budget. The flagged field carries the full story. */
+.health-dot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.health-dot.health-conflict {
+  background: var(--app-danger);
+}
+
+.health-dot.health-stale {
+  background: var(--app-warning);
+}
+
+.health-dot.health-missing {
+  background: var(--app-decor);
+}
+
+/* ---- dossier cards -------------------------------------------------------- */
+
+.prof-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-3);
+}
+
+/* Hero head: identity left, roles pill right. No band — it is the subject. */
+.prof-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+}
+
+/* Section head band: title + mono stat over a strong hairline. */
+.prof-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+  padding-bottom: var(--app-space-2);
+  border-bottom: 1px solid var(--app-border-strong);
+  margin-bottom: var(--app-space-2);
+}
+
+.prof-card-head h3 {
+  margin: 0;
+}
+
+.prof-card-stat {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.prof-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  min-width: 0;
+}
+
+/* The company is the page's second level (h2); it keeps the size of the
+   panel's section heads rather than the larger default of its level. */
+.prof-identity h2 {
+  margin: 0;
+  font-size: 1.17em;
+}
+
+.prof-identity-sub {
+  margin-top: 2px;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+  letter-spacing: 0.03em;
+  min-height: 14px;
+}
+
+.prof-name-row {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+}
+
+/* Open-roles pill in the hero (links to the board, filtered). Action-set
+   tokens — ink under the material, so the hue budget stays with health. */
+.prof-roles-pill {
+  flex: 0 0 auto;
+  appearance: none;
+  cursor: pointer;
+  padding: 2px var(--app-space-2);
+  border-radius: 999px;
+  font: inherit;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--app-action-text);
+  background: var(--app-action-soft);
+  border: 1px solid var(--app-action-line);
+  transition:
+    background var(--app-duration-fast),
+    filter var(--app-duration-fast);
+}
+
+.prof-roles-pill:hover {
+  filter: brightness(1.08);
+  background: var(--app-action-line);
+}
+
+.prof-roles-pill:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+.prof-roles-pill.is-empty {
+  cursor: default;
+  color: var(--app-text-faint);
+  background: transparent;
+  border-color: var(--app-border);
+}
+
+.prof-roles-pill.is-empty:hover {
+  filter: none;
+  background: transparent;
+}
+
+/* ---- resolved fields ------------------------------------------------------ */
+
+.prof-fields {
+  margin-top: var(--app-space-3);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2px var(--app-space-4);
+  /* Flagged fields span the full row (below); without dense packing every
+     span leaves a hole at the end of the partial row before it, and the grid
+     reads as a broken two-column layout with a dead right third. DOM order —
+     what a screen reader walks — is untouched; cells carry their own labels,
+     so the backfilled visual order stays legible. */
+  grid-auto-flow: dense;
+}
+
+.prof-field {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 112px 1fr auto;
+  align-items: baseline;
+  gap: var(--app-space-2);
+  padding: var(--app-space-1) 0;
+  border-top: 1px solid var(--app-border);
+  font-size: var(--app-type-meta);
+}
+
+/* A field awaiting review carries the warning rule at rest, and states its
+   reason in the meta slot — it stays a normal cell, because a dossier opens
+   as something to read. A displayed conflict outranks the warning colour. */
+.prof-field.needs-review {
+  border-left: 2px solid var(--app-warning);
+  padding-left: var(--app-space-2);
+}
+
+/* Open in the Enrich fields mode: the resolution controls need the width, and
+   a tall cell inside the auto-fill grid would stretch its neighbours instead. */
+.prof-field.is-enriching {
+  grid-column: 1 / -1;
+}
+
+.prof-field.has-conflict {
+  border-left: 2px solid var(--app-danger);
+  padding-left: var(--app-space-2);
+}
+
+/* Recognition, not reading: the label names a row you identify at a glance. */
+.prof-field-l {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.prof-field-v {
+  min-width: 0;
+  font-weight: var(--app-weight-name);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Offer facts are phrases ("Tops up target pay"), not identity tokens like a
+   ticker, and each carries a source chip: wider columns, and values wrap
+   rather than clip. `min()` keeps one column inside a phone's width. */
+.prof-offer-fields {
+  grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
+}
+
+.prof-offer-fields .prof-field-v {
+  white-space: normal;
+}
+
+/* Inherits the value's weight and colour: it should read as the value it is,
+   and only advertise itself as a link when you reach for it. */
+.prof-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.prof-link:hover,
+.prof-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prof-field-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+}
+
+.src-chip {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+  color: var(--app-text-faint);
+  border: 1px solid var(--app-border);
+  border-radius: 3px;
+  padding: 1px 3px;
+  white-space: nowrap;
+}
+
+.src-chip.src-manual {
+  color: var(--app-action-text);
+  border-color: var(--app-action-line);
+}
+
+.fresh-dot {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  text-transform: uppercase;
+  letter-spacing: var(--app-type-whisper-track);
+}
+
+.fresh-aging {
+  color: var(--app-warning);
+}
+
+.fresh-stale {
+  color: var(--app-danger);
+}
+
+.conflict-list {
+  grid-column: 1 / -1;
+  list-style: none;
+  margin: var(--app-space-1) 0 0;
+  padding: 0;
+}
+
+.conflict-list li {
+  color: var(--app-danger);
+  font-size: var(--app-type-meta);
+  line-height: 1.5;
+}
+
+.conflict-list strong {
+  font-weight: var(--app-weight-strong);
+}
+
+/* ---- field review: the queue, dissolved into the row ---------------------- */
+
+.prof-field-review {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--app-space-2);
+  margin: var(--app-space-1) 0;
+}
+
+.prof-review-reason {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.prof-review-reason.is-conflict {
+  color: var(--app-danger);
+}
+
+.prof-review-reason.is-stale {
+  color: var(--app-warning);
+}
+
+.prof-review-reason.is-missing {
+  color: var(--app-text-faint);
+}
+
+/* Chrome comes from ui/Button (ghost · sm · strong): the box, hover,
+   pressed, disabled and the focus ring are all the primitive's. This sheet
+   keeps only what the primitive has no opinion about: the baseline the two
+   labels align on, and the mark on the source we recommend.
+
+   That mark is a BORDER and hover moves the FILL, deliberately: if they were
+   one declaration, pointing at a claim would make it look endorsed. */
+.prof-review-choice {
+  align-items: baseline;
+  gap: var(--app-space-1);
+}
+
+.prof-review-choice.suggested {
+  border-color: var(--app-action);
+}
+
+.prof-review-choice-v {
+  font-weight: var(--app-weight-name);
+}
+
+.prof-review-choice-s {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+  color: var(--app-text-faint);
+}
+
+.prof-review-suggested {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+  color: var(--app-action-text);
+}
+
+.prof-review-custom {
+  display: inline-flex;
+  gap: var(--app-space-1);
+}
+
+.prof-review-custom input {
+  min-height: var(--app-control-sm);
+  padding: 0 var(--app-control-sm-pad);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-sunken);
+  color: var(--app-text);
+  font-size: var(--app-type-meta);
+  width: 150px;
+}
+
+.prof-review-error {
+  flex-basis: 100%;
+  color: var(--app-danger);
+  font-size: var(--app-type-meta);
+}
+
+/* ---- stock price ---------------------------------------------- */
+
+/* The title and its ticker read as one label on the head's left; the range
+ * control keeps the right. */
+.prof-price-title {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--app-space-2);
+  min-width: 0;
+}
+
+/* The instrument line: last close · day's move · the day it closed, and the
+ * move across the chosen range pushed to the far edge (it is what the line's
+ * colour says). Baseline-aligned, wrapping on a narrow card. */
+.prof-price-now {
+  display: flex;
+  align-items: baseline;
+  gap: var(--app-space-1) var(--app-space-3);
+  flex-wrap: wrap;
+  margin: var(--app-space-2) 0 var(--app-space-1);
+}
+
+.prof-price-quote {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-stat);
+  font-weight: 700;
+  color: var(--app-text);
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.prof-price-now .co-card-change {
+  font-size: var(--app-type-meta);
+}
+
+.prof-price-asof {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.prof-price-range {
+  margin-left: auto;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- comp baseline + benefits --------------------------------------------- */
+
+.split-bar {
+  display: flex;
+  height: 9px;
+  width: 100%;
+  min-width: 90px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--app-surface-sunken);
+}
+
+.split-bar > span {
+  display: block;
+  height: 100%;
+}
+
+.split-base {
+  background: var(--app-decor);
+}
+
+/* A data hue, deliberately not the action set: under the register material
+   the action collapses to ink, and a composition share is data, not UI. */
+.split-stock {
+  background: var(--app-data-2);
+}
+
+.split-bonus {
+  background: var(--app-data-1);
+}
+
+.split-legend {
+  display: flex;
+  gap: var(--app-space-3);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+.split-legend i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  margin-right: var(--app-space-1);
+  vertical-align: middle;
+}
+
+.prof-comp-table td:nth-child(4) {
+  width: 34%;
+}
+
+.benefit-group {
+  margin-top: var(--app-space-3);
+}
+
+/* Group headings are chrome: the band-label voice, not a whisper. */
+.benefit-group h4 {
+  margin: 0 0 var(--app-space-1);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+  color: var(--app-text-muted);
+}
+
+.benefit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 2;
+  column-gap: var(--app-space-4);
+}
+
+/* Two lines per benefit: the name (and any estimate) over the company's own
+   terms. Terms on one clipped line with the value would lose a rule like
+   "3-6% of base by tenure" to the dollar figure beside it. */
+.benefit-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--app-space-2);
+  padding: var(--app-space-1) 0;
+  border-top: 1px solid var(--app-border);
+  font-size: var(--app-type-meta);
+  break-inside: avoid;
+}
+
+.benefit-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* An estimate: a figure, in the data voice, and quiet. */
+.benefit-est {
+  font-family: var(--app-font-mono);
+  color: var(--app-text-muted);
+  white-space: nowrap;
+}
+
+/* A source can send whole paragraphs as terms: two lines, then clamp. */
+.benefit-terms {
+  grid-column: 1 / -1;
+  color: var(--app-text-muted);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.prof-field-v.is-unknown {
+  color: var(--app-text-faint);
+}
+
+/* Our own baseline: what each figure rests on, quietly, and a
+   level paying less than the one under it, said beside the figure. */
+.prof-level-evidence {
+  color: var(--app-text-muted);
+}
+
+.prof-level-flag {
+  display: block;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-sans, inherit);
+  font-size: var(--app-type-meta);
+}
+
+/* How often its postings name it, and the toggle to its other wordings. */
+.benefit-meta {
+  grid-column: 1 / -1;
+  color: var(--app-text-faint);
+}
+
+.benefit-wordings {
+  grid-column: 1 / -1;
+  list-style: none;
+  margin: var(--app-space-1) 0 0;
+  padding: 0 0 0 var(--app-space-2);
+  border-left: 1px solid var(--app-border);
+  color: var(--app-text-muted);
+}
+
+.benefit-list .benefit-wordings li {
+  display: block;
+  padding: 2px 0;
+  border-top: 0;
+}
+
+/* Benefits recorded by name alone: one quiet line per category. */
+.benefit-also {
+  margin: var(--app-space-1) 0 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+/* A sentence several benefits share reads whole, across the panel. */
+.benefit-list.benefit-notes {
+  columns: 1;
+}
+
+.benefit-notes .benefit-terms {
+  display: block;
+  -webkit-line-clamp: unset;
+  line-clamp: none;
+}
+
+.prof-attribution {
+  padding: var(--app-space-1) 2px 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+/* ---- responsive ----------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .prof-main > .prof-shell {
+    grid-template-columns: 1fr;
+  }
+
+  /* One column: the list sits above the profile, so it does not stick, and
+     it scrolls inside a bounded box rather than pushing the profile a page
+     down. */
+  .prof-main > .prof-shell > .prof-list {
+    position: static;
+    max-height: 45dvh;
+  }
+
+  .benefit-list {
+    columns: 1;
+  }
+}
+
+/* A phone: six columns of figures fit only with half the cell inset. */
+@media (max-width: 540px) {
+  .prof-comp-table th,
+  .prof-comp-table td {
+    padding-inline: var(--app-space-1);
+  }
+}

@@ -1,0 +1,141 @@
+/* Notification diagnostics — the expanded, copy-pasteable view of a problem
+ * event (NotifDiagnostics). Rendered inside `.notif-details`, whose recessed
+ * ground is notification-row.css.
+ */
+
+/* ---- diagnostics --------------------------------------------------------- */
+
+.notif-diag .mono {
+  font-family: var(--app-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.notif-diag-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-4);
+  margin: 0 0 var(--app-space-3);
+}
+
+.notif-diag-meta div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.notif-diag-meta dt,
+.notif-diag-block h4 {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.notif-diag-meta dd {
+  margin: 0;
+  color: var(--app-text);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+}
+
+.notif-diag-block { margin-top: var(--app-space-3); }
+.notif-diag-block h4 { margin: 0 0 var(--app-space-1); }
+
+.notif-diag-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-1);
+}
+
+.notif-diag-list li {
+  display: grid;
+  grid-template-columns: minmax(80px, auto) 1fr;
+  gap: var(--app-space-2);
+  align-items: baseline;
+  padding: var(--app-space-2) var(--app-space-2);
+  border-radius: var(--app-radius-md);
+  border-left: 2px solid var(--app-border-strong);
+  background: var(--app-surface);
+}
+
+.notif-diag-list li.warn { border-left-color: var(--app-warning); }
+.notif-diag-list li.bad { border-left-color: var(--app-danger); }
+
+.notif-diag-source {
+  color: var(--app-text);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+  overflow-wrap: anywhere;
+}
+
+.notif-diag-msg {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.notif-diag-ctx {
+  display: inline-block;
+  margin-left: var(--app-space-1);
+  padding: 1px var(--app-space-1);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-raised);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+}
+
+.notif-diag-scroll { overflow-x: auto; }
+
+.notif-diag-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--app-type-meta);
+}
+
+.notif-diag-table th {
+  padding: var(--app-space-1) var(--app-space-2);
+  text-align: left;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.notif-diag-table td {
+  padding: var(--app-space-2);
+  border-top: 1px solid var(--app-border);
+}
+
+.notif-diag-table th.num,
+.notif-diag-table td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.notif-diag-table th[scope="row"] {
+  color: var(--app-text);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: var(--app-font-sans);
+}
+
+.notif-diag-table tr.warn th[scope="row"] { color: var(--app-warning); }
+.notif-diag-table tr.bad th[scope="row"] { color: var(--app-danger); }
+
+.notif-diag-notes {
+  margin: var(--app-space-3) 0 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+

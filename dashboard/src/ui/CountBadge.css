@@ -1,0 +1,18 @@
+/* CountBadge — the one recipe for a count on a navigation item: the bell, a
+   rail item, a tab. Shape, face, weight and numerals are the recipe; a
+   placement sets only where it sits, its colours, and these properties:
+   --ui-count-min / --ui-count-height (the box), --ui-count-pad (horizontal
+   padding) and --ui-count-type (the size, a ramp step where one fits). */
+.ui-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--ui-count-min, 17px);
+  height: var(--ui-count-height, 17px);
+  padding: 0 var(--ui-count-pad, 5px);
+  border-radius: 999px;
+  font-family: var(--app-font-mono);
+  font-size: var(--ui-count-type, var(--app-type-viz));
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}

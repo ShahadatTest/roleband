@@ -1,0 +1,81 @@
+/* Company brand mark (ui/CompanyIcon.tsx).
+   Default is muted so a dense company grid stays scannable; brand colour is an
+   emphasis state, not the resting state. */
+/* Rests on inherited colour, dimmed — never a named token: the mark takes the
+   ink of whatever line it sits on, and opacity does the muting. */
+.ui-company-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  opacity: 0.55;
+  transition: color 120ms ease, opacity 120ms ease;
+}
+
+.ui-company-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* --brand-l / --brand-d are both set inline by the component; CSS picks the one
+   matching the active theme so no JS reads the theme. */
+.ui-company-icon.is-brand,
+.ui-company-icon:hover,
+:hover > .ui-company-icon,
+label:hover .ui-company-icon,
+button:hover .ui-company-icon,
+a:hover .ui-company-icon {
+  color: var(--brand-l);
+  opacity: 1;
+}
+
+:root[data-theme="dark"] .ui-company-icon.is-brand,
+:root[data-theme="dark"] .ui-company-icon:hover,
+:root[data-theme="dark"] :hover > .ui-company-icon,
+:root[data-theme="dark"] label:hover .ui-company-icon,
+:root[data-theme="dark"] button:hover .ui-company-icon,
+:root[data-theme="dark"] a:hover .ui-company-icon {
+  color: var(--brand-d);
+}
+
+/* System-preference fallback, matching design/tokens.css's untagged-theme block. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .ui-company-icon.is-brand,
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .ui-company-icon:hover,
+  :root:not([data-theme="light"]):not([data-theme="dark"]) label:hover .ui-company-icon {
+    color: var(--brand-d);
+  }
+}
+
+/* Monogram: the letter carries the colour, inside a tinted well, so an uncovered
+   company still reads as itself rather than as a missing asset. */
+.ui-company-icon.is-monogram {
+  border-radius: var(--app-radius-sm);
+  background: color-mix(in srgb, var(--brand-l) 14%, transparent);
+  color: var(--brand-l);
+  font-weight: 750;
+  line-height: 1;
+  opacity: 1;
+}
+
+.ui-company-icon.is-monogram > span::before {
+  content: attr(data-letter);
+}
+
+:root[data-theme="dark"] .ui-company-icon.is-monogram {
+  background: color-mix(in srgb, var(--brand-d) 18%, transparent);
+  color: var(--brand-d);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .ui-company-icon.is-monogram {
+    background: color-mix(in srgb, var(--brand-d) 18%, transparent);
+    color: var(--brand-d);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-company-icon { transition: none; }
+}

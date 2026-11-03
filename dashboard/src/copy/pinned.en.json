@@ -1,0 +1,14 @@
+{
+  "ai-egress-detail": "RoleBand may send text from postings to the online model services you enable. This permission also applies to services you add or enable later.",
+  "spike-consent-wall": "Its careers site limits automated collection.",
+  "companies-follow-copy-some-of-these-companies-careers": "Some of these companies' careers sites limit automated collection. By picking this, you choose to collect their public postings.",
+  "jobs-standing-hedge": "patterns in how it is listed, not a verdict on the company. It may still be hiring.",
+  "privacy-consent-intro": "We're free and open source, and we get better with every release. Anonymous data shows us what to fix and what to build next.",
+  "privacy-group-usage-detail": "Which screens and features you use, and how scans go.",
+  "privacy-group-crashes-detail": "What broke and where, so we can fix it fast.",
+  "privacy-group-questions-detail": "An occasional one-question survey. Skip any you like.",
+  "privacy-never": "Never sent: company names, role titles, compensation, your CV or anything you type.",
+  "privacy-consent-change": "Change it any time in Settings › Privacy.",
+  "launcher-update-automatic": "Check for updates automatically",
+  "companies-follow-copy-some-of-these-companies-limit": "Some of these companies limit automated collection on their careers sites. By following them, you choose to collect their public postings."
+}

@@ -1,0 +1,56 @@
+name: contract-drift
+
+# dashboard/src/api.gen.ts is a purely derived mirror of the FastAPI schema
+# (docs/architecture.md). Regenerate and fail on any diff.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Read the code, nothing more: no job here writes to the repository.
+permissions:
+  contents: read
+
+jobs:
+  regen-diff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+          cache: pip
+          cache-dependency-path: |
+            backend/requirements.txt
+            backend/requirements-dev.txt
+            backend/constraints/linux-x86_64.txt
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          # .nvmrc (24). 24 not 22: npm 10 (bundled with node 22) and npm 11
+          # (local dev, and what Dependabot writes locks with) disagree about
+          # nested optional deps, so a lock written by one is rejected by the
+          # other.
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+      # FastAPI and Pydantic shape the schema, so the exporter runs on the locked graph.
+      - run: pip install -r requirements.txt -r requirements-dev.txt -c constraints/linux-x86_64.txt
+        working-directory: backend
+      # The API imports the robots matcher, which is its own distribution.
+      - run: pip install -e ../robots/python
+        working-directory: backend
+      - run: python -m scripts.export_openapi
+        working-directory: backend
+      - run: npm ci
+        working-directory: dashboard
+      - run: npm run gen:api
+        working-directory: dashboard
+      - name: fail on drift
+        # Both artifacts, because they catch different things. api.gen.ts is a
+        # lossy projection: most routes still return an unmodelled dict
+        # (backend/tests/fixtures/route_table.json has the live count), so a
+        # changed response shape can leave it byte-identical. openapi.json is
+        # what the server declares.
+        run: git diff --exit-code dashboard/src/api.gen.ts dashboard/openapi.json

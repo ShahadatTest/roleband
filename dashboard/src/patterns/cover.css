@@ -1,0 +1,67 @@
+/* The Cover: the shell for STUDYING one thing, or a few, over the list it
+ * was opened from (docs/ui.md "Cover"). Shared by Job detail and Compare,
+ * so it wears no occupant's name.
+ *
+ * A full-viewport ground-painter: it takes the system's page light (canvas +
+ * ambient wash, viewport-anchored) and covers the rail, because a cover is
+ * modal — one way out, nothing else tabbable (ui/Overlay owns that contract
+ * when it is opened from a list). What it does NOT decide is the occupant's
+ * container: a reading cover keeps its measure (`.jd-container`), a columnar
+ * cover runs full-bleed. */
+
+.cover {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--app-canvas);
+  background-image: var(--app-ambient-image);
+  background-attachment: fixed;
+  animation: cover-in var(--app-duration-medium) var(--app-ease);
+}
+
+@keyframes cover-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The Bar: Back · frame line · spacer · secondary verbs · ONE primary. */
+.cover-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  /* Wraps rather than taking a breakpoint: the bar carries five items on Job
+     detail and the phone widths cannot hold them on one line. A width literal
+     here would be a seventeenth viewport breakpoint for a decision the content
+     can make itself (docs/ui.md). */
+  flex-wrap: wrap;
+  gap: var(--app-space-2);
+  padding: var(--app-space-3) var(--app-space-5);
+  border-bottom: 1px solid var(--app-border);
+  background: var(--app-surface-raised);
+}
+
+/* Back is ui/Button ghost/md; a primary is an anchor or Button wearing the
+   primary rank (docs/ui.md). Neither is painted here. */
+.cover-bar-spacer {
+  margin-left: auto;
+}
+
+.cover-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+@media (max-width: 860px) {
+  .cover-bar {
+    padding: var(--app-space-2) var(--app-space-3);
+  }
+}

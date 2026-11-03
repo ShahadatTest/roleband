@@ -1,0 +1,19 @@
+# Reglas del español de RoleBand (copy-check). Borrador de IA, pendiente de revisión.
+# Palabras de cómo funciona RoleBand por dentro: nunca en pantalla.
+banned: [scraper, scrapear, conector, adaptador, sincronizar, sincronización, endpoint,
+  payload, embedding, vector, faceta, catálogo, inventario]
+retired: []
+# Un solo trato: tú. Las formas de usted nunca aparecen.
+register:
+  formal: false
+  forbidden: [usted, ustedes]
+proper_nouns: [RoleBand, IA, LinkedIn, macOS, Apple, Google, Stripe]
+mechanics:
+  # Regla del propietario: nunca la raya larga. Los puntos suspensivos son un carácter.
+  forbid: ["—", "..."]
+# La lista cerrada con la que puede terminar un error (o el mensaje dice next=none).
+next_steps: ["Inténtalo de nuevo.", "Inténtalo de nuevo cuando termine el escaneo.",
+  "Inténtalo de nuevo cuando termine.", "Comprueba que RoleBand se está ejecutando e inténtalo de nuevo.",
+  "Comprueba que se está ejecutando e inténtalo de nuevo.", "Revisa el enlace e inténtalo de nuevo.",
+  "Revisa los años e inténtalo de nuevo.", "Añádelo e inténtalo de nuevo.", "Corrígelos e inténtalo de nuevo.",
+  "Actívalo en Ajustes › IA.", "Desactívalo en Ajustes › Plugins.", "Añade uno en Ajustes › IA.", "Cámbialo en Historial.", "Revísala en tu cuenta de Tiingo e inténtalo de nuevo."]

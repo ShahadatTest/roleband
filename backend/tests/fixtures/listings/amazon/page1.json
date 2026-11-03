@@ -1,0 +1,47 @@
+{
+  "_note": "Real rows; `hits` rewritten 101 -> 2 so the fixture is a whole board (each query is held to its declared total; page 2's rows moved onto page 1).",
+  "hits": 2,
+  "jobs": [
+    {
+      "id_icims": "10473800",
+      "title": "Senior Software Development Engineer",
+      "job_path": "/en/jobs/10473800/senior-software-development-engineer",
+      "normalized_location": "Sunnyvale, California, USA",
+      "city": "Sunnyvale",
+      "state": "CA",
+      "posted_date": "July 14, 2026",
+      "job_category": "Software Development",
+      "business_category": "Amazon Web Services",
+      "team": {
+        "label": "team-aws"
+      },
+      "description": "Design distributed systems at scale.<br/><br/>Our compensation reflects the cost of labor across several US geographic markets. The base pay for this position ranges from $151,300/year in our lowest geographic market up to $261,500/year in our highest geographic market. Amazon is a total compensation company. Dependent on the position offered, equity may be provided.",
+      "basic_qualifications": "- 8+ years of professional software development experience",
+      "preferred_qualifications": "- Experience with AWS services at scale",
+      "locations": [
+        "{\"normalizedLocation\":\"Sunnyvale, California, USA\",\"type\":\"ONSITE\"}",
+        "{\"normalizedLocation\":\"Seattle, Washington, USA\",\"type\":\"ONSITE\"}"
+      ]
+    },
+    {
+      "id_icims": "10481234",
+      "title": "Principal Product Manager - Technical, Alexa",
+      "job_path": "/en/jobs/10481234/principal-product-manager-technical-alexa",
+      "normalized_location": "Seattle, Washington, USA",
+      "city": "Seattle",
+      "state": "WA",
+      "posted_date": "July 16, 2026",
+      "job_category": "Project/Program/Product Management--Technical",
+      "business_category": "Devices and Services",
+      "team": {
+        "label": "team-alexa"
+      },
+      "description": "Define the roadmap for Alexa's conversational assistant.",
+      "basic_qualifications": "- 10+ years of product management experience",
+      "preferred_qualifications": "- Experience shipping consumer AI products",
+      "locations": [
+        "{\"normalizedLocation\":\"Seattle, Washington, USA\",\"type\":\"ONSITE\"}"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+/* Offices & open roles (company profile). Co-located because this screen owns
+   it, `.office-*` row rules included. */
+
+.offices-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 4px;
+  flex-wrap: wrap;
+}
+/* ui/SearchField at sm; the class only sizes its share of the toolbar. */
+.offices-search {
+  flex: 1;
+  min-width: 140px;
+  max-width: 240px;
+}
+.offices-tally {
+  margin-left: auto;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+  color: var(--app-text-muted);
+}
+.offices-opt-flag {
+  margin-right: 6px;
+}
+
+.offices-country {
+  margin-top: 14px;
+}
+.offices-country-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--app-border);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+}
+/* The flag carries the country at a glance; the divider is the section rule
+   above, so the glyph never has to double as one. */
+.offices-flag {
+  font-size: var(--app-type-body);
+  line-height: 1;
+}
+.offices-country-name {
+  color: var(--app-text);
+}
+/* "29 cities" is a FACT beside a group head, not a label: meta, mono, faint,
+   sentence case. */
+.offices-country-meta {
+  margin-left: auto;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+  color: var(--app-text-faint);
+}
+
+.office-list {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  /* A column WIDTH, not a count, so no breakpoint answers for the list. A
+     viewport breakpoint cannot: `.prof-shell` drops its company-selector
+     column at 900px, so the panel gets WIDER at the very width a viewport arm
+     would drop a column. A column-width derives the count from the space there
+     actually is, so it only ever grows with the list.
+     200px holds the longest row label (a city, the HQ tag and a count) off its
+     ellipsis and still fits TWO columns in the panel beside the selector. Do
+     not tune it toward a tidier count at the wide end: the window for three
+     columns there is about one pixel wide, and 200 sits in the middle of a
+     real range instead of on a knife edge. */
+  columns: 200px;
+  column-gap: 24px;
+}
+/* Rows separate with a BOTTOM border, and no row is exempt. A top border plus
+   a `:first-child` exemption cannot work in a multi-column list: only the very
+   first item is exempt, so the first item of the second column would draw its
+   own rule beneath the country head's full-width one. There is no "first in
+   each column" selector. The head's border-bottom spans both columns and is
+   the top edge for both. */
+.office-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--app-border);
+  font-size: var(--app-type-meta);
+  break-inside: avoid;
+}
+.office-city {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.office-hq-tag {
+  flex: 0 0 auto;
+  font-size: var(--app-type-label);
+  font-weight: var(--app-weight-strong);
+  letter-spacing: 0.08em;
+  padding: 1px 4px;
+  border: 1px solid var(--app-border);
+  border-radius: 3px;
+  color: var(--app-text-faint);
+}
+.office-count {
+  flex: 0 0 auto;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+  color: var(--app-text-muted);
+}
+
+/* `.office-list` has no arm here: the list sizes itself (see the rule above).
+
+   The search arm can key on the viewport because the field's width is
+   monotonic in panel width, so uncapping it never makes the field smaller than
+   the capped state. It fires earlier than "phone", which costs a wider search
+   box on a wide panel and nothing else; a container query would fit it better
+   (docs/ui.md). */
+@media (max-width: 900px) {
+  .offices-search {
+    max-width: none;
+  }
+}

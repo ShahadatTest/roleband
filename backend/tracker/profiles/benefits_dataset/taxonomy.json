@@ -1,0 +1,616 @@
+{
+  "version": "1.0.0",
+  "categories": [
+    {
+      "id": "health_wellbeing",
+      "label": "Health and wellbeing"
+    },
+    {
+      "id": "insurance_protection",
+      "label": "Insurance and protection"
+    },
+    {
+      "id": "retirement_financial",
+      "label": "Retirement and financial programs"
+    },
+    {
+      "id": "time_off",
+      "label": "Time off"
+    },
+    {
+      "id": "family_care",
+      "label": "Family and care"
+    },
+    {
+      "id": "work_flexibility_equipment",
+      "label": "Work flexibility and equipment"
+    },
+    {
+      "id": "learning_development",
+      "label": "Learning and development"
+    },
+    {
+      "id": "mobility_housing",
+      "label": "Mobility and housing"
+    },
+    {
+      "id": "meals_workplace",
+      "label": "Meals and workplace amenities"
+    },
+    {
+      "id": "discounts_community",
+      "label": "Discounts and community"
+    },
+    {
+      "id": "company_specific",
+      "label": "Other company benefits"
+    }
+  ],
+  "benefit_types": [
+    {
+      "id": "medical_insurance",
+      "category": "health_wellbeing",
+      "label": "Health Insurance",
+      "aliases": [
+        "Health Insurance"
+      ]
+    },
+    {
+      "id": "dental_insurance",
+      "category": "health_wellbeing",
+      "label": "Dental Insurance",
+      "aliases": [
+        "Dental Insurance"
+      ]
+    },
+    {
+      "id": "vision_insurance",
+      "category": "health_wellbeing",
+      "label": "Vision Insurance",
+      "aliases": [
+        "Vision Insurance"
+      ]
+    },
+    {
+      "id": "health_savings_account",
+      "category": "health_wellbeing",
+      "label": "Health Savings Account (HSA)",
+      "aliases": [
+        "Health Savings Account (HSA)"
+      ]
+    },
+    {
+      "id": "flexible_spending_account",
+      "category": "health_wellbeing",
+      "label": "Flexible Spending Account (FSA)",
+      "aliases": [
+        "Flexible Spending Account (FSA)"
+      ]
+    },
+    {
+      "id": "employee_assistance",
+      "category": "health_wellbeing",
+      "label": "Employee Assistance Program",
+      "aliases": [
+        "Employee Assistance Program"
+      ]
+    },
+    {
+      "id": "wellness_allowance",
+      "category": "health_wellbeing",
+      "label": "Gym / Wellness Reimbursement",
+      "aliases": [
+        "Gym / Wellness Reimbursement"
+      ]
+    },
+    {
+      "id": "onsite_gym",
+      "category": "health_wellbeing",
+      "label": "Gym On-Site",
+      "aliases": [
+        "Gym On-Site"
+      ]
+    },
+    {
+      "id": "fitness_classes",
+      "category": "health_wellbeing",
+      "label": "On-Site Fitness Classes",
+      "aliases": [
+        "On-Site Fitness Classes"
+      ]
+    },
+    {
+      "id": "gym_discount",
+      "category": "health_wellbeing",
+      "label": "Gym Discount",
+      "aliases": [
+        "Gym Discount"
+      ]
+    },
+    {
+      "id": "onsite_clinic",
+      "category": "health_wellbeing",
+      "label": "On-Site Clinic",
+      "aliases": [
+        "On-Site Clinic"
+      ]
+    },
+    {
+      "id": "life_insurance",
+      "category": "insurance_protection",
+      "label": "Life Insurance",
+      "aliases": [
+        "Life Insurance"
+      ]
+    },
+    {
+      "id": "disability_insurance",
+      "category": "insurance_protection",
+      "label": "Disability Insurance",
+      "aliases": [
+        "Disability Insurance"
+      ]
+    },
+    {
+      "id": "accident_insurance",
+      "category": "insurance_protection",
+      "label": "Accidental death and dismemberment (AD&D) Insurance",
+      "aliases": [
+        "Accidental death and dismemberment (AD&D) Insurance"
+      ]
+    },
+    {
+      "id": "travel_insurance",
+      "category": "insurance_protection",
+      "label": "Business Travel Insurance",
+      "aliases": [
+        "Business Travel Insurance"
+      ]
+    },
+    {
+      "id": "pet_insurance",
+      "category": "insurance_protection",
+      "label": "Pet Insurance",
+      "aliases": [
+        "Pet Insurance"
+      ]
+    },
+    {
+      "id": "retirement_plan",
+      "category": "retirement_financial",
+      "label": "401k",
+      "aliases": [
+        "401k"
+      ]
+    },
+    {
+      "id": "roth_retirement_option",
+      "category": "retirement_financial",
+      "label": "Roth 401k",
+      "aliases": [
+        "Roth 401k"
+      ]
+    },
+    {
+      "id": "after_tax_retirement_option",
+      "category": "retirement_financial",
+      "label": "Mega Backdoor Roth",
+      "aliases": [
+        "Mega Backdoor Roth"
+      ]
+    },
+    {
+      "id": "employee_share_purchase",
+      "category": "retirement_financial",
+      "label": "Employee Stock Purchase Program (ESPP)",
+      "aliases": [
+        "Employee Stock Purchase Program (ESPP)"
+      ]
+    },
+    {
+      "id": "student_loan_support",
+      "category": "retirement_financial",
+      "label": "Student Loan Repayment Plan",
+      "aliases": [
+        "Student Loan Repayment Plan"
+      ]
+    },
+    {
+      "id": "employee_credit",
+      "category": "retirement_financial",
+      "label": "Employee Credit",
+      "aliases": [
+        "Employee Credit"
+      ]
+    },
+    {
+      "id": "vacation",
+      "category": "time_off",
+      "label": "PTO (Vacation / Personal Days)",
+      "aliases": [
+        "PTO (Vacation / Personal Days)"
+      ]
+    },
+    {
+      "id": "sick_leave",
+      "category": "time_off",
+      "label": "Sick Time",
+      "aliases": [
+        "Sick Time"
+      ]
+    },
+    {
+      "id": "bereavement_leave",
+      "category": "time_off",
+      "label": "Bereavement Leave",
+      "aliases": [
+        "Bereavement Leave"
+      ]
+    },
+    {
+      "id": "sabbatical",
+      "category": "time_off",
+      "label": "Sabbatical",
+      "aliases": [
+        "Sabbatical"
+      ]
+    },
+    {
+      "id": "military_leave",
+      "category": "time_off",
+      "label": "Military Leave",
+      "aliases": [
+        "Military Leave"
+      ]
+    },
+    {
+      "id": "volunteer_leave",
+      "category": "time_off",
+      "label": "Volunteer Time Off",
+      "aliases": [
+        "Volunteer Time Off"
+      ]
+    },
+    {
+      "id": "maternity_leave",
+      "category": "family_care",
+      "label": "Maternity Leave",
+      "aliases": [
+        "Maternity Leave"
+      ]
+    },
+    {
+      "id": "paternity_leave",
+      "category": "family_care",
+      "label": "Paternity Leave",
+      "aliases": [
+        "Paternity Leave"
+      ]
+    },
+    {
+      "id": "fertility_support",
+      "category": "family_care",
+      "label": "Fertility Assistance",
+      "aliases": [
+        "Fertility Assistance"
+      ]
+    },
+    {
+      "id": "adoption_support",
+      "category": "family_care",
+      "label": "Adoption Assistance",
+      "aliases": [
+        "Adoption Assistance"
+      ]
+    },
+    {
+      "id": "surrogacy_support",
+      "category": "family_care",
+      "label": "Surrogacy Assistance",
+      "aliases": [
+        "Surrogacy Assistance"
+      ]
+    },
+    {
+      "id": "nursing_facilities",
+      "category": "family_care",
+      "label": "On-Site Mother's Room",
+      "aliases": [
+        "On-Site Mother's Room"
+      ]
+    },
+    {
+      "id": "remote_work",
+      "category": "work_flexibility_equipment",
+      "label": "Remote Work",
+      "aliases": [
+        "Remote Work"
+      ]
+    },
+    {
+      "id": "workstation_equipment",
+      "category": "work_flexibility_equipment",
+      "label": "Custom Work Station",
+      "aliases": [
+        "Custom Work Station"
+      ]
+    },
+    {
+      "id": "phone_allowance",
+      "category": "work_flexibility_equipment",
+      "label": "Phone Bill Reimbursement",
+      "aliases": [
+        "Phone Bill Reimbursement"
+      ]
+    },
+    {
+      "id": "company_phone",
+      "category": "work_flexibility_equipment",
+      "label": "Company Phones",
+      "aliases": [
+        "Company Phones"
+      ]
+    },
+    {
+      "id": "learning_support",
+      "category": "learning_development",
+      "label": "Learning and Development",
+      "aliases": [
+        "Learning and Development"
+      ]
+    },
+    {
+      "id": "tuition_support",
+      "category": "learning_development",
+      "label": "Tuition Reimbursement",
+      "aliases": [
+        "Tuition Reimbursement"
+      ]
+    },
+    {
+      "id": "immigration_support",
+      "category": "mobility_housing",
+      "label": "Immigration Assistance",
+      "aliases": [
+        "Immigration Assistance"
+      ]
+    },
+    {
+      "id": "relocation_support",
+      "category": "mobility_housing",
+      "label": "Relocation Bonus",
+      "aliases": [
+        "Relocation Bonus"
+      ]
+    },
+    {
+      "id": "transport_allowance",
+      "category": "mobility_housing",
+      "label": "Transport allowance",
+      "aliases": [
+        "Transport allowance"
+      ]
+    },
+    {
+      "id": "company_shuttle",
+      "category": "mobility_housing",
+      "label": "Company Shuttle",
+      "aliases": [
+        "Company Shuttle"
+      ]
+    },
+    {
+      "id": "campus_bikes",
+      "category": "mobility_housing",
+      "label": "Bikes on Campus",
+      "aliases": [
+        "Bikes on Campus"
+      ]
+    },
+    {
+      "id": "public_transport",
+      "category": "mobility_housing",
+      "label": "Regional transit system",
+      "aliases": [
+        "Regional transit system"
+      ]
+    },
+    {
+      "id": "housing_support",
+      "category": "mobility_housing",
+      "label": "Housing Stipend",
+      "aliases": [
+        "Housing Stipend"
+      ]
+    },
+    {
+      "id": "snacks",
+      "category": "meals_workplace",
+      "label": "Free Snacks",
+      "aliases": [
+        "Free Snacks"
+      ]
+    },
+    {
+      "id": "lunch",
+      "category": "meals_workplace",
+      "label": "Free Lunch",
+      "aliases": [
+        "Free Lunch"
+      ]
+    },
+    {
+      "id": "drinks",
+      "category": "meals_workplace",
+      "label": "Free Drinks",
+      "aliases": [
+        "Free Drinks"
+      ]
+    },
+    {
+      "id": "breakfast",
+      "category": "meals_workplace",
+      "label": "Free Breakfast",
+      "aliases": [
+        "Free Breakfast"
+      ]
+    },
+    {
+      "id": "dinner",
+      "category": "meals_workplace",
+      "label": "Free Dinner",
+      "aliases": [
+        "Free Dinner"
+      ]
+    },
+    {
+      "id": "pet_friendly_workplace",
+      "category": "meals_workplace",
+      "label": "Pet Friendly Workplace",
+      "aliases": [
+        "Pet Friendly Workplace"
+      ]
+    },
+    {
+      "id": "inclusive_facilities",
+      "category": "meals_workplace",
+      "label": "Gender Neutral Bathrooms",
+      "aliases": [
+        "Gender Neutral Bathrooms"
+      ]
+    },
+    {
+      "id": "onsite_laundry",
+      "category": "meals_workplace",
+      "label": "On-Site Laundry",
+      "aliases": [
+        "On-Site Laundry"
+      ]
+    },
+    {
+      "id": "onsite_shops",
+      "category": "meals_workplace",
+      "label": "On-Site Employee Mall",
+      "aliases": [
+        "On-Site Employee Mall"
+      ]
+    },
+    {
+      "id": "vehicle_maintenance",
+      "category": "meals_workplace",
+      "label": "On-Site Tire Replacement",
+      "aliases": [
+        "On-Site Tire Replacement"
+      ]
+    },
+    {
+      "id": "vehicle_cleaning",
+      "category": "meals_workplace",
+      "label": "On-Site Car Wash / Detailing",
+      "aliases": [
+        "On-Site Car Wash / Detailing"
+      ]
+    },
+    {
+      "id": "employee_discounts",
+      "category": "discounts_community",
+      "label": "Employee Discount",
+      "aliases": [
+        "Employee Discount"
+      ]
+    },
+    {
+      "id": "charitable_matching",
+      "category": "discounts_community",
+      "label": "Donation Match",
+      "aliases": [
+        "Donation Match"
+      ]
+    },
+    {
+      "id": "referral_bonus",
+      "category": "discounts_community",
+      "label": "Referral Bonus",
+      "aliases": [
+        "Referral Bonus"
+      ]
+    },
+    {
+      "id": "company_specific_perk",
+      "category": "company_specific",
+      "label": "Unique Perk",
+      "aliases": [
+        "Unique Perk"
+      ]
+    },
+    {
+      "id": "pandemic_support",
+      "category": "company_specific",
+      "label": "COVID-Related Benefits",
+      "aliases": [
+        "COVID-Related Benefits"
+      ]
+    },
+    {
+      "id": "parental_leave",
+      "category": "family_care",
+      "label": "Parental leave",
+      "aliases": []
+    },
+    {
+      "id": "paid_holidays",
+      "category": "time_off",
+      "label": "Paid holidays",
+      "aliases": []
+    },
+    {
+      "id": "flexible_hours",
+      "category": "work_flexibility_equipment",
+      "label": "Flexible working hours",
+      "aliases": []
+    },
+    {
+      "id": "hybrid_work",
+      "category": "work_flexibility_equipment",
+      "label": "Hybrid working",
+      "aliases": []
+    },
+    {
+      "id": "home_office_allowance",
+      "category": "work_flexibility_equipment",
+      "label": "Home-office allowance",
+      "aliases": []
+    },
+    {
+      "id": "mental_health_support",
+      "category": "health_wellbeing",
+      "label": "Mental-health support",
+      "aliases": []
+    },
+    {
+      "id": "childcare_support",
+      "category": "family_care",
+      "label": "Childcare support",
+      "aliases": []
+    },
+    {
+      "id": "caregiver_leave",
+      "category": "family_care",
+      "label": "Caregiver leave",
+      "aliases": []
+    },
+    {
+      "id": "food_allowance",
+      "category": "meals_workplace",
+      "label": "Food allowance",
+      "aliases": []
+    },
+    {
+      "id": "financial_advice",
+      "category": "retirement_financial",
+      "label": "Financial advice",
+      "aliases": []
+    }
+  ],
+  "classification_rule": "Explicit aliases normalized by whitespace/case only; unseen labels fail classification, never silently coerce. Each type has one primary category; original observations remain unchanged."
+}

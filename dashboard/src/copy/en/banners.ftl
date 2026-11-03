@@ -1,0 +1,19 @@
+## Desktop banners. Existing wording moved verbatim; editorial review pending.
+# kind=status
+banner-db-down = Database unreachable: attempted restart
+# kind=status
+banner-api-down = API health check failed: restarted it
+# kind=status
+banner-stuck-runs = Cleared scans that had stalled
+# kind=status
+banner-stale-data = Job data is stale: started the scan scheduler
+# kind=status
+banner-derivations-stale = Derived data is stale: a statistics pass has not run recently
+# kind=status
+banner-backup-stale = No fresh database backup. Check data/logs/backup.log
+# kind=status
+banner-daily-failed = The scan you started finished with errors. Its output is in the terminal that ran it.
+# kind=heading
+banner-matching-title = Ranking updated
+# kind=sentence
+banner-matching-body = All { $count } roles have been updated. Your radar is ranked again.

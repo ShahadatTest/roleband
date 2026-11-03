@@ -1,0 +1,55 @@
+/* First-run setup's companies step. It sits inside Profile's walk card, so the
+   card, the option cards (`.select-card`) and the foot are the walk's; what is
+   here is the list of names and the line that points at Settings. It fills
+   the card's body, so the foot's auto margin puts Back and Start where the
+   Summary before it has Continue. */
+
+.setup-companies {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-4);
+}
+
+.setup-companies-label {
+  margin: 0 0 var(--app-space-2);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.setup-companies-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-2) var(--app-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--app-text);
+  font-size: var(--app-type-meta);
+}
+
+.setup-companies-names > li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-1);
+}
+
+.setup-companies-more {
+  color: var(--app-text-muted);
+}
+
+.setup-companies-choice {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.setup-companies-note {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}

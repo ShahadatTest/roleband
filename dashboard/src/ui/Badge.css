@@ -1,0 +1,157 @@
+/* Badge — tone sets three channel variables, variant picks how they render.
+   Colors come only from tokens (alpha derivations via color-mix on tokens),
+   except the two level-band hues, which are categorical and stated here once.
+
+   Two geometries. A pill (`md` at `label`, `sm` at `micro`) is a badge on a
+   page. A `tag` is the job row's read-only label: a rect at `micro`, 20px
+   tall, so four to six of them on a row do not outweigh the 14px title they
+   decorate. Every read-only label on a job row is a tag; the company chip
+   and filter chips are controls and are not. Padding stays literal: 2-8px is
+   optical nudge territory. */
+.ui-badge {
+  --ui-badge-color: var(--app-text-muted);
+  --ui-badge-text: var(--app-text-muted);
+  --ui-badge-soft: var(--app-surface-hover);
+  --ui-badge-line: var(--app-border-strong);
+  --ui-badge-ink: var(--app-surface-raised);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  font-weight: var(--app-weight-ui);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.ui-badge-md {
+  font-size: var(--app-type-label);
+  padding: 4px 8px;
+}
+.ui-badge-sm {
+  font-size: var(--app-type-micro);
+  padding: 3px 6px;
+}
+
+/* The edge is always there, transparent unless a fill names one, so a tag
+   with a line and a tag without one are the same size. */
+.ui-badge-tag {
+  min-height: 20px;
+  padding: 2px 7px;
+  border: 1px solid var(--ui-badge-edge, transparent);
+  border-radius: var(--app-radius-sm);
+  font-size: var(--app-type-micro);
+  font-weight: var(--app-weight-name);
+  line-height: 1.2;
+}
+
+.ui-badge-info {
+  --ui-badge-color: var(--app-information);
+  --ui-badge-text: var(--app-information);
+  --ui-badge-soft: color-mix(in srgb, var(--app-information) 10%, transparent);
+  --ui-badge-line: color-mix(in srgb, var(--app-information) 32%, transparent);
+  --ui-badge-ink: var(--app-canvas);
+}
+.ui-badge-success {
+  --ui-badge-color: var(--app-positive);
+  --ui-badge-text: var(--app-positive);
+  --ui-badge-soft: var(--app-positive-soft);
+  --ui-badge-line: var(--app-positive-line);
+  --ui-badge-ink: var(--app-canvas);
+}
+.ui-badge-warning {
+  --ui-badge-color: var(--app-warning);
+  --ui-badge-text: var(--app-warning);
+  --ui-badge-soft: var(--app-warning-soft);
+  --ui-badge-line: var(--app-warning-line);
+  --ui-badge-ink: var(--app-canvas);
+}
+/* The one tone with a gated ink pair of its own: a filled danger ground flips
+   light in dark theme, so its ink is a token, never a literal
+   (design/tokens.test.ts holds the pair). */
+.ui-badge-danger {
+  --ui-badge-color: var(--app-danger);
+  --ui-badge-text: var(--app-danger);
+  --ui-badge-soft: var(--app-danger-soft);
+  --ui-badge-line: color-mix(in srgb, var(--app-danger) 32%, transparent);
+  --ui-badge-ink: var(--app-danger-ink);
+}
+/* The level bands' categorical hues: light ink first, darkened in both dark
+   arms, the same shape tokens.css uses, because the app's default state has
+   no data-theme attribute and a base holding the dark ink would paint it on a
+   light page. */
+.ui-badge-principal {
+  --ui-badge-color: #6c35aa;
+  --ui-badge-text: #6c35aa;
+  --ui-badge-soft: rgba(161, 101, 255, 0.1);
+  --ui-badge-line: rgba(161, 101, 255, 0.18);
+  --ui-badge-ink: var(--app-canvas);
+}
+.ui-badge-director {
+  --ui-badge-color: #b12d36;
+  --ui-badge-text: #b12d36;
+  --ui-badge-soft: var(--app-danger-soft);
+  --ui-badge-line: rgba(255, 132, 132, 0.18);
+  --ui-badge-ink: var(--app-canvas);
+}
+:root[data-theme="dark"] .ui-badge-principal {
+  --ui-badge-text: #cba7ff;
+}
+:root[data-theme="dark"] .ui-badge-director {
+  --ui-badge-text: #ff9999;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ui-badge-principal {
+    --ui-badge-text: #cba7ff;
+  }
+  :root:not([data-theme="light"]) .ui-badge-director {
+    --ui-badge-text: #ff9999;
+  }
+}
+.ui-badge-accent {
+  --ui-badge-color: var(--app-action);
+  --ui-badge-text: var(--app-action-text);
+  --ui-badge-soft: var(--app-action-soft);
+  --ui-badge-line: var(--app-action-line);
+  --ui-badge-ink: var(--app-action-ink);
+}
+
+.ui-badge-soft {
+  background: var(--ui-badge-soft);
+  color: var(--ui-badge-text);
+}
+.ui-badge-outline {
+  background: transparent;
+  color: var(--ui-badge-text);
+  box-shadow: inset 0 0 0 1px var(--ui-badge-line);
+}
+.ui-badge-solid {
+  background: var(--ui-badge-color);
+  color: var(--ui-badge-ink);
+}
+.ui-badge-tint {
+  background: var(--ui-badge-soft);
+  color: var(--ui-badge-text);
+  --ui-badge-edge: var(--ui-badge-line);
+}
+.ui-badge-tint:not(.ui-badge-tag) {
+  box-shadow: inset 0 0 0 1px var(--ui-badge-line);
+}
+
+/* A tag draws its line as its border, never as a shadow: the border is what
+   holds every tag on a row to one size. */
+.ui-badge-tag.ui-badge-outline {
+  box-shadow: none;
+  --ui-badge-edge: var(--ui-badge-line);
+}
+
+/* Inside a row a neutral tag with an edge (a level, a place group) sits one
+   step quieter than a pill on a page: the sunken ground and the hairline. */
+.ui-badge-tag.ui-badge-neutral:is(.ui-badge-tint, .ui-badge-outline) {
+  --ui-badge-soft: var(--app-surface-sunken);
+  --ui-badge-line: var(--app-border);
+}
+
+.ui-badge-dashed {
+  border-style: dashed;
+  --ui-badge-edge: currentColor;
+}

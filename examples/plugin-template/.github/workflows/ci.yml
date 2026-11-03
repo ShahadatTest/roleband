@@ -1,0 +1,29 @@
+# CI for a plugin repo made from this template. (In the RoleBand core repo
+# this file is an example only: GitHub reads workflows from the repo root.)
+name: plugin
+
+on: [push, pull_request]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: roleband/roleband
+          path: roleband
+          # The SDK depends on the robots matcher, which is on no package index.
+          sparse-checkout: |
+            sdk/python
+            robots/python
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ./roleband/robots/python ./roleband/sdk/python -e ".[test]"
+      # The will-not-load rule: no plugin code opens a connection itself.
+      - run: python -m roleband_plugin_sdk.checks src
+      # The manifest must validate, or the host refuses to install the plugin.
+      - run: python -c "from roleband_plugin_sdk import load_manifest; load_manifest('.')"
+      - run: python -m pytest -q

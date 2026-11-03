@@ -1,0 +1,27 @@
+name: Suggest an improvement
+description: Something RoleBand should do, or do better.
+labels: [enhancement, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Big changes are agreed here before anyone writes code.
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What you are trying to do, and what stops you today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you propose
+      description: Optional. The change you have in mind.
+  - type: checkboxes
+    id: searched
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched open and closed issues, and this is not one of them.
+          required: true

@@ -1,0 +1,76 @@
+/* ui/InfoTip — see InfoTip.tsx.
+ *
+ * The ⓘ is a GLYPH, not a sentence: `design/tokens.test.ts` lists
+ * `.info-tip-trigger` among the selectors allowed to paint with `--app-decor`
+ * (gated at 1.4.11's 3:1 for a graphical object rather than 4.5:1 for text),
+ * the quiet resting state the promoted system gives it.
+ *
+ * The tooltip's PROSE is a fact the reader came for, so it sits at the fact
+ * floor (`--app-type-meta`), never below it. */
+
+.info-tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 5px;
+  vertical-align: -2px;
+}
+
+.info-tip-trigger {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--app-decor);
+  cursor: help;
+  transition: color var(--app-duration-fast), background var(--app-duration-fast);
+}
+
+.info-tip-trigger:hover,
+.info-tip-trigger:focus-visible {
+  color: var(--app-text);
+  background: var(--app-surface-hover);
+}
+
+.info-tip-popover {
+  position: absolute;
+  z-index: 80;
+  top: calc(100% + 7px);
+  left: 0;
+  width: max-content;
+  max-width: min(320px, calc(100vw - 40px));
+  padding: 9px 11px;
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-raised);
+  box-shadow: var(--app-shadow-pop);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-body);
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-3px);
+  transition:
+    opacity var(--app-duration-fast),
+    transform var(--app-duration-fast),
+    visibility var(--app-duration-fast);
+}
+
+.info-tip:hover .info-tip-popover,
+.info-tip:focus-within .info-tip-popover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}

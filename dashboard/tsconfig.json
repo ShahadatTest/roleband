@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    // On here as in `tsconfig.ux.json`, so the app is held to the standard the
+    // specs are. The compiler also finds second-order dead code: deleting one
+    // unused local can leave its only helper unused too.
+    //
+    // These see unused LOCALS, never unused EXPORTS — nothing here rests on a
+    // reachability judgement. An unused-export
+    // audit needs a tool that understands routes, registries and dynamic
+    // imports, and is deliberately not this.
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}

@@ -1,0 +1,9 @@
+company,family,code,phrase,match,as_of,basis,note
+amazon,software_engineering,L7,senior manager,prefix,2026-10-03,employer_posted_ranges,"Amazon's own exact posted ranges: every Senior Manager posting at a settled range shares it with Principal titles, none at L6."
+amazon,software_engineering,L7,sr manager,prefix,2026-10-03,employer_posted_ranges,The same rung written Sr. Manager.
+amazon,software_engineering,L6,applied science manager,prefix,2026-10-03,employer_posted_ranges,Amazon's own exact posted ranges: every Applied Science Manager posting at a settled range shares one range with Senior Applied Scientist titles.
+amazon,software_engineering,L10,distinguished,word,2026-10-04,employer_titles,Amazon titles its L10 Distinguished Engineer by the rung's own name.
+amazon,software_engineering,L8,senior principal,word,2026-10-04,employer_titles,Amazon's L8 named in the title (Senior Principal).
+amazon,software_engineering,L8,sr principal,word,2026-10-04,employer_titles,The same rung written Sr. Principal.
+amazon,software_engineering,L7,principal,word,2026-10-04,employer_titles,"Amazon's L7 named in the title (Principal), every function: its L-ladder is company-wide."
+cadence,software_engineering,Lead,lead,prefix,2026-10-09,reviewed_judgement,Cadence's Lead files mostly at prevailing-wage level II and pays next to Engineer II; placed at senior.

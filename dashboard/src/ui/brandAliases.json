@@ -1,0 +1,12 @@
+{
+  "_comment": "RoleBand company slug -> Simple Icons slug, for the cases where neither the slug nor the display name normalises to the icon set's own naming. These are facts about the ICON SET's naming, not about the companies (no name, colour, or URL here), which is why this is not a per-company literal in the companies.json sense. Read by scripts/gen-brand-icons.mjs at build time and by brandIcons.ts at runtime, so the two can never disagree. Every entry must resolve to a real Simple Icons slug — the generator hard-fails otherwise, so a stale alias cannot sit here unnoticed.",
+  "google-deepmind": "deepmind",
+  "booking": "bookingdotcom",
+  "take-two-interactive": "taketwointeractivesoftware",
+  "grafana-labs": "grafana",
+  "hugging-face": "huggingface",
+  "epic-games": "epicgames",
+  "riot-games": "riotgames",
+  "electronic-arts": "ea",
+  "mistral": "mistralai"
+}

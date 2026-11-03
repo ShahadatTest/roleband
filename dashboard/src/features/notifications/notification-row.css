@@ -1,0 +1,197 @@
+/* The notification LINE — one row on the /notifications list, and the same
+ * anatomy inside the header bell's popover (NotificationBell). Both surfaces
+ * render notifIcons' `.notif-icon` and the `.notif-copy` stack, and both tint
+ * them from the row's priority/sync state, so the shared anatomy lives here
+ * and each consumer imports this sheet. The bell's own chrome — the popover
+ * panel, `.notif-item`'s padded plate — is notification-bell.css.
+ *
+ * Type mapping follows SettingsRow's anatomy: a row's one primary string (the
+ * title) at `name`, the sentence describing it at `body`, its facts —
+ * timestamp, live progress — at `meta` mono.
+ */
+
+/* ---- the list ------------------------------------------------------------ */
+
+/* The ledger treatment the Board and the register wear: rows on the page's
+   own ground, hairlines between them, one closing edge — no plate, no radius,
+   no inner scrollport. A boxed list would be the one panel in a family of
+   registers (board-shell.test.ts "nothing under a pinned band carries a
+   frame"). Unread keeps its inset signal bar and its lifted ground per row. */
+.notif-list {
+  border-bottom: 1px solid var(--app-border);
+}
+
+.notif-row {
+  padding: var(--app-space-3) var(--app-space-4);
+}
+
+.notif-row + .notif-row {
+  border-top: 1px solid var(--app-border);
+}
+
+/* The raised ground, not the hover tint: hover lightens a dark page but
+   darkens a light one, where an unread row would read as dimmed. */
+.notif-row.unread {
+  background: var(--app-surface-raised);
+  box-shadow: inset 2px 0 0 var(--app-action);
+}
+
+.notif-row.high.unread { box-shadow: inset 2px 0 0 var(--app-danger); }
+.notif-row.state-running.unread { box-shadow: inset 2px 0 0 var(--app-information); }
+.notif-row.state-success.unread { box-shadow: inset 2px 0 0 var(--app-positive); }
+.notif-row.state-warning.unread { box-shadow: inset 2px 0 0 var(--app-warning); }
+.notif-row.state-failed.unread { box-shadow: inset 2px 0 0 var(--app-danger); }
+
+.notif-row-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--app-space-3);
+  align-items: center;
+}
+
+.notif-item,
+.notif-row-main {
+  width: 100%;
+  display: grid;
+  grid-template-columns: var(--app-icon-lg) 1fr;
+  gap: var(--app-space-2);
+  border: 0;
+  color: inherit;
+  background: transparent;
+  text-align: left;
+}
+
+.notif-row-main {
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.notif-row-main:hover strong { color: var(--app-action-text); }
+
+.notif-icon {
+  display: grid;
+  place-items: center;
+  margin-top: 1px;
+  color: var(--app-decor);
+}
+
+.notif-item.high .notif-icon, .notif-row.high .notif-icon { color: var(--app-danger); }
+.notif-item.normal .notif-icon, .notif-row.normal .notif-icon { color: var(--app-action-text); }
+.notif-item.state-running .notif-icon, .notif-row.state-running .notif-icon { color: var(--app-information); }
+.notif-item.state-success .notif-icon, .notif-row.state-success .notif-icon { color: var(--app-positive); }
+.notif-item.state-warning .notif-icon, .notif-row.state-warning .notif-icon { color: var(--app-warning); }
+.notif-item.state-failed .notif-icon, .notif-row.state-failed .notif-icon { color: var(--app-danger); }
+
+.notif-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.notif-copy strong {
+  color: var(--app-text);
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-name);
+  line-height: 1.3;
+}
+
+.notif-copy > span {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.notif-copy time {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.notif-row-title {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  flex-wrap: wrap;
+}
+
+.notif-progress-line {
+  color: var(--app-information);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.notif-actions {
+  display: flex;
+  gap: var(--app-space-1);
+}
+
+/* Row actions rest at 45% and come up on the row (the Board's rule): the row
+   is the reading, the verbs are there when the hand arrives. Pointer hosts
+   only — a touch screen has no hover, so it keeps them at full ink. */
+@media (hover: hover) {
+  .notif-row .notif-actions {
+    opacity: 0.45;
+    transition: opacity var(--app-duration-fast);
+  }
+
+  .notif-row:hover .notif-actions,
+  .notif-row:focus-within .notif-actions {
+    opacity: 1;
+  }
+}
+
+.notif-disclose svg {
+  transition: transform var(--app-duration-medium) var(--app-ease);
+}
+
+.notif-disclose[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.notif-actions .ui-btn.failed,
+.notif-clip-btn.failed {
+  color: var(--app-danger);
+  border-color: var(--app-danger);
+}
+
+/* ---- expanded details ---------------------------------------------------- */
+
+/* Recessed relative to the list surface by dropping back to the page CANVAS,
+   not to --app-surface-sunken: sunken is a control recess and no gated text
+   ratio covers it (faint and information text fall below 4.5:1 there in
+   light). Canvas is a gated ground, so
+   every text token passes here by construction. An inset surface is not the
+   page ground, so it takes no ambient wash: only what imitates the page
+   ground paints it (design/settings.css). */
+.notif-details {
+  margin-top: var(--app-space-3);
+  padding: var(--app-space-3) var(--app-space-3);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-canvas);
+  animation: notifDetailsIn var(--app-duration-medium) var(--app-ease) both;
+}
+
+@keyframes notifDetailsIn {
+  from { opacity: 0; transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notif-details { animation: none; }
+}
+
+.notif-details-bar {
+  display: flex;
+  gap: var(--app-space-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--app-space-3);
+}
+
+/* Copy actions are ui/Button ghost/sm; only the failed tint is stated here. */
+

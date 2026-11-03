@@ -1,0 +1,97 @@
+/* ui/TabBar — the one tab bar. Paints --app-* only. Every state is declared
+ * (hover, active, disabled, focus-visible, selected), so none is inherited
+ * from another rule. */
+
+.ui-tabbar {
+  min-width: 0;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--app-space-3);
+}
+
+.ui-tabbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* A tab never shrinks; the bar scrolls instead. */
+.ui-tab {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  min-height: var(--app-control-lg);
+  padding: 0 var(--app-control-lg-pad);
+  border: 0;
+  border-radius: var(--app-radius-md);
+  background: transparent;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+  white-space: nowrap;
+  scroll-snap-align: center;
+  cursor: pointer;
+  transition:
+    color var(--app-duration-fast),
+    background var(--app-duration-fast);
+}
+
+.ui-tab:not(:disabled):hover {
+  color: var(--app-text);
+}
+
+.ui-tab:not(:disabled):active {
+  background: var(--app-surface-hover);
+}
+
+/* Current view: the action tint, keyed off the attribute the tablist pattern
+   already requires. */
+.ui-tab[aria-selected="true"] {
+  background: var(--app-chosen-wash);
+  color: var(--app-chosen-text);
+}
+
+.ui-tab:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+.ui-tab:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  /* Inset: the tabs sit 2px apart in a bar that clips its overflow, so an
+     outward ring would be cut. Same value, inverted. */
+  outline-offset: calc(-1 * var(--app-ring-offset));
+}
+
+/* A group boundary: a hairline between two runs of tabs, never a tab. */
+.ui-tabbar-rule {
+  flex: none;
+  align-self: center;
+  width: 1px;
+  height: var(--app-space-4);
+  margin: 0 var(--app-space-2);
+  background: var(--app-border-strong);
+}
+
+/* A count beside the label, in the data voice; takes the tab's tint when the
+   tab is current. `meta`, not `label`: a count is a FACT and the fact floor is
+   13, never the chrome floor. */
+.ui-tabbar-badge {
+  --ui-count-min: 22px;
+  --ui-count-height: 22px;
+  --ui-count-type: var(--app-type-meta);
+  background: var(--app-surface-hover);
+  color: var(--app-text-muted);
+}
+
+.ui-tab[aria-selected="true"] .ui-tabbar-badge {
+  background: var(--app-chosen-wash);
+  color: var(--app-chosen-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-tab { transition: none; }
+}

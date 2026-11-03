@@ -1,0 +1,106 @@
+/* ui/SearchField — the one search field. Paints --app-* only. The wrapper is
+ * the field: it carries the border, the ground, the focus halo and the glyph;
+ * the input inside is bare text. That is what lets the glyph and a trailing
+ * key hint sit INSIDE the box without absolute positioning arithmetic. */
+
+.ui-search {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  min-width: 0;
+  border: 1px solid var(--app-border-control);
+  background: var(--app-surface);
+  color: var(--app-text-muted);
+  cursor: text;
+  transition:
+    border-color var(--app-duration-fast),
+    box-shadow var(--app-duration-fast),
+    background var(--app-duration-fast);
+}
+
+/* The glyph never shrinks and never takes the click. */
+.ui-search > svg {
+  flex: none;
+  pointer-events: none;
+}
+
+.ui-search-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--app-text);
+  font-family: var(--app-font-sans);
+  font-size: inherit;
+  /* The ring is the wrapper's (the field the user sees), so the input's own
+     would double it. */
+  outline: none;
+}
+
+/* The declaration above loses to shell.css's app-wide ring,
+   `input:focus-visible` (0-1-1 against 0-1-0), which would draw a square
+   outline INSIDE the rounded field. Stated on the
+   focus state itself so it wins on specificity, not load order; the wrapper's
+   `:focus-within` ring below is the focus indicator. */
+.ui-search-input:focus-visible {
+  outline: none;
+}
+
+.ui-search-input::placeholder {
+  color: var(--app-text-faint);
+}
+
+/* type="search" paints a native clear glyph in some engines; the field's
+   chrome is its own. */
+.ui-search-input::-webkit-search-decoration,
+.ui-search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* The app's one ring, on the field: a halo or a wash does not reach 3:1
+   against the page. A text field takes focus on a click too, and the ring
+   then says where typing goes. */
+.ui-search:focus-within {
+  background: var(--app-surface-raised);
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+.ui-search-trailing {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ---- sizes: the control scale, never a literal --------------------------- */
+
+.ui-search-sm {
+  min-height: var(--app-control-sm);
+  padding: 0 var(--app-control-sm-pad);
+  border-radius: var(--app-radius-sm);
+  font-size: var(--app-type-meta);
+}
+
+/* md is the toolbar rank, and a control's text is `body` — what Button md
+   sets. At `name` the search box would outrank the row titles it filters:
+   a placeholder is not the primary content of a screen. */
+.ui-search-md {
+  min-height: var(--app-control-md);
+  padding: 0 var(--app-control-md-pad);
+  border-radius: var(--app-radius-md);
+  font-size: var(--app-type-body);
+}
+
+.ui-search-lg {
+  min-height: var(--app-control-lg);
+  padding: 0 var(--app-control-lg-pad);
+  border-radius: var(--app-radius-lg);
+  font-size: var(--app-type-name);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-search { transition: none; }
+}

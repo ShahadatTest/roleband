@@ -1,0 +1,172 @@
+{
+ "id": 6150563004,
+ "title": "Director, People Partners - Product, Design & Engineering",
+ "questions": [
+  {
+   "label": "First Name",
+   "required": true,
+   "fields": [
+    {
+     "name": "first_name",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Last Name",
+   "required": true,
+   "fields": [
+    {
+     "name": "last_name",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Preferred First Name",
+   "required": false,
+   "fields": [
+    {
+     "name": "preferred_name",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Email",
+   "required": true,
+   "fields": [
+    {
+     "name": "email",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Phone",
+   "required": true,
+   "fields": [
+    {
+     "name": "phone",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Resume/CV",
+   "required": true,
+   "fields": [
+    {
+     "name": "resume",
+     "type": "input_file"
+    },
+    {
+     "name": "resume_text",
+     "type": "textarea"
+    }
+   ]
+  },
+  {
+   "label": "Cover Letter",
+   "required": false,
+   "fields": [
+    {
+     "name": "cover_letter",
+     "type": "input_file"
+    },
+    {
+     "name": "cover_letter_text",
+     "type": "textarea"
+    }
+   ]
+  },
+  {
+   "label": "Preferred First Name",
+   "required": false,
+   "fields": [
+    {
+     "name": "question_19508149004",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Pronouns",
+   "required": false,
+   "fields": [
+    {
+     "name": "question_19508150004",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Why do you want to join Figma?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_19508151004",
+     "type": "textarea"
+    }
+   ]
+  },
+  {
+   "label": "Additional Information",
+   "required": false,
+   "fields": [
+    {
+     "name": "question_19508152004",
+     "type": "textarea"
+    }
+   ]
+  },
+  {
+   "label": "From where do you intend to work? ",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_19508153004",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Are you authorized to work in the country for which you applied? ",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_19508154004",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Have you ever worked for Figma before, as an employee or a contractor/consultant? ",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_19508155004",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Do you have experience managing direct reports? If yes, please elaborate in 1-2 sentences.",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_19648851004",
+     "type": "input_text"
+    }
+   ]
+  }
+ ],
+ "pay_input_ranges": [
+  {
+   "title": "Annual Base Salary Range:",
+   "min_cents": 23500000,
+   "max_cents": 31700000,
+   "currency_type": "USD"
+  }
+ ]
+}

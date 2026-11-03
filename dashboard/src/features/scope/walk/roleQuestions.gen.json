@@ -1,0 +1,302 @@
+{
+  "management": {
+    "joiner": " of ",
+    "any": "All",
+    "rows": [
+      {
+        "key": "engineers",
+        "label": "Engineers",
+        "families": [
+          "engineering_management",
+          "software_engineering",
+          "infrastructure_sre",
+          "security_engineering",
+          "hardware_engineering",
+          "data_engineering"
+        ],
+        "examples": "software, infrastructure, security, hardware, data"
+      },
+      {
+        "key": "designers",
+        "label": "Designers",
+        "families": [
+          "design_ux"
+        ],
+        "examples": "product, interaction and visual design, UX research"
+      },
+      {
+        "key": "research",
+        "label": "Data science & AI",
+        "families": [
+          "data_science",
+          "ml_ai_research"
+        ],
+        "examples": "data science, analytics, ML and AI research"
+      },
+      {
+        "key": "customers",
+        "label": "Sales & customer teams",
+        "families": [
+          "sales_business_development",
+          "customer_success",
+          "solutions_sales_eng",
+          "developer_relations",
+          "marketing_communications",
+          "technical_writing"
+        ],
+        "examples": "sales, customer success, solutions, DevRel, marketing"
+      },
+      {
+        "key": "business",
+        "label": "Operations, finance, HR or legal",
+        "families": [
+          "business_operations_strategy",
+          "finance_accounting",
+          "people_recruiting",
+          "legal_policy",
+          "it_support",
+          "operations_facilities"
+        ],
+        "examples": "operations, strategy, finance, recruiting, legal, IT, facilities"
+      }
+    ]
+  },
+  "product_program": {
+    "joiner": " in ",
+    "any": "All",
+    "rows": [
+      {
+        "key": "pm",
+        "label": "Product management",
+        "families": [
+          "product_management"
+        ],
+        "examples": "product manager, group PM, head of product"
+      },
+      {
+        "key": "tpm",
+        "label": "TPM",
+        "families": [
+          "technical_program_management"
+        ],
+        "examples": "technical program manager, technical program lead"
+      },
+      {
+        "key": "program",
+        "label": "Program & project management",
+        "families": [
+          "program_management"
+        ],
+        "examples": "program manager, project manager, PMO"
+      }
+    ]
+  },
+  "technical": {
+    "joiner": " in ",
+    "any": "All",
+    "crafts": [
+      "Engineering & hardware",
+      "Design",
+      "Data & research",
+      "Solutions & advocacy",
+      "Support & docs",
+      "Operations & facilities"
+    ],
+    "rows": [
+      {
+        "key": "software",
+        "label": "Software",
+        "families": [
+          "software_engineering"
+        ],
+        "examples": "backend, frontend, mobile, full-stack",
+        "craft": "Engineering & hardware"
+      },
+      {
+        "key": "infra",
+        "label": "Infrastructure / SRE",
+        "families": [
+          "infrastructure_sre"
+        ],
+        "examples": "platform, SRE, DevOps, cloud, networking, systems",
+        "craft": "Engineering & hardware"
+      },
+      {
+        "key": "security",
+        "label": "Security",
+        "families": [
+          "security_engineering"
+        ],
+        "examples": "application security, detection, offensive security",
+        "craft": "Engineering & hardware"
+      },
+      {
+        "key": "hardware",
+        "label": "Hardware / silicon",
+        "families": [
+          "hardware_engineering"
+        ],
+        "examples": "silicon, electrical, firmware, embedded",
+        "craft": "Engineering & hardware"
+      },
+      {
+        "key": "data_eng",
+        "label": "Data engineering",
+        "families": [
+          "data_engineering"
+        ],
+        "examples": "pipelines, warehousing, analytics engineering",
+        "craft": "Engineering & hardware"
+      },
+      {
+        "key": "design",
+        "label": "Product / UX design",
+        "families": [
+          "design_ux"
+        ],
+        "examples": "product design, interaction, UX research",
+        "craft": "Design"
+      },
+      {
+        "key": "data_science",
+        "label": "Data science & analytics",
+        "families": [
+          "data_science"
+        ],
+        "examples": "data scientist, analyst, experimentation",
+        "craft": "Data & research"
+      },
+      {
+        "key": "ml",
+        "label": "ML & AI research",
+        "families": [
+          "ml_ai_research"
+        ],
+        "examples": "research scientist, ML engineer, applied AI",
+        "craft": "Data & research"
+      },
+      {
+        "key": "solutions",
+        "label": "Solutions & forward-deployed",
+        "families": [
+          "solutions_sales_eng"
+        ],
+        "examples": "solutions engineer, sales engineer, forward-deployed",
+        "craft": "Solutions & advocacy"
+      },
+      {
+        "key": "devrel",
+        "label": "Developer relations",
+        "families": [
+          "developer_relations"
+        ],
+        "examples": "developer advocate, community, evangelism",
+        "craft": "Solutions & advocacy"
+      },
+      {
+        "key": "business_systems",
+        "label": "Business systems architecture",
+        "families": [
+          "sales_business_development",
+          "customer_success",
+          "marketing_communications",
+          "business_operations_strategy",
+          "finance_accounting",
+          "people_recruiting",
+          "legal_policy"
+        ],
+        "examples": "Workday, SAP, supply chain, compliance architects",
+        "craft": "Solutions & advocacy"
+      },
+      {
+        "key": "it",
+        "label": "IT support",
+        "families": [
+          "it_support"
+        ],
+        "examples": "IT, help desk, corporate engineering",
+        "craft": "Support & docs"
+      },
+      {
+        "key": "writing",
+        "label": "Technical writing",
+        "families": [
+          "technical_writing"
+        ],
+        "examples": "documentation, developer docs, content",
+        "craft": "Support & docs"
+      },
+      {
+        "key": "facilities",
+        "label": "Data centre & facilities",
+        "families": [
+          "operations_facilities"
+        ],
+        "examples": "data centre technician, site operations, health and safety",
+        "craft": "Operations & facilities"
+      }
+    ]
+  },
+  "business_customer": {
+    "joiner": " in ",
+    "any": "All",
+    "rows": [
+      {
+        "key": "sales",
+        "label": "Sales & partnerships",
+        "families": [
+          "sales_business_development"
+        ],
+        "examples": "account executive, enterprise sales, business development"
+      },
+      {
+        "key": "success",
+        "label": "Customer success",
+        "families": [
+          "customer_success"
+        ],
+        "examples": "customer success, account management, support"
+      },
+      {
+        "key": "marketing",
+        "label": "Marketing",
+        "families": [
+          "marketing_communications"
+        ],
+        "examples": "product marketing, brand, communications"
+      },
+      {
+        "key": "operations",
+        "label": "Operations & strategy",
+        "families": [
+          "business_operations_strategy"
+        ],
+        "examples": "business operations, strategy, supply chain"
+      },
+      {
+        "key": "finance",
+        "label": "Finance & accounting",
+        "families": [
+          "finance_accounting"
+        ],
+        "examples": "financial analyst, controller, accounting, tax, audit, treasury"
+      },
+      {
+        "key": "people",
+        "label": "People & recruiting",
+        "families": [
+          "people_recruiting"
+        ],
+        "examples": "recruiter, talent acquisition, HR partner, people operations"
+      },
+      {
+        "key": "legal",
+        "label": "Legal & policy",
+        "families": [
+          "legal_policy"
+        ],
+        "examples": "counsel, compliance, public policy, trust & safety"
+      }
+    ]
+  }
+}

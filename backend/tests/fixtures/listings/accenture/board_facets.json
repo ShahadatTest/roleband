@@ -1,0 +1,308 @@
+{
+ "total": 2000,
+ "facets": [
+  {
+   "facetParameter": "locationMainGroup",
+   "values": [
+    {
+     "facetParameter": "locationCountry",
+     "descriptor": "Country",
+     "values": [
+      {
+       "descriptor": "Argentina",
+       "id": "e42ad5eac46d4cc9b367ceaef42577c5",
+       "count": 152
+      },
+      {
+       "descriptor": "Australia",
+       "id": "d903bb3fedad45039383f6de334ad4db",
+       "count": 323
+      },
+      {
+       "descriptor": "Austria",
+       "id": "d004c0d1a6c84511ab048669fcdf9fd7",
+       "count": 41
+      },
+      {
+       "descriptor": "Belgium",
+       "id": "a04ea128f43a42e59b1e6a19e8f0b374",
+       "count": 87
+      },
+      {
+       "descriptor": "Brazil",
+       "id": "1a29bb1357b240ab99a2fa755cc87c0e",
+       "count": 213
+      },
+      {
+       "descriptor": "Bulgaria",
+       "id": "25f4875dc598484dbeee857eb2d81652",
+       "count": 21
+      },
+      {
+       "descriptor": "Canada",
+       "id": "a30a87ed25634629aa6c3958aa2b91ea",
+       "count": 161
+      },
+      {
+       "descriptor": "Chile",
+       "id": "53fe09ef12b9408682a1d2439823f2e0",
+       "count": 67
+      },
+      {
+       "descriptor": "China/Hong Kong SAR",
+       "id": "d4afdeb461d446e4babd204bd102dba8",
+       "count": 46
+      },
+      {
+       "descriptor": "China/Mainland",
+       "id": "6cb77610a8a543aea2d6bc10457e35d4",
+       "count": 116
+      },
+      {
+       "descriptor": "Colombia",
+       "id": "e8106cd6a3534f2dba6fdee2d41db89d",
+       "count": 97
+      },
+      {
+       "descriptor": "Costa Rica",
+       "id": "99abe7e6bb3f4c108aebebf01a369ec5",
+       "count": 51
+      },
+      {
+       "descriptor": "Czech Republic",
+       "id": "fc078443155c4ad294201ecf5a61a499",
+       "count": 66
+      },
+      {
+       "descriptor": "Denmark",
+       "id": "49ab063f422741e2aef271de00efeac8",
+       "count": 36
+      },
+      {
+       "descriptor": "Egypt",
+       "id": "d865e83093ad42319653b08e61f7db49",
+       "count": 4
+      },
+      {
+       "descriptor": "Finland",
+       "id": "0afb2fa656da42e8bfb6d47bd24a26fa",
+       "count": 26
+      },
+      {
+       "descriptor": "France",
+       "id": "54c5b6971ffb4bf0b116fe7651ec789a",
+       "count": 207
+      },
+      {
+       "descriptor": "Germany",
+       "id": "dcc5b7608d8644b3a93716604e78e995",
+       "count": 285
+      },
+      {
+       "descriptor": "Greece",
+       "id": "566388c1eb974c42bd9e3da4c2f57d60",
+       "count": 60
+      },
+      {
+       "descriptor": "Hungary",
+       "id": "9db257f5937e4421b2fac64eec6832f8",
+       "count": 29
+      },
+      {
+       "descriptor": "India",
+       "id": "c4f78be1a8f14da0ab49ce1162348a5e",
+       "count": 35090
+      },
+      {
+       "descriptor": "Indonesia",
+       "id": "b31234dbcdda4da9ba8fa073c5944e36",
+       "count": 120
+      },
+      {
+       "descriptor": "Ireland",
+       "id": "04a05835925f45b3a59406a2a6b72c8a",
+       "count": 98
+      },
+      {
+       "descriptor": "Israel",
+       "id": "084562884af243748dad7c84c304d89a",
+       "count": 2
+      },
+      {
+       "descriptor": "Italy",
+       "id": "8cd04a563fd94da7b06857a79faaf815",
+       "count": 180
+      },
+      {
+       "descriptor": "Japan",
+       "id": "8b705da2becf43cfaccc091da0988ab2",
+       "count": 307
+      },
+      {
+       "descriptor": "Kuwait",
+       "id": "eb2e6ec0f73c4b0e94c68396631332d6",
+       "count": 3
+      },
+      {
+       "descriptor": "Latvia",
+       "id": "1c026f3b1b8640d8bdfcb95466663e4d",
+       "count": 19
+      },
+      {
+       "descriptor": "Lithuania",
+       "id": "8a0328effd25491fb8e6a08801f08e94",
+       "count": 22
+      },
+      {
+       "descriptor": "Luxembourg",
+       "id": "328b82f597514643a7683a78fc67c3f1",
+       "count": 7
+      },
+      {
+       "descriptor": "Malaysia",
+       "id": "972dc4ba8d454bc0b893ff84b1529077",
+       "count": 253
+      },
+      {
+       "descriptor": "Mauritius",
+       "id": "a759018ba6ac489d9f16c086b914e1b6",
+       "count": 26
+      },
+      {
+       "descriptor": "Mexico",
+       "id": "e2adff9272454660ac4fdb56fc70bb51",
+       "count": 171
+      },
+      {
+       "descriptor": "Netherlands",
+       "id": "9696868b09c64d52a62ee13b052383cc",
+       "count": 146
+      },
+      {
+       "descriptor": "New Zealand",
+       "id": "55273a1b49934d97ae15342ef51f6b95",
+       "count": 45
+      },
+      {
+       "descriptor": "Norway",
+       "id": "d07f8ca8625e4345b98a91d0558b872a",
+       "count": 32
+      },
+      {
+       "descriptor": "Philippines",
+       "id": "e56f1daf83e04bacae794ba5c5593560",
+       "count": 694
+      },
+      {
+       "descriptor": "Poland",
+       "id": "131d5ac7e3ee4d7b962bdc96e498e412",
+       "count": 251
+      },
+      {
+       "descriptor": "Portugal",
+       "id": "2e8c5034deb045d49315417c347472ca",
+       "count": 127
+      },
+      {
+       "descriptor": "Qatar",
+       "id": "f5ff182c7fab406bbb110cc1f7e99064",
+       "count": 2
+      },
+      {
+       "descriptor": "Romania",
+       "id": "f2e609fe92974a55a05fc1cdc2852122",
+       "count": 109
+      },
+      {
+       "descriptor": "Saudi Arabia",
+       "id": "50423b5190ad49bb89e94cd58dfaad69",
+       "count": 18
+      },
+      {
+       "descriptor": "Serbia",
+       "id": "b3f8697442124d6aaeb752a13c1e8491",
+       "count": 1
+      },
+      {
+       "descriptor": "Singapore",
+       "id": "80938777cac5440fab50d729f9634969",
+       "count": 164
+      },
+      {
+       "descriptor": "Slovakia",
+       "id": "d2f29df0c90f4cea9e7d17f2ed8a86ad",
+       "count": 24
+      },
+      {
+       "descriptor": "South Africa",
+       "id": "4db3c26940b944919b83612cc1193eed",
+       "count": 21
+      },
+      {
+       "descriptor": "Spain",
+       "id": "bd34c524a6a04ae6915f5d96fa086199",
+       "count": 314
+      },
+      {
+       "descriptor": "Sweden",
+       "id": "6a800a4736884df5826858d435650f45",
+       "count": 38
+      },
+      {
+       "descriptor": "Switzerland",
+       "id": "187134fccb084a0ea9b4b95f23890dbe",
+       "count": 11
+      },
+      {
+       "descriptor": "Thailand",
+       "id": "873d0f604e3b458c990cb4d83a5c0f14",
+       "count": 81
+      },
+      {
+       "descriptor": "Türkiye",
+       "id": "c2e3bac5bbbb47b29dfc6e8b56a1586e",
+       "count": 19
+      },
+      {
+       "descriptor": "United Arab Emirates",
+       "id": "7b4fa1f369bd4604ba3692682fcbe345",
+       "count": 13
+      },
+      {
+       "descriptor": "United Kingdom",
+       "id": "29247e57dbaf46fb855b224e03170bc7",
+       "count": 360
+      },
+      {
+       "descriptor": "United States of America",
+       "id": "bc33aa3152ec42d4995f4791a106ed09",
+       "count": 859
+      },
+      {
+       "descriptor": "Vietnam",
+       "id": "db69e8c8446c11de98360015c5e6daf6",
+       "count": 8
+      }
+     ]
+    },
+    {
+     "facetParameter": "locations",
+     "descriptor": "City",
+     "values": [
+      {
+       "descriptor": "Aachen",
+       "id": "b1cf57e2eff70101cf50ba16ac8a0000",
+       "count": 19
+      },
+      {
+       "descriptor": "Abu Dhabi, Sowwah Square - Al Sila Tower",
+       "id": "940562459a6f01591ac0033bc300171b",
+       "count": 10
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "jobPostings": []
+}

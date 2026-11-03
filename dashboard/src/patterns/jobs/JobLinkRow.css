@@ -1,0 +1,13 @@
+/* JobLinkRow — see JobLinkRow.tsx. The row's look belongs to its screen; this
+   file only stops the anchor from announcing itself in link paint, and gives
+   every one of them the same focus ring (the app's, from `--app-action`). */
+.job-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.job-link:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+  border-radius: var(--app-radius-sm);
+}

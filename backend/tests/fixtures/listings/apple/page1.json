@@ -1,0 +1,78 @@
+{
+  "_note": "Real search rows; totalRecords rewritten 22 -> 3 so the fixture is a whole board (Apple is held to its declared total; page 2's one row moved onto page 1, where a 3-posting board serves it).",
+  "res": {
+    "totalRecords": 3,
+    "searchResults": [
+      {
+        "positionId": "200591234",
+        "reqId": "200591234-1122",
+        "postingTitle": "Engineering Manager, Cloud Services",
+        "jobSummary": "Lead a team building large-scale cloud services powering Apple products.",
+        "postingDate": "Jul 10, 2026",
+        "postDateInGMT": "2026-07-10T07:00:00.000Z",
+        "homeOffice": false,
+        "jobLevel": "M2",
+        "team": {
+          "teamName": "Software and Services",
+          "teamID": "SFTWR"
+        },
+        "locations": [
+          {
+            "name": "Cupertino",
+            "city": "Cupertino",
+            "stateProvince": "California",
+            "countryName": "United States"
+          },
+          {
+            "name": "Seattle",
+            "city": "Seattle",
+            "stateProvince": "Washington",
+            "countryName": "United States"
+          }
+        ]
+      },
+      {
+        "positionId": "200598765",
+        "reqId": "200598765-3344",
+        "postingTitle": "Senior Machine Learning Engineer, Siri",
+        "jobSummary": "Build on-device and server ML systems for Siri understanding.",
+        "postingDate": "Jul 12, 2026",
+        "postDateInGMT": "2026-07-12T07:00:00.000Z",
+        "homeOffice": true,
+        "jobLevel": "ICT5",
+        "team": {
+          "teamName": "Machine Learning and AI",
+          "teamID": "MLAI"
+        },
+        "locations": [
+          {
+            "name": "London",
+            "city": "London",
+            "countryName": "United Kingdom"
+          }
+        ]
+      },
+      {
+        "positionId": "200601111",
+        "reqId": "200601111-5566",
+        "postingTitle": "Staff Software Engineer, Apple Silicon Tools",
+        "jobSummary": "Own developer tooling for Apple silicon performance analysis.",
+        "postingDate": "Jul 14, 2026",
+        "postDateInGMT": "2026-07-14T07:00:00.000Z",
+        "homeOffice": false,
+        "jobLevel": "ICT5",
+        "team": {
+          "teamName": "Hardware Technologies",
+          "teamID": "HRDWR"
+        },
+        "locations": [
+          {
+            "name": "Singapore",
+            "city": "Singapore",
+            "countryName": "Singapore"
+          }
+        ]
+      }
+    ]
+  }
+}

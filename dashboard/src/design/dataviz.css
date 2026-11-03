@@ -1,0 +1,261 @@
+/* The data-viz vocabulary.
+ *
+ * Statistics' panels render a vocabulary shared across panels and screens:
+ * chart shells, the echart figure, KPI tiles, mini job lists. Styling it per
+ * screen would duplicate it once per slot, so, like surfaces.css, the layer is
+ * stated ONCE, behind the same opt-in marker, under the shared class names: a
+ * rule applies only where a screen's root carries `data-design-system="app"`.
+ *
+ * The categorical ramp is `--app-data-1..4` (design/tokens.css). EChart.tsx
+ * themes from the same --app-* tokens at :root.
+ *
+ * Type floors: chrome sits at `label` (12), facts at `meta` (13), nothing
+ * smaller.
+ */
+
+/* ---- panel content ------------------------------------------------------- */
+/* .panel and .panel h3 are repainted in overlays.css (ResourceLoadState needs
+   them there); the content vocabulary completes here. */
+
+.panel > h3 {
+  margin-bottom: var(--app-space-3);
+}
+
+.panel .sub {
+  margin-bottom: var(--app-space-3);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+/* ---- chart shell --------------------------------------------------------- */
+
+[data-design-system="app"] .chart-panel-wide {
+  margin-bottom: var(--app-space-3);
+  overflow: hidden;
+}
+
+[data-design-system="app"] .chart-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--app-space-4);
+  flex-wrap: wrap;
+}
+
+[data-design-system="app"] .chart-panel-head h3 {
+  margin: 0 0 var(--app-space-1);
+}
+
+[data-design-system="app"] .chart-panel-head .sub {
+  margin-bottom: 0;
+  max-width: 700px;
+}
+
+[data-design-system="app"] .chart-panel-head .eyebrow {
+  display: block;
+  margin-bottom: var(--app-space-1);
+}
+
+/* The insight badge is a fact in chrome's clothing: mono tabular at `label`,
+   nothing smaller. */
+[data-design-system="app"] .chart-insight {
+  flex: 0 0 auto;
+  padding: var(--app-space-1) var(--app-space-2);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  color: var(--app-text-muted);
+  background: var(--app-surface-sunken);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+[data-design-system="app"] .chart-insight.good {
+  color: var(--app-positive);
+  border-color: var(--app-positive-line);
+  background: var(--app-positive-soft);
+}
+
+[data-design-system="app"] .chart-insight.bad {
+  color: var(--app-danger);
+  border-color: transparent;
+  background: var(--app-danger-soft);
+}
+
+[data-design-system="app"] .chart-head-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--app-space-2);
+}
+
+[data-design-system="app"] .chart-seg {
+  flex: 0 0 auto;
+}
+
+[data-design-system="app"] .chart-ledger {
+  margin-top: var(--app-space-2);
+  border-top: 1px solid var(--app-border);
+}
+
+[data-design-system="app"] .chart-ledger summary {
+  width: max-content;
+  padding: var(--app-space-2) 2px var(--app-space-1);
+  cursor: pointer;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+[data-design-system="app"] .chart-ledger summary:hover {
+  color: var(--app-action-text);
+}
+
+/* ---- the chart figure ---------------------------------------------------- */
+
+[data-design-system="app"] .echart {
+  position: relative;
+  width: 100%;
+  height: var(--chart-height);
+  min-width: 0;
+  margin: var(--app-space-2) 0 0;
+}
+
+[data-design-system="app"] .echart-canvas {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+}
+
+[data-design-system="app"] .echart-loading {
+  position: absolute;
+  inset: 18px 0 8px;
+  overflow: hidden;
+  border-radius: var(--app-radius-sm);
+  background: repeating-linear-gradient(to bottom, transparent 0 42px, var(--app-border) 43px, transparent 44px);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+[data-design-system="app"] .echart-loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 20%, var(--app-surface-hover) 50%, transparent 80%);
+  background-size: 200% 100%;
+  animation: app-shimmer 1.4s linear infinite;
+}
+
+@keyframes app-shimmer {
+  to { background-position: -200% 0; }
+}
+
+[data-design-system="app"] .echart-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--app-space-4);
+  border: 1px dashed var(--app-border);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-sunken);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  text-align: center;
+}
+
+/* ---- KPI tiles ----------------------------------------------------------- */
+/* A standalone numeral is the `stat` role; its label is chrome at `label`. */
+
+[data-design-system="app"] .kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: var(--app-space-3) var(--app-space-3);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-surface-raised);
+}
+
+[data-design-system="app"] .kpi-l {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+[data-design-system="app"] .kpi-n {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-stat);
+  font-weight: 700;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+  color: var(--app-action-text);
+}
+
+[data-design-system="app"] .kpi-n.good {
+  color: var(--app-positive);
+}
+
+[data-design-system="app"] .kpi-n.bad {
+  color: var(--app-danger);
+}
+
+[data-design-system="app"] .kpi-n.wide {
+  font-size: var(--app-type-title);
+  letter-spacing: -0.02em;
+}
+
+[data-design-system="app"] .kpi-s {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+/* ---- mini job lists ------------------------------------------------------ */
+/* Dense row lists inside panels (top matches, cluster members). The row is a
+   navigation target, so its title reads at `body`, its facts at `meta`.
+
+   Ungated. This family lives HERE rather than in patterns/jobs, against the
+   obvious guess: JobLinkRow renders it but owns the link reset and nothing
+   else ("the row's look belongs to its screen"), and every screen that
+   renders one renders it inside a panel. */
+
+.mini-job {
+  padding: var(--app-space-2) 0;
+  border-top: 1px solid var(--app-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--app-space-2);
+  cursor: pointer;
+  font-size: var(--app-type-body);
+}
+
+.mini-job:first-of-type {
+  border-top: 0;
+}
+
+.mini-job:hover .mj-title {
+  color: var(--app-action-text);
+}
+
+.mj-title {
+  font-weight: var(--app-weight-name);
+}
+
+.mj-meta {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.mini-job .n {
+  font-family: var(--app-font-mono);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}

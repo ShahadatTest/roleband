@@ -1,0 +1,197 @@
+/* The shared classes the src/ui primitives render, stated once for every
+ * screen.
+ *
+ * UNSCOPED: .loading/.spinner, .panel, .empty and its radar motif, .empty-hint
+ * and .kbd render under the `app` marker, under the SETTINGS marker and in the
+ * wizard, which mounts no marker at all, so a marker gate here would have to
+ * name every scope to distinguish nothing. These rules carry GEOMETRY as well
+ * as colour (the radar motif's position, size and sweep animation,
+ * .empty-hint's padding): they are the only statement of these classes.
+ *
+ * The overlay primitives (Dialog, Popover, Sheet) paint their own chrome from
+ * --app-* in their own sheets, and ui/Badge.css is the one tone table; none of
+ * them is restated here (settings-doorway.test.ts).
+ */
+
+/* ResourceLoadState is a PRIMITIVE that renders shared class names:
+ * .loading/.spinner for the fetch state, .panel/.empty-hint/.btn-ghost for the
+ * error state. AsyncBoundary wraps it, so these rules are every screen's
+ * loading and error look, Settings included. */
+/* A load that ends within 200 ms never shows its state: it would only flash
+   between two screens. It keeps its place and its words for assistive tech. */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-2);
+  padding: var(--app-space-5) 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  animation: loading-appears 1ms 200ms both;
+}
+
+@keyframes loading-appears {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.spinner {
+  width: var(--app-icon-md);
+  height: var(--app-icon-md);
+  border: 2px solid var(--app-border);
+  border-top-color: var(--app-action);
+  border-radius: 50%;
+  animation: app-spin 0.7s linear infinite;
+}
+
+@keyframes app-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* THE card, and its inset is a claim about how much room it has. One visual
+   role (1px hairline, radius-lg, opaque composite), inset by depth:
+     - a card that spans its column   -> space-5 (28)   <- this rule
+     - a card in a multi-column grid  -> space-4 (20)   <- the grid names itself
+     - a block nested inside a card   -> space-3 (14)
+   card-inset.test.ts holds the vocabulary. */
+.panel {
+  padding: var(--app-space-5);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  background-color: var(--app-canvas);
+  background-image: linear-gradient(var(--app-surface), var(--app-surface));
+  box-shadow: var(--app-shadow);
+}
+
+/* Room is not only about the column — it is about the VIEWPORT.
+   Below the phone breakpoint every card is narrow, so every card takes the
+   narrow inset: at 375px a page-level card is 347px wide, and 28px sides spend
+   16% of it on its own margins against 12% at this step. */
+@media (max-width: 640px) {
+  .panel {
+    padding: var(--app-space-4);
+  }
+}
+
+.panel h2,
+.panel h3 {
+  margin: 0 0 var(--app-space-1);
+  color: var(--app-text);
+  font-size: var(--app-type-title);
+  font-weight: var(--app-weight-name);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.empty-hint {
+  /* 24 is not a step on the space scale and is deliberately not made into
+     one: it is this notice's room, and moving it to 20 or 28 is a rhythm
+     decision of its own. */
+  padding: 24px 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  line-height: 1.5;
+}
+
+/* EmptyState renders the radar motif with shared class names, like
+   ResourceLoadState above. */
+.empty {
+  padding: var(--app-space-6) var(--app-space-4);
+  border: 1px dashed var(--app-border-strong);
+  border-radius: var(--app-radius-lg);
+  text-align: center;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+}
+
+.empty .big {
+  margin: var(--app-space-3) 0 var(--app-space-1);
+  color: var(--app-text);
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-name);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+/* The body keeps a reading measure: across a wide content column one line
+   of it would run the full width. */
+.empty-body {
+  max-width: 64ch;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.empty-body > p { margin: 0; }
+.empty-body > p + p { margin-top: var(--app-space-2); }
+
+.empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--app-space-3);
+  margin-top: var(--app-space-4);
+}
+
+/* The motif's GEOMETRY. Without it a ring has a border-color and no
+   `position: absolute`, and the three circles stack vertically underneath the
+   copy. */
+.empty-art {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto;
+  color: var(--app-text-faint);
+  opacity: 0.9;
+}
+
+.empty-art .ring {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--app-border-strong);
+  border-radius: 50%;
+}
+
+.empty-art .ring:nth-child(2) { inset: 18px; }
+.empty-art .ring:nth-child(3) { inset: 36px; }
+
+.empty-art .sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 78%, var(--app-action-soft) 96%, var(--app-action-line) 100%);
+  animation: sweep 6s linear infinite;
+}
+
+@keyframes sweep {
+  to { transform: rotate(360deg); }
+}
+
+.empty-art .blip {
+  position: absolute;
+  left: 62%;
+  top: 30%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--app-action);
+  box-shadow: 0 0 10px var(--app-action-glow);
+}
+
+/* Kbd renders the shared .kbd class, like ResourceLoadState above. */
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border: 1px solid var(--app-border-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-raised);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  font-weight: 700;
+}
+

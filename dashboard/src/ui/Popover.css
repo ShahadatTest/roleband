@@ -1,0 +1,36 @@
+/* Popover shell — glass register reserved for overlays (design-system north
+   star): --app-surface-glass + blur + --app-shadow-pop on a hairline strong
+   border. */
+.ui-popover {
+  z-index: 121;
+}
+.ui-popover .ui-popover-inner {
+  width: max-content;
+  max-width: calc(100vw - 16px);
+  max-height: 66vh;
+  overflow-y: auto;
+  background: var(--app-surface-glass);
+  backdrop-filter: blur(28px) saturate(160%);
+  /* A portalled overlay inherits <body>'s ink and face, not the route's.
+     These two live here with the rest of this box's chrome, not on the
+     doorway class (`.app-overlay`), so the primitive paints itself and the
+     class is not part of how an overlay LOOKS. */
+  color: var(--app-text);
+  font-family: var(--app-font-sans);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-xl);
+  box-shadow: var(--app-shadow-pop);
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-border-strong) transparent;
+  animation: ui-pop-in var(--app-duration-medium) var(--app-ease) both;
+}
+/* Spanning a column (`within`): the shell carries the column's width. */
+.ui-popover-spans .ui-popover-inner {
+  width: auto;
+}
+@keyframes ui-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.99);
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "_note": "Real rows; `count` rewritten 11 -> 2 so the fixture is a whole board (each query is held to its declared total; page 2's rows moved onto page 1).",
+  "status": 200,
+  "data": {
+    "count": 2,
+    "positions": [
+      {
+        "id": 1970393556938818,
+        "displayJobId": "200044003",
+        "name": "Senior Customer Opportunity Lead",
+        "locations": [
+          "United States, Washington, Redmond"
+        ],
+        "standardizedLocations": [
+          "Redmond, WA, US"
+        ],
+        "postedTs": 1784329483,
+        "department": "Sales Strategy Enablement",
+        "workLocationOption": "onsite",
+        "atsJobId": "200044003",
+        "positionUrl": "/careers/job/1970393556938818"
+      },
+      {
+        "id": 1970393556940101,
+        "displayJobId": "200051718",
+        "name": "Principal Software Engineering Manager, Azure Core",
+        "locations": [
+          "United States, California, Mountain View"
+        ],
+        "standardizedLocations": [
+          "Mountain View, CA, US"
+        ],
+        "postedTs": 1784500000,
+        "department": "Azure Core Engineering",
+        "workLocationOption": "hybrid",
+        "atsJobId": "200051718",
+        "positionUrl": "/careers/job/1970393556940101"
+      }
+    ]
+  }
+}

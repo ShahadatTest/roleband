@@ -1,0 +1,64 @@
+/* Sheet shell — edge-docked solid panel (drawers hold work surfaces, so they
+   use the elevated solid background, not glass). */
+.ui-sheet {
+  position: absolute;
+  background: var(--app-surface-raised);
+  /* A portalled overlay inherits <body>'s ink and face, not the route's.
+     These two live here with the rest of this box's chrome, not on the
+     doorway class (`.app-overlay`), so the primitive paints itself and the
+     class is not part of how an overlay LOOKS. */
+  color: var(--app-text);
+  font-family: var(--app-font-sans);
+  border: 1px solid var(--app-border-strong);
+  box-shadow: var(--app-shadow-pop);
+  overflow-y: auto;
+}
+.ui-sheet-right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(440px, 94vw);
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  animation: ui-sheet-in-right var(--app-duration-slow) var(--app-ease) both;
+}
+.ui-sheet-left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(440px, 94vw);
+  border-top: 0;
+  border-left: 0;
+  border-bottom: 0;
+  animation: ui-sheet-in-left var(--app-duration-slow) var(--app-ease) both;
+}
+.ui-sheet-bottom {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 82vh;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: var(--app-radius-xl) var(--app-radius-xl) 0 0;
+  animation: ui-sheet-in-bottom var(--app-duration-slow) var(--app-ease) both;
+}
+@keyframes ui-sheet-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+}
+@keyframes ui-sheet-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+}
+@keyframes ui-sheet-in-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}

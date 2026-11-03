@@ -1,0 +1,3547 @@
+{
+  "fixture_version": 1,
+  "policy": "s3-direct-resolution+textual-membership",
+  "embedding_model": "lightonai/DenseOn",
+  "embedding_dim": 768,
+  "tier_measured": "fp32",
+  "tiers_defined": [
+    "fp32",
+    "int8"
+  ],
+  "tiers_not_measured": [
+    "int8"
+  ],
+  "macro_ndcg_at_10": 0.6271,
+  "macro_precision_at_10": 0.575,
+  "exact_targets_found": 16,
+  "exact_targets_total": 16,
+  "exact_all_rank_1": true,
+  "identity_gate_violations": [],
+  "false_exact_total": 0,
+  "semantic_only_admitted_total": 0,
+  "no_answer_admitted": {
+    "no_answer_vet": 0,
+    "no_answer_chef": 0,
+    "no_answer_nurse": 0,
+    "no_answer_truck_driver": 0,
+    "no_answer_teacher": 0,
+    "no_answer_plumber": 0
+  },
+  "per_query": {
+    "pv_exact": {
+      "cohort": "exact_title",
+      "kind": "exact_title",
+      "resolved_kind": "exact_title",
+      "direct_keys": [
+        "amazon-10428842"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 3,
+      "admitted_total": 3,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.3333,
+      "ndcg_at_10": 0.9725,
+      "relevant_total": 9,
+      "admitted_by_class": {
+        "exact": 1,
+        "related": 1,
+        "close": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 2,
+          "min": 0.3074,
+          "median": 0.4276,
+          "max": 0.5479
+        },
+        "exact": {
+          "n": 1,
+          "min": 0.5724,
+          "median": 0.5724,
+          "max": 0.5724
+        },
+        "irrelevant": {
+          "n": 56,
+          "min": 0.133,
+          "median": 0.2225,
+          "max": 0.3563
+        },
+        "related": {
+          "n": 6,
+          "min": 0.3039,
+          "median": 0.4079,
+          "max": 0.5453
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.5724,
+          "2": 0.5508,
+          "10": 0.5044,
+          "25": 0.4687,
+          "50": 0.4116,
+          "100": 0.3573,
+          "200": 0.3362
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 125,
+          ">=0.4": 55,
+          ">=0.45": 38,
+          ">=0.5": 11,
+          ">=0.55": 2
+        }
+      },
+      "parsed_remainder": "Manager, Prime Video Personalization & Discovery"
+    },
+    "pv_exact_lc": {
+      "cohort": "exact_title",
+      "kind": "exact_title",
+      "resolved_kind": "exact_title",
+      "direct_keys": [
+        "amazon-10428842"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 3,
+      "admitted_total": 3,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.3333,
+      "ndcg_at_10": 0.9725,
+      "relevant_total": 9,
+      "admitted_by_class": {
+        "exact": 1,
+        "related": 1,
+        "close": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 2,
+          "min": 0.2586,
+          "median": 0.3701,
+          "max": 0.4816
+        },
+        "exact": {
+          "n": 1,
+          "min": 0.4995,
+          "median": 0.4995,
+          "max": 0.4995
+        },
+        "irrelevant": {
+          "n": 56,
+          "min": 0.0674,
+          "median": 0.1553,
+          "max": 0.275
+        },
+        "related": {
+          "n": 6,
+          "min": 0.2625,
+          "median": 0.3321,
+          "max": 0.4759
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.4995,
+          "2": 0.4816,
+          "10": 0.4186,
+          "25": 0.3771,
+          "50": 0.3257,
+          "100": 0.2799,
+          "200": 0.2601
+        },
+        "corpus_count_ge": {
+          ">=0.3": 60,
+          ">=0.35": 41,
+          ">=0.4": 13,
+          ">=0.45": 6,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "manager, prime video personalization & discovery"
+    },
+    "eng_manager": {
+      "cohort": "minimal_pair",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 8,
+      "admitted_total": 8,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.4211,
+      "ndcg_at_10": 0.9976,
+      "relevant_total": 19,
+      "admitted_by_class": {
+        "close": 7,
+        "related": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 7,
+          "min": 0.3167,
+          "median": 0.3283,
+          "max": 0.3409
+        },
+        "irrelevant": {
+          "n": 46,
+          "min": 0.0709,
+          "median": 0.2198,
+          "max": 0.3072
+        },
+        "related": {
+          "n": 12,
+          "min": 0.1436,
+          "median": 0.1705,
+          "max": 0.3062
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.4531,
+          "2": 0.4519,
+          "10": 0.4035,
+          "25": 0.3901,
+          "50": 0.3775,
+          "100": 0.361,
+          "200": 0.3366
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 133,
+          ">=0.4": 14,
+          ">=0.45": 2,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Engineering Manager"
+    },
+    "product_manager": {
+      "cohort": "minimal_pair",
+      "kind": "exact_title",
+      "resolved_kind": "exact_title",
+      "direct_keys": [
+        "meta-2014107449312859",
+        "meta-1238249364564427",
+        "google-132634425941729990"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 16,
+      "admitted_total": 16,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.8,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 20,
+      "admitted_by_class": {
+        "exact": 3,
+        "close": 13
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 13,
+          "min": 0.3002,
+          "median": 0.3683,
+          "max": 0.39
+        },
+        "exact": {
+          "n": 3,
+          "min": 0.4065,
+          "median": 0.4219,
+          "max": 0.4275
+        },
+        "irrelevant": {
+          "n": 45,
+          "min": 0.0865,
+          "median": 0.194,
+          "max": 0.3557
+        },
+        "related": {
+          "n": 4,
+          "min": 0.2007,
+          "median": 0.227,
+          "max": 0.2722
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.4454,
+          "2": 0.4452,
+          "10": 0.4238,
+          "25": 0.4085,
+          "50": 0.4003,
+          "100": 0.3914,
+          "200": 0.3818
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 300,
+          ">=0.4": 51,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Product Manager"
+    },
+    "url_amz_target": {
+      "cohort": "identifier",
+      "kind": "identifier",
+      "resolved_kind": "identifier",
+      "direct_keys": [
+        "amazon-10428842"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 4,
+      "admitted_total": 4,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 1.0,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 1,
+      "admitted_by_class": {
+        "exact": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "exact": {
+          "n": 1,
+          "min": 0.4771,
+          "median": 0.4771,
+          "max": 0.4771
+        },
+        "irrelevant": {
+          "n": 64,
+          "min": 0.1144,
+          "median": 0.2008,
+          "max": 0.4568
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.4771,
+          "2": 0.4568,
+          "10": 0.3879,
+          "25": 0.3505,
+          "50": 0.3197,
+          "100": 0.2992,
+          "200": 0.2753
+        },
+        "corpus_count_ge": {
+          ">=0.3": 97,
+          ">=0.35": 26,
+          ">=0.4": 6,
+          ">=0.45": 2,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "https://www. .jobs/en/jobs/10428842/applied-science-manager-prime-video-personalization-discovery"
+    },
+    "reqid_ant_em": {
+      "cohort": "identifier",
+      "kind": "identifier",
+      "resolved_kind": "identifier",
+      "direct_keys": [
+        "anthropic-5316593008"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 1.0,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 1,
+      "admitted_by_class": {
+        "exact": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "exact": {
+          "n": 1,
+          "min": 0.0393,
+          "median": 0.0393,
+          "max": 0.0393
+        },
+        "irrelevant": {
+          "n": 64,
+          "min": -0.0253,
+          "median": 0.0348,
+          "max": 0.0768
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.1197,
+          "2": 0.1146,
+          "10": 0.1087,
+          "25": 0.102,
+          "50": 0.0936,
+          "100": 0.0839,
+          "200": 0.0731
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "5316593008"
+    },
+    "no_answer_vet": {
+      "cohort": "no_answer",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": null,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 0,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "irrelevant": {
+          "n": 65,
+          "min": -0.0227,
+          "median": 0.0511,
+          "max": 0.1332
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.1653,
+          "2": 0.1646,
+          "10": 0.1412,
+          "25": 0.1354,
+          "50": 0.1266,
+          "100": 0.119,
+          "200": 0.1114
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Veterinary Surgeon, Small Animal Clinic"
+    },
+    "typo_anthropic_em": {
+      "cohort": "typo_fragment",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 6,
+      "admitted_total": 6,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.5,
+      "recall_at_25": 0.3333,
+      "ndcg_at_10": 0.9675,
+      "relevant_total": 9,
+      "admitted_by_class": {
+        "close": 3,
+        "irrelevant": 3
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 3,
+          "min": 0.3463,
+          "median": 0.3484,
+          "max": 0.3583
+        },
+        "irrelevant": {
+          "n": 56,
+          "min": 0.064,
+          "median": 0.202,
+          "max": 0.3261
+        },
+        "related": {
+          "n": 6,
+          "min": 0.2114,
+          "median": 0.2351,
+          "max": 0.2566
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.3748,
+          "2": 0.3653,
+          "10": 0.3447,
+          "25": 0.3161,
+          "50": 0.3006,
+          "100": 0.2851,
+          "200": 0.2687
+        },
+        "corpus_count_ge": {
+          ">=0.3": 51,
+          ">=0.35": 5,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "anthropc enginering manager"
+    },
+    "exact_em_inference": {
+      "cohort": "exact_title",
+      "kind": "exact_title",
+      "resolved_kind": "exact_title",
+      "direct_keys": [
+        "mistral-6dfcbf55-d854-4723-85e4-f44f3032fc63",
+        "anthropic-4741102008"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 2,
+      "admitted_total": 2,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.2,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 10,
+      "admitted_by_class": {
+        "exact": 2
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "exact": {
+          "n": 2,
+          "min": 0.1928,
+          "median": 0.1943,
+          "max": 0.1958
+        },
+        "irrelevant": {
+          "n": 55,
+          "min": -0.0589,
+          "median": 0.0078,
+          "max": 0.0962
+        },
+        "related": {
+          "n": 8,
+          "min": -0.005,
+          "median": 0.0107,
+          "max": 0.1748
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2252,
+          "2": 0.2174,
+          "10": 0.1458,
+          "25": 0.0952,
+          "50": 0.0639,
+          "100": 0.0532,
+          "200": 0.0388
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": ", Inference"
+    },
+    "exact_tpm": {
+      "cohort": "exact_title",
+      "kind": "exact_title",
+      "resolved_kind": "exact_title",
+      "direct_keys": [
+        "microsoft-1970393556936646",
+        "meta-1296230207698571",
+        "google-107140688704873158",
+        "google-133375036143608518"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 10,
+      "admitted_total": 10,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.7692,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 13,
+      "admitted_by_class": {
+        "exact": 4,
+        "close": 6
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 6,
+          "min": 0.3645,
+          "median": 0.3998,
+          "max": 0.4567
+        },
+        "exact": {
+          "n": 4,
+          "min": 0.4429,
+          "median": 0.4859,
+          "max": 0.4936
+        },
+        "irrelevant": {
+          "n": 52,
+          "min": 0.1597,
+          "median": 0.24,
+          "max": 0.3342
+        },
+        "related": {
+          "n": 3,
+          "min": 0.285,
+          "median": 0.2894,
+          "max": 0.344
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.5239,
+          "2": 0.5196,
+          "10": 0.5026,
+          "25": 0.4918,
+          "50": 0.4821,
+          "100": 0.4691,
+          "200": 0.4449
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 300,
+          ">=0.4": 300,
+          ">=0.45": 183,
+          ">=0.5": 14,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Technical Program Manager"
+    },
+    "exact_senior_tpm": {
+      "cohort": "exact_title",
+      "kind": "exact_title",
+      "resolved_kind": "exact_title",
+      "direct_keys": [
+        "microsoft-1970393556850527",
+        "microsoft-1970393556937283",
+        "google-100980257124688582"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 8,
+      "admitted_total": 8,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.6154,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 13,
+      "admitted_by_class": {
+        "exact": 3,
+        "close": 5
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 5,
+          "min": 0.3903,
+          "median": 0.4326,
+          "max": 0.4527
+        },
+        "exact": {
+          "n": 3,
+          "min": 0.4344,
+          "median": 0.496,
+          "max": 0.5023
+        },
+        "irrelevant": {
+          "n": 52,
+          "min": 0.1679,
+          "median": 0.2426,
+          "max": 0.3476
+        },
+        "related": {
+          "n": 5,
+          "min": 0.2578,
+          "median": 0.3123,
+          "max": 0.411
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.5255,
+          "2": 0.5242,
+          "10": 0.5115,
+          "25": 0.4987,
+          "50": 0.4855,
+          "100": 0.4611,
+          "200": 0.4312
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 300,
+          ">=0.4": 300,
+          ">=0.45": 130,
+          ">=0.5": 24,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Senior Technical Program Manager"
+    },
+    "exact_principal_pm": {
+      "cohort": "exact_title",
+      "kind": "exact_title",
+      "resolved_kind": "exact_title",
+      "direct_keys": [
+        "microsoft-1970393556859132",
+        "nvidia-JR2019755"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 7,
+      "admitted_total": 7,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.4375,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 16,
+      "admitted_by_class": {
+        "exact": 2,
+        "close": 5
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 5,
+          "min": 0.3538,
+          "median": 0.4229,
+          "max": 0.4425
+        },
+        "exact": {
+          "n": 2,
+          "min": 0.4031,
+          "median": 0.4122,
+          "max": 0.4214
+        },
+        "irrelevant": {
+          "n": 49,
+          "min": 0.0686,
+          "median": 0.2038,
+          "max": 0.3398
+        },
+        "related": {
+          "n": 9,
+          "min": 0.2898,
+          "median": 0.3268,
+          "max": 0.4055
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.5188,
+          "2": 0.4805,
+          "10": 0.4483,
+          "25": 0.4367,
+          "50": 0.4249,
+          "100": 0.4056,
+          "200": 0.3751
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 300,
+          ">=0.4": 111,
+          ">=0.45": 8,
+          ">=0.5": 1,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Principal Product Manager"
+    },
+    "exact_em_agent_runtime": {
+      "cohort": "exact_title",
+      "kind": "exact_title",
+      "resolved_kind": "exact_title",
+      "direct_keys": [
+        "anthropic-5316593008"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 1,
+      "admitted_total": 1,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.25,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 4,
+      "admitted_by_class": {
+        "exact": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "exact": {
+          "n": 1,
+          "min": 0.3367,
+          "median": 0.3367,
+          "max": 0.3367
+        },
+        "irrelevant": {
+          "n": 61,
+          "min": 0.0752,
+          "median": 0.158,
+          "max": 0.2159
+        },
+        "related": {
+          "n": 3,
+          "min": 0.1539,
+          "median": 0.1864,
+          "max": 0.2283
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.3367,
+          "2": 0.3277,
+          "10": 0.2859,
+          "25": 0.2681,
+          "50": 0.2498,
+          "100": 0.2253,
+          "200": 0.2058
+        },
+        "corpus_count_ge": {
+          ">=0.3": 3,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": ", Agent Runtime Platform"
+    },
+    "exact_damage_punct": {
+      "cohort": "exact_title",
+      "kind": "exact_title",
+      "resolved_kind": "exact_title",
+      "direct_keys": [
+        "amazon-10428842"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 3,
+      "admitted_total": 3,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.3333,
+      "ndcg_at_10": 0.9725,
+      "relevant_total": 9,
+      "admitted_by_class": {
+        "exact": 1,
+        "related": 1,
+        "close": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 2,
+          "min": 0.3046,
+          "median": 0.4104,
+          "max": 0.5161
+        },
+        "exact": {
+          "n": 1,
+          "min": 0.5343,
+          "median": 0.5343,
+          "max": 0.5343
+        },
+        "irrelevant": {
+          "n": 56,
+          "min": 0.1338,
+          "median": 0.2048,
+          "max": 0.337
+        },
+        "related": {
+          "n": 6,
+          "min": 0.2721,
+          "median": 0.3864,
+          "max": 0.5141
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.5343,
+          "2": 0.5203,
+          "10": 0.4926,
+          "25": 0.4408,
+          "50": 0.391,
+          "100": 0.3341,
+          "200": 0.3151
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 72,
+          ">=0.4": 46,
+          ">=0.45": 21,
+          ">=0.5": 8,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Manager, Prime Video Personalization & Discovery ,"
+    },
+    "near_exact_one_word": {
+      "cohort": "exact_title",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 3,
+      "admitted_total": 3,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.375,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 8,
+      "admitted_by_class": {
+        "close": 2,
+        "related": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 2,
+          "min": 0.5107,
+          "median": 0.5212,
+          "max": 0.5317
+        },
+        "irrelevant": {
+          "n": 57,
+          "min": 0.1195,
+          "median": 0.2132,
+          "max": 0.3368
+        },
+        "related": {
+          "n": 6,
+          "min": 0.2815,
+          "median": 0.373,
+          "max": 0.502
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.5317,
+          "2": 0.5107,
+          "10": 0.4805,
+          "25": 0.4546,
+          "50": 0.4018,
+          "100": 0.353,
+          "200": 0.3282
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 108,
+          ">=0.4": 51,
+          ">=0.45": 28,
+          ">=0.5": 5,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Manager, Prime Video Personalization & Delivery"
+    },
+    "near_exact_separator": {
+      "cohort": "exact_title",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 3,
+      "admitted_total": 3,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.375,
+      "ndcg_at_10": 0.9652,
+      "relevant_total": 8,
+      "admitted_by_class": {
+        "close": 2,
+        "related": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 2,
+          "min": 0.4994,
+          "median": 0.5052,
+          "max": 0.511
+        },
+        "irrelevant": {
+          "n": 57,
+          "min": 0.0979,
+          "median": 0.1966,
+          "max": 0.3372
+        },
+        "related": {
+          "n": 6,
+          "min": 0.2701,
+          "median": 0.3624,
+          "max": 0.4883
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.511,
+          "2": 0.5004,
+          "10": 0.4489,
+          "25": 0.4221,
+          "50": 0.3718,
+          "100": 0.3219,
+          "200": 0.3038
+        },
+        "corpus_count_ge": {
+          ">=0.3": 232,
+          ">=0.35": 63,
+          ">=0.4": 42,
+          ">=0.45": 9,
+          ">=0.5": 2,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Manager \u2014 Prime Video Personalization & Discovery"
+    },
+    "url_tracking_fragment": {
+      "cohort": "identifier",
+      "kind": "identifier",
+      "resolved_kind": "identifier",
+      "direct_keys": [
+        "amazon-10428842"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 4,
+      "admitted_total": 4,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 1.0,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 1,
+      "admitted_by_class": {
+        "exact": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "exact": {
+          "n": 1,
+          "min": 0.4532,
+          "median": 0.4532,
+          "max": 0.4532
+        },
+        "irrelevant": {
+          "n": 64,
+          "min": 0.1298,
+          "median": 0.215,
+          "max": 0.4436
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.4532,
+          "2": 0.4436,
+          "10": 0.3723,
+          "25": 0.3551,
+          "50": 0.3316,
+          "100": 0.31,
+          "200": 0.2894
+        },
+        "corpus_count_ge": {
+          ">=0.3": 135,
+          ">=0.35": 26,
+          ">=0.4": 5,
+          ">=0.45": 1,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "https://www. .jobs/en/jobs/10428842/applied-science-manager-prime-video-personalization-discovery?utm_source=linkedin&utm_campaign=paid&ref=jobfeed#apply-now"
+    },
+    "url_mistral_em": {
+      "cohort": "identifier",
+      "kind": "identifier",
+      "resolved_kind": "identifier",
+      "direct_keys": [
+        "mistral-6dfcbf55-d854-4723-85e4-f44f3032fc63"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 1.0,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 1,
+      "admitted_by_class": {
+        "exact": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "exact": {
+          "n": 1,
+          "min": 0.3257,
+          "median": 0.3257,
+          "max": 0.3257
+        },
+        "irrelevant": {
+          "n": 64,
+          "min": 0.1079,
+          "median": 0.1696,
+          "max": 0.2502
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.3257,
+          "2": 0.2669,
+          "10": 0.2565,
+          "25": 0.2487,
+          "50": 0.2404,
+          "100": 0.2284,
+          "200": 0.2154
+        },
+        "corpus_count_ge": {
+          ">=0.3": 1,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "https://jobs.ashbyhq.com/mistral.ai/6dfcbf55-d854-4723-85e4-f44f3032fc63"
+    },
+    "reqid_amazon_target": {
+      "cohort": "identifier",
+      "kind": "identifier",
+      "resolved_kind": "identifier",
+      "direct_keys": [
+        "amazon-10428842"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 1.0,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 1,
+      "admitted_by_class": {
+        "exact": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "exact": {
+          "n": 1,
+          "min": 0.0288,
+          "median": 0.0288,
+          "max": 0.0288
+        },
+        "irrelevant": {
+          "n": 64,
+          "min": -0.0289,
+          "median": 0.0171,
+          "max": 0.064
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.1074,
+          "2": 0.1006,
+          "10": 0.0955,
+          "25": 0.0762,
+          "50": 0.0654,
+          "100": 0.0577,
+          "200": 0.0489
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "10428842"
+    },
+    "reqid_absent": {
+      "cohort": "identifier",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": null,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 0,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "irrelevant": {
+          "n": 65,
+          "min": -0.0546,
+          "median": 0.001,
+          "max": 0.0531
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.1106,
+          "2": 0.1004,
+          "10": 0.0841,
+          "25": 0.0752,
+          "50": 0.0658,
+          "100": 0.057,
+          "200": 0.0477
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "99999999999"
+    },
+    "typo_company_only": {
+      "cohort": "typo_fragment",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 15,
+      "admitted_total": 15,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 1.0,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 15,
+      "admitted_by_class": {
+        "related": 15
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "irrelevant": {
+          "n": 50,
+          "min": -0.0718,
+          "median": 0.0226,
+          "max": 0.1129
+        },
+        "related": {
+          "n": 15,
+          "min": 0.1116,
+          "median": 0.1351,
+          "max": 0.1618
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.1884,
+          "2": 0.1812,
+          "10": 0.168,
+          "25": 0.1597,
+          "50": 0.1443,
+          "100": 0.1326,
+          "200": 0.0964
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "anthropc"
+    },
+    "abbrev_tpm": {
+      "cohort": "typo_fragment",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 2,
+      "admitted_total": 2,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.1538,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 13,
+      "admitted_by_class": {
+        "close": 2
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 10,
+          "min": 0.1036,
+          "median": 0.1895,
+          "max": 0.3187
+        },
+        "irrelevant": {
+          "n": 52,
+          "min": -0.0253,
+          "median": 0.0846,
+          "max": 0.1793
+        },
+        "related": {
+          "n": 3,
+          "min": 0.0427,
+          "median": 0.0451,
+          "max": 0.0626
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.3345,
+          "2": 0.3187,
+          "10": 0.295,
+          "25": 0.2707,
+          "50": 0.2547,
+          "100": 0.2337,
+          "200": 0.2057
+        },
+        "corpus_count_ge": {
+          ">=0.3": 8,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "TPM"
+    },
+    "fragment_personalization": {
+      "cohort": "typo_fragment",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 26,
+      "admitted_total": 26,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.5,
+      "recall_at_25": 1.0,
+      "ndcg_at_10": 0.8922,
+      "relevant_total": 6,
+      "admitted_by_class": {
+        "related": 6,
+        "irrelevant": 20
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "irrelevant": {
+          "n": 59,
+          "min": -0.0056,
+          "median": 0.0507,
+          "max": 0.1756
+        },
+        "related": {
+          "n": 6,
+          "min": 0.1189,
+          "median": 0.1767,
+          "max": 0.2513
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2901,
+          "2": 0.2513,
+          "10": 0.2153,
+          "25": 0.1837,
+          "50": 0.1407,
+          "100": 0.1144,
+          "200": 0.1005
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "personalization"
+    },
+    "typo_kubernetes_platform": {
+      "cohort": "typo_fragment",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 9,
+      "admitted_total": 9,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.3333,
+      "recall_at_25": 1.0,
+      "ndcg_at_10": 0.8771,
+      "relevant_total": 3,
+      "admitted_by_class": {
+        "close": 1,
+        "irrelevant": 6,
+        "related": 2
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 1,
+          "min": 0.1916,
+          "median": 0.1916,
+          "max": 0.1916
+        },
+        "irrelevant": {
+          "n": 62,
+          "min": 0.024,
+          "median": 0.1188,
+          "max": 0.232
+        },
+        "related": {
+          "n": 2,
+          "min": 0.1127,
+          "median": 0.1629,
+          "max": 0.213
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2959,
+          "2": 0.2753,
+          "10": 0.2415,
+          "25": 0.2289,
+          "50": 0.2196,
+          "100": 0.2083,
+          "200": 0.1936
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "kubernets platform enginer"
+    },
+    "typo_silicon_design": {
+      "cohort": "typo_fragment",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 4,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 3,
+          "min": 0.1188,
+          "median": 0.1599,
+          "max": 0.2373
+        },
+        "irrelevant": {
+          "n": 61,
+          "min": -0.0326,
+          "median": 0.045,
+          "max": 0.1437
+        },
+        "related": {
+          "n": 1,
+          "min": 0.0489,
+          "median": 0.0489,
+          "max": 0.0489
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2773,
+          "2": 0.2623,
+          "10": 0.2295,
+          "25": 0.1819,
+          "50": 0.1575,
+          "100": 0.1362,
+          "200": 0.1162
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "silicn desgin enginer"
+    },
+    "fragment_safeguards": {
+      "cohort": "typo_fragment",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 10,
+      "admitted_total": 10,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.3,
+      "recall_at_25": 1.0,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 3,
+      "admitted_by_class": {
+        "related": 3,
+        "irrelevant": 7
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "irrelevant": {
+          "n": 62,
+          "min": -0.0822,
+          "median": -0.0219,
+          "max": 0.0724
+        },
+        "related": {
+          "n": 3,
+          "min": 0.1288,
+          "median": 0.1686,
+          "max": 0.2206
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2346,
+          "2": 0.2206,
+          "10": 0.1686,
+          "25": 0.1075,
+          "50": 0.0879,
+          "100": 0.0723,
+          "200": 0.0524
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "safeguards"
+    },
+    "typo_aplied_sience_maneger": {
+      "cohort": "typo_fragment",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 4,
+      "admitted_total": 4,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.4444,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 9,
+      "admitted_by_class": {
+        "close": 4
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 6,
+          "min": 0.0878,
+          "median": 0.1211,
+          "max": 0.1653
+        },
+        "irrelevant": {
+          "n": 56,
+          "min": -0.0222,
+          "median": 0.0564,
+          "max": 0.111
+        },
+        "related": {
+          "n": 3,
+          "min": 0.0736,
+          "median": 0.0808,
+          "max": 0.0877
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.1653,
+          "2": 0.1577,
+          "10": 0.1333,
+          "25": 0.1232,
+          "50": 0.1156,
+          "100": 0.106,
+          "200": 0.0954
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "aplied sience maneger"
+    },
+    "nl_remote_pm_meta": {
+      "cohort": "structured_nl",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 2,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 1,
+          "min": 0.4738,
+          "median": 0.4738,
+          "max": 0.4738
+        },
+        "irrelevant": {
+          "n": 63,
+          "min": 0.1395,
+          "median": 0.2486,
+          "max": 0.4898
+        },
+        "related": {
+          "n": 1,
+          "min": 0.3599,
+          "median": 0.3599,
+          "max": 0.3599
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.5077,
+          "2": 0.5058,
+          "10": 0.4898,
+          "25": 0.4402,
+          "50": 0.3773,
+          "100": 0.3539,
+          "200": 0.3367
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 113,
+          ">=0.4": 39,
+          ">=0.45": 18,
+          ">=0.5": 3,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "remote product manager at meta"
+    },
+    "nl_principal_pm_netflix": {
+      "cohort": "structured_nl",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 1,
+      "admitted_total": 1,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.1429,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 7,
+      "admitted_by_class": {
+        "close": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 2,
+          "min": 0.5044,
+          "median": 0.5256,
+          "max": 0.5468
+        },
+        "irrelevant": {
+          "n": 58,
+          "min": 0.0768,
+          "median": 0.2252,
+          "max": 0.4419
+        },
+        "related": {
+          "n": 5,
+          "min": 0.3132,
+          "median": 0.4132,
+          "max": 0.4158
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.5468,
+          "2": 0.528,
+          "10": 0.5001,
+          "25": 0.465,
+          "50": 0.4267,
+          "100": 0.3992,
+          "200": 0.3712
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 300,
+          ">=0.4": 99,
+          ">=0.45": 33,
+          ">=0.5": 10,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "principal product manager at netflix"
+    },
+    "nl_pm_singapore": {
+      "cohort": "structured_nl",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 2,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 2,
+          "min": 0.3587,
+          "median": 0.4,
+          "max": 0.4413
+        },
+        "irrelevant": {
+          "n": 63,
+          "min": 0.092,
+          "median": 0.2509,
+          "max": 0.4208
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.5301,
+          "2": 0.5225,
+          "10": 0.4238,
+          "25": 0.4089,
+          "50": 0.3999,
+          "100": 0.3905,
+          "200": 0.3803
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 300,
+          ">=0.4": 48,
+          ">=0.45": 3,
+          ">=0.5": 2,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "product manager jobs in Singapore"
+    },
+    "nl_senior_tpm_microsoft": {
+      "cohort": "structured_nl",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 3,
+      "admitted_total": 3,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.375,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 8,
+      "admitted_by_class": {
+        "close": 3
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 3,
+          "min": 0.4569,
+          "median": 0.4899,
+          "max": 0.532
+        },
+        "irrelevant": {
+          "n": 57,
+          "min": 0.1608,
+          "median": 0.2469,
+          "max": 0.4222
+        },
+        "related": {
+          "n": 5,
+          "min": 0.3677,
+          "median": 0.3688,
+          "max": 0.4541
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.5578,
+          "2": 0.5512,
+          "10": 0.527,
+          "25": 0.4884,
+          "50": 0.4549,
+          "100": 0.4356,
+          "200": 0.4042
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 300,
+          ">=0.4": 218,
+          ">=0.45": 56,
+          ">=0.5": 20,
+          ">=0.55": 2
+        }
+      },
+      "parsed_remainder": "senior technical program manager at microsoft"
+    },
+    "nl_remote_security_openai": {
+      "cohort": "structured_nl",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 3,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 1,
+          "min": 0.4801,
+          "median": 0.4801,
+          "max": 0.4801
+        },
+        "irrelevant": {
+          "n": 62,
+          "min": 0.0906,
+          "median": 0.1945,
+          "max": 0.3488
+        },
+        "related": {
+          "n": 2,
+          "min": 0.4424,
+          "median": 0.4489,
+          "max": 0.4553
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.4801,
+          "2": 0.4599,
+          "10": 0.3992,
+          "25": 0.3576,
+          "50": 0.3394,
+          "100": 0.3101,
+          "200": 0.2741
+        },
+        "corpus_count_ge": {
+          ">=0.3": 119,
+          ">=0.35": 31,
+          ">=0.4": 9,
+          ">=0.45": 3,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "remote security engineer at openai"
+    },
+    "nl_applied_science_manager_amazon": {
+      "cohort": "structured_nl",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 6,
+      "admitted_total": 6,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.8571,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 7,
+      "admitted_by_class": {
+        "close": 5,
+        "related": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 5,
+          "min": 0.1759,
+          "median": 0.1938,
+          "max": 0.2173
+        },
+        "irrelevant": {
+          "n": 58,
+          "min": -0.0007,
+          "median": 0.1082,
+          "max": 0.1894
+        },
+        "related": {
+          "n": 2,
+          "min": 0.0358,
+          "median": 0.0906,
+          "max": 0.1454
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2685,
+          "2": 0.2625,
+          "10": 0.2443,
+          "25": 0.2314,
+          "50": 0.2195,
+          "100": 0.2064,
+          "200": 0.1891
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "manager"
+    },
+    "nl_hardware_engineer_onsite": {
+      "cohort": "structured_nl",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 3,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 2,
+          "min": 0.362,
+          "median": 0.3952,
+          "max": 0.4285
+        },
+        "irrelevant": {
+          "n": 62,
+          "min": 0.0858,
+          "median": 0.188,
+          "max": 0.4173
+        },
+        "related": {
+          "n": 1,
+          "min": 0.4233,
+          "median": 0.4233,
+          "max": 0.4233
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.4609,
+          "2": 0.453,
+          "10": 0.4323,
+          "25": 0.4116,
+          "50": 0.3774,
+          "100": 0.3411,
+          "200": 0.3031
+        },
+        "corpus_count_ge": {
+          ">=0.3": 216,
+          ">=0.35": 79,
+          ">=0.4": 32,
+          ">=0.45": 2,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "onsite silicon hardware engineer"
+    },
+    "nl_em_new_york": {
+      "cohort": "structured_nl",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 8,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 3,
+          "min": 0.3102,
+          "median": 0.3208,
+          "max": 0.3328
+        },
+        "irrelevant": {
+          "n": 57,
+          "min": 0.09,
+          "median": 0.2239,
+          "max": 0.3405
+        },
+        "related": {
+          "n": 5,
+          "min": 0.2586,
+          "median": 0.3205,
+          "max": 0.3325
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.4025,
+          "2": 0.4015,
+          "10": 0.3898,
+          "25": 0.3782,
+          "50": 0.3677,
+          "100": 0.3579,
+          "200": 0.3396
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 135,
+          ">=0.4": 3,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "engineering manager in New York"
+    },
+    "intent_faster_model_responses": {
+      "cohort": "semantic_intent",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 4,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 4,
+          "min": 0.0838,
+          "median": 0.1218,
+          "max": 0.125
+        },
+        "irrelevant": {
+          "n": 61,
+          "min": 0.0106,
+          "median": 0.0792,
+          "max": 0.1327
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.1913,
+          "2": 0.1736,
+          "10": 0.1515,
+          "25": 0.1429,
+          "50": 0.1337,
+          "100": 0.1243,
+          "200": 0.1113
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "make our models reply quicker to users"
+    },
+    "intent_stop_bad_actors": {
+      "cohort": "semantic_intent",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 6,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 4,
+          "min": 0.1061,
+          "median": 0.1255,
+          "max": 0.1938
+        },
+        "irrelevant": {
+          "n": 59,
+          "min": -0.0101,
+          "median": 0.0805,
+          "max": 0.1663
+        },
+        "related": {
+          "n": 2,
+          "min": 0.1206,
+          "median": 0.1327,
+          "max": 0.1449
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2062,
+          "2": 0.1966,
+          "10": 0.1862,
+          "25": 0.171,
+          "50": 0.1611,
+          "100": 0.1449,
+          "200": 0.1302
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "keep bad actors from misusing our product"
+    },
+    "intent_what_to_watch_next": {
+      "cohort": "semantic_intent",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 6,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 3,
+          "min": 0.0853,
+          "median": 0.0977,
+          "max": 0.11
+        },
+        "irrelevant": {
+          "n": 59,
+          "min": -0.0306,
+          "median": 0.0313,
+          "max": 0.1442
+        },
+        "related": {
+          "n": 3,
+          "min": 0.0455,
+          "median": 0.0674,
+          "max": 0.0923
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.1442,
+          "2": 0.1436,
+          "10": 0.1325,
+          "25": 0.1211,
+          "50": 0.1106,
+          "100": 0.0999,
+          "200": 0.0851
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "decide what show a viewer sees next"
+    },
+    "intent_keep_service_up": {
+      "cohort": "semantic_intent",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 4,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 1,
+          "min": 0.1046,
+          "median": 0.1046,
+          "max": 0.1046
+        },
+        "irrelevant": {
+          "n": 61,
+          "min": -0.0822,
+          "median": -0.01,
+          "max": 0.0594
+        },
+        "related": {
+          "n": 3,
+          "min": -0.0038,
+          "median": -0.0014,
+          "max": 0.0616
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2143,
+          "2": 0.2128,
+          "10": 0.1396,
+          "25": 0.1107,
+          "50": 0.0952,
+          "100": 0.0726,
+          "200": 0.0552
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "keep the service running when things break at night"
+    },
+    "intent_buy_things_for_datacenters": {
+      "cohort": "semantic_intent",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 1,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 1,
+          "min": 0.2083,
+          "median": 0.2083,
+          "max": 0.2083
+        },
+        "irrelevant": {
+          "n": 64,
+          "min": 0.0059,
+          "median": 0.0523,
+          "max": 0.1124
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2244,
+          "2": 0.2106,
+          "10": 0.1996,
+          "25": 0.1882,
+          "50": 0.1657,
+          "100": 0.1482,
+          "200": 0.1289
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "negotiate purchases with suppliers for new buildings"
+    },
+    "intent_measure_if_changes_worked": {
+      "cohort": "semantic_intent",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 4,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 2,
+          "min": 0.0493,
+          "median": 0.0536,
+          "max": 0.0578
+        },
+        "irrelevant": {
+          "n": 61,
+          "min": -0.0275,
+          "median": 0.061,
+          "max": 0.1324
+        },
+        "related": {
+          "n": 2,
+          "min": 0.0861,
+          "median": 0.1078,
+          "max": 0.1294
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.1657,
+          "2": 0.1632,
+          "10": 0.1339,
+          "25": 0.1238,
+          "50": 0.1168,
+          "100": 0.1059,
+          "200": 0.0949
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "figure out whether a launch actually changed user behaviour"
+    },
+    "intent_help_customers_adopt": {
+      "cohort": "semantic_intent",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 3,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 1,
+          "min": 0.216,
+          "median": 0.216,
+          "max": 0.216
+        },
+        "irrelevant": {
+          "n": 62,
+          "min": 0.1234,
+          "median": 0.1746,
+          "max": 0.2566
+        },
+        "related": {
+          "n": 2,
+          "min": 0.2336,
+          "median": 0.234,
+          "max": 0.2343
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.3113,
+          "2": 0.2978,
+          "10": 0.2769,
+          "25": 0.2685,
+          "50": 0.2612,
+          "100": 0.2526,
+          "200": 0.2395
+        },
+        "corpus_count_ge": {
+          ">=0.3": 1,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "work alongside big customers so they succeed with our technology"
+    },
+    "intent_design_the_chip": {
+      "cohort": "semantic_intent",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": 0.0,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 3,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 3,
+          "min": 0.1328,
+          "median": 0.1388,
+          "max": 0.204
+        },
+        "irrelevant": {
+          "n": 62,
+          "min": 0.0157,
+          "median": 0.0628,
+          "max": 0.1365
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2436,
+          "2": 0.2415,
+          "10": 0.223,
+          "25": 0.1991,
+          "50": 0.1716,
+          "100": 0.1536,
+          "200": 0.1351
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "lay out transistors and verify timing closure"
+    },
+    "no_answer_chef": {
+      "cohort": "no_answer",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": null,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 0,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "irrelevant": {
+          "n": 65,
+          "min": 0.0354,
+          "median": 0.0955,
+          "max": 0.179
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2534,
+          "2": 0.2298,
+          "10": 0.196,
+          "25": 0.1821,
+          "50": 0.171,
+          "100": 0.1624,
+          "200": 0.1543
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Executive Pastry Chef, Hotel Restaurant Group"
+    },
+    "no_answer_nurse": {
+      "cohort": "no_answer",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": null,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 0,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "irrelevant": {
+          "n": 65,
+          "min": 0.0145,
+          "median": 0.0811,
+          "max": 0.1394
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.23,
+          "2": 0.2256,
+          "10": 0.1751,
+          "25": 0.163,
+          "50": 0.1551,
+          "100": 0.145,
+          "200": 0.1353
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Registered Nurse, Pediatric Intensive Care Unit"
+    },
+    "no_answer_truck_driver": {
+      "cohort": "no_answer",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": null,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 0,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "irrelevant": {
+          "n": 65,
+          "min": 0.0543,
+          "median": 0.1298,
+          "max": 0.1929
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.324,
+          "2": 0.3078,
+          "10": 0.2665,
+          "25": 0.2471,
+          "50": 0.2311,
+          "100": 0.2168,
+          "200": 0.2039
+        },
+        "corpus_count_ge": {
+          ">=0.3": 2,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Long Haul Truck Driver, Class A CDL"
+    },
+    "no_answer_teacher": {
+      "cohort": "no_answer",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": null,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 0,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "irrelevant": {
+          "n": 65,
+          "min": 0.0681,
+          "median": 0.108,
+          "max": 0.1769
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2234,
+          "2": 0.208,
+          "10": 0.1708,
+          "25": 0.1645,
+          "50": 0.1557,
+          "100": 0.148,
+          "200": 0.1405
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "High School Mathematics Teacher, Grade 11"
+    },
+    "no_answer_plumber": {
+      "cohort": "no_answer",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 0,
+      "admitted_total": 0,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.0,
+      "recall_at_25": null,
+      "ndcg_at_10": 0.0,
+      "relevant_total": 0,
+      "admitted_by_class": {},
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "irrelevant": {
+          "n": 65,
+          "min": -0.0195,
+          "median": 0.0356,
+          "max": 0.1241
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.1778,
+          "2": 0.1724,
+          "10": 0.138,
+          "25": 0.1275,
+          "50": 0.1189,
+          "100": 0.1067,
+          "200": 0.0954
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Licensed Plumber, Residential Service Calls"
+    },
+    "mp_software_engineer": {
+      "cohort": "minimal_pair",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 9,
+      "admitted_total": 9,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.5294,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 17,
+      "admitted_by_class": {
+        "close": 9
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 9,
+          "min": 0.2546,
+          "median": 0.2981,
+          "max": 0.3253
+        },
+        "irrelevant": {
+          "n": 48,
+          "min": 0.1033,
+          "median": 0.1813,
+          "max": 0.2584
+        },
+        "related": {
+          "n": 8,
+          "min": 0.1818,
+          "median": 0.2319,
+          "max": 0.2926
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.4376,
+          "2": 0.4115,
+          "10": 0.397,
+          "25": 0.389,
+          "50": 0.3831,
+          "100": 0.3751,
+          "200": 0.358
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 233,
+          ">=0.4": 9,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Software Engineer"
+    },
+    "mp_program_manager": {
+      "cohort": "minimal_pair",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 3,
+      "admitted_total": 3,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.1765,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 17,
+      "admitted_by_class": {
+        "close": 3
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 3,
+          "min": 0.2594,
+          "median": 0.2606,
+          "max": 0.2966
+        },
+        "irrelevant": {
+          "n": 48,
+          "min": 0.0914,
+          "median": 0.1933,
+          "max": 0.2648
+        },
+        "related": {
+          "n": 14,
+          "min": 0.2167,
+          "median": 0.2789,
+          "max": 0.3418
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.4333,
+          "2": 0.4043,
+          "10": 0.3887,
+          "25": 0.3779,
+          "50": 0.3648,
+          "100": 0.355,
+          "200": 0.3429
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 138,
+          ">=0.4": 6,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Program Manager"
+    },
+    "mp_security_engineer_infra": {
+      "cohort": "minimal_pair",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 1,
+      "admitted_total": 1,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.1667,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 6,
+      "admitted_by_class": {
+        "close": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 1,
+          "min": 0.3301,
+          "median": 0.3301,
+          "max": 0.3301
+        },
+        "irrelevant": {
+          "n": 59,
+          "min": 0.0194,
+          "median": 0.1302,
+          "max": 0.2714
+        },
+        "related": {
+          "n": 5,
+          "min": 0.2146,
+          "median": 0.2162,
+          "max": 0.3152
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.3479,
+          "2": 0.3423,
+          "10": 0.3183,
+          "25": 0.2949,
+          "50": 0.2738,
+          "100": 0.2588,
+          "200": 0.2421
+        },
+        "corpus_count_ge": {
+          ">=0.3": 19,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": ", Infrastructure Security"
+    },
+    "mp_software_engineer_infra": {
+      "cohort": "minimal_pair",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 5,
+      "admitted_total": 5,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.2,
+      "recall_at_25": 0.2,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 5,
+      "admitted_by_class": {
+        "close": 1,
+        "irrelevant": 4
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 1,
+          "min": 0.3502,
+          "median": 0.3502,
+          "max": 0.3502
+        },
+        "irrelevant": {
+          "n": 60,
+          "min": -0.0076,
+          "median": 0.1135,
+          "max": 0.278
+        },
+        "related": {
+          "n": 4,
+          "min": 0.205,
+          "median": 0.2429,
+          "max": 0.3583
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.3795,
+          "2": 0.3595,
+          "10": 0.3307,
+          "25": 0.299,
+          "50": 0.2799,
+          "100": 0.2615,
+          "200": 0.2392
+        },
+        "corpus_count_ge": {
+          ">=0.3": 24,
+          ">=0.35": 4,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Infrastructure Security"
+    },
+    "mp_principal_data_scientist": {
+      "cohort": "minimal_pair",
+      "kind": "exact_title",
+      "resolved_kind": "exact_title",
+      "direct_keys": [
+        "microsoft-1970393556933204"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 1,
+      "admitted_total": 1,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.5,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 2,
+      "admitted_by_class": {
+        "exact": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "exact": {
+          "n": 1,
+          "min": 0.4722,
+          "median": 0.4722,
+          "max": 0.4722
+        },
+        "irrelevant": {
+          "n": 63,
+          "min": 0.1274,
+          "median": 0.2203,
+          "max": 0.4148
+        },
+        "related": {
+          "n": 1,
+          "min": 0.3615,
+          "median": 0.3615,
+          "max": 0.3615
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.5258,
+          "2": 0.5093,
+          "10": 0.454,
+          "25": 0.3998,
+          "50": 0.3748,
+          "100": 0.3443,
+          "200": 0.3143
+        },
+        "corpus_count_ge": {
+          ">=0.3": 272,
+          ">=0.35": 88,
+          ">=0.4": 23,
+          ">=0.45": 10,
+          ">=0.5": 3,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Principal Data Scientist"
+    },
+    "mp_data_science_manager": {
+      "cohort": "minimal_pair",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 2,
+      "admitted_total": 2,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 1.0,
+      "ndcg_at_10": 0.8597,
+      "relevant_total": 2,
+      "admitted_by_class": {
+        "related": 1,
+        "close": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 1,
+          "min": 0.1361,
+          "median": 0.1361,
+          "max": 0.1361
+        },
+        "irrelevant": {
+          "n": 63,
+          "min": 0.0062,
+          "median": 0.1162,
+          "max": 0.1865
+        },
+        "related": {
+          "n": 1,
+          "min": 0.0227,
+          "median": 0.0227,
+          "max": 0.0227
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.3018,
+          "2": 0.2725,
+          "10": 0.2547,
+          "25": 0.2423,
+          "50": 0.226,
+          "100": 0.2085,
+          "200": 0.1888
+        },
+        "corpus_count_ge": {
+          ">=0.3": 1,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Manager"
+    },
+    "mp_applied_science_manager": {
+      "cohort": "minimal_pair",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 11,
+      "admitted_total": 11,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 0.8,
+      "recall_at_25": 1.0,
+      "ndcg_at_10": 0.9346,
+      "relevant_total": 9,
+      "admitted_by_class": {
+        "close": 6,
+        "related": 3,
+        "irrelevant": 2
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 6,
+          "min": 0.13,
+          "median": 0.1722,
+          "max": 0.1865
+        },
+        "irrelevant": {
+          "n": 56,
+          "min": 0.0062,
+          "median": 0.1068,
+          "max": 0.185
+        },
+        "related": {
+          "n": 3,
+          "min": 0.0145,
+          "median": 0.0181,
+          "max": 0.1562
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.3018,
+          "2": 0.2725,
+          "10": 0.2547,
+          "25": 0.2423,
+          "50": 0.226,
+          "100": 0.2085,
+          "200": 0.1888
+        },
+        "corpus_count_ge": {
+          ">=0.3": 1,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Manager"
+    },
+    "mp_applied_scientist": {
+      "cohort": "minimal_pair",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 2,
+      "admitted_total": 2,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.25,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 8,
+      "admitted_by_class": {
+        "close": 1,
+        "related": 1
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 1,
+          "min": 0.3819,
+          "median": 0.3819,
+          "max": 0.3819
+        },
+        "irrelevant": {
+          "n": 57,
+          "min": 0.0644,
+          "median": 0.1694,
+          "max": 0.2844
+        },
+        "related": {
+          "n": 7,
+          "min": 0.2139,
+          "median": 0.2916,
+          "max": 0.343
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.4218,
+          "2": 0.4093,
+          "10": 0.3907,
+          "25": 0.3563,
+          "50": 0.3088,
+          "100": 0.27,
+          "200": 0.2406
+        },
+        "corpus_count_ge": {
+          ">=0.3": 59,
+          ">=0.35": 29,
+          ">=0.4": 8,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Principal Applied Scientist"
+    },
+    "mp_em_streaming_domain": {
+      "cohort": "minimal_pair",
+      "kind": "exploratory",
+      "resolved_kind": "exploratory",
+      "direct_keys": [],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 3,
+      "admitted_total": 3,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": null,
+      "precision_at_10": 1.0,
+      "recall_at_25": 0.375,
+      "ndcg_at_10": 1.0,
+      "relevant_total": 8,
+      "admitted_by_class": {
+        "close": 1,
+        "related": 2
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 1,
+          "min": 0.2495,
+          "median": 0.2495,
+          "max": 0.2495
+        },
+        "irrelevant": {
+          "n": 57,
+          "min": -0.0127,
+          "median": 0.1006,
+          "max": 0.25
+        },
+        "related": {
+          "n": 7,
+          "min": 0.0314,
+          "median": 0.0753,
+          "max": 0.1621
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.2879,
+          "2": 0.2674,
+          "10": 0.2354,
+          "25": 0.2165,
+          "50": 0.1983,
+          "100": 0.1749,
+          "200": 0.1552
+        },
+        "corpus_count_ge": {
+          ">=0.3": 0,
+          ">=0.35": 0,
+          ">=0.4": 0,
+          ">=0.45": 0,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": ", Streaming Platform"
+    },
+    "mp_senior_product_manager": {
+      "cohort": "minimal_pair",
+      "kind": "exact_title",
+      "resolved_kind": "exact_title",
+      "direct_keys": [
+        "amazon-10474139",
+        "microsoft-1970393556874131"
+      ],
+      "direct_ok": true,
+      "false_exacts": [],
+      "matched_total": 6,
+      "admitted_total": 6,
+      "pool": 200,
+      "ranking_truncated": false,
+      "exact_rank": 1,
+      "precision_at_10": 0.7143,
+      "recall_at_25": 0.4167,
+      "ndcg_at_10": 0.9618,
+      "relevant_total": 12,
+      "admitted_by_class": {
+        "exact": 2,
+        "irrelevant": 2,
+        "close": 3
+      },
+      "semantic_only_admitted": 0,
+      "semantic_only_irrelevant_admitted": 0,
+      "cosine_by_class": {
+        "close": {
+          "n": 3,
+          "min": 0.3518,
+          "median": 0.3633,
+          "max": 0.364
+        },
+        "exact": {
+          "n": 2,
+          "min": 0.4404,
+          "median": 0.4477,
+          "max": 0.4549
+        },
+        "irrelevant": {
+          "n": 53,
+          "min": 0.0835,
+          "median": 0.2164,
+          "max": 0.3959
+        },
+        "related": {
+          "n": 7,
+          "min": 0.2996,
+          "median": 0.3458,
+          "max": 0.3771
+        }
+      },
+      "corpus": {
+        "cosine_at_rank": {
+          "1": 0.4994,
+          "2": 0.4905,
+          "10": 0.4735,
+          "25": 0.4654,
+          "50": 0.4497,
+          "100": 0.4335,
+          "200": 0.4123
+        },
+        "corpus_count_ge": {
+          ">=0.3": 300,
+          ">=0.35": 300,
+          ">=0.4": 246,
+          ">=0.45": 49,
+          ">=0.5": 0,
+          ">=0.55": 0
+        }
+      },
+      "parsed_remainder": "Senior Product Manager"
+    }
+  }
+}

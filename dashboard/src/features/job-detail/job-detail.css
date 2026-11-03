@@ -1,0 +1,1479 @@
+/* Job detail, on the promoted system. The full-screen reading surface: same layout, same behavior
+ * (Escape-to-back, routed overlay semantics), every value from --app-*.
+ *
+ * The detail deliberately reads roomier than the board: its prose sits at
+ * `name` (15) with generous leading, stepping to `title` (16) on wide
+ * viewports, the reading-surface exception, taken from the ramp rather than
+ * literals. Facts sit at `meta`, chrome at `label`, exactly as everywhere
+ * else. The screen paints its own ground, so it takes the system's page
+ * light: canvas + the ambient wash, viewport-anchored like every other
+ * ground-painter.
+ *
+ * Shared components rendered here keep their own paint: CompanyChip (.chip)
+ * and BandBadge/LocBadge (.badge-*), the board's chip vocabulary.
+ * `.job-row.is-stacked` stays in styles.css: it decorates BOARD rows.
+ */
+
+/* ---- shell --------------------------------------------------------------- */
+
+.jd-compare-state {
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+  white-space: nowrap;
+}
+
+.jd-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--app-space-6) var(--app-space-6) 96px;
+}
+
+
+/* ---- hero ---------------------------------------------------------------- */
+
+.jd-hero {
+  padding-bottom: var(--app-space-5);
+  margin-bottom: var(--app-space-5);
+  border-bottom: 1px solid var(--app-border);
+}
+
+/* The screen's own h1, at the screen's own rank: `page`, at every width.
+   Not `display`: that is the instrument-hero rank, worn only by mono tabular
+   NUMERALS (the schedule dial's dispatch time, the sync stream total, this
+   page's own comp figure below), and a title is not a numeral. The ramp says
+   so twice: `page` is commented "the screen's own h1", and tokens.test.ts
+   asserts "the h1 is chrome, not a hero" with a 24px ceiling. The whole
+   `.page-hero h1` recipe (tracking and weight, not only size) comes with the
+   rank, so one rank is spelled one way. */
+.jd-hero h1 {
+  max-width: 900px;
+  margin: var(--app-space-3) 0 var(--app-space-3);
+  font-size: var(--app-type-page);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: var(--app-weight-name);
+}
+
+.jd-hero .job-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  flex-wrap: wrap;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+}
+
+/* A role at a company the user stopped following. */
+.jd-unfollowed {
+  margin: var(--app-space-3) 0 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+}
+
+.jd-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 44px;
+  align-items: start;
+}
+
+.jd-main {
+  min-width: 0;
+}
+
+.jd-aside {
+  min-width: 0;
+}
+
+/* ---- section chrome ------------------------------------------------------ */
+
+/* Scoped under the screen root: Schedule also renders a .section-title and
+   carries its own self-contained rule in ScheduleSection.css. */
+.job-detail .section-title {
+  margin: var(--app-space-4) 0 var(--app-space-2);
+  color: var(--app-action-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+
+/* ---- reading surface ----------------------------------------------------- */
+
+/* The description spans its column like the cards above it: the reading
+   measure is `.jd-container`'s, so the text carries no width cap of its own. */
+.jd-main .jd {
+  font-size: var(--app-type-name);
+  line-height: 1.78;
+}
+
+.jd {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.72;
+  white-space: pre-wrap;
+}
+
+/* Justified only with hyphenation: without break points inside words the
+   browser can only widen the spaces, and a long word opens holes in the line.
+   Hyphenation reads the page's `lang`. Narrow screens set the text ragged
+   again (below), where a line holds too few words to justify. */
+.jd-main .jd,
+.jd-section p,
+.jd-section li {
+  text-align: justify;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.jd-section {
+  padding: 3px 0 var(--app-space-2);
+}
+
+.jd-section + .jd-section {
+  margin-top: var(--app-space-4);
+  padding-top: var(--app-space-4);
+  border-top: 1px solid var(--app-border);
+}
+
+.jd-section h2 {
+  margin: 0 0 var(--app-space-3);
+  color: var(--app-text);
+  font-size: var(--app-type-screen);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.jd-section p {
+  margin: 0 0 var(--app-space-3);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-name);
+  line-height: 1.78;
+}
+
+.jd-section ul {
+  margin: 0;
+  padding-left: var(--app-space-4);
+  color: var(--app-text-muted);
+}
+
+.jd-section li {
+  margin: 0 0 var(--app-space-2);
+  padding-left: 3px;
+  font-size: var(--app-type-name);
+  line-height: 1.7;
+}
+
+.jd-section-pay_and_benefits {
+  margin-top: var(--app-space-4);
+  padding: var(--app-space-4) var(--app-space-4) var(--app-space-3);
+  border: 1px solid var(--app-positive-line);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-positive-soft);
+}
+
+.jd-section-pay_and_benefits + .jd-section {
+  border-top: 0;
+}
+
+/* ---- pursuit + advisory (aside) ------------------------------------------ */
+
+.jd-pursuit {
+  margin-bottom: var(--app-space-4);
+}
+
+.jd-pursuit-label {
+  display: grid;
+  gap: var(--app-space-1);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+.jd-pursuit-next {
+  margin-top: var(--app-space-1);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+/* What picking a stage does, said before the first pick. */
+.jd-pursuit-explainer {
+  margin: var(--app-space-1) 0 0;
+  font-size: var(--app-type-meta);
+  line-height: 1.45;
+  color: var(--app-text-muted);
+}
+
+.jd-advisory {
+  border: 1px solid var(--app-border);
+  border-left: 3px solid var(--app-action);
+  border-radius: var(--app-radius-md);
+  padding: var(--app-space-2) var(--app-space-3);
+  margin-bottom: var(--app-space-4);
+}
+
+.jd-advisory[data-relevance="relevant"] {
+  border-left-color: var(--app-positive);
+}
+
+.jd-advisory[data-relevance="irrelevant"] {
+  border-left-color: var(--app-warning);
+}
+
+.jd-advisory-verdict {
+  font-weight: var(--app-weight-name);
+  font-size: var(--app-type-body);
+}
+
+.jd-advisory-domain {
+  color: var(--app-text-muted);
+  font-weight: var(--app-weight-body);
+}
+
+.jd-advisory-rationale {
+  margin: var(--app-space-1) 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  line-height: 1.5;
+}
+
+.jd-advisory-meta {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+/* ---- key-value + timeline ------------------------------------------------ */
+
+.kv {
+  display: grid;
+  grid-template-columns: 128px 1fr;
+  gap: var(--app-space-2) var(--app-space-3);
+  font-size: var(--app-type-meta);
+  margin: 0;
+}
+
+.kv dt {
+  color: var(--app-text-faint);
+}
+
+.kv dd {
+  margin: 0;
+}
+
+/* The one listing age and its history: the figure, where it counts
+   from, and the way into the history, on one Details row. */
+.jd-listed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--app-space-1) var(--app-space-2);
+}
+.jd-listed-basis {
+  color: var(--app-text-muted);
+}
+.jd-history-popover .ui-popover-inner {
+  padding: var(--app-space-3);
+}
+.jd-history-title {
+  font-weight: var(--app-weight-name);
+  margin-bottom: var(--app-space-2);
+}
+.jd-history {
+  list-style: none;
+  margin: 0;
+}
+.jd-history-note {
+  margin: var(--app-space-2) 0 0;
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+.jd-history-unconfirmed {
+  margin-top: var(--app-space-2);
+  border-top: 1px solid var(--app-border);
+}
+
+/* The timeline: the listing history's events. */
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-left: 3px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background: var(--app-border-strong);
+}
+
+.tl-item {
+  position: relative;
+  padding: var(--app-space-1) 0 var(--app-space-1) var(--app-space-4);
+  display: flex;
+  gap: var(--app-space-2);
+  font-size: var(--app-type-meta);
+}
+
+.tl-dot {
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--app-action);
+  box-shadow: 0 0 0 3px var(--app-surface-raised);
+}
+
+.tl-item.is-closed .tl-dot {
+  background: var(--app-danger);
+}
+
+.tl-item.is-reopened .tl-dot {
+  background: var(--app-warning);
+}
+
+.tl-when {
+  color: var(--app-text-muted);
+}
+
+/* ---- similar positions --------------------------------------------------- */
+
+/* Two categories, at most three rows each (JobDetail SIMILAR_PER_CATEGORY),
+   told apart on three channels at once: a hairline opens each group, the
+   category head sits at the chrome floor (label, 12px, never the section
+   kicker's register, or the two levels of hierarchy collapse into one), and
+   the rows drop one step below the body (meta / micro) so the head is
+   visibly the larger thing. */
+.similar-group {
+  margin-top: var(--app-space-3);
+  padding-top: var(--app-space-3);
+  border-top: 1px solid var(--app-border);
+}
+
+.similar-label {
+  margin: 0 0 var(--app-space-1);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  font-weight: var(--app-weight-strong);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.similar-row {
+  font-size: var(--app-type-meta);
+}
+
+.similar-row .mj-meta {
+  font-size: var(--app-type-micro);
+}
+
+.similar-row:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+  border-radius: var(--app-radius-sm);
+}
+
+.similar-score {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 700;
+  color: var(--app-action-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- compensation panel -------------------------------------------------- */
+
+/* Restates the shared card recipe (overlays.css `.panel`) under a local name,
+   as `.req-panel` does below. Both span their column, so both take the
+   page-level inset; folding the two names into the shared class is
+   the `Card` primitive's job. */
+.comp-panel {
+  margin: var(--app-space-3) 0;
+  padding: var(--app-space-5);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-surface-raised);
+}
+
+.jd-main .comp-panel {
+  margin-top: 0;
+}
+
+.comp-panel .big {
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-stat);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* In the main column the price is the panel's hero numeral. */
+.jd-main .comp-panel .big {
+  font-size: var(--app-type-display);
+}
+
+.comp-panel .prov {
+  margin-top: 3px;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+
+/* ---- package breakdown (JobCompPanel) ------------------------------------ */
+
+.pkg-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.pkg-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+}
+
+.pkg-eyebrow {
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+.pkg-per {
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-ui);
+  color: var(--app-text-faint);
+  letter-spacing: 0;
+}
+
+.pkg-guaranteed {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  margin-top: var(--app-space-1);
+  font-size: var(--app-type-meta);
+  color: var(--app-positive);
+}
+
+.pkg-guaranteed b {
+  font-family: var(--app-font-mono);
+  font-weight: 700;
+}
+
+.pkg-guaranteed .info-tip {
+  margin-left: -1px;
+}
+
+/* The pay floor line: one sentence, the verdict's tone. */
+.pkg-floor {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  margin-top: var(--app-space-1);
+  font-size: var(--app-type-meta);
+}
+.pkg-floor-clears { color: var(--app-positive); }
+.pkg-floor-straddles { color: var(--app-warning); }
+.pkg-floor-below { color: var(--app-text-muted); }
+
+.pkg-note {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  margin-top: var(--app-space-2);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+.pkg-bar {
+  display: flex;
+  height: 30px;
+  margin-top: var(--app-space-3);
+  border-radius: var(--app-radius-sm);
+  overflow: hidden;
+  background: var(--app-surface-sunken);
+}
+
+.pkg-seg {
+  display: block;
+  height: 100%;
+}
+
+.pkg-base {
+  background: var(--app-decor);
+}
+
+.pkg-bonus {
+  background: var(--app-data-1);
+}
+
+.pkg-equity {
+  background: var(--app-action);
+}
+
+.pkg-est {
+  background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0 2px, transparent 2px 5px);
+}
+
+.pkg-bracket {
+  display: flex;
+  margin-top: 5px;
+  font-size: var(--app-type-label);
+}
+
+.pkg-br-stated {
+  border-top: 2px solid var(--app-positive);
+  padding-top: 3px;
+  color: var(--app-positive);
+}
+
+.pkg-br-est {
+  border-top: 2px dashed var(--app-border-strong);
+  padding-top: 3px;
+  text-align: right;
+  color: var(--app-text-faint);
+}
+
+.pkg-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-4);
+  margin-top: var(--app-space-3);
+}
+
+.pkg-leg {
+  display: flex;
+  gap: var(--app-space-2);
+}
+
+.pkg-leg i.pkg-sw {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  margin-top: 3px;
+  border-radius: 2px;
+}
+
+.pkg-leg-top {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  font-size: var(--app-type-meta);
+}
+
+.pkg-leg-n {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-body);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.pkg-leg-hint {
+  font-size: var(--app-type-label);
+  color: var(--app-text-muted);
+}
+
+.pkg-tag {
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: var(--app-type-label);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.pkg-tag-stated {
+  color: var(--app-positive);
+  background: var(--app-positive-soft);
+  border: 1px solid var(--app-positive-line);
+}
+
+.pkg-tag-est {
+  color: var(--app-text-faint);
+  border: 1px solid var(--app-border);
+}
+
+.pkg-tag-warn {
+  color: var(--app-warning);
+  border: 1px solid var(--app-warning-line);
+}
+
+.pkg-unclear {
+  margin-top: var(--app-space-3);
+  padding: var(--app-space-3);
+  border: 1px dashed var(--app-border-strong);
+  border-radius: var(--app-radius-sm);
+}
+
+.pkg-unclear-n {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-title);
+  font-weight: 700;
+}
+
+.pkg-unclear p {
+  margin: var(--app-space-1) 0 0;
+  font-size: var(--app-type-meta);
+  line-height: 1.5;
+  color: var(--app-text-muted);
+}
+
+.pkg-vs {
+  margin-top: var(--app-space-2);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+.pkg-vs b {
+  font-family: var(--app-font-mono);
+  color: var(--app-text);
+}
+
+/* The market median as a reading on the headline, not a rival headline: one line,
+   ledger-shaped, sitting directly under the number it comments on. */
+.pkg-market {
+  margin-top: var(--app-space-2);
+  padding-top: var(--app-space-2);
+  border-top: 1px solid var(--app-border);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+.pkg-market-n {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+}
+
+.pkg-market-n b {
+  font-family: var(--app-font-mono);
+  font-weight: 700;
+  color: var(--app-text);
+}
+
+/* The provenance string is a SENTENCE (the estimate's company, level and job
+   family), so it sits at the fact floor and is separated by ink, not by size:
+   whisper is uppercase recognition text, and uppercasing a sentence would make
+   it unreadable. */
+.pkg-market-src {
+  margin-top: 2px;
+  font-size: var(--app-type-meta);
+  color: var(--app-text-faint);
+}
+
+.pkg-market-warn .pkg-market-n b {
+  color: var(--app-warning);
+}
+
+.pkg-market-warn-note,
+.pkg-caution {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--app-space-1);
+  margin-top: var(--app-space-2);
+  font-size: var(--app-type-meta);
+  line-height: 1.45;
+  color: var(--app-warning);
+}
+
+.pkg-caution {
+  padding: var(--app-space-2);
+  border: 1px solid var(--app-warning-line);
+  border-radius: var(--app-radius-sm);
+}
+
+.pkg-quote {
+  margin-top: var(--app-space-3);
+  font-size: var(--app-type-meta);
+}
+
+.pkg-quote summary {
+  color: var(--app-text-muted);
+  cursor: pointer;
+}
+
+.pkg-quote q {
+  display: block;
+  margin-top: var(--app-space-1);
+  padding: var(--app-space-2) var(--app-space-2);
+  border-left: 2px solid var(--app-border-strong);
+  border-radius: 0;
+  background: var(--app-surface-sunken);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+.pkg-foot {
+  margin-top: var(--app-space-3);
+  padding-top: var(--app-space-2);
+  border-top: 1px solid var(--app-border);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+/* ---- requirements panel -------------------------------------------------- */
+/* Quantitative meter keeps the data semantics: --app-data-1 -> --app-data-2.
+   Band labels are always text — never color-only. */
+
+.req-panel {
+  margin: var(--app-space-3) 0;
+  padding: var(--app-space-5);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-surface-raised);
+}
+
+.req-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+}
+
+/* A modifier ON .eyebrow, not a second copy of it: it changes one property
+   and restates nothing else. Worn as `class="eyebrow req-eyebrow"`,
+   so it stays 0-1-0 against the shared rule and wins on source order. */
+.req-eyebrow {
+  color: var(--app-action-text);
+}
+
+.req-title {
+  margin: var(--app-space-1) 0 0;
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  font-size: var(--app-type-title);
+  font-weight: var(--app-weight-name);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* The head's facts, right of the title: the years headline over the skill
+   counts. Both are data about the role, so neither is marked chrome. */
+.req-head-facts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--app-space-1);
+  padding-top: var(--app-space-1);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  white-space: nowrap;
+}
+
+.req-years {
+  margin: 0;
+  color: var(--app-text);
+}
+
+.req-counts {
+  color: var(--app-text-faint);
+}
+
+.req-empty {
+  margin: var(--app-space-3) 0 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+}
+
+.req-group {
+  margin-top: var(--app-space-3);
+}
+
+.req-group-label {
+  margin-bottom: var(--app-space-1);
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.req-ledger {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.req-row-item {
+  border-top: 1px solid var(--app-border);
+}
+
+.req-row-item:first-child {
+  border-top: 0;
+}
+
+.req-row {
+  display: grid;
+  grid-template-columns: 92px 1fr auto minmax(80px, 120px) auto;
+  align-items: center;
+  gap: var(--app-space-2);
+  width: 100%;
+  min-height: 40px;
+  padding: var(--app-space-1) var(--app-space-1);
+  border: 0;
+  background: none;
+  color: var(--app-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: var(--app-radius-sm);
+}
+
+.req-row:hover {
+  background: var(--app-surface-hover);
+}
+
+/* The one ring: the requirements panel's own accent is its links',
+   not its focus. */
+.req-row:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+.req-cat {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.req-name {
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+}
+
+.req-band {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+.req-band-core {
+  color: var(--app-text);
+  font-weight: var(--app-weight-strong);
+}
+
+.req-meter {
+  position: relative;
+  height: 4px;
+  border-radius: 3px;
+  background: var(--app-surface-sunken);
+  overflow: hidden;
+}
+
+.req-meter-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--app-data-1), var(--app-data-2));
+}
+
+.req-sources {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  white-space: nowrap;
+}
+
+.req-evidence {
+  padding: var(--app-space-1) var(--app-space-1) var(--app-space-2);
+}
+
+.req-quote {
+  margin: var(--app-space-1) 0 0;
+}
+
+.req-quote blockquote {
+  margin: 0;
+  padding: var(--app-space-2) var(--app-space-3);
+  border-left: 2px solid var(--app-information);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  line-height: 1.6;
+  background: var(--app-surface-sunken);
+  border-radius: 0 var(--app-radius-sm) var(--app-radius-sm) 0;
+}
+
+.req-quote figcaption {
+  margin-top: var(--app-space-1);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  flex-wrap: wrap;
+}
+
+.req-quote-src {
+  font-family: var(--app-font-mono);
+}
+
+.req-quote-skill {
+  color: var(--app-text-muted);
+  font-weight: var(--app-weight-name);
+}
+
+.req-jump {
+  margin-left: var(--app-space-2);
+}
+
+.req-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-1);
+}
+
+.req-mod {
+  color: var(--app-text-faint);
+}
+
+.req-quals {
+  margin: 0;
+}
+
+.req-qual-row {
+  display: grid;
+  /* Modality, the line, and an experience line's years figure. */
+  grid-template-columns: 92px minmax(0, 1fr) auto;
+  gap: var(--app-space-2);
+  padding: var(--app-space-1) var(--app-space-1);
+  border-top: 1px solid var(--app-border);
+  font-size: var(--app-type-body);
+}
+
+.req-qual-row:first-child {
+  border-top: 0;
+}
+
+.req-qual-row dt {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  padding-top: 2px;
+}
+
+.req-mod-required {
+  color: var(--app-text);
+  font-weight: var(--app-weight-strong);
+}
+
+.req-mod-preferred {
+  color: var(--app-text-faint);
+}
+
+.req-qual-row dd {
+  margin: 0;
+  color: var(--app-text-muted);
+}
+
+.req-qual-row .req-qual-years {
+  padding-top: 2px;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  white-space: nowrap;
+}
+
+.req-qual-years strong {
+  color: var(--app-text);
+  font-weight: var(--app-weight-strong);
+}
+
+.req-ways {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+  font-size: var(--app-type-body);
+  color: var(--app-text-muted);
+}
+
+/* ---- repost lineage stack ------------------------------------------------ */
+
+.lineage-stack {
+  margin: var(--app-space-3) 0 var(--app-space-1);
+  padding: var(--app-space-3) var(--app-space-3);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-surface-raised);
+}
+
+.lineage-stack.error {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.lineage-stack-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--app-space-2);
+  margin-bottom: var(--app-space-2);
+}
+
+.lineage-stack-title {
+  font-weight: var(--app-weight-name);
+  font-size: var(--app-type-name);
+}
+
+.lineage-stack-sub {
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+.lineage-stack-pager {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  margin-bottom: var(--app-space-3);
+}
+
+.lineage-rail {
+  display: flex;
+  gap: var(--app-space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.lineage-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--app-border);
+  background: var(--app-surface-hover);
+  cursor: pointer;
+  padding: 0;
+}
+
+/* The posting on screen is the CHOSEN dot: filled with the chosen mark, keyed
+   on the dot's own `aria-current`. No glow: no other chosen mark in the
+   app glows, and a halo is a focus look. */
+.lineage-dot[aria-current="true"] {
+  background: var(--app-chosen-mark);
+  border-color: var(--app-chosen-mark);
+}
+
+.lineage-dot.role-duplicate {
+  border-style: dashed;
+}
+
+.lineage-member-head {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--app-space-1);
+}
+
+.lineage-req {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+.lineage-member-title {
+  margin: 2px 0 var(--app-space-2);
+  font-size: var(--app-type-name);
+}
+
+.lineage-member-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--app-space-2) var(--app-space-3);
+  margin: 0;
+}
+
+.lineage-member-facts dt {
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+  color: var(--app-text-faint);
+}
+
+.lineage-member-facts dd {
+  margin: 1px 0 0;
+  font-size: var(--app-type-meta);
+}
+
+.lineage-member-diff {
+  margin-top: var(--app-space-3);
+  padding-top: var(--app-space-2);
+  border-top: 1px dashed var(--app-border);
+}
+
+.lineage-diff-heading {
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+  color: var(--app-text-faint);
+}
+
+.lineage-diff {
+  list-style: none;
+  margin: var(--app-space-1) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-1);
+}
+
+.lineage-diff-row {
+  display: flex;
+  gap: var(--app-space-2);
+  font-size: var(--app-type-meta);
+}
+
+.lineage-diff-label {
+  font-weight: var(--app-weight-name);
+  min-width: 130px;
+  color: var(--app-text);
+}
+
+.lineage-diff-detail {
+  color: var(--app-text-muted);
+}
+
+/* ---- twin deck ----------------------------------------------------------- */
+/* Confirmed twins are separate opportunities: stacked paper cue, then a
+   compact sheet chooser. The route change supplies the next full page. */
+
+/* The deck's failure line: same voice as `.lineage-stack.error`. */
+.twin-deck-error {
+  margin: 0 0 var(--app-space-4);
+  color: var(--app-danger);
+  font-size: var(--app-type-meta);
+}
+
+.twin-deck {
+  position: relative;
+  margin: var(--app-space-3) 0 var(--app-space-2);
+  max-width: 760px;
+  perspective: 1200px;
+}
+
+.twin-deck::before,
+.twin-deck::after {
+  content: "";
+  position: absolute;
+  inset: 5px 12px -5px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-surface-subtle);
+  z-index: -1;
+}
+
+.twin-deck::after {
+  inset: 10px 24px -10px;
+  opacity: 0.72;
+}
+
+.twin-deck-trigger {
+  width: 100%;
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+  gap: var(--app-space-2);
+  padding: var(--app-space-2) var(--app-space-3);
+  border: 1px solid var(--app-action-line);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-surface-raised);
+  color: var(--app-text);
+  text-align: left;
+  cursor: pointer;
+  transform-origin: left center;
+  transition:
+    transform var(--app-duration-medium) var(--app-ease),
+    border-color var(--app-duration-fast) var(--app-ease);
+}
+
+.twin-deck-trigger:hover {
+  border-color: var(--app-action);
+}
+
+.twin-deck.is-turning .twin-deck-trigger {
+  transform: rotateY(-8deg) translateX(-5px);
+}
+
+.twin-paper-mark {
+  width: 27px;
+  height: 32px;
+  border: 1px solid var(--app-action-line);
+  border-radius: 5px;
+  background: var(--app-action-soft);
+  box-shadow: 4px 4px 0 var(--app-surface-subtle), 5px 5px 0 var(--app-border);
+}
+
+.twin-deck-trigger strong {
+  display: block;
+  color: var(--app-action-text);
+  font-size: var(--app-type-body);
+}
+
+.twin-deck-trigger small {
+  display: block;
+  margin-top: 2px;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.twin-deck-chevron {
+  color: var(--app-action-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-icon-lg);
+}
+
+.twin-deck-sheet {
+  padding: var(--app-space-3) var(--app-space-3) var(--app-space-2);
+  border: 1px solid var(--app-border);
+  border-top: 0;
+  border-radius: 0 0 var(--app-radius-lg) var(--app-radius-lg);
+  background: var(--app-surface-raised);
+  animation: twin-sheet-in var(--app-duration-medium) var(--app-ease);
+}
+
+@keyframes twin-sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+
+.twin-deck-sheet ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.twin-deck-sheet li + li {
+  border-top: 1px solid var(--app-border);
+}
+
+.twin-deck-sheet li > button {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: var(--app-space-2) var(--app-space-1);
+  border: 0;
+  background: transparent;
+  color: var(--app-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.twin-deck-sheet li > button:hover .twin-deck-title {
+  color: var(--app-action-text);
+}
+
+.twin-deck-title {
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+}
+
+.twin-deck-meta {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+}
+
+.twin-group-members {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-1);
+  margin-top: var(--app-space-2);
+  padding-top: var(--app-space-2);
+  border-top: 1px dashed var(--app-border);
+}
+
+.twin-group-members > span {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+/* Group members are ui/Button link/quiet, one per line. */
+.twin-group-members > .ui-btn-link {
+  display: block;
+  text-align: left;
+}
+
+.twin-compare-button {
+  width: 100%;
+  margin-top: var(--app-space-2);
+}
+
+/* ---- responsive ---------------------------------------------------------- */
+
+/* Large screens: step the reading measure and container up so the detail
+   scales with the viewport — the type steps one role (`name` -> `title`),
+   never off the ramp. */
+@media (min-width: 1500px) {
+  .jd-container {
+    max-width: 1360px;
+    padding: 46px 56px 110px;
+  }
+
+  .jd-grid {
+    gap: 56px;
+  }
+
+  .jd-main .jd {
+    font-size: var(--app-type-title);
+    line-height: 1.8;
+  }
+
+  .jd-section p,
+  .jd-section li {
+    font-size: var(--app-type-title);
+  }
+
+  .kv {
+    font-size: var(--app-type-body);
+  }
+}
+
+@media (max-width: 860px) {
+  .jd-container {
+    padding: var(--app-space-4) var(--app-space-4) 80px;
+  }
+
+  /* The narrow-viewport case of the card inset, for the two cards
+     this screen restates under its own names. */
+  .comp-panel,
+  .req-panel {
+    padding: var(--app-space-4);
+  }
+
+  .jd-grid {
+    grid-template-columns: 1fr;
+    gap: var(--app-space-5);
+  }
+
+  .jd-main .jd {
+    font-size: var(--app-type-body);
+  }
+
+  .jd-section h2 {
+    font-size: var(--app-type-title);
+  }
+
+  .jd-section p,
+  .jd-section li {
+    font-size: var(--app-type-body);
+  }
+
+  .jd-main .jd,
+  .jd-section p,
+  .jd-section li {
+    text-align: start;
+    -webkit-hyphens: manual;
+    hyphens: manual;
+  }
+
+  .jd-section-pay_and_benefits {
+    padding: var(--app-space-4) var(--app-space-4) var(--app-space-2);
+  }
+
+  .jd-main .comp-panel .big {
+    font-size: var(--app-type-stat);
+  }
+
+  .req-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "name band"
+      "cat sources"
+      "meter meter";
+  }
+
+  .req-cat { grid-area: cat; }
+  .req-name { grid-area: name; }
+  .req-band { grid-area: band; }
+  .req-meter { grid-area: meter; min-width: 80px; }
+  .req-sources { grid-area: sources; justify-self: end; }
+
+  /* No room for a third column: the years figure sits under its line. */
+  .req-qual-row {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .req-qual-row .req-qual-years {
+    grid-column: 2;
+    padding-top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .req-evidence {
+    animation: req-fade var(--app-duration-medium) ease-out;
+  }
+
+  @keyframes req-fade {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* ---- place set ------------------------------------------------ */
+/* One role the employer lists once per place. A quiet ledger, not a deck: the
+   other places are links to their postings, and the split is a link too, so
+   the screen keeps its one primary ("View & apply"). */
+.place-set {
+  margin: var(--app-space-3) 0 var(--app-space-2);
+  max-width: 760px;
+}
+
+.place-set-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-1) var(--app-space-3);
+  margin: 0 0 var(--app-space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.place-set-row {
+  color: var(--app-action-text);
+  font-size: var(--app-type-meta);
+}
+
+.place-set-row:hover {
+  text-decoration: underline;
+}
+
+.place-set-why,
+.place-set-note {
+  margin: 0 0 var(--app-space-1);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}

@@ -1,0 +1,240 @@
+{
+ "notif-affected-none": [],
+ "notif-asleep": [
+  "duration"
+ ],
+ "notif-changed": [
+  "company"
+ ],
+ "notif-closed": [
+  "company"
+ ],
+ "notif-companies": [
+  "count"
+ ],
+ "notif-coverage-board-missing": [],
+ "notif-coverage-empty-listing": [],
+ "notif-coverage-empty-moved": [
+  "company"
+ ],
+ "notif-coverage-empty-title": [
+  "company",
+  "days"
+ ],
+ "notif-coverage-gone-moved": [
+  "company"
+ ],
+ "notif-coverage-gone-title": [
+  "company",
+  "days"
+ ],
+ "notif-coverage-held-until-listed": [
+  "held"
+ ],
+ "notif-coverage-held-until-then": [
+  "held"
+ ],
+ "notif-coverage-not-scanned": [
+  "company"
+ ],
+ "notif-coverage-not-scanned-since": [
+  "company",
+  "day"
+ ],
+ "notif-coverage-outage": [
+  "count",
+  "days"
+ ],
+ "notif-coverage-outage-body": [],
+ "notif-coverage-outage-since": [
+  "day"
+ ],
+ "notif-coverage-partial": [],
+ "notif-coverage-scan-title": [
+  "company",
+  "days"
+ ],
+ "notif-coverage-unknown": [],
+ "notif-coverage-unreachable": [],
+ "notif-coverage-unreadable": [],
+ "notif-coverage-waiting-outage": [
+  "count"
+ ],
+ "notif-coverage-waiting-title": [
+  "company"
+ ],
+ "notif-cut-short": [
+  "sources"
+ ],
+ "notif-data-saved": [],
+ "notif-digest": [
+  "count"
+ ],
+ "notif-digest-fit": [
+  "band",
+  "lead"
+ ],
+ "notif-digest-lead": [
+  "company",
+  "title"
+ ],
+ "notif-digest-more": [
+  "lead",
+  "more"
+ ],
+ "notif-due-today": [],
+ "notif-duration-hours": [
+  "h",
+  "m"
+ ],
+ "notif-duration-minutes": [
+  "m",
+  "s"
+ ],
+ "notif-duration-seconds": [
+  "s"
+ ],
+ "notif-duration-unknown": [],
+ "notif-every-source-delivered": [
+  "failure"
+ ],
+ "notif-failed-at": [
+  "at",
+  "duration"
+ ],
+ "notif-finished-at": [
+  "at",
+  "duration"
+ ],
+ "notif-fit-fair": [],
+ "notif-fit-good": [],
+ "notif-fit-strong": [],
+ "notif-fit-weak": [],
+ "notif-follow-up": [
+  "company",
+  "when"
+ ],
+ "notif-follow-up-body": [
+  "action",
+  "stage",
+  "title"
+ ],
+ "notif-gone-quiet": [
+  "company",
+  "days"
+ ],
+ "notif-gone-quiet-body": [
+  "stage",
+  "title"
+ ],
+ "notif-listed": [
+  "company"
+ ],
+ "notif-listed-again": [
+  "company"
+ ],
+ "notif-no-next-action": [],
+ "notif-offline": [
+  "count",
+  "sources"
+ ],
+ "notif-overdue": [
+  "days"
+ ],
+ "notif-pay-change": [
+  "after",
+  "before",
+  "title"
+ ],
+ "notif-pay-lowered": [
+  "company"
+ ],
+ "notif-pay-raised": [
+  "company"
+ ],
+ "notif-post-pass-unfinished": [
+  "failure"
+ ],
+ "notif-problems-at": [
+  "affected"
+ ],
+ "notif-read-saved": [],
+ "notif-reposted": [
+  "company"
+ ],
+ "notif-run-failed": [],
+ "notif-saved-elsewhere": [
+  "company",
+  "places"
+ ],
+ "notif-saved-elsewhere-body": [
+  "more",
+  "places",
+  "title"
+ ],
+ "notif-scan-derivation-failed": [],
+ "notif-scan-failed": [],
+ "notif-scan-problems": [],
+ "notif-scan-started": [],
+ "notif-scan-started-all-body": [
+  "sources"
+ ],
+ "notif-scan-started-body": [
+  "count",
+  "sources"
+ ],
+ "notif-scan-stopped": [],
+ "notif-scan-summary": [
+  "created",
+  "found",
+  "updated"
+ ],
+ "notif-scan-summary-skipped": [
+  "created",
+  "found",
+  "skipped",
+  "updated"
+ ],
+ "notif-sources-all": [],
+ "notif-sources-more": [
+  "more",
+  "names"
+ ],
+ "notif-stopped-after": [
+  "companies"
+ ],
+ "notif-stopped-before-any": [],
+ "notif-unfinished-c": [
+  "cut"
+ ],
+ "notif-unfinished-o": [
+  "offline"
+ ],
+ "notif-unfinished-oc": [
+  "cut",
+  "offline"
+ ],
+ "notif-unfinished-u": [
+  "unreached"
+ ],
+ "notif-unfinished-uc": [
+  "cut",
+  "unreached"
+ ],
+ "notif-unfinished-uo": [
+  "offline",
+  "unreached"
+ ],
+ "notif-unfinished-uoc": [
+  "cut",
+  "offline",
+  "unreached"
+ ],
+ "notif-unreached": [
+  "count",
+  "sources"
+ ],
+ "notif-updated-long-open": [
+  "company"
+ ]
+}

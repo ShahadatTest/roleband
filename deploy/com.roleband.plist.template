@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Rendered by deploy/install.sh. The supervisor: it serves the API and runs
+     every background job. KeepAlive restarts it whenever it exits; a running job
+     survives that (each is its own session) and the next supervisor adopts it.
+     ExitTimeOut covers its stop: the API gets 10 s, jobs are left running. -->
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>com.roleband</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>__ROLEBAND_ROOT__/deploy/roleband</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>ThrottleInterval</key>
+    <integer>15</integer>
+    <key>ExitTimeOut</key>
+    <integer>30</integer>
+    <key>WorkingDirectory</key>
+    <string>__ROLEBAND_ROOT__/backend</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>PATH</key>
+      <string>/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin</string>
+      <key>PYTHONUNBUFFERED</key>
+      <string>1</string>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>__ROLEBAND_ROOT__/data/logs/launchd.log</string>
+    <key>StandardErrorPath</key>
+    <string>__ROLEBAND_ROOT__/data/logs/launchd.log</string>
+  </dict>
+</plist>

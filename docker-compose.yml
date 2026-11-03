@@ -1,0 +1,41 @@
+# OPTIONAL DEV TOOLING — not how RoleBand runs.
+#
+# The app ships its own Postgres (backend/tracker/platform/embedded_db.py) and
+# starts it on first use, so a normal install needs nothing here: no Docker, no
+# daemon, no account. This file remains for the cases where an external server
+# is genuinely wanted — comparing behaviour against a stock pgvector image,
+# reproducing a bug on the old stack, or a throwaway database for an experiment.
+#
+# The credentials are dev-only defaults and the port listens on loopback only.
+# To use it, point the app at it explicitly; otherwise it is ignored:
+#   docker compose up -d db
+#   export ROLEBAND_DATABASE_URL=postgresql://roleband:roleband@localhost:5433/roleband
+#
+# This is a DIFFERENT cluster from the embedded one; data does not move between
+# them by itself (see scripts/migrate_db_to_embedded.py). Unlike the wheel, this
+# image does ship the stock contrib modules, so it is also the quickest way to
+# check whether a pg_trgm problem is ours or upstream's.
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: roleband_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-roleband}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-roleband}
+      POSTGRES_DB: ${POSTGRES_DB:-roleband}
+    ports:
+      # Loopback only: the credentials above are a dev default anyone knows,
+      # and a mapping without a host address listens on every interface.
+      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - roleband_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-roleband} -d ${POSTGRES_DB:-roleband}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  roleband_pgdata:
+    name: roleband_pgdata

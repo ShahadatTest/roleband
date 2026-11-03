@@ -1,0 +1,12 @@
+RoleBand
+Copyright 2026 The RoleBand Authors
+
+This product's code is licensed under the Apache License, Version 2.0 (see LICENSE).
+The datasets in backend/tracker/levels/atlas/ and
+backend/tracker/profiles/benefits_dataset/ are licensed under Creative Commons
+Attribution 4.0 International (CC-BY-4.0), attributed to "RoleBand contributors".
+The country table derived from mledoze/countries is licensed under the Open
+Database License (ODbL-1.0).
+
+It includes code, data and fonts that originate elsewhere. Each bundled component,
+its origin and its licence are listed in docs/third-party.md.

@@ -1,0 +1,1027 @@
+/* Companies: the ledger.
+ *
+ * One column, read top to bottom, with a sector index beside it, so finding a
+ * company is a one-dimensional scan and no company hides behind a per-sector
+ * disclosure.
+ *
+ * Consumes --app-* only — the one system (src/design/tokens.css), worn with
+ * the register material (register-material.css) via body[data-material].
+ */
+
+.company-ledger {
+  /* Register layout arithmetic — local plumbing, not system tokens: declared
+     and consumed only in this stylesheet (manifest carveOuts.localPlumbing).
+     Row height is a MINIMUM, never a fixed height (WCAG 1.4.12: at the
+     text-spacing overrides a page must tolerate, a fixed row overflows its own
+     content). 38px puts the row's air at ~42% under the 22px name line box;
+     the density rules allow rows up to 40px.
+     The three sticky tiers DERIVE from the band heights above them rather than
+     guessing: a hand-typed `top` drifts into an overlap as soon as a row
+     height changes. */
+  --register-row: 38px;
+  --register-colhead-h: 32px;
+  --register-sector-h: 46px;
+  /* The toolbar band, stated as its own single-line arithmetic — top air, one
+     control, the gap it holds open above the register. That is the honest
+     default and the whole answer at desktop widths; where the counts wrap it
+     is CORRECTED BY MEASUREMENT (CompaniesSection.tsx writes the real box
+     height here), because a guessed offset under a band that can grow
+     overlaps the band as soon as it wraps. */
+  --register-toolbar-h: calc(
+    var(--app-space-2) + var(--app-control-md) + var(--app-space-4)
+  );
+  --register-sticky-colhead: var(--register-toolbar-h);
+  --register-sticky-sector: calc(var(--register-toolbar-h) + var(--register-colhead-h));
+
+  color: var(--app-text);
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-name);
+  line-height: 1.35;
+}
+
+.company-ledger .tn {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Messages ------------------------------------------------------------ */
+
+/* Fixed, so confirming an action cannot move the register the action happened
+   in. Bottom-right clears the left nav rail and the top bar, and sits below the
+   notifications popover (z-index 70). */
+/* Confirmations and the write-error ride ui/Toast; this sheet
+   paints no toast. */
+
+
+/* --- Attention strip ------------------------------------------------------
+   Actionable warnings about the roster sit above the toolbar, where they are
+   read before the register, not beside it. */
+
+.ledger-attention {
+  display: grid;
+  gap: var(--app-space-1);
+  margin-bottom: var(--app-space-3);
+  padding: 10px var(--app-space-3);
+  border: 1px solid var(--app-warning-line);
+  border-radius: var(--app-radius-md);
+  /* The tint lies on the panel ground, not on the page: a status wash over a
+     grey canvas mixes to a muddy brown. */
+  background-color: var(--app-canvas);
+  background-image: linear-gradient(var(--app-warning-soft), var(--app-warning-soft)),
+    linear-gradient(var(--app-surface), var(--app-surface));
+}
+
+.ledger-attention-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--app-space-2);
+  font-size: var(--app-type-name);
+}
+
+.ledger-attention-row > svg {
+  align-self: center;
+  color: var(--app-warning);
+}
+
+.ledger-attention-row b {
+  font-weight: var(--app-weight-name);
+}
+
+.ledger-attention-row span {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Re-sync is ui/Button ghost/sm/strong; this only places it. */
+.ledger-attention-row .ledger-attention-act {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+/* --- Toolbar -------------------------------------------------------------- */
+
+/* Holds station at the top of the scrollport; the page header above it — the
+   "Settings" h1 and the tab bar — scrolls away, which is the point. Searching
+   and the tracked/planned switches are how you USE a long register, so
+   losing them a screen down means scrolling back to the top to narrow, then
+   scrolling down again to read the result. The h1 and the tabs are navigation
+   you already finished using.
+ *
+ * The ground is the one this screen's frozen tiers share: the page's own
+ * canvas plus the ambient image, `background-attachment: fixed`, so the paint
+ * lines up with the wash behind it and the band does not read as a slab
+ * appearing out of nowhere. Nothing new is painted and no new hairline is
+ * drawn: the column header below carries the block's one bottom edge.
+ *
+ * The band's air is PADDING, not margin, so the frozen box covers the gap it
+ * holds open; margins are transparent and rows would show through them. The
+ * negative top margin gives that padding back to the flow, so the at-rest
+ * spacing above the toolbar is unchanged and only the frozen band grew. */
+.ledger-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--app-space-3) var(--app-space-4);
+  margin-top: calc(-1 * var(--app-space-2));
+  /* The register is the page's subject, so it gets more separation from the
+     toolbar than the toolbar gets from the tab bar above it; a tighter gap
+     makes the two blocks read as one. */
+  padding: var(--app-space-2) 0 var(--app-space-4);
+  background-color: var(--app-canvas);
+  background-image: var(--app-ambient-image);
+  background-attachment: fixed, fixed;
+}
+
+/* ui/SearchField at md; the class only gives it its share of the band. */
+.ledger-search {
+  flex: 1 1 260px;
+  max-width: 340px;
+}
+
+/* Load-bearing counts: the roster's own summary, in the data voice. */
+/* Wraps, because it is a sentence of counts rather than a row of columns. Held
+   on one line it sets a hard horizontal minimum for the whole toolbar — at
+   320px the string alone measures the full viewport, which would make the
+   register scroll sideways (WCAG 1.4.10). */
+.ledger-stats {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--app-space-1);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-stats b {
+  color: var(--app-text);
+  font-weight: var(--app-weight-name);
+}
+
+.ledger-stats i {
+  color: var(--app-text-faint);
+  font-style: normal;
+}
+
+.ledger-toolbar-end {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-4);
+  margin-left: auto;
+}
+
+/* Toolbar and dialog actions are ui/Button (ghost, strong ghost, primary). */
+
+/* --- Switch ---------------------------------------------------------------
+   A real checkbox, restyled. The input stays the accessible control: the row
+   is looked up by its company name in tests and by screen readers alike.
+
+   The TARGET is the label around it, not the control. Growing the input itself
+   to meet the 24px minimum (a transparent vertical border) turns the track
+   into an ellipse: `border-radius: 999px` clamps against the padded box, so it
+   resolves to half the width by half the height instead of a stadium. The
+   wrapper keeps the pill honest and gives a larger target besides. */
+
+/* --- Body layout ---------------------------------------------------------- */
+
+/* The index column is sized to its CONTENT, not to a round number: a sector
+   name sets 15px, and 224px shows all but the longest names in full and
+   ellipsises those; the register keeps the rest of the width. */
+.ledger-body {
+  display: grid;
+  grid-template-columns: 224px minmax(0, 1fr);
+  gap: var(--app-space-5);
+  align-items: start;
+}
+
+/* --- Sector index --------------------------------------------------------- */
+
+/* The index's sticky column. The column is what sticks; the index inside it
+   is ordinary flow. */
+.ledger-side {
+  position: sticky;
+  top: var(--register-sticky-colhead);
+  display: grid;
+  gap: var(--app-space-4);
+  align-content: start;
+  min-width: 0;
+}
+
+.ledger-index {
+  display: grid;
+  gap: 1px;
+  align-content: start;
+}
+
+/* SECTORS and COMPANY/CONNECTOR/OPEN are the two columns' headers, on one
+   line. The register's header declares the 32px band and centres its labels
+   in it; a bare line box here would sit at the top of its column and start
+   the two columns on two different lines.
+
+   So the label wears the register header's band exactly, hairline included.
+   The border is transparent because the index deliberately draws no rule; it
+   is here for its 1px, since `box-sizing: border-box` means the register's real
+   hairline eats into that 32px and centring over 32 instead of 31 would put
+   the two words half a pixel apart. The negative margin cancels the
+   index grid's own 1px `gap` for this row only, so the first button starts on
+   the same line as the first sector head. */
+.ledger-index-label {
+  display: flex;
+  align-items: center;
+  min-height: var(--register-colhead-h);
+  border-bottom: 1px solid transparent;
+  margin: 0 0 -1px;
+  padding: 0 var(--app-space-2);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.ledger-index button {
+  display: grid;
+  /* Grid items refuse to shrink past min-content by default, so a long sector
+     name plus a wide "10 match" would push the button out of its own track
+     and over the register's gutter. This is what lets the name ellipsise. */
+  min-width: 0;
+  gap: var(--app-space-1);
+  padding: 5px var(--app-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--app-radius-sm);
+  background: transparent;
+  color: var(--app-text-muted);
+  font: inherit;
+  font-size: var(--app-type-body);
+  text-align: left;
+  cursor: pointer;
+}
+
+.ledger-index button:hover {
+  background: var(--app-surface-hover);
+  color: var(--app-text);
+}
+
+/* Same reflow, same fix: bolding the current sector would shift its own
+   count. The current sector is CHOSEN: gold wash, gold name, like a tab. */
+.ledger-index button[aria-current="true"] {
+  background: var(--app-chosen-wash);
+  color: var(--app-chosen-text);
+}
+
+/* The one ring, inside: the index is a flush list. */
+.ledger-index button:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: calc(-1 * var(--app-ring-offset));
+}
+
+/* A sector no connector reaches cannot produce a job. Say it quietly. */
+.ledger-index button.is-dormant {
+  color: var(--app-text-faint);
+}
+
+.ledger-index-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  min-width: 0;
+  gap: var(--app-space-2);
+}
+
+.ledger-index-row span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ledger-index-row b {
+  flex: none;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-index-bar {
+  height: 2px;
+  border-radius: 2px;
+  background: var(--app-border);
+  overflow: hidden;
+}
+
+.ledger-index-bar i {
+  display: block;
+  height: 100%;
+  background: var(--app-bar);
+}
+
+.ledger-index-sep {
+  margin: var(--app-space-2) 0 0;
+  padding-top: var(--app-space-2);
+  border-top: 1px solid var(--app-border);
+}
+
+/* --- Register ------------------------------------------------------------- */
+
+.ledger-register {
+  min-width: 0;
+  /* The row's columns answer to the register's own width, which the sector
+     index beside it and the settings chrome around it both take from. */
+  container: register / inline-size;
+}
+
+.ledger-row {
+  display: grid;
+  /* The open-count column carries a count like "384 open" in mono at `body`,
+     and the cell spends 12px of its width on right padding. 96px clears a
+     four-digit count on one line; narrower, a long count wraps and grows its
+     row. */
+  grid-template-columns:
+    32px 24px minmax(0, 1fr) 148px 96px 148px 100px;
+  align-items: center;
+  gap: 0 var(--app-space-3);
+  /* Minimum, never fixed: at the text-spacing overrides WCAG 1.4.12 requires
+     a page to survive (line-height 1.5), a fixed row overflows its content. */
+  min-height: var(--register-row);
+  padding: 0 var(--app-space-2);
+  border-bottom: 1px solid var(--app-border);
+}
+
+/* Column header and sector heads stick under the toolbar, in three tiers, so a
+   long sector never leaves you reading unlabelled numbers. Flush against the
+   band above it, never merely near it: both grounds are the same canvas, so
+   the three tiers read as one frozen block with one bottom edge. */
+.ledger-colhead {
+  position: sticky;
+  top: var(--register-sticky-colhead);
+  z-index: 3;
+  /* Its own height, so the header band stays compact while rows grow — and so
+     the sector tier below can be offset by an exact token. */
+  min-height: var(--register-colhead-h);
+  border-bottom: 1px solid var(--app-border-strong);
+  background-color: var(--app-canvas);
+  background-image: var(--app-ambient-image);
+  background-attachment: fixed, fixed;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.ledger-num {
+  text-align: right;
+  padding-right: var(--app-space-3);
+}
+
+.ledger-sector-head {
+  position: sticky;
+  top: var(--register-sticky-sector);
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  gap: var(--app-space-3);
+  min-height: var(--register-sector-h);
+  margin: 0;
+  padding: 0 var(--app-space-2);
+  border-bottom: 1px solid var(--app-border-strong);
+  background-color: var(--app-canvas);
+  background-image: var(--app-ambient-image);
+  background-attachment: fixed, fixed;
+  font-size: var(--app-type-title);
+  font-weight: var(--app-weight-name);
+  letter-spacing: -0.01em;
+  /* Land clear of the column header when the index scrolls us here. */
+  scroll-margin-top: var(--register-sticky-sector);
+}
+
+/* A real heading, naming ONLY the sector. The stats and the select-all sit
+   outside it, so heading navigation announces the sector name and nothing
+   else. */
+.ledger-sector-title {
+  flex: none;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+.ledger-sector-title:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+  border-radius: var(--app-radius-sm);
+}
+
+/* A folding group's name is its disclosure (ui/Button link). It must still
+   read as the heading it sits in, so it takes the heading's type and colour
+   and drops the link underline; the chevron is what says it folds. */
+.ledger-sector-title .ledger-sector-disclose {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  min-height: var(--app-control-sm);
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: none;
+}
+
+.ledger-sector-title .ledger-sector-disclose svg {
+  flex: none;
+  color: var(--app-text-muted);
+}
+
+/* The end of the register: two independent ways onto the list,
+   side by side while there is room and stacked when there is not. The grid
+   wraps on its own, so no width rule of its own is needed. */
+.ledger-add-more {
+  display: grid;
+  gap: var(--app-space-3);
+  padding: var(--app-space-5) 0 var(--app-space-4);
+  scroll-margin-top: var(--register-sticky-colhead);
+}
+
+/* Reads as the last sector heading, without its sticky band. */
+.ledger-add-more .ledger-sector-title {
+  padding: 0 var(--app-space-2);
+  font-size: var(--app-type-title);
+  font-weight: var(--app-weight-name);
+  letter-spacing: -0.01em;
+}
+
+.ledger-add-more-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--app-space-3);
+}
+
+/* One anatomy for both cards (AddCard): head, body, foot. Everything below
+   the head starts on the card's own left edge, and the foot is pinned with
+   `margin-top: auto`, so in a row of equal-height cards the two actions share
+   one line whatever the bodies hold. */
+.ledger-add-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-3);
+  padding: var(--app-space-4);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  /* A panel on the page is opaque (ui/Card.css's rule), stated here rather
+     than by the register material. */
+  background-color: var(--app-canvas);
+  background-image: linear-gradient(var(--app-surface), var(--app-surface));
+  color: var(--app-text-muted);
+  box-shadow: var(--app-shadow);
+}
+
+.ledger-add-card p,
+.ledger-add-card h3 {
+  margin: 0;
+}
+
+.ledger-add-card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+}
+
+/* The tile is as tall as the title and its fact together, so the two lines
+   sit centred on it rather than one of them hanging off its edge. */
+.ledger-add-card-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface-subtle);
+  color: var(--app-text);
+}
+
+.ledger-add-card-title {
+  color: var(--app-text);
+  font-size: var(--app-type-title);
+  font-weight: var(--app-weight-name);
+  line-height: 1.3;
+}
+
+.ledger-add-card-fact {
+  font-size: var(--app-type-meta);
+  line-height: 1.4;
+}
+
+.ledger-add-card-note {
+  max-width: 60ch;
+  line-height: 1.55;
+}
+
+/* Two figures over the bar: a numeral, then what it counts. The second pair
+   sits on the right edge so the row closes on both sides of the bar under it. */
+.ledger-add-card-figures {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--app-space-1) var(--app-space-4);
+}
+
+.ledger-add-card-figures b {
+  color: var(--app-text);
+  font-size: var(--app-type-stat);
+  font-weight: var(--app-weight-name);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.ledger-add-card-figures span {
+  font-size: var(--app-type-meta);
+}
+
+.ledger-add-card-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  margin-top: auto;
+  padding-top: var(--app-space-1);
+}
+
+.ledger-sector-note {
+  margin: 0;
+  padding: var(--app-space-2) var(--app-space-3);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.ledger-sector-stats {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The sector verb is ui/Button link/quiet. A link's box is its line of text,
+   so the class states the TARGET (the register's 24px minimum): the small
+   control's height and inset, with no chrome of its own. */
+.ledger-sector-act {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--app-control-sm);
+  margin-left: auto;
+  padding: 0 var(--app-control-sm-pad);
+}
+
+/* A sector must be separated from the one above it, or its heading sits flush
+   against the previous sector's last row and reads as belonging to that block
+   — the register then looks like one undifferentiated run with stray bold
+   lines in it. The gap is what makes the heading point DOWNWARD at its own
+   rows; its hairline underneath does the rest.
+
+   Placed as a top margin on the following sector rather than a bottom padding
+   on the preceding one, so it belongs to the heading it separates: when that
+   heading sticks to the top, the gap scrolls away with the section above
+   instead of hanging under a pinned header. */
+.ledger-sector + .ledger-sector {
+  margin-top: var(--app-space-5);
+}
+
+.ledger-sector:last-child .ledger-row:last-child {
+  border-bottom: 0;
+}
+
+/* --- Row content ---------------------------------------------------------- */
+
+/* A search can draw most of the catalog at once. A row off screen skips style
+   and layout until it scrolls near; `auto` keeps the height it last had, and a
+   row never drawn counts as one row tall. The column header is always on
+   screen and sticks, so it keeps ordinary rendering. */
+.ledger-row:not(.ledger-colhead) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto var(--register-row);
+}
+
+/* The column header is NOT a row you can hover, and it shares the class only to
+   borrow the grid. Two things bite at once if it is not excluded: `.ledger-row
+   :hover` (0-2-0) outranks `.ledger-colhead` (0-1-0), and `background` is a
+   SHORTHAND — so hovering the header would replace its opaque canvas + ambient
+   ground with a translucent wash AND reset `background-image` to `none`, and
+   the rows travelling behind the frozen header would show straight through it.
+   The header pins below the toolbar, in the path the pointer takes from the
+   search field into the list, so this is hovered constantly.
+
+   The exclusion is on the ROW rule rather than a `:hover` ground re-declared
+   on the header, because the trap is the shared class: any future
+   `.ledger-row` state rule using the shorthand would wipe the ground. */
+.ledger-row:hover:not(.ledger-colhead) {
+  background: var(--app-surface-hover);
+}
+
+/* A followed company is ON: ink, the state its switch sets, keyed on that
+   switch so the row and the control can never disagree. */
+.ledger-row:has(.ui-switch-track:checked) {
+  background: var(--app-on-wash);
+}
+
+.ledger-row.is-blocked .ledger-name {
+  color: var(--app-text-muted);
+}
+
+.ledger-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ledger-name {
+  display: flex;
+  align-items: baseline;
+  gap: var(--app-space-2);
+  min-width: 0;
+  font-size: var(--app-type-name);
+  overflow: hidden;
+}
+
+/* Selection is INK, not weight — the rule the token scope already states.
+   Weight cannot express a state on a row like this: 400 -> 600 grows the name
+   by 1.25-1.7px and shoves the "also <sector>" tag along with it, so every
+   toggle would make the row twitch. Colour changes nothing about the metrics, and
+   the name keeps ONE weight in both states. Muted still clears 4.5:1, so an
+   untracked company is quieter, never harder to read. */
+.ledger-name > span:first-child {
+  overflow: hidden;
+  /* One weight in BOTH states, so it can never move the row. Set a little
+     above regular because this is the page's primary content; the weight
+     says nothing about selection. */
+  font-weight: var(--app-weight-ui);
+  color: var(--app-text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ledger-row:has(.ui-switch-track:checked) .ledger-name > span:first-child {
+  color: var(--app-on-fill);
+}
+
+/* Cross-membership and alias hits: quiet, mono, never competing with the name.
+   Deliberately not the Badge primitive — a register row has no space for a pill,
+   and these are annotations on the name, not statuses. */
+.ledger-tag {
+  /* The tag is the SECONDARY string in this cell, so it yields space before
+     the company name does. A tag that cannot shrink makes the name absorb the
+     whole deficit, and the name carries `overflow: hidden`, which sets its
+     automatic minimum size to zero: it would collapse to 0px and render
+     NOTHING while the tag stayed legible. The company name is the row's
+     single primary string and outranks the tag being whole.
+     Shrink 999 makes "the name truncates last" a fact rather than a
+     proportion, and the ellipsis keeps a squeezed tag readable as a tag. */
+  flex: 0 999 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px var(--app-space-2);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  white-space: nowrap;
+}
+
+.company-ledger mark {
+  padding: 0 1px;
+  border-radius: 2px;
+  background: var(--app-mark);
+  color: inherit;
+}
+
+/* A row has ONE primary string — the company name — and everything beside it
+ * is subordinate. That has to be legible in the size, not only in the colour:
+ * at `body` against a `name` the two read as competing strings 1px apart, and
+ * the register loses the scan line down the company column. `meta` keeps the
+ * two sizes clearly apart. */
+.ledger-state {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  white-space: nowrap;
+}
+
+.ledger-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.ledger-dot.is-live {
+  background: var(--app-positive);
+}
+
+.ledger-dot.is-ready {
+  border: 1.5px solid var(--app-text-muted);
+}
+
+.ledger-dot.is-planned {
+  border: 1px dotted var(--app-decor);
+}
+
+.ledger-dot.is-warn {
+  background: var(--app-warning);
+}
+
+.ledger-state.is-warn {
+  color: var(--app-warning);
+  font-weight: var(--app-weight-ui);
+}
+
+/* Same tier as the connector state: both are facts ABOUT the row's company,
+   so they sit together below the name rather than one of each rank. */
+.ledger-count {
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-count.is-empty {
+  color: var(--app-text-muted);
+}
+
+.ledger-bar {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--app-bar);
+}
+
+.ledger-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--app-space-1);
+  opacity: 0;
+  transition: opacity var(--app-duration-medium) var(--app-ease);
+}
+
+.ledger-row:hover .ledger-actions,
+.ledger-row:focus-within .ledger-actions {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .ledger-actions {
+    opacity: 1;
+  }
+}
+
+/* 24x24: the outright WCAG 2.5.8 minimum. These sit 3px apart, so the spacing
+   exception is not available to them: a 24px circle on one would overlap its
+   neighbour's. */
+/* Row actions are ui/Button icon/sm (the careers link wears the same classes
+   as an anchor); nothing here paints a button. */
+
+/* --- Empty / loading ------------------------------------------------------ */
+
+/* The register's empty state is `ui/EmptyState`'s inline variant, which
+   carries its own padding and ink; this sheet styles none. */
+
+.ledger-loading {
+  padding: 48px var(--app-space-2);
+  color: var(--app-text-muted);
+  text-align: center;
+}
+
+/* --- Add-by-URL dialog ---------------------------------------------------- */
+
+/* --- Narrow ---------------------------------------------------------------
+   Columns leave in order of redundancy: the volume bar (the number stays),
+   then the connector label (the dot stays), then the index becomes a
+   horizontal scroller above the register. The bar leaves when the register
+   can no longer give the name its room beside it. */
+
+@container register (max-width: 786px) {
+  .ledger-row {
+    grid-template-columns: 32px 24px minmax(0, 1fr) 148px 96px 100px;
+  }
+
+  .ledger-bar-cell {
+    display: none;
+  }
+}
+
+@media (max-width: 980px) {
+  .ledger-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--app-space-3);
+  }
+
+  .ledger-side {
+    position: static;
+    gap: var(--app-space-3);
+  }
+
+  .ledger-index {
+    position: static;
+    display: flex;
+    gap: var(--app-space-1);
+    overflow-x: auto;
+    padding-bottom: var(--app-space-1);
+    scrollbar-width: none;
+  }
+
+  .ledger-index::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ledger-index-label,
+  .ledger-index-bar {
+    display: none;
+  }
+
+  .ledger-index button {
+    flex: 0 0 auto;
+    border: 1px solid var(--app-border);
+    white-space: nowrap;
+  }
+
+  .ledger-index-sep {
+    margin: 0;
+    padding: 0;
+    border-top: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  /* 44px targets once this is a touch surface. */
+  .company-ledger {
+    --register-row: 44px;
+  }
+
+  .ledger-row {
+    grid-template-columns: 32px 24px minmax(0, 1fr) 12px 70px 82px;
+  }
+
+  /* The LABEL goes, the dot stays. The dot is the only signal on the narrow
+     layout that a company cannot be scanned; without it a row would show
+     "0 open" with nothing to say why.
+     Hidden visually, NOT with display:none: the row's aria-describedby points
+     at this text, and a display:none subtree is removed from the accessibility
+     tree, which would silently strip the connector state from every row for a
+     screen-reader user on a phone. */
+  .ledger-state-cell .ledger-state {
+    position: relative;
+    gap: 0;
+  }
+
+  .ledger-state-cell .ledger-state > span:last-child {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .ledger-sector-head {
+    top: 0;
+    scroll-margin-top: 0;
+  }
+
+  .ledger-colhead {
+    display: none;
+  }
+
+  /* The trailing group stops being a group here: `margin-left: auto` has no
+     room left to push into, and held on one line its two switches plus the
+     Add button set a horizontal minimum wider than the viewport. Wrapping is
+     what lets the toolbar reflow instead of scrolling (WCAG 1.4.10). */
+  .ledger-toolbar-end {
+    margin-left: 0;
+    flex-wrap: wrap;
+    row-gap: var(--app-space-2);
+  }
+
+  /* ...and a toolbar that is now three or four rows tall stops being worth
+     freezing: at this width it would hold roughly a third of a phone
+     viewport against a register that has nothing left to show under it. It
+     scrolls away with the page here, and the sector heads above take the top
+     tier back (`top: 0`, just up the block). */
+  .ledger-toolbar {
+    position: static;
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+/* Below ~520px a single row of fixed columns cannot hold a name: the fixed
+   tracks alone are 272px, so at 320px the name track would collapse to a few
+   pixels and the register would scroll sideways, a WCAG 1.4.10 reflow
+   failure. The row becomes two lines instead: identity on the first, the facts
+   about it indented underneath. Nothing is dropped and nothing truncates —
+   names WRAP here rather than ellipsing, because at this width an ellipsis is
+   content loss, and min-height lets the row grow to fit. */
+@media (max-width: 520px) {
+  .ledger-row {
+    grid-template-columns: 32px 24px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "switch mark name actions"
+      ".      .    meta meta";
+    row-gap: 2px;
+    padding-top: var(--app-space-1);
+    padding-bottom: var(--app-space-1);
+  }
+
+  .ledger-row > .ui-switch { grid-area: switch; }
+  .ledger-mark { grid-area: mark; }
+  .ledger-name { grid-area: name; }
+  .ledger-state-cell { grid-area: meta; }
+  .ledger-actions { grid-area: actions; }
+
+  /* The name may take as many lines as it needs. */
+  .ledger-name {
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+
+  .ledger-name > span:first-child {
+    overflow: visible;
+    white-space: normal;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
+  }
+
+  /* Second line: connector state and the count read as one sentence, with the
+     state LABEL restored — the dot-only treatment exists to save a column, and
+     on this layout there is no column to save. */
+  .ledger-state-cell {
+    display: flex;
+    align-items: baseline;
+    gap: var(--app-space-2);
+  }
+
+  .ledger-state-cell .ledger-state > span:last-child {
+    position: static;
+    width: auto;
+    height: auto;
+    clip-path: none;
+  }
+
+  .ledger-num {
+    grid-area: meta;
+    justify-self: end;
+    align-self: center;
+    padding-right: 0;
+  }
+
+  /* The heading takes the same shape as a row: identity and its action on the
+     first line, the facts underneath. Its stats are `nowrap` and wider than
+     a phone column allows on one line with the name. */
+  .ledger-sector-head {
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 2px;
+    padding-top: var(--app-space-1);
+    padding-bottom: var(--app-space-1);
+  }
+
+  .ledger-sector-act {
+    order: 2;
+  }
+
+  .ledger-sector-stats {
+    order: 3;
+    flex-basis: 100%;
+    white-space: normal;
+  }
+}
+
+/* --- Reduced motion -------------------------------------------------------
+   Nothing here is load-bearing animation — hover tints, the switch knob, the
+   action fade. A user who asked for less motion gets the same register with
+   the states landing instantly. (The index's smooth scroll already checks the
+   same preference in CompaniesSection.tsx.) */
+@media (prefers-reduced-motion: reduce) {
+  .company-ledger *,
+  .company-ledger *::before,
+  .company-ledger *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

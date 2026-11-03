@@ -1,0 +1,58 @@
+company,family,base_min,base_max,year,rung,anchor,anchors
+google,data_engineering,207000,300000,2026,L6,staff software engineer,3
+google,data_engineering,207000,301000,2026,L6,staff software engineer,5
+google,data_science,163000,236000,2026,L5,senior product data scientist,5
+google,data_science,174000,252000,2026,L5,senior software engineer,2
+google,data_science,188000,275000,2026,L6,staff ux quantitative researcher,2
+google,data_science,192000,278000,2026,L6,staff product data scientist,3
+google,data_science,192000,279000,2026,L6,staff product data scientist,7
+google,data_science,207000,300000,2026,L6,staff research data scientist,6
+google,data_science,207000,301000,2026,L6,staff data scientist,3
+google,data_science,240000,333000,2026,L7,senior staff product data scientist,2
+google,data_science,262000,364000,2026,L7,senior staff research data scientist,3
+google,data_science,328000,365000,2026,L7,senior staff data scientist,2
+google,engineering_management,207000,300000,2026,L6,software engineering manager ii,21
+google,engineering_management,207000,301000,2026,L6,software engineering manager ii,14
+google,engineering_management,222000,308000,2026,L7,senior staff network engineering manager,3
+google,engineering_management,262000,364000,2026,L7,senior software engineering manager,22
+google,engineering_management,262000,365000,2026,L7,senior software engineering manager,12
+google,hardware_engineering,192000,279000,2026,L6,staff cad engineer,3
+google,infrastructure_sre,176000,257000,2026,L6,staff network engineer,4
+google,infrastructure_sre,207000,301000,2026,L6,staff software engineer,10
+google,infrastructure_sre,262000,365000,2026,L7,senior staff software engineer,3
+google,ml_ai_research,174000,252000,2026,L5,senior software engineer,36
+google,ml_ai_research,207000,300000,2026,L6,staff software engineer,18
+google,ml_ai_research,207000,301000,2026,L6,staff software engineer,24
+google,ml_ai_research,262000,364000,2026,L7,senior staff software engineer,4
+google,ml_ai_research,262000,365000,2026,L7,senior staff software engineer,8
+google,product_management,138000,197000,2026,L4,product manager i,7
+google,product_management,138000,198000,2026,L4,product manager i,6
+google,product_management,163000,236000,2026,L5,product manager ii,25
+google,product_management,163000,237000,2026,L5,product manager ii,18
+google,product_management,192000,278000,2026,L6,senior product manager,41
+google,product_management,192000,279000,2026,L6,senior product manager,20
+google,product_management,240000,333000,2026,L7,group product manager,38
+google,product_management,240000,334000,2026,L7,group product manager,12
+google,product_management,256000,278000,2026,L6,senior product manager,6
+google,product_management,281000,391000,2026,L8,principal product manager,2
+google,product_management,300000,333000,2026,L7,group product manager,4
+google,program_management,108000,153000,2026,L3,program manager i,2
+google,program_management,132000,189000,2026,L4,program manager ii,13
+google,program_management,132000,190000,2026,L4,program manager ii,4
+google,program_management,159000,230000,2026,L5,program manager iii,26
+google,program_management,159000,231000,2026,L5,program manager iii,15
+google,program_management,188000,274000,2026,L6,senior program manager,6
+google,program_management,188000,275000,2026,L6,senior program manager,3
+google,security_engineering,207000,301000,2026,L6,staff security engineer manager,3
+google,software_engineering,188000,274000,2026,L6,staff system power engineer,2
+google,software_engineering,188000,275000,2026,L6,staff system power engineer,3
+google,software_engineering,207000,300000,2026,L6,staff software engineer,30
+google,software_engineering,207000,301000,2026,L6,staff software engineer,79
+google,software_engineering,256000,279000,2026,L6,staff functional safety engineer,2
+google,software_engineering,262000,364000,2026,L7,senior staff software engineer,2
+google,software_engineering,262000,365000,2026,L7,senior staff software engineer,24
+google,software_engineering,307000,428000,2026,L8,principal engineer,4
+google,technical_program_management,116000,166000,2026,L3,technical program manager i,3
+google,technical_program_management,138000,198000,2026,L4,technical program manager ii,17
+google,technical_program_management,163000,237000,2026,L5,technical program manager iii,42
+google,technical_program_management,192000,279000,2026,L6,senior technical program manager,23

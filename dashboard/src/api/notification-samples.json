@@ -1,0 +1,1919 @@
+[
+ {
+  "body": "Research Manager, Interpretability. The posting you saved closed; the role is still listed in London.",
+  "case": "role-still-listed-in-another-place",
+  "say": {
+   "body": [
+    {
+     "k": "notif-saved-elsewhere-body",
+     "p": {
+      "more": "no",
+      "places": "London",
+      "title": "Research Manager, Interpretability"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-saved-elsewhere",
+    "p": {
+     "company": "OpenAI",
+     "places": 1
+    }
+   }
+  },
+  "title": "OpenAI still lists a role you saved in another place"
+ },
+ {
+  "body": "Research Manager, Interpretability. The posting you saved closed; the role is still listed in London, New York, Zurich and more.",
+  "case": "role-still-listed-in-five-places",
+  "say": {
+   "body": [
+    {
+     "k": "notif-saved-elsewhere-body",
+     "p": {
+      "more": "yes",
+      "places": "London, New York, Zurich",
+      "title": "Research Manager, Interpretability"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-saved-elsewhere",
+    "p": {
+     "company": "OpenAI",
+     "places": 5
+    }
+   }
+  },
+  "title": "OpenAI still lists a role you saved in 5 other places"
+ },
+ {
+  "body": "Research Manager, Interpretability",
+  "case": "role-closed",
+  "say": {
+   "body": [
+    "Research Manager, Interpretability"
+   ],
+   "title": {
+    "k": "notif-closed",
+    "p": {
+     "company": "OpenAI"
+    }
+   }
+  },
+  "title": "OpenAI closed a role you saved"
+ },
+ {
+  "body": "Research Manager, Interpretability",
+  "case": "role-reposted",
+  "say": {
+   "body": [
+    "Research Manager, Interpretability"
+   ],
+   "title": {
+    "k": "notif-reposted",
+    "p": {
+     "company": "OpenAI"
+    }
+   }
+  },
+  "title": "OpenAI reposted a role you saved"
+ },
+ {
+  "body": "Research Manager, Interpretability",
+  "case": "role-listed-again",
+  "say": {
+   "body": [
+    "Research Manager, Interpretability"
+   ],
+   "title": {
+    "k": "notif-listed-again",
+    "p": {
+     "company": "OpenAI"
+    }
+   }
+  },
+  "title": "OpenAI listed again a role you saved"
+ },
+ {
+  "body": "Research Manager, Interpretability",
+  "case": "role-listed",
+  "say": {
+   "body": [
+    "Research Manager, Interpretability"
+   ],
+   "title": {
+    "k": "notif-listed",
+    "p": {
+     "company": "OpenAI"
+    }
+   }
+  },
+  "title": "OpenAI listed a role you saved"
+ },
+ {
+  "body": "Research Manager, Interpretability: $200k-$240k -> $300k-$1.25M",
+  "case": "pay-raised",
+  "say": {
+   "body": [
+    {
+     "k": "notif-pay-change",
+     "p": {
+      "after": "$300k-$1.25M",
+      "before": "$200k-$240k",
+      "title": "Research Manager, Interpretability"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-pay-raised",
+    "p": {
+     "company": "OpenAI"
+    }
+   }
+  },
+  "title": "OpenAI raised the posted range on a role you saved"
+ },
+ {
+  "body": "Research Manager, Interpretability: $250k -> $200k",
+  "case": "pay-lowered-floor-only",
+  "say": {
+   "body": [
+    {
+     "k": "notif-pay-change",
+     "p": {
+      "after": "$200k",
+      "before": "$250k",
+      "title": "Research Manager, Interpretability"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-pay-lowered",
+    "p": {
+     "company": "OpenAI"
+    }
+   }
+  },
+  "title": "OpenAI lowered the posted range on a role you saved"
+ },
+ {
+  "body": "Research Manager, Interpretability",
+  "case": "updated-long-open",
+  "say": {
+   "body": [
+    "Research Manager, Interpretability"
+   ],
+   "title": {
+    "k": "notif-updated-long-open",
+    "p": {
+     "company": "OpenAI"
+    }
+   }
+  },
+  "title": "OpenAI updated a role you saved, listed for a long time"
+ },
+ {
+  "body": "Research Manager, Interpretability",
+  "case": "changed",
+  "say": {
+   "body": [
+    "Research Manager, Interpretability"
+   ],
+   "title": {
+    "k": "notif-changed",
+    "p": {
+     "company": "OpenAI"
+    }
+   }
+  },
+  "title": "OpenAI changed a role you saved"
+ },
+ {
+  "body": "Head of Product at Stripe",
+  "case": "digest-one-unranked",
+  "say": {
+   "body": [
+    {
+     "k": "notif-digest-lead",
+     "p": {
+      "company": "Stripe",
+      "title": "Head of Product"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-digest",
+    "p": {
+     "count": 1
+    }
+   }
+  },
+  "title": "1 new role for you today"
+ },
+ {
+  "body": "Strong fit: Group Product Manager at Google DeepMind - and 2 more",
+  "case": "digest-strong-lead",
+  "say": {
+   "body": [
+    {
+     "k": "notif-digest-more",
+     "p": {
+      "lead": {
+       "k": "notif-digest-fit",
+       "p": {
+        "band": {
+         "k": "notif-fit-strong",
+         "p": {}
+        },
+        "lead": {
+         "k": "notif-digest-lead",
+         "p": {
+          "company": "Google DeepMind",
+          "title": "Group Product Manager"
+         }
+        }
+       }
+      },
+      "more": 2
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-digest",
+    "p": {
+     "count": 3
+    }
+   }
+  },
+  "title": "3 new roles for you today"
+ },
+ {
+  "body": "Good fit: Group Product Manager at Google DeepMind - and 2 more",
+  "case": "digest-good-lead",
+  "say": {
+   "body": [
+    {
+     "k": "notif-digest-more",
+     "p": {
+      "lead": {
+       "k": "notif-digest-fit",
+       "p": {
+        "band": {
+         "k": "notif-fit-good",
+         "p": {}
+        },
+        "lead": {
+         "k": "notif-digest-lead",
+         "p": {
+          "company": "Google DeepMind",
+          "title": "Group Product Manager"
+         }
+        }
+       }
+      },
+      "more": 2
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-digest",
+    "p": {
+     "count": 3
+    }
+   }
+  },
+  "title": "3 new roles for you today"
+ },
+ {
+  "body": "Fair fit: Group Product Manager at Google DeepMind - and 2 more",
+  "case": "digest-fair-lead",
+  "say": {
+   "body": [
+    {
+     "k": "notif-digest-more",
+     "p": {
+      "lead": {
+       "k": "notif-digest-fit",
+       "p": {
+        "band": {
+         "k": "notif-fit-fair",
+         "p": {}
+        },
+        "lead": {
+         "k": "notif-digest-lead",
+         "p": {
+          "company": "Google DeepMind",
+          "title": "Group Product Manager"
+         }
+        }
+       }
+      },
+      "more": 2
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-digest",
+    "p": {
+     "count": 3
+    }
+   }
+  },
+  "title": "3 new roles for you today"
+ },
+ {
+  "body": "Weak fit: Group Product Manager at Google DeepMind - and 2 more",
+  "case": "digest-weak-lead",
+  "say": {
+   "body": [
+    {
+     "k": "notif-digest-more",
+     "p": {
+      "lead": {
+       "k": "notif-digest-fit",
+       "p": {
+        "band": {
+         "k": "notif-fit-weak",
+         "p": {}
+        },
+        "lead": {
+         "k": "notif-digest-lead",
+         "p": {
+          "company": "Google DeepMind",
+          "title": "Group Product Manager"
+         }
+        }
+       }
+      },
+      "more": 2
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-digest",
+    "p": {
+     "count": 3
+    }
+   }
+  },
+  "title": "3 new roles for you today"
+ },
+ {
+  "body": "No next action set - Head of Product (applied)",
+  "case": "follow-up-due-today",
+  "say": {
+   "body": [
+    {
+     "k": "notif-follow-up-body",
+     "p": {
+      "action": {
+       "k": "notif-no-next-action",
+       "p": {}
+      },
+      "stage": "applied",
+      "title": "Head of Product"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-follow-up",
+    "p": {
+     "company": "Stripe",
+     "when": {
+      "k": "notif-due-today",
+      "p": {}
+     }
+    }
+   }
+  },
+  "title": "Follow up with Stripe · due today"
+ },
+ {
+  "body": "Send the take-home - Research Manager (interviewing)",
+  "case": "follow-up-overdue",
+  "say": {
+   "body": [
+    {
+     "k": "notif-follow-up-body",
+     "p": {
+      "action": "Send the take-home",
+      "stage": "interviewing",
+      "title": "Research Manager"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-follow-up",
+    "p": {
+     "company": "OpenAI",
+     "when": {
+      "k": "notif-overdue",
+      "p": {
+       "days": 4
+      }
+     }
+    }
+   }
+  },
+  "title": "Follow up with OpenAI · 4d overdue"
+ },
+ {
+  "body": "Head of Product (applied): time to follow up, or set a date",
+  "case": "pursuit-gone-quiet",
+  "say": {
+   "body": [
+    {
+     "k": "notif-gone-quiet-body",
+     "p": {
+      "stage": "applied",
+      "title": "Head of Product"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-gone-quiet",
+    "p": {
+     "company": "Stripe",
+     "days": 23
+    }
+   }
+  },
+  "title": "No news from Stripe in 23 days"
+ },
+ {
+  "body": "Its careers page isn't answering. It hasn't had a full scan since 28 Sep, so new roles from Stripe may be missing. This clears on its next full scan.",
+  "case": "coverage-unreachable",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-unreachable",
+     "p": {}
+    },
+    {
+     "k": "notif-coverage-not-scanned-since",
+     "p": {
+      "company": "Stripe",
+      "day": {
+       "date": "2026-09-28"
+      }
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-scan-title",
+    "p": {
+     "company": "Stripe",
+     "days": 4
+    }
+   }
+  },
+  "title": "Couldn't scan Stripe · 4 days"
+ },
+ {
+  "body": "Its careers page answered with nothing readable. It hasn't had a full scan since 28 Sep, so new roles from Stripe may be missing. This clears on its next full scan.",
+  "case": "coverage-unreadable-one-day",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-unreadable",
+     "p": {}
+    },
+    {
+     "k": "notif-coverage-not-scanned-since",
+     "p": {
+      "company": "Stripe",
+      "day": {
+       "date": "2026-09-28"
+      }
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-scan-title",
+    "p": {
+     "company": "Stripe",
+     "days": 1
+    }
+   }
+  },
+  "title": "Couldn't scan Stripe · 1 day"
+ },
+ {
+  "body": "Scans read only part of its careers page. It hasn't had a full scan since 28 Sep, so new roles from Stripe may be missing. This clears on its next full scan.",
+  "case": "coverage-partial-under-a-day",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-partial",
+     "p": {}
+    },
+    {
+     "k": "notif-coverage-not-scanned-since",
+     "p": {
+      "company": "Stripe",
+      "day": {
+       "date": "2026-09-28"
+      }
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-scan-title",
+    "p": {
+     "company": "Stripe",
+     "days": 0
+    }
+   }
+  },
+  "title": "Couldn't scan Stripe"
+ },
+ {
+  "body": "No scan has reached its careers page. It hasn't had a full scan yet, so new roles from Stripe may be missing. This clears on its next full scan.",
+  "case": "coverage-never-scanned",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-unknown",
+     "p": {}
+    },
+    {
+     "k": "notif-coverage-not-scanned",
+     "p": {
+      "company": "Stripe"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-waiting-title",
+    "p": {
+     "company": "Stripe"
+    }
+   }
+  },
+  "title": "Waiting to scan Stripe"
+ },
+ {
+  "body": "None of them has had a full scan, so new roles may be missing. This clears as scans get through.",
+  "case": "coverage-waiting-outage",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-outage-body",
+     "p": {}
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-waiting-outage",
+    "p": {
+     "count": 5
+    }
+   }
+  },
+  "title": "Waiting to scan 5 companies"
+ },
+ {
+  "body": "Its careers page answered with an empty list. If Stripe is still hiring, its roles may have moved to a new careers page. 1 role stays as last seen until it lists roles again.",
+  "case": "coverage-empty-holding-one",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-empty-listing",
+     "p": {}
+    },
+    {
+     "k": "notif-coverage-empty-moved",
+     "p": {
+      "company": "Stripe"
+     }
+    },
+    {
+     "k": "notif-coverage-held-until-listed",
+     "p": {
+      "held": 1
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-empty-title",
+    "p": {
+     "company": "Stripe",
+     "days": 2
+    }
+   }
+  },
+  "title": "Stripe lists no roles · 2 days"
+ },
+ {
+  "body": "Its careers page answered with an empty list. If Stripe is still hiring, its roles may have moved to a new careers page. 4 roles stay as last seen until it lists roles again.",
+  "case": "coverage-empty-holding-several",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-empty-listing",
+     "p": {}
+    },
+    {
+     "k": "notif-coverage-empty-moved",
+     "p": {
+      "company": "Stripe"
+     }
+    },
+    {
+     "k": "notif-coverage-held-until-listed",
+     "p": {
+      "held": 4
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-empty-title",
+    "p": {
+     "company": "Stripe",
+     "days": 1
+    }
+   }
+  },
+  "title": "Stripe lists no roles · 1 day"
+ },
+ {
+  "body": "Its careers page answered with an empty list. If Stripe is still hiring, its roles may have moved to a new careers page.",
+  "case": "coverage-empty-holding-none",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-empty-listing",
+     "p": {}
+    },
+    {
+     "k": "notif-coverage-empty-moved",
+     "p": {
+      "company": "Stripe"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-empty-title",
+    "p": {
+     "company": "Stripe",
+     "days": 0
+    }
+   }
+  },
+  "title": "Stripe lists no roles"
+ },
+ {
+  "body": "Its careers page is no longer at its last address. Stripe has likely moved its roles to a new careers page. Find its new careers page, or stop following Stripe. 3 roles stay as last seen until then.",
+  "case": "coverage-board-gone",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-board-missing",
+     "p": {}
+    },
+    {
+     "k": "notif-coverage-gone-moved",
+     "p": {
+      "company": "Stripe"
+     }
+    },
+    {
+     "k": "notif-coverage-held-until-then",
+     "p": {
+      "held": 3
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-gone-title",
+    "p": {
+     "company": "Stripe",
+     "days": 5
+    }
+   }
+  },
+  "title": "Stripe's careers page is gone · 5 days"
+ },
+ {
+  "body": "Its careers page is no longer at its last address. Stripe has likely moved its roles to a new careers page. Find its new careers page, or stop following Stripe. 1 role stays as last seen until then.",
+  "case": "coverage-board-gone-holding-one",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-board-missing",
+     "p": {}
+    },
+    {
+     "k": "notif-coverage-gone-moved",
+     "p": {
+      "company": "Stripe"
+     }
+    },
+    {
+     "k": "notif-coverage-held-until-then",
+     "p": {
+      "held": 1
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-gone-title",
+    "p": {
+     "company": "Stripe",
+     "days": 1
+    }
+   }
+  },
+  "title": "Stripe's careers page is gone · 1 day"
+ },
+ {
+  "body": "Its careers page is no longer at its last address. Stripe has likely moved its roles to a new careers page. Find its new careers page, or stop following Stripe.",
+  "case": "coverage-board-gone-holding-none",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-board-missing",
+     "p": {}
+    },
+    {
+     "k": "notif-coverage-gone-moved",
+     "p": {
+      "company": "Stripe"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-gone-title",
+    "p": {
+     "company": "Stripe",
+     "days": 0
+    }
+   }
+  },
+  "title": "Stripe's careers page is gone"
+ },
+ {
+  "body": "None of them has had a full scan since 26 Sep, so new roles may be missing. This clears as scans get through.",
+  "case": "coverage-outage",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-outage-since",
+     "p": {
+      "day": {
+       "date": "2026-09-26"
+      }
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-outage",
+    "p": {
+     "count": 3,
+     "days": 2
+    }
+   }
+  },
+  "title": "Couldn't scan 3 companies · 2 days"
+ },
+ {
+  "body": "None of them has had a full scan, so new roles may be missing. This clears as scans get through.",
+  "case": "coverage-outage-never-scanned",
+  "say": {
+   "body": [
+    {
+     "k": "notif-coverage-outage-body",
+     "p": {}
+    }
+   ],
+   "title": {
+    "k": "notif-coverage-outage",
+    "p": {
+     "count": 3,
+     "days": 0
+    }
+   }
+  },
+  "title": "Couldn't scan 3 companies"
+ },
+ {
+  "body": "Scanning 1 company: Stripe.",
+  "case": "scan-started-one",
+  "say": {
+   "body": [
+    {
+     "k": "notif-scan-started-body",
+     "p": {
+      "count": 1,
+      "sources": "Stripe"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-started",
+    "p": {}
+   }
+  },
+  "title": "Scan started"
+ },
+ {
+  "body": "Scanning 3 companies: Google, Meta, Stripe.",
+  "case": "scan-started-named",
+  "say": {
+   "body": [
+    {
+     "k": "notif-scan-started-body",
+     "p": {
+      "count": 3,
+      "sources": "Google, Meta, Stripe"
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-started",
+    "p": {}
+   }
+  },
+  "title": "Scan started"
+ },
+ {
+  "body": "Scanning 6 companies: Apple, Google, Meta, Stripe and 2 more.",
+  "case": "scan-started-many",
+  "say": {
+   "body": [
+    {
+     "k": "notif-scan-started-body",
+     "p": {
+      "count": 6,
+      "sources": {
+       "k": "notif-sources-more",
+       "p": {
+        "more": 2,
+        "names": "Apple, Google, Meta, Stripe"
+       }
+      }
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-started",
+    "p": {}
+   }
+  },
+  "title": "Scan started"
+ },
+ {
+  "body": "Scanning every company you follow.",
+  "case": "scan-started-all",
+  "say": {
+   "body": [
+    {
+     "k": "notif-scan-started-all-body",
+     "p": {
+      "sources": {
+       "k": "notif-sources-all",
+       "p": {}
+      }
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-started",
+    "p": {}
+   }
+  },
+  "title": "Scan started"
+ },
+ {
+  "body": "You stopped it before it scanned any company.",
+  "case": "stopped-before-any",
+  "say": {
+   "body": [
+    {
+     "k": "notif-stopped-before-any",
+     "p": {}
+    }
+   ],
+   "title": {
+    "k": "notif-scan-stopped",
+    "p": {}
+   }
+  },
+  "title": "Scan stopped"
+ },
+ {
+  "body": "You stopped it after it scanned 2 companies. Problems at: Google DeepMind. What it found is saved. Not reached before the scan ran out of time: Meta. It is still due, so the next scan picks it up. 120 found / 4 created / 36 updated",
+  "case": "stopped-with-a-problem",
+  "say": {
+   "body": [
+    {
+     "k": "notif-stopped-after",
+     "p": {
+      "companies": {
+       "k": "notif-companies",
+       "p": {
+        "count": 2
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-problems-at",
+     "p": {
+      "affected": "Google DeepMind"
+     }
+    },
+    {
+     "k": "notif-read-saved",
+     "p": {}
+    },
+    {
+     "k": "notif-unreached",
+     "p": {
+      "count": 1,
+      "sources": "Meta"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 36
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-stopped",
+    "p": {}
+   }
+  },
+  "title": "Scan stopped"
+ },
+ {
+  "body": "You stopped it after it scanned 1 company. What it found is saved. 120 found / 4 created / 36 updated",
+  "case": "stopped-clean",
+  "say": {
+   "body": [
+    {
+     "k": "notif-stopped-after",
+     "p": {
+      "companies": {
+       "k": "notif-companies",
+       "p": {
+        "count": 1
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-read-saved",
+     "p": {}
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 36
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-stopped",
+    "p": {}
+   }
+  },
+  "title": "Scan stopped"
+ },
+ {
+  "body": "You stopped it after it scanned 1 company. Problems at: no single company; see the scan's notes. What it found is saved. 120 found / 4 created / 36 updated / 31 skipped or unchanged",
+  "case": "stopped-at-a-failed-pass",
+  "say": {
+   "body": [
+    {
+     "k": "notif-stopped-after",
+     "p": {
+      "companies": {
+       "k": "notif-companies",
+       "p": {
+        "count": 1
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-problems-at",
+     "p": {
+      "affected": {
+       "k": "notif-affected-none",
+       "p": {}
+      }
+     }
+    },
+    {
+     "k": "notif-read-saved",
+     "p": {}
+    },
+    {
+     "k": "notif-scan-summary-skipped",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "skipped": 31,
+      "updated": 36
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-stopped",
+    "p": {}
+   }
+  },
+  "title": "Scan stopped"
+ },
+ {
+  "body": "Finished at 2026-09-27 08:00 UTC after 45s. Not reached before the scan ran out of time: Meta. It is still due, so the next scan picks it up. 120 found / 4 created / 36 updated",
+  "case": "unfinished-u",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 08:00 UTC",
+      "duration": {
+       "k": "notif-duration-seconds",
+       "p": {
+        "s": 45
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-unreached",
+     "p": {
+      "count": 1,
+      "sources": "Meta"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 36
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-unfinished-u",
+    "p": {
+     "unreached": {
+      "k": "notif-companies",
+      "p": {
+       "count": 1
+      }
+     }
+    }
+   }
+  },
+  "title": "Scan ran out of time before 1 company"
+ },
+ {
+  "body": "Finished at 2026-09-27 08:00 UTC after 45s. This machine had no internet connection while scanning: OpenAI. What was found is saved, and it is still due, so the next scan picks it up. 120 found / 4 created / 36 updated",
+  "case": "unfinished-o",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 08:00 UTC",
+      "duration": {
+       "k": "notif-duration-seconds",
+       "p": {
+        "s": 45
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-offline",
+     "p": {
+      "count": 1,
+      "sources": "OpenAI"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 36
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-unfinished-o",
+    "p": {
+     "offline": {
+      "k": "notif-companies",
+      "p": {
+       "count": 1
+      }
+     }
+    }
+   }
+  },
+  "title": "Scan lost its internet connection at 1 company"
+ },
+ {
+  "body": "Finished at 2026-09-27 08:00 UTC after 45s. Stopped at the scan's time limit: Google DeepMind. What was found is saved, and postings there stay as last seen. 120 found / 4 created / 76 updated",
+  "case": "unfinished-c",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 08:00 UTC",
+      "duration": {
+       "k": "notif-duration-seconds",
+       "p": {
+        "s": 45
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-cut-short",
+     "p": {
+      "sources": "Google DeepMind"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 76
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-unfinished-c",
+    "p": {
+     "cut": {
+      "k": "notif-companies",
+      "p": {
+       "count": 1
+      }
+     }
+    }
+   }
+  },
+  "title": "Scan covered 1 company only in part"
+ },
+ {
+  "body": "Finished at 2026-09-27 08:00 UTC after 45s. Not reached before the scan ran out of time: Meta. It is still due, so the next scan picks it up. This machine had no internet connection while scanning: OpenAI. What was found is saved, and it is still due, so the next scan picks it up. 120 found / 4 created / 36 updated",
+  "case": "unfinished-uo",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 08:00 UTC",
+      "duration": {
+       "k": "notif-duration-seconds",
+       "p": {
+        "s": 45
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-unreached",
+     "p": {
+      "count": 1,
+      "sources": "Meta"
+     }
+    },
+    {
+     "k": "notif-offline",
+     "p": {
+      "count": 1,
+      "sources": "OpenAI"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 36
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-unfinished-uo",
+    "p": {
+     "offline": {
+      "k": "notif-companies",
+      "p": {
+       "count": 1
+      }
+     },
+     "unreached": {
+      "k": "notif-companies",
+      "p": {
+       "count": 1
+      }
+     }
+    }
+   }
+  },
+  "title": "Scan ran out of time before 1 company and lost its internet connection at 1 company"
+ },
+ {
+  "body": "Finished at 2026-09-27 08:00 UTC after 45s. Not reached before the scan ran out of time: Meta. It is still due, so the next scan picks it up. Stopped at the scan's time limit: Google DeepMind. What was found is saved, and postings there stay as last seen. 120 found / 4 created / 76 updated",
+  "case": "unfinished-uc",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 08:00 UTC",
+      "duration": {
+       "k": "notif-duration-seconds",
+       "p": {
+        "s": 45
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-unreached",
+     "p": {
+      "count": 1,
+      "sources": "Meta"
+     }
+    },
+    {
+     "k": "notif-cut-short",
+     "p": {
+      "sources": "Google DeepMind"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 76
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-unfinished-uc",
+    "p": {
+     "cut": 1,
+     "unreached": {
+      "k": "notif-companies",
+      "p": {
+       "count": 1
+      }
+     }
+    }
+   }
+  },
+  "title": "Scan ran out of time before 1 company and covered 1 only in part"
+ },
+ {
+  "body": "Finished at 2026-09-27 08:00 UTC after 45s. This machine had no internet connection while scanning: OpenAI. What was found is saved, and it is still due, so the next scan picks it up. Stopped at the scan's time limit: Google DeepMind. What was found is saved, and postings there stay as last seen. 120 found / 4 created / 76 updated",
+  "case": "unfinished-oc",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 08:00 UTC",
+      "duration": {
+       "k": "notif-duration-seconds",
+       "p": {
+        "s": 45
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-offline",
+     "p": {
+      "count": 1,
+      "sources": "OpenAI"
+     }
+    },
+    {
+     "k": "notif-cut-short",
+     "p": {
+      "sources": "Google DeepMind"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 76
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-unfinished-oc",
+    "p": {
+     "cut": 1,
+     "offline": {
+      "k": "notif-companies",
+      "p": {
+       "count": 1
+      }
+     }
+    }
+   }
+  },
+  "title": "Scan lost its internet connection at 1 company and covered 1 only in part"
+ },
+ {
+  "body": "Finished at 2026-09-27 08:00 UTC after 45s. Not reached before the scan ran out of time: Meta. It is still due, so the next scan picks it up. This machine had no internet connection while scanning: OpenAI. What was found is saved, and it is still due, so the next scan picks it up. Stopped at the scan's time limit: Google DeepMind. What was found is saved, and postings there stay as last seen. 120 found / 4 created / 76 updated",
+  "case": "unfinished-uoc",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 08:00 UTC",
+      "duration": {
+       "k": "notif-duration-seconds",
+       "p": {
+        "s": 45
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-unreached",
+     "p": {
+      "count": 1,
+      "sources": "Meta"
+     }
+    },
+    {
+     "k": "notif-offline",
+     "p": {
+      "count": 1,
+      "sources": "OpenAI"
+     }
+    },
+    {
+     "k": "notif-cut-short",
+     "p": {
+      "sources": "Google DeepMind"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 76
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-unfinished-uoc",
+    "p": {
+     "cut": 1,
+     "offline": {
+      "k": "notif-companies",
+      "p": {
+       "count": 1
+      }
+     },
+     "unreached": {
+      "k": "notif-companies",
+      "p": {
+       "count": 1
+      }
+     }
+    }
+   }
+  },
+  "title": "Scan ran out of time before 1 company, lost its internet connection at 1 company and covered 1 only in part"
+ },
+ {
+  "body": "Finished at 2026-09-27 09:35 UTC after 1h 35m. Not reached before the scan ran out of time: Meta, OpenAI. They are still due, so the next scan picks them up. This machine had no internet connection while scanning: Anthropic, Apple. What was found is saved, and they are still due, so the next scan picks them up. 120 found / 4 created / 36 updated",
+  "case": "unfinished-several-each",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 09:35 UTC",
+      "duration": {
+       "k": "notif-duration-hours",
+       "p": {
+        "h": 1,
+        "m": 35
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-unreached",
+     "p": {
+      "count": 2,
+      "sources": "Meta, OpenAI"
+     }
+    },
+    {
+     "k": "notif-offline",
+     "p": {
+      "count": 2,
+      "sources": "Anthropic, Apple"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 36
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-unfinished-uo",
+    "p": {
+     "offline": {
+      "k": "notif-companies",
+      "p": {
+       "count": 2
+      }
+     },
+     "unreached": {
+      "k": "notif-companies",
+      "p": {
+       "count": 2
+      }
+     }
+    }
+   }
+  },
+  "title": "Scan ran out of time before 2 companies and lost its internet connection at 2 companies"
+ },
+ {
+  "body": "Finished at 2026-09-27 08:40 UTC after 40m 0s. Not reached before the scan ran out of time: A1, B2, C3, D4 and 2 more. They are still due, so the next scan picks them up. 120 found / 4 created / 36 updated",
+  "case": "unfinished-past-four",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 08:40 UTC",
+      "duration": {
+       "k": "notif-duration-minutes",
+       "p": {
+        "m": 40,
+        "s": 0
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-unreached",
+     "p": {
+      "count": 6,
+      "sources": {
+       "k": "notif-sources-more",
+       "p": {
+        "more": 2,
+        "names": "A1, B2, C3, D4"
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 36
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-unfinished-u",
+    "p": {
+     "unreached": {
+      "k": "notif-companies",
+      "p": {
+       "count": 6
+      }
+     }
+    }
+   }
+  },
+  "title": "Scan ran out of time before 6 companies"
+ },
+ {
+  "body": "Failed at 2026-09-27 08:00 UTC after 12s. Problems at: Google DeepMind: HTTPError: 500. 120 found / 4 created / 0 updated",
+  "case": "failed-with-errors",
+  "say": {
+   "body": [
+    {
+     "k": "notif-failed-at",
+     "p": {
+      "at": "2026-09-27 08:00 UTC",
+      "duration": {
+       "k": "notif-duration-seconds",
+       "p": {
+        "s": 12
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-problems-at",
+     "p": {
+      "affected": "Google DeepMind: HTTPError: 500"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 0
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-failed",
+    "p": {}
+   }
+  },
+  "title": "Couldn't scan, nothing was updated"
+ },
+ {
+  "body": "Failed at 2026-09-27 08:40 UTC after 40m 0s. Problems at: Google DeepMind, Stripe. 0 found / 0 created / 0 updated",
+  "case": "failed-named",
+  "say": {
+   "body": [
+    {
+     "k": "notif-failed-at",
+     "p": {
+      "at": "2026-09-27 08:40 UTC",
+      "duration": {
+       "k": "notif-duration-minutes",
+       "p": {
+        "m": 40,
+        "s": 0
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-problems-at",
+     "p": {
+      "affected": "Google DeepMind, Stripe"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 0,
+      "found": 0,
+      "updated": 0
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-failed",
+    "p": {}
+   }
+  },
+  "title": "Couldn't scan, nothing was updated"
+ },
+ {
+  "body": "Failed at 2026-09-27 08:40 UTC after unknown duration. Problems at: database is locked. 120 found / 4 created / 0 updated",
+  "case": "failed-with-notes",
+  "say": {
+   "body": [
+    {
+     "k": "notif-failed-at",
+     "p": {
+      "at": "2026-09-27 08:40 UTC",
+      "duration": {
+       "k": "notif-duration-unknown",
+       "p": {}
+      }
+     }
+    },
+    {
+     "k": "notif-problems-at",
+     "p": {
+      "affected": "database is locked"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 0
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-failed",
+    "p": {}
+   }
+  },
+  "title": "Couldn't scan, nothing was updated"
+ },
+ {
+  "body": "Failed at 2026-09-27 08:40 UTC after 40m 0s. Problems at: scan failed. 120 found / 4 created / 0 updated",
+  "case": "failed-unexplained",
+  "say": {
+   "body": [
+    {
+     "k": "notif-failed-at",
+     "p": {
+      "at": "2026-09-27 08:40 UTC",
+      "duration": {
+       "k": "notif-duration-minutes",
+       "p": {
+        "m": 40,
+        "s": 0
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-problems-at",
+     "p": {
+      "affected": {
+       "k": "notif-run-failed",
+       "p": {}
+      }
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 0
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-failed",
+    "p": {}
+   }
+  },
+  "title": "Couldn't scan, nothing was updated"
+ },
+ {
+  "body": "Finished at 2026-09-27 08:40 UTC after 40m 0s. Every company in this scan was read, but a step after the scan did not finish: RuntimeError: embed. What the scan found is saved. 120 found / 4 created / 36 updated / 31 skipped or unchanged",
+  "case": "derivation-failed",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 08:40 UTC",
+      "duration": {
+       "k": "notif-duration-minutes",
+       "p": {
+        "m": 40,
+        "s": 0
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-every-source-delivered",
+     "p": {
+      "failure": "RuntimeError: embed"
+     }
+    },
+    {
+     "k": "notif-data-saved",
+     "p": {}
+    },
+    {
+     "k": "notif-scan-summary-skipped",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "skipped": 31,
+      "updated": 36
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-derivation-failed",
+    "p": {}
+   }
+  },
+  "title": "Scan collected, but a derivation failed"
+ },
+ {
+  "body": "Finished at 2026-09-27 08:40 UTC after 40m 0s. A step after the scan did not finish: RuntimeError: embed. Not reached before the scan ran out of time: Meta. It is still due, so the next scan picks it up. What the scan found is saved. 120 found / 4 created / 36 updated",
+  "case": "derivation-failed-and-unfinished",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 08:40 UTC",
+      "duration": {
+       "k": "notif-duration-minutes",
+       "p": {
+        "m": 40,
+        "s": 0
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-post-pass-unfinished",
+     "p": {
+      "failure": "RuntimeError: embed"
+     }
+    },
+    {
+     "k": "notif-unreached",
+     "p": {
+      "count": 1,
+      "sources": "Meta"
+     }
+    },
+    {
+     "k": "notif-data-saved",
+     "p": {}
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 36
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-derivation-failed",
+    "p": {}
+   }
+  },
+  "title": "Scan collected, but a derivation failed"
+ },
+ {
+  "body": "Finished at 2026-09-27 10:05 UTC after 2h 5m. This machine was asleep for 16m 27s during the scan, which cuts a company's listing short. Problems at: Microsoft. 120 found / 4 created / 78 updated",
+  "case": "problems-while-asleep",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 10:05 UTC",
+      "duration": {
+       "k": "notif-duration-hours",
+       "p": {
+        "h": 2,
+        "m": 5
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-asleep",
+     "p": {
+      "duration": {
+       "k": "notif-duration-minutes",
+       "p": {
+        "m": 16,
+        "s": 27
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-problems-at",
+     "p": {
+      "affected": "Microsoft"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 78
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-problems",
+    "p": {}
+   }
+  },
+  "title": "Scan finished with problems"
+ },
+ {
+  "body": "Finished at 2026-09-27 08:40 UTC after 40m 0s. Problems at: Google DeepMind. Not reached before the scan ran out of time: Meta. It is still due, so the next scan picks it up. 120 found / 4 created / 38 updated",
+  "case": "problems-and-unfinished",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 08:40 UTC",
+      "duration": {
+       "k": "notif-duration-minutes",
+       "p": {
+        "m": 40,
+        "s": 0
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-problems-at",
+     "p": {
+      "affected": "Google DeepMind"
+     }
+    },
+    {
+     "k": "notif-unreached",
+     "p": {
+      "count": 1,
+      "sources": "Meta"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 38
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-problems",
+    "p": {}
+   }
+  },
+  "title": "Scan finished with problems"
+ },
+ {
+  "body": "Finished at 2026-09-27 08:40 UTC after 40m 0s. Problems at: Stripe. 120 found / 4 created / 38 updated",
+  "case": "problems-from-drift",
+  "say": {
+   "body": [
+    {
+     "k": "notif-finished-at",
+     "p": {
+      "at": "2026-09-27 08:40 UTC",
+      "duration": {
+       "k": "notif-duration-minutes",
+       "p": {
+        "m": 40,
+        "s": 0
+       }
+      }
+     }
+    },
+    {
+     "k": "notif-problems-at",
+     "p": {
+      "affected": "Stripe"
+     }
+    },
+    {
+     "k": "notif-scan-summary",
+     "p": {
+      "created": 4,
+      "found": 120,
+      "updated": 38
+     }
+    }
+   ],
+   "title": {
+    "k": "notif-scan-problems",
+    "p": {}
+   }
+  },
+  "title": "Scan finished with problems"
+ }
+]

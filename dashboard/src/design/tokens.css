@@ -1,0 +1,394 @@
+/*
+ * The application design system: the promoted tokens.
+ *
+ * Declared at :root so every route AND every portal inherits it — the bell
+ * popover renders on every screen, which is why these cannot live behind a
+ * route body marker. Screens consume --app-* exclusively, and the
+ * `legacy-tokens` ratchet (test/ratchet.test.ts) only moves down. Never alias
+ * another namespace to this one in either direction.
+ */
+:root {
+  /* Native UI (a select's popup, scrollbars, date pickers) is drawn by the
+     browser and the OS, not by these tokens; color-scheme is the only thing
+     that tells it the page's theme. Without it the popup follows the OS
+     appearance, so a dark page on a light Mac opens a light menu. */
+  color-scheme: light;
+
+  /* The chromatic axis is WARM: text, line and status tokens carry a warm ink
+     rather than a cool grey, at the lightness the contrast gate holds. On the
+     near-neutral surfaces the hue shift is imperceptible at text sizes. */
+  /* Light reads by SEPARATION, not glow: a cool grey page under near-white
+     panels, a hairline every boundary can be seen by, and a soft shadow
+     (--app-shadow) under each panel laid on the page. The canvas is as dark
+     as text-faint, information and decor allow on it (tokens.test.ts). */
+  --app-canvas: #ecedef;
+  --app-surface: rgba(255, 255, 255, 0.92);
+  --app-surface-raised: #ffffff;
+  --app-surface-subtle: #f5f6f7;
+  --app-surface-sunken: #e7e8eb;
+  --app-surface-glass: rgba(249, 249, 250, 0.82);
+  /* As dark as every text step allows on a hovered row (tokens.test.ts):
+     past that, a hovered row's quiet text drops under AA. */
+  --app-surface-hover: rgba(27, 26, 22, 0.06);
+  /* Row-selection tint, one step quieter than hover. */
+  --app-selected: rgba(27, 26, 22, 0.045);
+  --app-border: rgba(27, 26, 22, 0.19);
+  --app-border-strong: rgba(27, 26, 22, 0.34);
+  --app-text: #1b1a16;
+  --app-text-muted: #5f5b52;
+  /* THIRD TEXT STEP, and it is a text step: a token named `text-faint` invites
+     quiet TEXT, so decoration lives in --app-decor, and tokens.test.ts holds
+     faint to AA like any other text step. */
+  --app-text-faint: #67625a;
+  /* Not text, and never text: glyph strokes, dots, hairline chrome and the
+     instrument's own scale markings. Only 1.4.11's 3:1 for graphical objects
+     applies here, and the gate enforces exactly that. */
+  --app-decor: #868177;
+  /* The edge that identifies a control whose outline is all it has (a
+     select, a filter): 1.4.11's 3:1 on every ground, gated in tokens.test.ts.
+     A divider between content keeps --app-border. */
+  --app-border-control: #868177;
+  /* A saturated gold, so an action reads as one on a pale page; the dark
+     theme's pale gold at this lightness would be khaki. Held apart from
+     --app-warning's orange by hue (tokens.test.ts). */
+  --app-action: #8a610f;
+  --app-action-ink: #ffffff;
+  --app-action-soft: rgba(138, 97, 15, 0.1);
+  --app-action-line: rgba(138, 97, 15, 0.34);
+  /* The edge of a chosen control: 3:1 on every ground (WCAG 1.4.11), so a
+     chosen chip is never less bounded than its unchosen neighbour. */
+  --app-action-edge: rgba(138, 97, 15, 0.78);
+  /* Focus halo around an action-coloured control. */
+  --app-action-ring: rgba(138, 97, 15, 0.16);
+  --app-action-text: #77540d;
+  --app-action-glow: rgba(138, 97, 15, 0.16);
+  /* THE TWO STATES (docs/ui.md "Two states"). Every
+     on/selected/current paint in the app reads one of these two sets and
+     nothing else; `state-grammar.test.ts` fails a state rule that paints
+     outside them, and a selector keyed on a state CLASS (.on, .is-*,
+     .selected, .active) instead of the element's real state.
+       CHOSEN: one option picked among others, or the current item of a set
+       (a tab, chip, segment, option card, index entry, sort head, nav item,
+       a row picked for Compare). Gold: the action colour, because choosing
+       is an act. Wash behind it, line around it if it has an edge, its NAME
+       in chosen-text, a mark (bar, dot, stroke) in chosen-mark.
+       ON: a thing's own on/off state, set by a switch (the switch track and
+       the row it governs). Ink, never gold: a state, not an action.
+     Declared once here as references, so they follow the theme blocks below
+     without being restated; retune a state here, never at a call site. */
+  --app-chosen-wash: var(--app-action-soft);
+  --app-chosen-line: var(--app-action-edge);
+  --app-chosen-text: var(--app-action-text);
+  --app-chosen-mark: var(--app-action);
+  --app-on-fill: var(--app-text);
+  --app-on-wash: var(--app-selected);
+  /* AMBIENT is the page's own light, not a component's. Two washes, mirroring
+     what `body` paints for every other route: a beam at the top right and a
+     second one at the bottom left.
+
+     In light the beam is plain white and the second wash is off: a tinted
+     haze on a pale page reads as discoloured paper, not as light. Dark keeps a
+     warm and a cool beam that match --app-action-glow and --app-positive-soft;
+     they are copies, never aliases, so retuning the accent cannot move the
+     page's ambience. */
+  --app-ambient-warm: rgba(255, 255, 255, 0.55);
+  --app-ambient-cool: rgba(255, 255, 255, 0);
+  /* The wash as ONE value, so the page ground and everything that imitates it
+     cannot drift apart: a faker consumes this token rather than re-typing the
+     gradients. Theme-invariant — the colours it references are re-declared per
+     theme and resolve at use. `fixed` attachment belongs with it (see
+     settings.css): both layers anchor to the VIEWPORT, which is what lets a
+     sticky header paint the same wash and land on the same pixels. */
+  --app-ambient-image:
+    radial-gradient(1200px circle at 92% -14%, var(--app-ambient-warm), transparent 56%),
+    radial-gradient(900px circle at -6% 112%, var(--app-ambient-cool), transparent 52%);
+  --app-positive: #186a45;
+  --app-positive-soft: rgba(8, 124, 79, 0.09);
+  --app-positive-line: rgba(8, 124, 79, 0.32);
+  /* Semantic hues are TEXT colors first (dial labels, .next rows, error copy),
+     so each must hold 4.5:1 on canvas and raised surfaces. */
+  --app-warning: #8f4e0c;
+  --app-warning-soft: rgba(143, 78, 12, 0.09);
+  --app-warning-line: rgba(143, 78, 12, 0.3);
+  --app-danger: #a93226;
+  --app-danger-soft: rgba(169, 50, 38, 0.09);
+  /* Ink on a FILLED danger surface (the bell's count pill). Paired by token
+     because dark theme turns the danger fill light, where a hard-coded white
+     ink fails contrast. */
+  --app-danger-ink: #ffffff;
+  --app-information: #0c6a87;
+  /* Scan-progress fill and the text-highlight mark. */
+  --app-bar: rgba(27, 26, 22, 0.72);
+  --app-mark: #fbe7a1;
+  /* DATA is the categorical ramp for instruments — chart series, sparklines,
+     matrix cells. Graphical-object hues,
+     never text: every chart carries an aria-label, an sr-only summary and its
+     values in a surrounding ledger, so 1.4.11 is met by the alternative, not
+     the fill. Text-grade claims stay with the semantic hues above. */
+  --app-data-1: #0a9260;
+  --app-data-2: #17809f;
+  --app-data-3: #b05e14;
+  --app-data-4: #c64040;
+  /* The lift of a panel laid on the page. Dark has none: on a near-black
+     page a shadow is invisible and the panel's hairline does the work. */
+  --app-shadow: 0 1px 2px rgba(27, 26, 22, 0.06), 0 6px 16px -6px rgba(27, 26, 22, 0.1);
+  --app-shadow-pop: 0 1px 2px rgba(27, 26, 22, 0.08), 0 24px 64px -12px rgba(27, 26, 22, 0.28);
+  /* --- Geometry -----------------------------------------------------------
+   * A tokenised type ramp needs tokenised positions: when the boxes grow with
+   * the type and the distances between them are literals, the screen congests
+   * and each fix finds one more forgotten number. These four scales cover it.
+   *
+   * SPACE is composition rhythm, read in body lines, so it moves with the
+   * type. A linear 4/8/12/16/20 compresses at the top (ratios 2, 1.5, 1.33,
+   * 1.25), so its widest gaps are the least distinct; this scale holds ~1.4
+   * throughout, and its sixth step is the page gutter and the rail. */
+  --app-space-1: 5px;  /* glyph to its label */
+  --app-space-2: 10px; /* inline gaps, chip insets */
+  --app-space-3: 14px; /* inside a component */
+  --app-space-4: 20px; /* block padding */
+  --app-space-5: 28px; /* between blocks */
+  --app-space-6: 40px; /* page gutter, major separation */
+
+  /* CONTROL is a height and its own horizontal inset, as a PAIR. Split, a
+     taller box with the same inset reads tall and narrow; paired, a control
+     cannot be stretched on one axis. */
+  --app-control-sm: 28px;
+  --app-control-sm-pad: 10px;
+  --app-control-md: 36px;
+  --app-control-md-pad: 14px;
+  --app-control-lg: 44px;
+  --app-control-lg-pad: 18px;
+
+  /* RADIUS scales with the box it rounds: a 7px corner on a 30px button reads
+     as 0.23 of its height, on a 36px button as 0.19 — the same number looks
+     sharper on the bigger control. */
+  --app-radius-sm: 7px;  /* chips, tags */
+  --app-radius-md: 9px;  /* controls */
+  --app-radius-lg: 14px; /* cards, sections */
+  --app-radius-xl: 18px; /* overlays */
+
+  /* ICON sits at parity with the text beside it: a 12-14px glyph beside
+     15-16px labels reads undersized. */
+  --app-icon-sm: 14px; /* beside meta */
+  --app-icon-md: 16px; /* beside body */
+  --app-icon-lg: 18px; /* beside name */
+
+  /* NAV RAIL width — the one piece of app LAYOUT the system names, and the
+     only geometry here that is live state rather than a constant: the rail
+     has two widths and `.app.nav-expanded` swaps between them at runtime.
+     Anything that must clear the rail without being laid out beside it
+     (Review's fixed decision console) has to read the SAME custom property
+     the shell's grid column reads, through the cascade — a second copy of 72
+     goes stale the moment the rail is retuned, and does not move at all when
+     the rail expands.
+     That is why the expanded state overrides this token on `.app` rather than
+     restating a pixel: one name, two values, one writer (shell.css, with the
+     rail). */
+  --app-nav-width: 72px;
+  --app-nav-width-expanded: 204px;
+
+  /* FOCUS RING geometry, as a pair, so no sheet re-types the width or picks
+     its own offset. Colour stays per scope (--app-action, or --app-danger
+     on the danger rank); geometry is one value app-wide. A control flush with
+     its container inverts the offset (`calc(-1 * var(--app-ring-offset))`)
+     rather than inventing a third number. */
+  --app-ring-width: 2px;
+  --app-ring-offset: 2px;
+  --app-ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+  --app-ease-travel: cubic-bezier(0.22, 1, 0.36, 1);
+  --app-duration-fast: 120ms;
+  --app-duration-medium: 180ms;
+  --app-duration-slow: 260ms;
+  /* Two voices, strict roles: Plex Sans for prose and names, Plex Mono for
+     data and eyebrows. Both BUNDLED (main.tsx): a declared face that does not
+     load is machine-dependent rendering wearing a token's name. */
+  --app-font-sans: "IBM Plex Sans Variable", "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --app-font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+  /* Type ramp (theme-invariant, so declared once here). Named by ROLE: a role
+     says where a value belongs, a pixel value does not.
+
+     Few tiers, whole pixels. A half-pixel step is invisible, so tiers that
+     close are noise, not hierarchy: the 10-14px band holds three (label 12 /
+     meta 13 / body 14), and shrinking them rebuilds the noise. The top is
+     compressed so each heading tier is a clear step: a ramp whose every step
+     is ~1.2 has no dominant note, so each tier reads as its neighbour's
+     sibling. `stat` is its own role because a numeral should be big where a
+     heading should not.
+
+     Expect hierarchy, not density. Rows are min-height driven, so more
+     visible rows is a geometry change (--*-row, the space scale), never a
+     type change.
+
+     Below the headings the band is 15/14/13/12: four steps inside 1.25x,
+     told apart by weight, case, colour and family as much as by size. A
+     block title shares the name's 15px and outranks it by place, weight and
+     space; a fifth step here would be one no reader can see.
+
+     Floors, in order of strictness:
+       - `viz` (11px) is the absolute floor and is legal ONLY on instrument
+         text that carries a text alternative — the chronograph's hour
+         numerals, mark labels and cluster badges. "Instrument", not "SVG":
+         the marks are HTML buttons overlaid on the dial, and they are as much
+         part of the drawing as the numerals under them.
+       - `label` (12px) is the floor for chrome — uppercase, tracked, so it
+         reads smaller than its size and must not go under.
+       - `meta` (13px) is the floor for anything carrying a FACT. Paired with
+         text-muted or stronger, never text-faint.
+
+     THE INSTRUMENT TIERS. Applying the fact floor to dense instrument
+     screens flattens the scale's dynamic range: raising every supporting text
+     to 13 leaves everything speaking at one volume. Two roles under the fact
+     floor keep the whisper band; each has a narrower job than the floor it
+     undercuts:
+       - `micro` (12px) is a SECONDARY instrument fact: the age column, the
+         location line, an aside on a dense row — always muted or fainter ink,
+         never the row's primary content, never prose. It sits at the chrome
+         floor in sentence case, where `label` is uppercase.
+       - `whisper` (10px) is a RECOGNITION label, not reading text: uppercase,
+         at the one recipe (`--app-type-whisper-weight` 700 /
+         `--app-type-whisper-track` 0.14em) — column heads, kickers, unit
+         captions, field labels. Shapes you identify, not sentences you read; the gate
+         enforces the uppercase+tracking pairing. Sentence-case copy may never
+         take it.
+
+     `page` outranks `screen` because it is the page's own title: a card
+     heading must never outrank the screen it sits on, and 22/18 is one clear
+     step rather than a near-tie.
+
+     A heading is not prose: every rule that sets one of the top four roles
+     must set its own line-height (~1.15-1.25) or it inherits the body's 1.5
+     and sits in a box half again its size. */
+  --app-type-display: 30px; /* instrument hero — the dial's dispatch time */
+  --app-type-page: 22px;    /* the screen's own h1 */
+  --app-type-screen: 18px;  /* card / zone heading (h2) */
+  --app-type-stat: 22px;    /* standalone numerals — policy strip, cadence */
+  --app-type-title: 15px;   /* h3, sector heading, tile title */
+  --app-type-name: 15px;    /* primary row content — the company name */
+  --app-type-body: 14px;    /* descriptions, controls, tab bar */
+  --app-type-meta: 13px;    /* secondary facts — the fact floor */
+  --app-type-label: 12px;   /* uppercase mono labels, column heads */
+  --app-type-viz: 11px;     /* instrument SVG only — needs a text alt */
+  --app-type-micro: 12px;   /* secondary instrument fact — muted+ ink only */
+  --app-type-whisper: 10px; /* recognition label — uppercase + tracked, gated */
+  /* The one whisper recipe: every rule that sets whisper sets THESE, never a
+     literal — the gate checks it. 700 is what keeps a 10px stroke legible, at
+     0.14em tracking. Retune here, nowhere else. */
+  /* ---- Sans weight: four roles ------------------------------------------
+     A 20-unit step is invisible at 13-16px, so sans weights collapse to four
+     perceptual ranks, and several weights all labelling the NAME of a row or
+     the TITLE of a block carry no signal: size and colour do the work and
+     weight is noise around them. Four roles, and the heavy end is reserved
+     for SMALL text — large type reads heavier at the same weight, so a ramp
+     that raises weight with size compounds the contrast twice.
+
+     A size role and a weight role are chosen independently: `name` is the
+     weight for a thing's name at any size, which is why h1, h3 and a row title
+     share it and the type ramp separates them. */
+  --app-weight-body: 400;    /* prose, descriptions, running text */
+  --app-weight-ui: 500;      /* controls, tabs, buttons — text you act on */
+  --app-weight-name: 600;    /* a row's name, a block's title, h1-h3 */
+  --app-weight-strong: 700;  /* emphasis, and uppercase micro-labels, which
+                                need the extra weight to hold at 10-12px */
+
+  /* The whisper recipe's weight IS `strong`; kept under its own name because
+     tokens.test.ts gates the uppercase+tracking+weight triple as one recipe. */
+  --app-type-whisper-weight: 700;
+  --app-type-whisper-track: 0.14em;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --app-canvas: #0a0a0b;
+  --app-surface: rgba(255, 255, 255, 0.028);
+  --app-surface-raised: #141416;
+  --app-surface-subtle: #191a1c;
+  --app-surface-sunken: #0d0d0f;
+  --app-surface-glass: rgba(14, 14, 16, 0.72);
+  --app-surface-hover: rgba(255, 252, 244, 0.055);
+  --app-selected: rgba(255, 252, 244, 0.04);
+  --app-border: rgba(236, 234, 228, 0.1);
+  --app-border-strong: rgba(236, 234, 228, 0.22);
+  --app-text: #eceae4;
+  --app-text-muted: #a39e94;
+  --app-text-faint: #8c877e;
+  --app-decor: #6d6860;
+  --app-border-control: #6d6860;
+  --app-action: #dbcb90;
+  --app-action-ink: #1a1705;
+  --app-action-soft: rgba(219, 203, 144, 0.12);
+  --app-action-line: rgba(219, 203, 144, 0.32);
+  --app-action-edge: rgba(219, 203, 144, 0.5);
+  --app-action-ring: rgba(219, 203, 144, 0.18);
+  --app-action-text: #e8dcac;
+  --app-action-glow: rgba(219, 203, 144, 0.24);
+  --app-ambient-warm: rgba(219, 203, 144, 0.24);
+  --app-ambient-cool: rgba(126, 240, 178, 0.09);
+  --app-positive: #79dfa8;
+  --app-positive-soft: rgba(126, 240, 178, 0.09);
+  --app-positive-line: rgba(126, 240, 178, 0.26);
+  --app-warning: #efa85e;
+  --app-warning-soft: rgba(239, 168, 94, 0.1);
+  --app-warning-line: rgba(239, 168, 94, 0.3);
+  --app-danger: #ef8d84;
+  --app-danger-soft: rgba(239, 141, 132, 0.1);
+  --app-danger-ink: #2a0b0b;
+  --app-information: #6fc9e6;
+  --app-bar: rgba(236, 234, 228, 0.7);
+  --app-mark: #6a5a1e;
+  --app-data-1: #7ef0b2;
+  --app-data-2: #6fc9e6;
+  --app-data-3: #f0a45c;
+  --app-data-4: #ff8484;
+  --app-shadow: none;
+  --app-shadow-pop: 0 0 0 1px rgba(236, 234, 228, 0.06), 0 32px 88px -8px rgba(0, 0, 0, 0.66);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    color-scheme: dark;
+    --app-canvas: #0a0a0b;
+    --app-surface: rgba(255, 255, 255, 0.028);
+    --app-surface-raised: #141416;
+    --app-surface-subtle: #191a1c;
+    --app-surface-sunken: #0d0d0f;
+    --app-surface-glass: rgba(14, 14, 16, 0.72);
+    --app-surface-hover: rgba(255, 252, 244, 0.055);
+    --app-selected: rgba(255, 252, 244, 0.04);
+    --app-border: rgba(236, 234, 228, 0.1);
+    --app-border-strong: rgba(236, 234, 228, 0.22);
+    --app-text: #eceae4;
+    --app-text-muted: #a39e94;
+    --app-text-faint: #8c877e;
+    --app-decor: #6d6860;
+    --app-border-control: #6d6860;
+    --app-action: #dbcb90;
+    --app-action-ink: #1a1705;
+    --app-action-soft: rgba(219, 203, 144, 0.12);
+    --app-action-line: rgba(219, 203, 144, 0.32);
+    --app-action-edge: rgba(219, 203, 144, 0.5);
+    --app-action-ring: rgba(219, 203, 144, 0.18);
+    --app-action-text: #e8dcac;
+    --app-action-glow: rgba(219, 203, 144, 0.24);
+  --app-ambient-warm: rgba(219, 203, 144, 0.24);
+  --app-ambient-cool: rgba(126, 240, 178, 0.09);
+    --app-positive: #79dfa8;
+    --app-positive-soft: rgba(126, 240, 178, 0.09);
+    --app-positive-line: rgba(126, 240, 178, 0.26);
+    --app-warning: #efa85e;
+    --app-warning-soft: rgba(239, 168, 94, 0.1);
+    --app-warning-line: rgba(239, 168, 94, 0.3);
+    --app-danger: #ef8d84;
+    --app-danger-soft: rgba(239, 141, 132, 0.1);
+    --app-danger-ink: #2a0b0b;
+    --app-information: #6fc9e6;
+    --app-bar: rgba(236, 234, 228, 0.7);
+    --app-mark: #6a5a1e;
+    --app-data-1: #7ef0b2;
+    --app-data-2: #6fc9e6;
+    --app-data-3: #f0a45c;
+    --app-data-4: #ff8484;
+    --app-shadow: none;
+    --app-shadow-pop: 0 0 0 1px rgba(236, 234, 228, 0.06), 0 32px 88px -8px rgba(0, 0, 0, 0.66);
+  }
+}
+

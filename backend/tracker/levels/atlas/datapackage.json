@@ -1,0 +1,1114 @@
+{
+  "name": "roleband-level-atlas",
+  "title": "RoleBand level atlas",
+  "description": "How each company levels its people and structures pay.",
+  "licenses": [
+    {
+      "name": "CC-BY-4.0",
+      "title": "Creative Commons Attribution 4.0"
+    }
+  ],
+  "edition": "2026.11.02",
+  "schema_version": "4.0.0",
+  "profile": "tabular-data-package",
+  "resources": [
+    {
+      "name": "companies",
+      "path": "companies.csv",
+      "profile": "tabular-data-resource",
+      "description": "One row per employer the model knows, in the model's order.",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "slug",
+            "type": "string",
+            "description": "tracked_company.slug",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "parent",
+            "type": "string",
+            "description": "A sibling employer whose ladders this one shares (google-deepmind -> google)."
+          },
+          {
+            "name": "printed_field",
+            "type": "string",
+            "description": "The public board field the employer prints its rung in; empty = the posting's text."
+          },
+          {
+            "name": "senior_unconfirmed",
+            "type": "boolean",
+            "description": "A bare 'Senior' in this employer's titles is a weak signal: the posting reads senior, never confirmed (its ladder is not spoken in titles). Empty = false."
+          },
+          {
+            "name": "as_of",
+            "type": "date",
+            "description": "When the evidence for this row was read.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "note",
+            "type": "string",
+            "description": "For the reader of the file; not part of the model."
+          }
+        ],
+        "primaryKey": [
+          "slug"
+        ]
+      }
+    },
+    {
+      "name": "ladders",
+      "path": "ladders.csv",
+      "profile": "tabular-data-resource",
+      "description": "A company's ladders, in the company's order. `family` is a taxonomy family or `company` (the company-wide row).",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "company",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "family",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "guide",
+            "type": "boolean",
+            "description": "Shown in the Walk's level guide: a reviewed ladder.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "company_wide",
+            "type": "boolean",
+            "description": "The code grades every function; false: only `tracks`.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "tracks",
+            "type": "string",
+            "description": "Role tracks the code grades when not company-wide, `|`-separated."
+          },
+          {
+            "name": "families",
+            "type": "string",
+            "description": "Other taxonomy families this ladder levels, `|`-separated."
+          },
+          {
+            "name": "flat",
+            "type": "boolean",
+            "description": "The employer's titles state no level beyond these rungs: a band with no rung is unstated, not skipped. Empty = false."
+          },
+          {
+            "name": "as_of",
+            "type": "date",
+            "description": "When the evidence for this row was read.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "note",
+            "type": "string",
+            "description": "For the reader of the file; not part of the model."
+          }
+        ],
+        "primaryKey": [
+          "company",
+          "family"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "company"
+            ],
+            "reference": {
+              "resource": "companies",
+              "fields": [
+                "slug"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "rungs",
+      "path": "rungs.csv",
+      "profile": "tabular-data-resource",
+      "description": "Every rung, lowest first within its ladder (row order is rank). A spelling names one rung per ladder.",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "company",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "family",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "code",
+            "type": "string",
+            "description": "How the company names the rung in the guide.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "band",
+            "type": "string",
+            "description": "The band: the company's own rung word.",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "intern",
+                "entry",
+                "mid",
+                "senior",
+                "staff",
+                "principal",
+                "director_plus"
+              ]
+            }
+          },
+          {
+            "name": "aliases",
+            "type": "string",
+            "description": "Every other spelling of this rung, `|`-separated."
+          },
+          {
+            "name": "pay_label",
+            "type": "string",
+            "description": "The label pay rows key this rung by, when it is not `code`."
+          },
+          {
+            "name": "people_manager",
+            "type": "boolean",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "seed_median_usd",
+            "type": "integer",
+            "description": "Seed median total pay, USD a year; empty = no seed."
+          },
+          {
+            "name": "bonus_low",
+            "type": "integer",
+            "description": "Annual bonus target, low, percent of base."
+          },
+          {
+            "name": "bonus_high",
+            "type": "integer",
+            "description": "Annual bonus target, high, percent of base."
+          },
+          {
+            "name": "as_of",
+            "type": "date",
+            "description": "When the evidence for this row was read.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "note",
+            "type": "string",
+            "description": "For the reader of the file; not part of the model."
+          }
+        ],
+        "primaryKey": [
+          "company",
+          "family",
+          "code"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "company",
+              "family"
+            ],
+            "reference": {
+              "resource": "ladders",
+              "fields": [
+                "company",
+                "family"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "printed",
+      "path": "printed.csv",
+      "profile": "tabular-data-resource",
+      "description": "Codes an employer prints on a posting or in a board field, banded where measured.",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "company",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "code",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "band",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "intern",
+                "entry",
+                "mid",
+                "senior",
+                "staff",
+                "principal",
+                "director_plus"
+              ]
+            }
+          }
+        ],
+        "primaryKey": [
+          "company",
+          "code"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "company"
+            ],
+            "reference": {
+              "resource": "companies",
+              "fields": [
+                "slug"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "rung_titles",
+      "path": "rung_titles.csv",
+      "profile": "tabular-data-resource",
+      "description": "Phrases a company uses for one of its rungs in its postings: a title whose words meet one reads that rung. Phrases, never regexes.",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "company",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "family",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "code",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "phrase",
+            "type": "string",
+            "description": "Lowercase words, single-spaced, as the title says them; punctuation is ignored.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "match",
+            "type": "string",
+            "description": "exact: the title's words are the phrase; prefix: they start with it; word: it appears among them as whole words.",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "exact",
+                "prefix",
+                "word"
+              ]
+            }
+          },
+          {
+            "name": "as_of",
+            "type": "date",
+            "description": "When the evidence was read.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "basis",
+            "type": "string",
+            "description": "The kind of evidence, never a site.",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "employer_titles",
+                "employer_posted_ranges",
+                "government_disclosure",
+                "employer_published",
+                "reviewed_judgement",
+                "unverified"
+              ]
+            }
+          },
+          {
+            "name": "note",
+            "type": "string",
+            "description": "For the reader of the file; not part of the model."
+          }
+        ],
+        "primaryKey": [
+          "company",
+          "family",
+          "phrase"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "company",
+              "family",
+              "code"
+            ],
+            "reference": {
+              "resource": "rungs",
+              "fields": [
+                "company",
+                "family",
+                "code"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "company_facts",
+      "path": "company_facts.csv",
+      "profile": "tabular-data-resource",
+      "description": "How a company constructs an offer, one fact per row (an absent fact is unverified, never zero).",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "company",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "fact",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "bonus_rule",
+                "equity_rule",
+                "equity_vehicle",
+                "vesting",
+                "grant_term",
+                "sign_on_bridges_vesting",
+                "base_cap_usd",
+                "annual_refresh",
+                "verified"
+              ]
+            }
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": "The fact, or `unknown`: searched for and not found.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "stated_by",
+            "type": "string",
+            "description": "employer: the employer states it; estimated: used where the employer does not state it. Required on known facts; empty on `verified` and unknown values.",
+            "constraints": {
+              "enum": [
+                "employer",
+                "estimated"
+              ]
+            }
+          },
+          {
+            "name": "as_of",
+            "type": "date",
+            "description": "When the evidence for this row was read.",
+            "constraints": {
+              "required": true
+            }
+          }
+        ],
+        "primaryKey": [
+          "company",
+          "fact"
+        ]
+      }
+    },
+    {
+      "name": "pay_grades",
+      "path": "pay_grades.csv",
+      "profile": "tabular-data-resource",
+      "description": "Posted annual US base ranges a company pays at one rung.",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "company",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "family",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "base_min",
+            "type": "integer",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "base_max",
+            "type": "integer",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "year",
+            "type": "integer",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "rung",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "anchor",
+            "type": "string",
+            "description": "A title that states the rung, as the company's rules read it.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "anchors",
+            "type": "integer",
+            "description": "Postings at this range whose title stated it.",
+            "constraints": {
+              "required": true
+            }
+          }
+        ],
+        "primaryKey": [
+          "company",
+          "family",
+          "base_min",
+          "base_max",
+          "year"
+        ]
+      }
+    },
+    {
+      "name": "pay_bands",
+      "path": "pay_bands.csv",
+      "profile": "tabular-data-resource",
+      "description": "Band-level posted ranges for companies with no rung table, built by `scripts.bench_level_bands pay-bands --write`.",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "company",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "family",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "base_min",
+            "type": "integer",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "base_max",
+            "type": "integer",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "year",
+            "type": "integer",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "band",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "intern",
+                "entry",
+                "mid",
+                "senior",
+                "staff",
+                "principal",
+                "director_plus"
+              ]
+            }
+          },
+          {
+            "name": "anchor",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "anchors",
+            "type": "integer",
+            "constraints": {
+              "required": true
+            }
+          }
+        ],
+        "primaryKey": [
+          "company",
+          "family",
+          "base_min",
+          "base_max",
+          "year"
+        ]
+      }
+    },
+    {
+      "name": "title_pay",
+      "path": "title_pay.csv",
+      "profile": "tabular-data-resource",
+      "description": "Government pay filings per company x title x US state x year, built by `scripts.build_title_pay`. Level and family are read from the title at use time; an older year is history.",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "company",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "description": "As filed: lowercase, single-spaced.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "state",
+            "type": "string",
+            "description": "The worksite's US state or territory code.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "year",
+            "type": "integer",
+            "description": "The year the filing was made.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "n",
+            "type": "integer",
+            "description": "Filings in the cell.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "base_p10",
+            "type": "integer",
+            "description": "Offered annual US base (the filing's wage from) at this quantile of the cell's filings.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "base_p25",
+            "type": "integer",
+            "description": "Offered annual US base (the filing's wage from) at this quantile of the cell's filings.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "base_p50",
+            "type": "integer",
+            "description": "Offered annual US base (the filing's wage from) at this quantile of the cell's filings.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "base_p75",
+            "type": "integer",
+            "description": "Offered annual US base (the filing's wage from) at this quantile of the cell's filings.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "base_p90",
+            "type": "integer",
+            "description": "Offered annual US base (the filing's wage from) at this quantile of the cell's filings.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "level_i",
+            "type": "integer",
+            "description": "Filings at prevailing-wage level I; empty = none."
+          },
+          {
+            "name": "level_ii",
+            "type": "integer",
+            "description": "Filings at prevailing-wage level II; empty = none."
+          },
+          {
+            "name": "level_iii",
+            "type": "integer",
+            "description": "Filings at prevailing-wage level III; empty = none."
+          },
+          {
+            "name": "level_iv",
+            "type": "integer",
+            "description": "Filings at prevailing-wage level IV; empty = none."
+          },
+          {
+            "name": "as_of",
+            "type": "date",
+            "description": "The date the dataset starts for the company.",
+            "constraints": {
+              "required": true
+            }
+          }
+        ],
+        "primaryKey": [
+          "company",
+          "title",
+          "state",
+          "year"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Derived from US Department of Labor disclosure records, which are public domain."
+        }
+      ]
+    },
+    {
+      "name": "posted_pay",
+      "path": "posted_pay.csv",
+      "profile": "tabular-data-resource",
+      "description": "Stored US annual USD base ranges with original title context; shadow pay only, never range-to-level mapping.",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "company",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "department",
+            "type": "string"
+          },
+          {
+            "name": "team",
+            "type": "string"
+          },
+          {
+            "name": "raw_level",
+            "type": "string",
+            "description": "Employer-printed code from the stored posting."
+          },
+          {
+            "name": "year",
+            "type": "integer",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "base_min",
+            "type": "integer",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "base_max",
+            "type": "integer",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "n",
+            "type": "integer",
+            "description": "Distinct postings in this cell.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "as_of",
+            "type": "date",
+            "description": "When the evidence for this row was read.",
+            "constraints": {
+              "required": true
+            }
+          }
+        ],
+        "primaryKey": [
+          "company",
+          "title",
+          "department",
+          "team",
+          "raw_level",
+          "year",
+          "base_min",
+          "base_max"
+        ]
+      }
+    },
+    {
+      "name": "estimated_pay",
+      "path": "estimated_pay.csv",
+      "profile": "tabular-data-resource",
+      "description": "Collected per-rung pay estimates, used where employer base data is absent and for equity estimates.",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "company",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "family",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "rung",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "base_usd",
+            "type": "integer",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "equity_usd",
+            "type": "integer",
+            "description": "Estimated annualised equity; blank is unknown."
+          },
+          {
+            "name": "cash_bonus_usd",
+            "type": "integer",
+            "description": "Estimated cash bonus; may include sign-on, not policy."
+          }
+        ],
+        "primaryKey": [
+          "company",
+          "family",
+          "rung"
+        ]
+      }
+    },
+    {
+      "name": "company_identity",
+      "path": "company_identity.csv",
+      "profile": "tabular-data-resource",
+      "description": "Who each company is: always ours, never a plugin's. An empty cell is not researched yet, never `no`; `scripts.atlas_completeness --gaps` lists them (section `identity`).",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "company",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "display_name",
+            "type": "string",
+            "description": "The name the company goes by."
+          },
+          {
+            "name": "listed",
+            "type": "boolean",
+            "description": "Its shares trade publicly; empty = not researched (never `private`)."
+          },
+          {
+            "name": "ticker",
+            "type": "string",
+            "description": "Its primary listing's symbol, when listed."
+          },
+          {
+            "name": "exchange",
+            "type": "string",
+            "description": "The exchange of that listing, as the SEC names it (`NYSE`, `Nasdaq`) or the home exchange."
+          },
+          {
+            "name": "cik",
+            "type": "integer",
+            "description": "The SEC registrant number the listing was checked against; it survives a ticker change."
+          },
+          {
+            "name": "grant_ticker",
+            "type": "string",
+            "description": "The listed symbol its equity grants track when that is not its own (a subsidiary paid in its parent's stock)."
+          },
+          {
+            "name": "website",
+            "type": "string",
+            "description": "Its own site's domain."
+          },
+          {
+            "name": "hq_city",
+            "type": "string",
+            "description": "Where it is headquartered, as the company names the city."
+          },
+          {
+            "name": "headcount",
+            "type": "integer",
+            "description": "How many people it employs, roughly."
+          },
+          {
+            "name": "year_founded",
+            "type": "integer",
+            "description": "The year it was founded."
+          },
+          {
+            "name": "logo",
+            "type": "string",
+            "description": "A bundled logo asset's name; empty = the dashboard's monogram."
+          },
+          {
+            "name": "brand_color",
+            "type": "string",
+            "description": "Its brand colour, `#rrggbb`."
+          },
+          {
+            "name": "basis",
+            "type": "string",
+            "description": "The kind of evidence for the filled cells, never a site.",
+            "constraints": {
+              "enum": [
+                "employer_titles",
+                "employer_posted_ranges",
+                "government_disclosure",
+                "employer_published",
+                "reviewed_judgement",
+                "unverified"
+              ]
+            }
+          },
+          {
+            "name": "as_of",
+            "type": "date",
+            "description": "When the filled cells were read; empty while none is."
+          },
+          {
+            "name": "note",
+            "type": "string",
+            "description": "For the reader of the file; not part of the model."
+          }
+        ],
+        "primaryKey": [
+          "company"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "company"
+            ],
+            "reference": {
+              "resource": "companies",
+              "fields": [
+                "slug"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "level_base",
+      "path": "level_base.csv",
+      "profile": "tabular-data-resource",
+      "description": "Estimated annual US base and stock per company, family and band, built by scripts.build_level_base. Base prefers employer filings, then posted ranges, then collected pay aggregates.",
+      "format": "csv",
+      "encoding": "utf-8",
+      "schema": {
+        "fields": [
+          {
+            "name": "company",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "family",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "band",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "intern",
+                "entry",
+                "mid",
+                "senior",
+                "staff",
+                "principal",
+                "director_plus"
+              ]
+            }
+          },
+          {
+            "name": "base_usd",
+            "type": "integer",
+            "description": "Estimated annual US base.",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "stock_usd",
+            "type": "integer",
+            "description": "Estimated annualised equity; blank is unknown, never 0."
+          }
+        ],
+        "primaryKey": [
+          "company",
+          "family",
+          "band"
+        ]
+      }
+    }
+  ]
+}

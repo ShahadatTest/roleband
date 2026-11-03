@@ -1,0 +1,21 @@
+{
+  "company": "acme",
+  "as_of": "2026-09-30",
+  "currency": "USD",
+  "country": "US",
+  "headcount": 1200,
+  "ladders": [
+    {
+      "name": "Software Engineer",
+      "levels": [
+        {"label": "E3", "aliases": ["Engineer I"], "total": 180000, "base": 150000, "stock": 20000, "bonus": 10000},
+        {"label": "E4", "total": 240000, "base": 175000, "stock": 45000},
+        {"label": "E5", "total": 330000}
+      ]
+    },
+    {
+      "name": "Forklift Operator",
+      "levels": [{"label": "F1", "total": 60000}]
+    }
+  ]
+}

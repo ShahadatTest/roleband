@@ -1,0 +1,14 @@
+/* The crossfade stack — see primitives.tsx.
+ *
+ * The welcome screen is its only caller today, but it is the PRIMITIVE's own
+ * geometry, not the screen's, so it comes here: a second screen that reaches
+ * for PhaseFade gets the layout with the component instead of copying three
+ * rules. No token names any of it, and none should — this is a grid, not
+ * paint.
+ */
+
+/* Outgoing + incoming layers share one grid cell, so swaps never jump layout
+   and the incoming layer is interactive immediately. */
+.phase-stack { display: grid; }
+.phase-stack > .phase-layer { grid-area: 1 / 1; min-width: 0; }
+.phase-stack > .phase-layer:not(:last-child) { pointer-events: none; }

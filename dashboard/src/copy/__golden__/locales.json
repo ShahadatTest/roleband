@@ -1,0 +1,7 @@
+{
+  "locales": [
+    { "code": "en", "name": "English", "dir": "ltr", "status": "complete", "fallback": [] },
+    { "code": "es", "name": "Español", "dir": "ltr", "status": "complete", "fallback": ["en"] },
+    { "code": "en-XA", "name": "Pseudo", "dir": "ltr", "status": "pseudo", "fallback": ["en"] }
+  ]
+}

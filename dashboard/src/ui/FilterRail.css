@@ -1,0 +1,258 @@
+/* The filter register's shared anatomy — one column of groups, each a KICKER
+ * over a control or a GROUP HEAD you open over checkbox rows with counts, and
+ * the narrow home (a popover that becomes a bottom sheet at 860). The Board
+ * and Notifications render the same register, so its recipe is stated once.
+ * The shell that PLACES the rail is patterns/rail-shell.css, with the sticky
+ * offset each screen passes from its own measured toolbar.
+ *
+ * Gates: design/filter-grammar.test.ts.
+ */
+
+/* ---- the narrow home: popover, then sheet ---------------------------------- */
+
+.filter-pop {
+  /* The panel is ui/Overlay content (patterns/FilterSurface): the
+     overlay's fixed wrapper carries the z-index and the scrim, and the
+     pattern hangs the panel from its opener with an inline top/right. The
+     compound selector beats the overlay's own `position: relative`. */
+  width: 344px;
+  max-width: calc(100vw - 32px);
+  max-height: 66vh;
+  overflow-y: auto;
+  padding: var(--app-space-3) var(--app-space-3) var(--app-space-4);
+  background: var(--app-surface-glass);
+  backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-xl);
+  box-shadow: var(--app-shadow-pop);
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-border-strong) transparent;
+  animation: filter-pop-in var(--app-duration-medium) var(--app-ease) both;
+}
+
+.ui-overlay-content.filter-pop {
+  position: fixed;
+}
+
+@keyframes filter-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.99);
+  }
+}
+
+/* ---- group anatomy --------------------------------------------------------- */
+
+.filter-group {
+  margin-bottom: var(--app-space-4);
+}
+
+.filter-group:last-child {
+  margin-bottom: 0;
+}
+
+/* The register's four voices. A KICKER names
+   a control block: whisper, muted — the register's ink, not the row's faint.
+   It has no state, so it is never a button. */
+.filter-group h3 {
+  margin: 0 3px var(--app-space-2);
+  display: flex;
+  justify-content: space-between;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+/* A GROUP HEAD is a row you open — the same job as a sector entry in the
+   Companies index, and it wears the same recipe: body, sentence case, muted,
+   on the rows' 32px grid. Never whisper: a disclosure with a count and a
+   clear is control text, and control text is read, not recognised. */
+.filter-group h3.filter-head {
+  min-height: 32px;
+  margin: 0 0 var(--app-space-1);
+  padding: 0 var(--app-space-1);
+  align-items: center;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-body);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* Group headline is the group's DISCLOSURE: chevron + name + live count.
+   Inherits the head's look; the chevron takes the same ink. State is INK,
+   never weight — a 400 -> 600 swap moves the row on every toggle. */
+.filter-title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  transition: color var(--app-duration-fast);
+}
+
+.filter-title:hover,
+.filter-title:focus-visible,
+.filter-title[aria-expanded="true"] {
+  color: var(--app-text);
+}
+
+/* The live selection count on a group headline — the register's at-a-glance
+   answer to "which of these narrowed my list, and by how much". A fact at the
+   fact floor, in the index's headline weight, in the action ink. */
+.filter-title-count {
+  color: var(--app-action-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.check-row {
+  min-height: 32px;
+  padding: var(--app-space-1) var(--app-space-1);
+  border-radius: var(--app-radius-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  color: var(--app-text-muted);
+  cursor: pointer;
+  font-size: var(--app-type-body);
+  transition:
+    color var(--app-duration-fast),
+    background var(--app-duration-fast);
+}
+
+/* A nested value (a metro under its country). One step of the space scale,
+   never a second row height or a second type size: the hierarchy is position,
+   and everything else about the row stays the row. */
+.check-row.is-child {
+  padding-left: var(--app-space-4);
+}
+
+.check-row:hover {
+  color: var(--app-text);
+  background: var(--app-surface-hover);
+}
+
+.check-row input {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--app-action);
+}
+
+/* A count is a FACT: the fact floor (meta), mono, faint. */
+.check-row .cnt {
+  margin-left: auto;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The situational drawer: one door over the groups a reader opens
+   to answer a specific question, then closes. It wears the facet head's own
+   recipe, so the column keeps one disclosure grammar; what separates it is
+   POSITION — last, under a hairline — not a second treatment. Its body does
+   not indent: the door is the head, and indentation is for hierarchy. */
+.filter-drawer {
+  margin-top: var(--app-space-5);
+  padding-top: var(--app-space-3);
+  border-top: 1px solid var(--app-border);
+}
+
+.filter-drawer-body {
+  margin-top: var(--app-space-3);
+}
+
+.filter-drawer-body > .filter-group:last-child {
+  margin-bottom: 0;
+}
+
+/* An expanded long facet's in-group search. */
+.filter-search-row {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  margin-bottom: var(--app-space-2);
+  padding: var(--app-space-1) var(--app-space-2);
+  border: 1px solid var(--app-border-control);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface-sunken);
+  color: var(--app-text-faint);
+}
+
+.filter-search-row input,
+.filter-search-row input:focus-visible {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--app-text);
+  font-size: var(--app-type-body);
+  /* Ties with shell.css's `input:focus-visible` ring on specificity, so the
+     focus state is named here too: the row's ring is the indicator. */
+  outline: none;
+}
+
+/* The row is the field: the input inside it has no border of its own, so the
+   app's one ring lands on the row, as it does on the board search. */
+.filter-search-row:focus-within {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+/* Quiet facts inside a group: the empty-search notice, the live comp range. */
+.filter-hint {
+  padding: var(--app-space-1) var(--app-space-1);
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+}
+
+/* The Show all / Show fewer fold toggle (a quiet link-rank Button). */
+.filter-more {
+  margin: 2px var(--app-space-1) 0;
+}
+
+@media (max-width: 860px) {
+  /* Filter panel becomes a bottom sheet on touch layouts. The sheet sits
+     inside the filter bar's stacking context, so it can't paint above the
+     fixed bottom dock; pad the sheet bottom so its lower rows stay tappable. */
+  /* The overlay's dim scrim is the panel's scrim here. */
+  .ui-overlay-content.filter-pop {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    width: 100%;
+    max-width: 100vw;
+    max-height: 82vh;
+    border-radius: var(--app-radius-xl) var(--app-radius-xl) 0 0;
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    animation: filter-sheet-in var(--app-duration-slow) var(--app-ease) both;
+  }
+
+  @keyframes filter-sheet-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-pop {
+    animation: none;
+  }
+}

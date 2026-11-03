@@ -1,0 +1,1124 @@
+/*
+ * Settings > Intelligence: three instruments on the register material.
+ *
+ * Same material as Companies (`design/materials/register-material.css`,
+ * worn here by `body[data-material="register"]`): warm ink, hue = health
+ * only, mono facts, the 32x18 switch. The card anatomy follows Schedule
+ * (a screen title, a mono context line, a visual beside an inspector),
+ * carried out in register material so Companies and Intelligence
+ * read as one product.
+ *
+ * Consumes ONLY --app-* tokens (gated by intelligence-scope.test.ts).
+ */
+
+.intel {
+  /* The model line's label column. One value, two consumers (the label and the
+     sub-line that must align under it). Sized to "LOCAL AI MODEL" set in mono
+     at `label` with 0.1em tracking, which measures 118px; anything narrower
+     wraps it onto two lines. */
+  --intel-model-label-w: 124px;
+  /* The capability row's two trailing columns. Sized to the widest content
+     they must hold (Start + gear = 101px; "ON THIS COMPUTER" = 159px) so no
+     row can size them differently and knock the block out of alignment. */
+  --intel-cap-acts-w: 104px;
+  --intel-cap-origin-w: 160px;
+  display: grid;
+  gap: var(--app-space-5);
+  font-family: var(--app-font-sans);
+  color: var(--app-text);
+  font-size: var(--app-type-name);
+}
+
+.intel-card {
+  padding: var(--app-space-5) var(--app-space-5) var(--app-space-5);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  /* A panel laid ON the page is opaque (ui/Card.css's rule): the surface over
+     the canvas, so the page's ambient wash stays behind it. */
+  background-color: var(--app-canvas);
+  background-image: linear-gradient(var(--app-surface), var(--app-surface));
+  overflow: clip;
+  box-shadow: var(--app-shadow);
+}
+
+/* ---- card head: title + origin + live context ---------------------------- */
+
+.intel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--app-space-3) var(--app-space-5);
+  margin-bottom: var(--app-space-4);
+}
+
+.intel-head-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--app-space-2) var(--app-space-4);
+  min-width: 0;
+}
+
+.intel-head h2 {
+  margin: 0;
+  font-size: var(--app-type-screen);
+  font-weight: var(--app-weight-name);
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+
+.intel-aside {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.intel-aside b {
+  color: var(--app-text);
+  font-weight: var(--app-weight-ui);
+}
+
+/* Origin: where a card's capability runs. A label, never a hue — colour in
+   this scope is reserved for health. */
+.intel-origin {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  min-height: var(--app-control-sm);
+  padding: 0 var(--app-control-sm-pad);
+  border-radius: 999px;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--app-text);
+}
+
+.intel-origin.is-local {
+  background: var(--app-action-soft);
+}
+
+.intel-origin.is-cloud {
+  border: 1px solid var(--app-action-line);
+}
+
+.intel-origin .intel-origin-to {
+  font-weight: var(--app-weight-body);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--app-text-muted);
+}
+
+/* ---- shared small parts -------------------------------------------------- */
+
+.intel-dot {
+  display: inline-block;
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.intel-dot.is-live { background: var(--app-positive); }
+.intel-dot.is-ready { border: 1.5px solid var(--app-text-muted); }
+.intel-dot.is-planned { border: 1px dotted var(--app-decor); }
+.intel-dot.is-warn { background: var(--app-warning); }
+
+/* This screen declares NO button chrome: every button renders `<Button>` at
+ * one of the ranks `ui/Button` ships. See docs/ui.md for the mapping and its
+ * "Control rules" for why a screen-local button class is never the answer. */
+
+.intel-error {
+  margin-top: var(--app-space-3);
+  padding: 10px var(--app-space-3);
+  border: 1px solid var(--app-danger);
+  border-radius: var(--app-radius-md);
+  background: var(--app-danger-soft);
+  color: var(--app-danger);
+  font-size: var(--app-type-body);
+}
+
+/* ---- ranking: the field -------------------------------------------------- */
+
+.intel-intent {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--app-space-2) var(--app-space-3);
+  margin: 2px 0 var(--app-space-4);
+  color: var(--app-text-muted);
+}
+
+.intel-intent q {
+  color: var(--app-text);
+  font-style: italic;
+  font-size: var(--app-type-title);
+  quotes: "\201C" "\201D";
+}
+
+.intel-field {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 0 var(--app-space-6);
+  align-items: start;
+}
+
+.intel-field-svg { display: block; overflow: visible; }
+.intel-field-svg .fit-shape {
+  fill: var(--app-action-soft);
+  stroke: var(--app-bar);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+.intel-field-svg .fit-grid { stroke: var(--app-border); }
+.intel-field-svg .fit-top { fill: var(--app-action); }
+.intel-field-svg .fit-bracket { stroke: var(--app-border-strong); fill: none; }
+.intel-field-svg .fit-band-name {
+  fill: var(--app-text-muted);
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-body);
+}
+.intel-field-svg .fit-band-count {
+  fill: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-body);
+  font-weight: 500;
+}
+/* Bands are controls: hover tints the band's slice of the field, a click
+ * holds the tint and swaps the preview list beside it. The hit area spans the
+ * full row (label gutter included) so the label is as clickable as the zone.
+ * The tint is the ledger's gold highlight (--app-mark), the same gold
+ * family the Direction screen paints selection with, reached through this
+ * scope's own token rather than an alias into --settings-*. */
+/* A band is a control, so its name and count are not selectable text: dragging
+   across the field must not highlight "Strong 302 Good 345 …" like a paragraph,
+   which is the one gesture that makes a button feel like prose. The band needs
+   no `user-select` of its own: it carries role="button", and the rule in
+   shell.css states this for every control in the app. */
+.intel-field-svg .fit-band {
+  cursor: pointer;
+  outline: none;
+}
+.intel-field-svg .fit-band-hit { fill: transparent; }
+.intel-field-svg .fit-band-zone {
+  fill: var(--app-mark);
+  fill-opacity: 0;
+  transition: fill-opacity 120ms ease;
+}
+.intel-field-svg .fit-band:hover .fit-band-zone,
+.intel-field-svg .fit-band:focus-visible .fit-band-zone { fill-opacity: 0.35; }
+.intel-field-svg .fit-band[aria-pressed="true"] .fit-band-zone { fill-opacity: 0.6; }
+/* An SVG band takes the one ring as a STROKE on its shape (an outline on a
+   `g` would box its bounds): the ring's colour at the ring's width. */
+.intel-field-svg .fit-band:focus-visible .fit-band-zone {
+  stroke: var(--app-action);
+  stroke-width: var(--app-ring-width);
+}
+.intel-field-svg .fit-band:hover .fit-band-name { fill: var(--app-text); }
+/* The band you picked is CHOSEN: its name and its count both in the
+   chosen ink, one voice for one state in one element. */
+.intel-field-svg .fit-band[aria-pressed="true"] :is(.fit-band-name, .fit-band-count) { fill: var(--app-chosen-text); }
+
+.intel-card.is-busy .intel-field-svg { opacity: 0.45; }
+
+.intel-sel h3 {
+  margin: 0;
+  font-size: var(--app-type-name);
+  line-height: 1.3;
+  font-weight: var(--app-weight-name);
+}
+
+.intel-sel h3 small {
+  display: block;
+  margin-top: 2px;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-body);
+}
+
+.intel-sel ol {
+  margin: var(--app-space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+
+.intel-sel li {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  min-height: 42px;
+  border-top: 1px solid var(--app-border);
+}
+
+.intel-sel li:first-child { border-top: 0; }
+
+.intel-sel .intel-rank {
+  flex: none;
+  width: 14px;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-style: normal;
+}
+
+.intel-sel .intel-sel-body { min-width: 0; }
+
+.intel-sel .intel-sel-title {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.intel-sel .intel-sel-title:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.intel-sel .intel-sel-sub {
+  display: block;
+  margin-top: 1px;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.intel-more {
+  padding: var(--app-space-2) 0 0;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  letter-spacing: 0.05em;
+}
+
+.intel-more a { color: var(--app-text-muted); }
+
+/* The model, as one line under the instrument. */
+.intel-model {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--app-space-3) var(--app-space-4);
+  margin-top: var(--app-space-5);
+  padding-top: var(--app-space-4);
+  border-top: 1px solid var(--app-border);
+}
+
+.intel-model .intel-model-k {
+  flex: none;
+  width: var(--intel-model-label-w);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.intel-model b { font-weight: var(--app-weight-name); }
+
+.intel-model .intel-model-note {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.intel-model .intel-model-end {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-4);
+}
+
+.intel-bar {
+  position: relative;
+  flex: 1 1 120px;
+  max-width: 220px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--app-action-soft);
+  overflow: hidden;
+}
+
+.intel-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 3px;
+  background: var(--app-bar);
+}
+
+/* ---- assistants: the data sheet and the gate ----------------------------- */
+
+/* Two columns for the sheet and the tiles; the grants span both. The grants
+   are the card's control rather than a note beside the sheet, so they get the
+   card's full width: the gate's note stays a clause on the gate's own line
+   (intelligence.spec.ts asserts it does) whatever width the tiles take. */
+.intel-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 372px;
+  gap: 0 var(--app-space-6);
+  align-items: start;
+}
+
+.intel-split > .intel-grants {
+  grid-column: 1 / -1;
+  margin-top: var(--app-space-4);
+}
+
+.intel-sheet {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--app-space-5);
+}
+
+.intel-sheet h3 {
+  margin: 0 0 var(--app-space-1);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  line-height: 1.3;
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.intel-sheet ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.intel-sheet li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--app-space-2);
+  padding: var(--app-space-2) 0;
+  border-top: 1px solid var(--app-border);
+  font-size: var(--app-type-body);
+  line-height: 1.4;
+}
+
+.intel-sheet li .intel-sheet-glyph {
+  flex: none;
+  width: 14px;
+  display: inline-flex;
+  justify-content: center;
+  color: var(--app-text);
+  position: relative;
+  top: 2px;
+}
+
+/* The two lists are one rank: both state what an assistant app does with the
+ * user's data, and the second is the half a person actually needs to trust.
+ * Muting it would make the privacy guarantee the quieter of the two claims.
+ * The lists are told apart by their heading and their glyph (a shape
+ * difference, which is what the glyph is for), never by fading one of them. */
+.intel-sheet li.is-never .intel-sheet-glyph { color: var(--app-text-muted); }
+
+/* One frame around both grants: the write permission is a narrower grant of
+   the same thing the gate opens, and a shared border is what says so. The
+   rows are divided by a hairline, not by a gap. */
+.intel-grants {
+  margin-top: var(--app-space-4);
+  border: 1px solid var(--app-action-line);
+  border-radius: var(--app-radius-md);
+}
+
+/* Horizontal spacing is deliberately tighter than the vertical: the row has to
+   hold the switch, its label and its clause on one line, and the clause is
+   what says what the gate opens. When it
+   wraps, the gate becomes three lines beside a one-line grant and the pair
+   stops reading as two decisions of the same rank. */
+.intel-gate {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--app-space-3);
+  padding: 14px var(--app-space-3);
+}
+
+/* Both grants wear ONE label treatment: two decisions of the same rank, inside
+ * one frame built to say so, may not be typed as if one outranked the other. */
+.intel-grants .intel-grant-name { font-weight: var(--app-weight-name); }
+
+.intel-gate .intel-gate-note {
+  margin-left: auto;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+}
+
+.intel-tiles {
+  display: grid;
+  gap: var(--app-space-2);
+}
+
+.intel-tile {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: 0 var(--app-space-3);
+  align-items: center;
+  padding: var(--app-space-4);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-md);
+  min-height: 84px;
+}
+
+/* The tile does NOT fade. Opacity compounds down the tree, so a 0.55 tile
+ * wrapping its own `:disabled` 0.4 button would render that button at 0.22,
+ * and fading a tile fades the app's NAME, which the rank rule forbids.
+ * Unavailability is carried by the disabled control plus the
+ * tile's own state line ("· not allowed to connect"), which is text. */
+.intel-tile.is-waiting .intel-tile-mark { opacity: 0.55; }
+
+.intel-tile .intel-tile-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--app-radius-md);
+  background: var(--app-action-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intel-tile .intel-tile-name {
+  font-size: var(--app-type-title);
+  font-weight: var(--app-weight-name);
+  letter-spacing: -0.01em;
+}
+
+.intel-tile .intel-tile-state {
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.intel-perm {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--app-space-3);
+  padding: 12px var(--app-space-4);
+  border-top: 1px solid var(--app-border);
+  min-height: 32px;
+}
+
+.intel-perm .intel-perm-note {
+  margin-left: auto;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-body);
+}
+
+/* No `.is-off` rule: the write grant is not rendered while it gates nothing,
+ * so there is no unavailable state for it to have, and the card keeps one way
+ * of saying "unavailable". */
+
+/* ---- extended capabilities ----------------------------------------------- */
+
+/* Every row is the same five columns, and the last two are FIXED widths on
+   purpose: with `auto` each row sizes its own trailing columns, so the badges
+   and the action groups start at different x positions. Fixed columns are
+   what make the block read as one table instead of three rows that happen to
+   be stacked. Origin sits last: it is where the capability RUNS, the steadiest fact in the row, so it
+   belongs at the end of the line rather than between name and action. */
+.intel-cap {
+  display: grid;
+  grid-template-columns:
+    28px 40px minmax(0, 1fr)
+    var(--intel-cap-acts-w) var(--intel-cap-origin-w);
+  gap: 0 var(--app-space-3);
+  align-items: center;
+  min-height: 64px;
+  padding: var(--app-space-2) 0;
+  border-top: 1px solid var(--app-border);
+}
+
+/* Right-aligned so the action's trailing edge and the badge's trailing edge
+   each land on one vertical line, whatever the label inside them. */
+.intel-cap .intel-cap-acts { justify-content: flex-end; }
+.intel-cap .intel-origin { justify-self: end; }
+
+.intel-cap:first-of-type { border-top: 0; }
+
+.intel-cap .intel-cap-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--app-radius-md);
+  background: var(--app-action-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--app-text);
+}
+
+.intel-cap.is-future .intel-cap-mark {
+  border: 1px dashed var(--app-border-strong);
+  background: transparent;
+  /* The mark is aria-hidden: it holds a glyph, and the capability's state is
+     carried in text beside it. */
+  color: var(--app-decor);
+}
+
+.intel-cap .intel-cap-name {
+  display: block;
+  font-size: var(--app-type-title);
+  font-weight: var(--app-weight-name);
+  letter-spacing: -0.01em;
+}
+
+/* `is-future` deliberately does NOT reach the name. Three rows of the same
+ * rank must read as three rows of the same rank: the cloud row's switch, its
+ * Add button and its origin badge are all live, so demoting its name would
+ * say "inactive" about the one row on the card that is fully interactive. The
+ * not-yet signal lives on the MARK (dashed, decoration) and in the sub-line
+ * ("None connected · nothing is sent"), which is where the fact belongs:
+ * the same rule the ledger token contract states for a planned company. */
+
+.intel-cap .intel-cap-sub {
+  display: block;
+  margin-top: 3px;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.intel-cap .intel-cap-acts {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+}
+
+/* The built-in model's transient test result, below its row. */
+.intel-result {
+  margin: 0 0 var(--app-space-2) 82px;
+  padding: var(--app-space-3) var(--app-space-4);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-md);
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: var(--app-space-1) var(--app-space-3);
+  font-size: var(--app-type-body);
+}
+
+.intel-result .intel-result-head {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  font-weight: var(--app-weight-name);
+  padding-bottom: var(--app-space-1);
+}
+
+.intel-result.is-warn .intel-result-head { color: var(--app-warning); }
+.intel-result.is-bad .intel-result-head { color: var(--app-danger); }
+
+.intel-result .intel-result-meta {
+  margin-left: auto;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 400;
+}
+
+.intel-result dt {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+}
+
+.intel-result dd { margin: 0; }
+.intel-result dd.is-quote { color: var(--app-text-muted); font-style: italic; }
+
+/* ---- dialogs (ledger-form supplies the fields) --------------------------- */
+
+.intel-dialog-note {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  line-height: 1.5;
+}
+
+.intel-dialog-note b { color: var(--app-text); font-weight: var(--app-weight-ui); }
+
+.intel-egress-destinations {
+  display: grid;
+  gap: var(--app-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.intel-egress-destinations li {
+  display: grid;
+  overflow-wrap: anywhere;
+}
+
+.intel-snippet {
+  margin: 0;
+  padding: var(--app-space-2);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-md);
+  background: var(--app-canvas);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 180px;
+  overflow: auto;
+}
+
+.intel-dialog-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--app-space-4) var(--app-space-3);
+}
+
+/* `.ledger-form > div` is what stacks a label over its control, and its child
+ * combinator is load-bearing there (it is also what keeps `.ledger-form-actions`
+ * a row). These cells sit one level deeper, inside the grid, so the rule does
+ * not reach them, and `display: block` would run the label and the control
+ * together on one line at the control's intrinsic width. Same rule, restated
+ * at the depth the nesting introduces.
+ *
+ * `align-content: start` keeps a two-column row's fields aligned at the top
+ * rather than centred against whichever neighbour is taller. */
+.intel-dialog-grid > div {
+  display: grid;
+  align-content: start;
+  gap: var(--app-space-1);
+  min-width: 0;
+}
+
+.intel-dialog-grid .is-wide { grid-column: 1 / -1; }
+
+/* A switch row is not a field: it carries its own label, to the right of the
+ * control, and so has nothing stacked above it.
+ *
+ * `.ledger-form label` (0-1-1) is the uppercase mono FIELD label, and it also
+ * matches this one, which would set the switch's text as a column heading for
+ * a control that has no column. Selected at 0-2-1 so the
+ * reset lands, and so that this dialog's two-column layout
+ * beats `ui/Switch`'s own labelled row (0-2-0) by SPECIFICITY rather than by
+ * whichever stylesheet the bundler happened to emit last. */
+.ledger-form label.intel-dialog-check {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--app-space-2);
+  /* The dialog's rows are one height, and it is the scale's. */
+  min-height: var(--app-control-md);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-body);
+  letter-spacing: normal;
+  text-transform: none;
+  cursor: pointer;
+}
+
+/* Inside the field grid it still has to line up with its neighbours, whose
+ * control sits below a label — so it aligns to the bottom of its cell rather
+ * than floating at the top of one. */
+.intel-dialog-grid > .intel-dialog-check { align-content: end; }
+
+/* The outcome of a test, and any failure, as a strip rather than one more
+ * muted paragraph — the result of pressing a button is the one line in this
+ * dialog the eye has to find without hunting. */
+.intel-dialog-status {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--app-space-1) var(--app-space-2);
+  margin: 0;
+  padding: 9px var(--app-space-3);
+  border: 1px solid var(--app-border-strong);
+  border-left-width: 3px;
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface);
+  color: var(--app-text);
+  font-size: var(--app-type-body);
+  line-height: 1.45;
+}
+
+.intel-dialog-status b { font-weight: var(--app-weight-name); }
+.intel-dialog-status .intel-dialog-status-meta {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+}
+
+.intel-dialog-status.is-ok { border-left-color: var(--app-positive); }
+.intel-dialog-status.is-ok b { color: var(--app-positive); }
+.intel-dialog-status.is-warn { border-left-color: var(--app-warning); }
+.intel-dialog-status.is-warn b { color: var(--app-warning); }
+.intel-dialog-status.is-bad {
+  border-left-color: var(--app-danger);
+  background: var(--app-danger-soft);
+}
+.intel-dialog-status.is-bad b { color: var(--app-danger); }
+
+.intel-params summary {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  cursor: pointer;
+}
+
+.intel-params[open] summary { margin-bottom: var(--app-space-3); }
+
+.intel-profile-list {
+  display: grid;
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-md);
+  overflow: hidden;
+}
+
+/* Same `.ledger-form label` inheritance as `.intel-dialog-check`: these labels
+ * hold a saved connection's NAME, which the field-label style would render
+ * uppercase and mono, and an uppercased name is not what the user typed. */
+.intel-profile-list label {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  min-height: var(--app-control-md);
+  padding: 4px var(--app-space-3);
+  border-top: 1px solid var(--app-border);
+  color: var(--app-text);
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-body);
+  letter-spacing: normal;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.intel-profile-list label:first-child { border-top: 0; }
+/* The saved connection in use is CHOSEN: its radio is checked, and the paint
+   is keyed on that radio rather than a class beside it. */
+.intel-profile-list label:has(> input:checked) {
+  background: var(--app-chosen-wash);
+  color: var(--app-chosen-text);
+}
+.intel-profile-list .intel-profile-meta {
+  margin-left: auto;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+}
+
+/* ---- narrow ------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+  .intel-field,
+  .intel-split { grid-template-columns: minmax(0, 1fr); gap: var(--app-space-5) 0; }
+  .intel-sheet { gap: 0 var(--app-space-4); }
+}
+
+@media (max-width: 640px) {
+  .intel-sheet { grid-template-columns: minmax(0, 1fr); }
+  .intel-origin .intel-origin-to { display: none; }
+  .intel-cap {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    grid-auto-flow: dense;
+  }
+  .intel-cap .intel-cap-mark { display: none; }
+  .intel-cap .intel-origin { display: none; }
+  /* No `.intel-field` columns here: the 1100 arm above already sets
+     `minmax(0, 1fr)`, with no rule in between to undo it, so one decision has
+     one spelling. */
+}
+
+/* ---- the model line's states ---------------------------------- */
+
+.intel-model-sub {
+  margin-top: var(--app-space-1);
+  /* Aligned with the line above: label column + its gap. Derived, so the two
+     cannot drift apart when the label text changes. */
+  padding-left: calc(var(--intel-model-label-w) + var(--app-space-4));
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+}
+
+.intel-mono {
+  font-family: var(--app-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A notice states something the user chose, or something that broke. Only the
+   second is amber — a user does not undo their own choice to clear a warning. */
+.intel-notice {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--app-space-3);
+  margin-top: var(--app-space-3);
+  padding: 12px var(--app-space-4);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-md);
+  background: var(--app-action-soft);
+  font-size: var(--app-type-body);
+}
+
+.intel-notice.is-warn {
+  border-color: var(--app-warning-line);
+  background: var(--app-warning-soft);
+}
+
+.intel-notice.is-warn b { color: var(--app-warning); }
+.intel-notice b { font-weight: var(--app-weight-name); }
+.intel-notice span { color: var(--app-text-muted); font-size: var(--app-type-body); }
+
+.intel-notice .intel-notice-acts {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  flex: none;
+}
+
+/* ---- the switch confirm: a work order, not a questionnaire ---------------
+ * Routing slip on top (from -> to), the measured cost as the hero, the
+ * guarantees as a checklist, and the recommendation as a quiet dashed aside.
+ * Hue is status, per the ledger's rule: guarantees are positive, the awake
+ * requirement is the one caution. */
+
+.intel-order { display: grid; gap: var(--app-space-3); }
+
+.intel-order .intel-order-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--app-space-2) var(--app-space-3);
+  padding-bottom: var(--app-space-2);
+  border-bottom: 1px solid var(--app-border);
+}
+
+/* The kicker IS the heading (h2), so the ledger's own h3 sizing must not
+   reach it — this is a mono label, not a title rank. */
+.intel-order h2.intel-order-k {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.intel-order-route {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  color: var(--app-text);
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-ui);
+}
+
+/* A model name may never break mid-phrase: at 375px "Big model → Small model"
+   would wrap to "Big / model → Small / model" and stop reading as a route. */
+.intel-order-route > span { white-space: nowrap; }
+.intel-order-route svg { flex: none; color: var(--app-decor); }
+
+.intel-order .intel-order-hero {
+  display: flex;
+  align-items: baseline;
+  gap: var(--app-space-3);
+}
+
+.intel-order-hero b {
+  font-size: var(--app-type-screen);
+  font-weight: var(--app-weight-name);
+  letter-spacing: -0.01em;
+}
+
+.intel-order-hero span {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+}
+
+.intel-order-checks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--app-space-2);
+}
+
+.intel-order-checks li {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  font-size: var(--app-type-body);
+  line-height: 1.4;
+}
+
+.intel-order-checks svg { flex: none; color: var(--app-positive); }
+.intel-order-checks li.is-await svg { color: var(--app-warning); }
+
+/* The recommendation, in two tiers: the lead is the decision, the annotation
+ * below it is the evidence — quieter, marked by the info glyph, the register
+ * an InfoTip uses. Both stay visible: the RAM numbers are what decide the
+ * question, so they may not depend on a hover a touch device cannot give. */
+.intel-order .intel-order-note {
+  display: grid;
+  gap: var(--app-space-1);
+  margin: 0;
+  padding: var(--app-space-2) var(--app-space-3);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-md);
+  background: var(--app-canvas);
+}
+
+/* Two sides, once there are machine figures to put on one: the claim about
+   the models on the left, the facts about THIS computer on the right, split
+   by a rule. The two are different kinds of statement — one is our
+   recommendation, the other is a reading off the hardware — and a column
+   each says that without a word of labelling. */
+.intel-order .intel-order-note.is-split {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--app-space-4);
+  /* The two sides are rarely the same height — the message runs two lines, the
+     figures four — so the shorter one CENTRES against the taller instead of
+     hanging from the top with dead space beneath it. */
+  align-items: center;
+  /* Roomier than a one-line note: the panel holds two sides. */
+  padding: var(--app-space-3) var(--app-space-4);
+}
+
+.intel-order-lead {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  color: var(--app-text);
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-ui);
+  line-height: 1.45;
+}
+
+/* The evidence as a comparison: two labelled figures side by side, because the
+   GAP between 16 and 48 is the argument and a gap is seen, not read. Mono +
+   tabular so the two numbers align on their digits. */
+.intel-order-spec {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--app-space-2) var(--app-space-4);
+  margin: 2px 0 0;
+}
+
+/* On the right side the figures stack, so the two numbers sit in one column
+   and still compare down the page rather than across it. */
+.intel-order-note.is-split .intel-order-spec {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--app-space-3);
+  margin: 0;
+  padding-left: var(--app-space-4);
+  border-left: 1px solid var(--app-border);
+  /* Stretch so the rule always spans the row, then centre the figures inside
+     it — otherwise the divider shrinks to the figures' own height whenever the
+     message is the taller side. */
+  align-self: stretch;
+  align-content: center;
+}
+
+.intel-order-spec div { display: grid; gap: 1px; }
+
+.intel-order-spec dt {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.intel-order-spec dd {
+  margin: 0;
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-title);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.intel-order-spec dd span {
+  margin-left: -3px;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-body);
+}
+
+.intel-order-evidence {
+  display: flex;
+  align-items: baseline;
+  gap: var(--app-space-2);
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.intel-order-evidence svg {
+  flex: none;
+  align-self: flex-start;
+  margin-top: 2px;
+  color: var(--app-decor);
+}
+
+.intel-order-evidence b { color: var(--app-text); font-weight: var(--app-weight-name); }
+
+/* Narrow: the two sides become two stacked blocks, and the rule dividing them
+   turns from vertical to horizontal so the split survives. This block must sit
+   AFTER the rules it overrides: a media query adds no specificity, so placed
+   with the other breakpoints (higher up the file) it would silently lose to
+   them and leave the message column crushed at 375px. */
+@media (max-width: 640px) {
+  .intel-order .intel-order-note.is-split { grid-template-columns: minmax(0, 1fr); }
+  .intel-order-note.is-split .intel-order-spec {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    padding-left: 0;
+    padding-top: var(--app-space-3);
+    border-left: 0;
+    border-top: 1px solid var(--app-border);
+  }
+}
+
+
+/* ---- the aim sentence, edited in place ---------------------------------- */
+
+.intel-aim.ledger-form {
+  gap: var(--app-space-3);
+  margin: 2px 0 var(--app-space-4);
+  padding: 0;
+  max-width: 640px;
+}
+
+.intel-aim-hint {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.45;
+}
+
+.intel-aim-error {
+  margin: 0;
+  color: var(--app-danger);
+  font-size: var(--app-type-meta);
+}
+
+.intel-aim .ledger-form-actions {
+  justify-content: flex-start;
+}

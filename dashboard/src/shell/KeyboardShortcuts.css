@@ -1,0 +1,54 @@
+/* The keyboard shortcuts sheet (KeyboardShortcuts.tsx). The box is
+   ui/Sheet's; this sheet only sets out the list inside it. */
+
+.shortcuts-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-4);
+  padding: var(--app-space-4) var(--app-space-5);
+}
+
+.shortcuts-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+}
+
+.shortcuts-head h2 {
+  margin: 0;
+  font-size: var(--app-type-title);
+  font-weight: var(--app-weight-name);
+}
+
+.shortcuts-group h3 {
+  margin: 0 0 var(--app-space-2);
+  font-size: var(--app-type-label);
+  font-weight: var(--app-weight-strong);
+  color: var(--app-text-muted);
+}
+
+.shortcuts-list {
+  display: grid;
+  gap: var(--app-space-2);
+  margin: 0;
+}
+
+.shortcuts-row {
+  display: grid;
+  grid-template-columns: 8em 1fr;
+  align-items: center;
+  gap: var(--app-space-3);
+}
+
+.shortcuts-row dt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-1);
+}
+
+.shortcuts-row dd {
+  margin: 0;
+  font-size: var(--app-type-body);
+  color: var(--app-text);
+}

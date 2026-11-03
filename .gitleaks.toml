@@ -1,0 +1,59 @@
+# Secret scan exceptions. gitleaks reads this file from the root of the folder it
+# scans. Every exception names the file it applies to and the exact shape of the
+# line it accepts, so a real key added anywhere, these files included, is still
+# found. `backend/tests/test_gitleaks_config.py` plants a secret beside each one.
+
+title = "RoleBand"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Company directory: a board token is the public name in a job board's URL"
+condition = "AND"
+targetRules = ["generic-api-key"]
+paths = ['''(^|/)backend/tracker/company_directory\.json$''']
+regexTarget = "line"
+regexes = ['''^\s*\{"adapter": "[a-z_]+", "board_region": (null|"[a-z]+"), "board_token": "[A-Za-z0-9._-]+", ''']
+
+[[allowlists]]
+description = "Evaluation sets: a case key is a company slug and the board's posting id"
+condition = "AND"
+targetRules = ["generic-api-key"]
+paths = ['''(^|/)backend/tests/fixtures/(relevance_eval|search_retrieval_eval)\.json$''']
+regexTarget = "line"
+regexes = ['''"key": "[a-z0-9-]+-[A-Za-z0-9-]+"''']
+
+[[allowlists]]
+description = "Made-up keys the tests type into the app"
+condition = "AND"
+targetRules = ["generic-api-key"]
+paths = [
+  '''(^|/)backend/tests/test_price_feed_settings\.py$''',
+  '''(^|/)backend/tests/test_secrets\.py$''',
+  '''(^|/)dashboard/tests/ux/price-feed\.spec\.ts$''',
+]
+regexes = ['''^(tk_|tiingo-)0123456789abcdef$''']
+
+[[allowlists]]
+description = "Captured careers pages: the employer's own bug-report widget key, published to every visitor"
+condition = "AND"
+targetRules = ["generic-api-key"]
+paths = ['''(^|/)backend/tests/fixtures/listings/[a-z0-9_]+/[^/]+\.html$''']
+regexTarget = "line"
+regexes = ['''src="https://www\.bugherd\.com/sidebarv2\.js\?apikey=[a-z0-9]+"''']
+
+[[allowlists]]
+description = "Copy word list: the company name Confluent"
+condition = "AND"
+targetRules = ["confluent-access-token"]
+paths = ['''(^|/)dashboard/src/test/copy-as-found\.json$''']
+regexTarget = "line"
+regexes = ['''"Confluent"''']
+
+[[allowlists]]
+description = "Update artifact fixtures: the SHA-256 of the fixed test release key, inside their base64 metadata"
+condition = "AND"
+targetRules = ["generic-api-key"]
+paths = ['''(^|/)launcher/macos/Tests/LauncherCoreTests/Fixtures/update-artifact(-notice)?\.json$''']
+regexes = ['''^[0-9a-f]{64}$''']

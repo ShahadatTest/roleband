@@ -1,0 +1,66 @@
+{
+  "design": "RoleBand R14.2",
+  "geometry_sha256": "32faef9ced874aab229796512c48fdd4439d063c0fe80d5c3f1735791837f7f4",
+  "assets": [
+    {
+      "file": "roleband-menubar-18.png",
+      "role": "menu-bar status item at rest (isTemplate)",
+      "optical_profile": "bar",
+      "logical_size": "18x18 pt, drawn 16 pt",
+      "pixel_size": "18x18",
+      "scale": 1,
+      "colour": "template: black with alpha; macOS tints",
+      "background": "transparent",
+      "geometry": "R14.2",
+      "sha256": "38e8036d772950757e33d2d9a7ef8aab96f6bc4ea63539f1ac1a74368cadb8c3"
+    },
+    {
+      "file": "roleband-menubar-18@2x.png",
+      "role": "menu-bar status item at rest (isTemplate)",
+      "optical_profile": "bar",
+      "logical_size": "18x18 pt, drawn 16 pt",
+      "pixel_size": "36x36",
+      "scale": 2,
+      "colour": "template: black with alpha; macOS tints",
+      "background": "transparent",
+      "geometry": "R14.2",
+      "sha256": "2ad958280ae04ee8e293075199a8fe3a9a861f9adf19a997762f1c98d561e0de"
+    },
+    {
+      "file": "roleband-mark-bar-template.pdf",
+      "role": "marks drawn up to 24 pt: panel header 19 pt",
+      "optical_profile": "bar",
+      "logical_size": "100x100 pt artboard, vector",
+      "pixel_size": "vector",
+      "scale": "any",
+      "colour": "template: black with alpha; tint or isTemplate",
+      "background": "any; no background",
+      "geometry": "R14.2",
+      "sha256": "0e0d6fe75f5da5ef0b7ba3780a5196c37d989cc140d3fcd5c6db572c6e6e916f"
+    },
+    {
+      "file": "roleband-mark-master-template.pdf",
+      "role": "marks drawn 41 pt and up: setup 48 pt, release notes 52 pt",
+      "optical_profile": "master",
+      "logical_size": "100x100 pt artboard, vector",
+      "pixel_size": "vector",
+      "scale": "any",
+      "colour": "template: black with alpha; tint or isTemplate",
+      "background": "any; no background",
+      "geometry": "R14.2",
+      "sha256": "69762d548434969a93ab86a7f2271dbbbc6ed7a9396cfa8627f5c6ba5a228e5c"
+    },
+    {
+      "file": "roleband-mark-mid-template.pdf",
+      "role": "marks drawn 25 to 40 pt",
+      "optical_profile": "mid",
+      "logical_size": "100x100 pt artboard, vector",
+      "pixel_size": "vector",
+      "scale": "any",
+      "colour": "template: black with alpha; tint or isTemplate",
+      "background": "any; no background",
+      "geometry": "R14.2",
+      "sha256": "a7e5d182efaf934cc9f38700bf5c1c58d6dcb59c5df79eb040fd9c923b63342c"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+/* Browsers underline <abbr title>; a column label keeps its own type. */
+.ui-abbr {
+  text-decoration: none;
+  cursor: help;
+}

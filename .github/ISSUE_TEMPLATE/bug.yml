@@ -1,0 +1,57 @@
+name: Something is wrong
+description: The app does something it should not, or fails to do what it should.
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Found a security problem? Do not open an issue: see SECURITY.md for how to report it privately.
+        A company that is missing, or whose postings or figures are wrong, has its own form.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you saw. A screenshot helps, but it also shows the companies you follow and the jobs you saved, so crop what you would rather keep private.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to make it happen
+      description: The steps from opening the app, or the command you ran.
+      placeholder: |
+        1. Open Board
+        2. Filter by ...
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The commit you run, from `git rev-parse --short HEAD` in your clone. Leave it empty if you are not sure.
+    validations:
+      required: false
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - macOS, Apple silicon
+        - Linux x86_64
+        - Linux aarch64
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log lines
+      description: The lines around the error from `data/*.log`, if there is one. Remove API keys and anything from your own notes before pasting.
+      render: text

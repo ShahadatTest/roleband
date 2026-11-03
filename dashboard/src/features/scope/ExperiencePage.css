@@ -1,0 +1,4 @@
+.experience-page { max-width: 680px; display: grid; justify-items: start; gap: var(--app-space-4); }
+.experience-page-head { display: flex; flex-wrap: wrap; gap: var(--app-space-3); align-items: center; }
+.experience-page-head h2 { margin: 0; font-size: var(--app-type-title); font-weight: var(--app-weight-name); }
+.experience-page p { margin: 0; color: var(--app-text-muted); font-size: var(--app-type-body); line-height: 1.6; }

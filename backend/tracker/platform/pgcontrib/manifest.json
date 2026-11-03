@@ -1,0 +1,66 @@
+{
+  "licence": "PostgreSQL",
+  "source_url": "https://ftp.postgresql.org/pub/source/v16.14/postgresql-16.14.tar.gz",
+  "source_sha256": "ca18d43510bbb09a271383e1aa705b05b76bc8e9400f9857178ba8ec54cf461a",
+  "postgres": "16.14",
+  "wheel_version": "0.6.0",
+  "platforms": {
+    "darwin-arm64": {
+      "wheel": "pixeltable_pgserver-0.6.0-cp312-cp312-macosx_11_0_arm64.whl",
+      "wheel_url": "https://files.pythonhosted.org/packages/7b/34/4bfbb7382d5ba72e2594b432b5b582e64ccabf4b52fe640fdc68026e1a05/pixeltable_pgserver-0.6.0-cp312-cp312-macosx_11_0_arm64.whl",
+      "wheel_sha256": "78f8cfc12ad3b08567cf23565fe44cd69fa4f6cba9ed39852a439ae116b6cd49",
+      "bundle": "darwin-arm64.tar.gz",
+      "sha256": "0ee146c1a8b4301597a25c7308d5b3bbe385406aae529d34d3931720c017d555",
+      "files": {
+        "lib/postgresql/pg_trgm.dylib": "9d898b391e02b8ce497c711844403cf571d4053e8796d682e01afff819c990ef",
+        "share/postgresql/extension/pg_trgm--1.0--1.1.sql": "a85cff55497081250bef3bb3b7fc8d8beb3b9bab64675501f79f923d7bd0a06c",
+        "share/postgresql/extension/pg_trgm--1.1--1.2.sql": "0ed40419dc9b01417ce058aba210c615bf1ff04daba44e4d23085983a4565f7f",
+        "share/postgresql/extension/pg_trgm--1.2--1.3.sql": "29caec4ef2830920c74c2594c11e0255c3a17102c59d244d9aacb3b1add541ea",
+        "share/postgresql/extension/pg_trgm--1.3--1.4.sql": "98763d59a6e221dd1bfc43e941024e4ed363fc05c9ce4514bc93554dfd8a8ed5",
+        "share/postgresql/extension/pg_trgm--1.3.sql": "2d90a742f644ca794f3819bbefac60bddb53fd9e253bfbc68d6ad3b6d1cf45c4",
+        "share/postgresql/extension/pg_trgm--1.4--1.5.sql": "e5de4624f7dcc3954b4c8d84136f9cc6dfc9942545b091180ca18da41f234d18",
+        "share/postgresql/extension/pg_trgm--1.5--1.6.sql": "76d02b6ac7c6a5c2eed44d8fa48c8a104b7af98da594969b19e5bdafbb706bb8",
+        "share/postgresql/extension/pg_trgm.COPYRIGHT": "3d6af92ff8a4c2cdf69afb1cf44edea727922f5cd0cf8b5f72b11cdecac8fdfd",
+        "share/postgresql/extension/pg_trgm.control": "17c2745da2a706e1443ee363ab7424ced871a9a652e86bf55d25d139f43ee27b"
+      }
+    },
+    "linux-x86_64": {
+      "wheel": "pixeltable_pgserver-0.6.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "wheel_url": "https://files.pythonhosted.org/packages/bd/43/77d707f8e367481548e43376b69a84350d3954c52aee0abf53594b968aee/pixeltable_pgserver-0.6.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "wheel_sha256": "4cfb6276750a05a142135c077a9ed7e30d439ce2bb38f29f0db3fb958cc6d1a9",
+      "bundle": "linux-x86_64.tar.gz",
+      "sha256": "2cfb3130cc9ac79e0a7823ad9035f9a2253490d03739a7716e517e61b4d4d9dd",
+      "files": {
+        "lib/postgresql/pg_trgm.so": "9f2be1165f077db5b6104a71fbf29d1edf0ce8d053c3267f2f578bf87d4fc793",
+        "share/postgresql/extension/pg_trgm--1.0--1.1.sql": "a85cff55497081250bef3bb3b7fc8d8beb3b9bab64675501f79f923d7bd0a06c",
+        "share/postgresql/extension/pg_trgm--1.1--1.2.sql": "0ed40419dc9b01417ce058aba210c615bf1ff04daba44e4d23085983a4565f7f",
+        "share/postgresql/extension/pg_trgm--1.2--1.3.sql": "29caec4ef2830920c74c2594c11e0255c3a17102c59d244d9aacb3b1add541ea",
+        "share/postgresql/extension/pg_trgm--1.3--1.4.sql": "98763d59a6e221dd1bfc43e941024e4ed363fc05c9ce4514bc93554dfd8a8ed5",
+        "share/postgresql/extension/pg_trgm--1.3.sql": "2d90a742f644ca794f3819bbefac60bddb53fd9e253bfbc68d6ad3b6d1cf45c4",
+        "share/postgresql/extension/pg_trgm--1.4--1.5.sql": "e5de4624f7dcc3954b4c8d84136f9cc6dfc9942545b091180ca18da41f234d18",
+        "share/postgresql/extension/pg_trgm--1.5--1.6.sql": "76d02b6ac7c6a5c2eed44d8fa48c8a104b7af98da594969b19e5bdafbb706bb8",
+        "share/postgresql/extension/pg_trgm.COPYRIGHT": "3d6af92ff8a4c2cdf69afb1cf44edea727922f5cd0cf8b5f72b11cdecac8fdfd",
+        "share/postgresql/extension/pg_trgm.control": "17c2745da2a706e1443ee363ab7424ced871a9a652e86bf55d25d139f43ee27b"
+      }
+    },
+    "linux-aarch64": {
+      "wheel": "pixeltable_pgserver-0.6.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+      "wheel_url": "https://files.pythonhosted.org/packages/51/ac/74e2c8ed3a97f51c1a9a98204e42a630fd6127934db5d3d04455ff97daa8/pixeltable_pgserver-0.6.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+      "wheel_sha256": "f02b1423ac75dd7e9b2448551e9d20e3a878e174f1904703ec454a5d85db51e2",
+      "bundle": "linux-aarch64.tar.gz",
+      "sha256": "35735933a8806d0d51acd255d267d16ebbd6198479e3656fb931c837b7242399",
+      "files": {
+        "lib/postgresql/pg_trgm.so": "bf6fa38728f7da61607410035c6758f922010ca5c92d9747a0e22596da0fb6c1",
+        "share/postgresql/extension/pg_trgm--1.0--1.1.sql": "a85cff55497081250bef3bb3b7fc8d8beb3b9bab64675501f79f923d7bd0a06c",
+        "share/postgresql/extension/pg_trgm--1.1--1.2.sql": "0ed40419dc9b01417ce058aba210c615bf1ff04daba44e4d23085983a4565f7f",
+        "share/postgresql/extension/pg_trgm--1.2--1.3.sql": "29caec4ef2830920c74c2594c11e0255c3a17102c59d244d9aacb3b1add541ea",
+        "share/postgresql/extension/pg_trgm--1.3--1.4.sql": "98763d59a6e221dd1bfc43e941024e4ed363fc05c9ce4514bc93554dfd8a8ed5",
+        "share/postgresql/extension/pg_trgm--1.3.sql": "2d90a742f644ca794f3819bbefac60bddb53fd9e253bfbc68d6ad3b6d1cf45c4",
+        "share/postgresql/extension/pg_trgm--1.4--1.5.sql": "e5de4624f7dcc3954b4c8d84136f9cc6dfc9942545b091180ca18da41f234d18",
+        "share/postgresql/extension/pg_trgm--1.5--1.6.sql": "76d02b6ac7c6a5c2eed44d8fa48c8a104b7af98da594969b19e5bdafbb706bb8",
+        "share/postgresql/extension/pg_trgm.COPYRIGHT": "3d6af92ff8a4c2cdf69afb1cf44edea727922f5cd0cf8b5f72b11cdecac8fdfd",
+        "share/postgresql/extension/pg_trgm.control": "17c2745da2a706e1443ee363ab7424ced871a9a652e86bf55d25d139f43ee27b"
+      }
+    }
+  }
+}

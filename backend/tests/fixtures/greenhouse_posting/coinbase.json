@@ -1,0 +1,212 @@
+{
+ "id": 8083758,
+ "title": "Strategic Program Lead",
+ "questions": [
+  {
+   "label": "First Name",
+   "required": true,
+   "fields": [
+    {
+     "name": "first_name",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Last Name",
+   "required": true,
+   "fields": [
+    {
+     "name": "last_name",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Email",
+   "required": true,
+   "fields": [
+    {
+     "name": "email",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Phone",
+   "required": true,
+   "fields": [
+    {
+     "name": "phone",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Resume/CV",
+   "required": true,
+   "fields": [
+    {
+     "name": "resume",
+     "type": "input_file"
+    },
+    {
+     "name": "resume_text",
+     "type": "textarea"
+    }
+   ]
+  },
+  {
+   "label": "Cover Letter",
+   "required": false,
+   "fields": [
+    {
+     "name": "cover_letter",
+     "type": "input_file"
+    },
+    {
+     "name": "cover_letter_text",
+     "type": "textarea"
+    }
+   ]
+  },
+  {
+   "label": "Linkedin Profile URL",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233465",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Are you at least 18 years of age?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233466",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Have you previously been employed by Coinbase in any capacity?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233467",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "How did you hear about this job?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233468",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Please confirm receipt of the above linked Global Data Privacy Notice and US Arbitration Agreement.",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233469",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "I understand that Coinbase may use AI tools to assist in the application and interview process.  \n",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233470",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Which of the following best describes how you use AI tools today?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233471",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Are you legally authorized to work in the country where this position is located?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233472",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Will you require sponsorship for employment visa status now or in the future?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233473",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Are you a current government official or were you a government official in the last five years (e.g., employee of a government agency or a government owned/controlled company, holder of public office or a civil service position)?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233474",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Are you a close relative of a government official (i.e., child/step-child, spouse/partner, parent/guardian, aunt/uncle, first cousin, in-law)?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233475",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "To your knowledge, do you or a close relative currently hold a role, have a significant financial interest in, or maintain a close personal relationship with a senior leader at a company connected to Coinbase that could create an actual or perceived conflict of interest?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233476",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "To your knowledge, were you referred to this position by a senior leader or decision‑maker at a current or prospective institutional client, business partner, or vendor of Coinbase?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_68233477",
+     "type": "multi_value_single_select"
+    }
+   ]
+  }
+ ],
+ "pay_input_ranges": [
+  {
+   "title": "Annual base salary range (excluding equity and bonus):",
+   "min_cents": 10863000,
+   "max_cents": 10863000,
+   "currency_type": "USD"
+  }
+ ]
+}

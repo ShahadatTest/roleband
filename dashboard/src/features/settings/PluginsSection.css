@@ -1,0 +1,203 @@
+/* Settings > Plugins and one plugin's settings.
+ *
+ * Both are kit screens (`ui/Card`): a plugin is a `CardRow` with its switch in
+ * the row's toggle slot, as Privacy's kinds of sharing are, so the row's
+ * anatomy, rank and hairlines are the kit's and nothing here restates them.
+ * What is left is what only Plugins has: the search's width, the count in the
+ * card's head, the line that says why Start waits, the install command, the
+ * confirmations' bits, and the fact list and update history on one plugin's
+ * settings. */
+
+/* The toolbar rank, as the Companies roster's search: same job, same rank. */
+.plugins-search {
+  width: 100%;
+  max-width: 340px;
+  margin-bottom: var(--app-space-3);
+}
+
+.plugins-count {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Why Start waits, beside it: a disabled button's reason is never only a
+   tooltip, which touch and a screen reader reading the button never get. */
+.plugins-why {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+/* What estimates did, first in the body under the intro: the body's own top
+   step separates it from the head, and it sits from the search as the search
+   sits from the list. */
+.settings-message.plugins-reference {
+  margin: 0 0 var(--app-space-3);
+}
+
+/* How to install a plugin meanwhile: the command as code under More plugins,
+   at the row's inset, wrapped rather than scrolled so a phone never scrolls
+   sideways and every character stays selectable. */
+.plugins-install {
+  margin: 0 var(--app-space-2) var(--app-space-2);
+  padding: var(--app-space-2) var(--app-space-3);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface);
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Under plugin rows, More plugins and the command start where the plugins'
+   names do: past the switch column (the 32px track and the row's gap), so one
+   list has one left edge. Alone, with no rows above,
+   there is no column to align to. */
+.plugins-more.is-under-rows > .settings-row-copy {
+  margin-left: calc(32px + var(--app-space-3));
+}
+
+.plugins-install.is-under-rows {
+  margin-left: calc(var(--app-space-2) + 32px + var(--app-space-3));
+}
+
+/* ---- the confirmations (PluginDialogs) ------------------------------------ */
+
+/* The id to type, as written: the form's labels are upper case, the check is exact. */
+.ledger-form label .plugin-remove-id { text-transform: none; }
+
+/* ---- one plugin's settings ------------------------------------------------ */
+
+/* Its cards stack on the kit's own rhythm (`.settings-card + .settings-card`),
+   as Recipes' do: a grid gap here would add to it. */
+.plugin-settings-back {
+  margin-bottom: var(--app-space-4);
+}
+
+/* Label | value, the label in the kicker idiom (`.eyebrow`) that Schedule,
+   AI and Companies label a value with. */
+.plugin-settings-facts {
+  display: grid;
+  margin: 0;
+}
+
+.plugin-settings-facts > div {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--app-space-3);
+  padding: var(--app-space-3) 0;
+  border-top: 1px solid var(--app-border);
+}
+
+.plugin-settings-facts > div:first-child { border-top: 0; }
+
+.plugin-settings-facts dd {
+  margin: 0;
+  display: grid;
+  gap: var(--app-space-2);
+  justify-items: start;
+}
+
+/* A value with its control: Next update with Pause / Resume, Last update with
+   Start. The words lead and the control ends the line, at the card's edge as a
+   kit row's trailing control is; on a narrow card the control wraps under. */
+.plugin-settings-facts dd.plugin-settings-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-2) var(--app-space-3);
+}
+
+.plugin-settings-act {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-2);
+}
+
+.plugin-settings-reports {
+  display: grid;
+  gap: var(--app-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plugin-settings-reports li { display: grid; gap: var(--app-space-1); }
+
+.plugin-settings-note {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.plugin-settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--app-space-2);
+  margin-top: var(--app-space-3);
+}
+
+.plugin-settings-runs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.plugin-settings-runs li {
+  display: grid;
+  /* When | how it ended | how far it got | rows, the when on the label column
+     the fact lists above use, so the history reads as their continuation. */
+  grid-template-columns: minmax(120px, 180px) auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--app-space-1) var(--app-space-3);
+  padding: var(--app-space-2) 0;
+  border-top: 1px solid var(--app-border);
+}
+
+.plugin-settings-runs li:first-child { border-top: 0; }
+
+.plugin-run-when,
+.plugin-run-read,
+.plugin-run-message {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.plugin-run-read { grid-column: 3; }
+.plugin-run-rows { grid-column: 4; justify-self: end; }
+
+/* An error's or a partial update's own words, under what it says about it. */
+.plugin-run-message {
+  grid-column: 2 / -1;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .plugin-settings-facts > div { grid-template-columns: minmax(0, 1fr); gap: var(--app-space-1); }
+  .plugins-install { margin-inline: var(--app-space-1); }
+  .plugins-install.is-under-rows { margin-left: calc(var(--app-space-1) + 32px + var(--app-space-3)); }
+  .plugin-settings-runs li { display: flex; flex-wrap: wrap; column-gap: var(--app-space-2); }
+  .plugin-run-when,
+  .plugin-run-message { flex-basis: 100%; }
+  .plugin-run-rows { margin-left: auto; }
+}
+
+/* A site's robots rules for RoleBand, as the approval and Review quote them:
+   the site's own patterns, in the code face, one per line. */
+.plugin-robots-rules {
+  margin: 0 0 var(--app-space-3);
+  padding-left: var(--app-space-4);
+}
+
+.plugin-robots-rules code {
+  font-family: var(--app-font-mono);
+  overflow-wrap: anywhere;
+}

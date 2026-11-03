@@ -1,0 +1,11 @@
+/* A link out is one unit: its words and the glyph never part across a line,
+   and the glyph rides the text a hair
+   after it, on its x-height, in the link's own colour. */
+.ui-external-link {
+  white-space: nowrap;
+}
+
+.ui-external-link svg {
+  margin-left: 0.25em;
+  vertical-align: -0.05em;
+}

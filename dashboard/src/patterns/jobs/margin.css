@@ -1,0 +1,233 @@
+/* ---- the ledger margin ---------------------------------------------------- */
+
+/* Where a list's consequences live. The page
+   margin to the RIGHT of a job list is treated as a ledger margin: a
+   consequence is a tick there, tethered by a 1px action-line to the line it
+   belongs to. The list itself never changes shape for one — no row grows, no
+   card covers the next row, every toggle stays visible — which is what keeps
+   "can I add another?" answered by the list.
+
+   The host reserves the margin permanently from 1100px, not when a beacon
+   appears: a gutter that comes and goes would reflow the columns on every
+   second selection. Below 1100px there is no margin to be level with, so a
+   beacon DOCKS to the viewport edge, and docked beacons stack. */
+.job-margin-host {
+  position: relative;
+  padding-right: var(--job-margin);
+}
+
+/* A page that holds a margined list (`job-margin-page`) declares it too, so
+   its toolbar ends where the rows end: one right edge for the screen, with the
+   margin to the right of both. */
+.job-margin-host,
+.job-margin-page {
+  --job-margin: 0px;
+}
+
+@media (min-width: 1100px) {
+  .job-margin-host,
+  .job-margin-page {
+    --job-margin: 76px;
+  }
+}
+
+/* The beacon wrapper spans the margin from the list's edge to the page edge:
+   the tether fills what the pill leaves, so the pill is flush right and the
+   line always reaches the row. `top` is set inline from measurement; the
+   wrapper is centred on it. Above the following rows (they are positioned,
+   z-index auto) and below the pinned column head (2) only while it is level
+   with a row the head covers — the head is opaque, so a beacon scrolled
+   under it is meant to disappear with its row. */
+.job-beacon {
+  position: absolute;
+  left: calc(100% - var(--job-margin));
+  width: var(--job-margin);
+  display: flex;
+  align-items: center;
+  transform: translateY(-50%);
+  z-index: 1;
+  animation: job-beacon-in var(--app-duration-medium) var(--app-ease-travel) both;
+}
+
+.job-beacon-tether {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--app-action-line);
+  transform-origin: left center;
+  animation: job-tether-in var(--app-duration-medium) var(--app-ease-travel) both;
+}
+
+@keyframes job-beacon-in {
+  from { opacity: 0; transform: translateY(-50%) scale(0.8); }
+}
+
+@keyframes job-tether-in {
+  from { transform: scaleX(0); }
+}
+
+.job-beacon.is-docked {
+  position: fixed;
+  left: auto;
+  right: var(--app-space-4);
+  top: auto;
+  /* Above the toast host's first card, so a docked beacon and an undo toast
+     never share pixels; several docked beacons stack upward by slot. */
+  --dock-base: calc(var(--app-space-5) + 52px);
+  bottom: calc(var(--dock-base) + var(--dock-slot, 0) * 40px);
+  width: auto;
+  transform: none;
+  z-index: 60;
+}
+
+.job-beacon.is-docked .job-beacon-tether {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .job-beacon.is-docked {
+    right: var(--app-space-3);
+    --dock-base: calc(64px + var(--app-space-3) + 52px + env(safe-area-inset-bottom));
+  }
+}
+
+/* The seam a dismissed row leaves: zero height, an anchor for the way-back
+   pill and nothing to look at. The row after it has no `.job-row + .job-row`
+   sibling, so the seam draws the ordinary divider in its place — the
+   list reads as exactly the list minus that row, with no action-line or glow
+   left standing as a scar. */
+.job-seam {
+  position: relative;
+  height: 0;
+}
+
+.job-seam::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 1px;
+  background: var(--app-border);
+}
+
+/* ---- the reveal ---------------------------------------------------------- */
+
+/* Inside ui/Popover: a whisper kicker, one row per role concerned, one
+   footer. A row is a small ledger line — the role (title over one line of
+   facts), the comp numeral right-aligned in mono, the remove control — the
+   same three-column reading the job row has, at the popover's own scale.
+   The title may take two lines; a role's name is the thing being decided
+   on and must not be cut to fit. */
+.job-reveal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-3);
+  width: 400px;
+  max-width: calc(100vw - 32px);
+  padding: var(--app-space-4);
+}
+
+.job-reveal-kicker {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.job-reveal-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.job-reveal-row {
+  padding: var(--app-space-2) 0;
+}
+
+.job-reveal-row + .job-reveal-row {
+  border-top: 1px solid var(--app-border);
+}
+
+.job-reveal-role {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+/* The title and the row's control share the first line: the control sits
+   on the title's top, where a list's "take this out" lives, whatever the
+   row's height. */
+.job-reveal-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--app-space-2);
+}
+
+.job-reveal-head .job-reveal-title {
+  flex: 1 1 auto;
+}
+
+.job-reveal-head .ui-btn {
+  margin: -4px -6px 0 0;
+}
+
+.job-reveal-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  color: var(--app-text);
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+  line-height: 1.3;
+}
+
+.job-reveal-title.is-struck {
+  color: var(--app-text-faint);
+  font-weight: var(--app-weight-ui);
+  text-decoration: line-through;
+}
+
+.job-reveal-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-label);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.job-reveal-comp {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.job-reveal-comp-kind {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-sans);
+}
+
+.job-reveal-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  padding-top: var(--app-space-2);
+  border-top: 1px solid var(--app-border);
+}
+
+.job-reveal-foot .job-reveal-spacer {
+  flex: 1 1 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .job-beacon,
+  .job-beacon-tether {
+    animation: none;
+  }
+}

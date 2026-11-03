@@ -1,0 +1,27 @@
+{
+  "format": 1,
+  "python": "3.12.13",
+  "release": "20260414",
+  "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260414/cpython-3.12.13%2B20260414-aarch64-apple-darwin-install_only_stripped.tar.gz",
+  "sha256": "38f71c324ae14ee5ef844c62e06b6faa5ba3040c898b4c1d03b8b6e88794356b",
+  "notices": {
+    "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260414/cpython-3.12.13%2B20260414-aarch64-apple-darwin-pgo%2Blto-full.tar.zst",
+    "sha256": "612b1af85f33fe57351c0e8e40677c95d9ef63774c1f13ae8054c59c785a84ca"
+  },
+  "pgvector_notice": {
+    "url": "https://raw.githubusercontent.com/pgvector/pgvector/v0.8.5/LICENSE",
+    "sha256": "6bba9ebeb73e27477463b05e5ef1bf303bccbddb3db9bbc95905d351604d6a87"
+  },
+  "package_notices": {
+    "flatbuffers": {
+      "version": "25.12.19",
+      "url": "https://raw.githubusercontent.com/google/flatbuffers/v25.12.19/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    "tokenizers": {
+      "version": "0.22.2",
+      "url": "https://raw.githubusercontent.com/huggingface/tokenizers/v0.22.2/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    }
+  }
+}

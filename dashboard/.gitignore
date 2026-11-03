@@ -1,0 +1,9 @@
+# openapi.json is COMMITTED, not ignored here. It is
+# the API contract as the server actually declares it, and api.gen.ts is a lossy
+# projection of it -- a route that returns an unmodelled dict can change its
+# response shape without moving api.gen.ts at all. Regenerate with
+# `backend/.venv/bin/python -m scripts.export_openapi`.
+
+# Generated from src/copy/*/*.ftl by scripts/gen-copy.mjs on install, dev, build, lint and tests.
+# Its ids are positions, so a committed copy would merge parallel additions wrong.
+/src/copy/gen/

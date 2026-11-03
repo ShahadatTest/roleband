@@ -1,0 +1,122 @@
+{
+  "name": "Hugging Face",
+  "description": "Here at Hugging Face, we're on a journey to advance and democratize machine learning for everyone. Along the way, we contribute to the development of technology for the better. Over five thousand companies are using our technology in production, including leading AI organizations such as Google, Elastic, Salesforce, Al…</p>",
+  "jobs": [
+    {
+      "title": "Low-level Senior Software Engineer, Xet Storage - EMEA Remote",
+      "shortcode": "F4C096B22E",
+      "code": "",
+      "employment_type": "Full-time",
+      "telecommuting": true,
+      "department": "Product",
+      "function": "Engineering",
+      "url": "https://apply.workable.com/j/F4C096B22E",
+      "shortlink": "https://apply.workable.com/j/F4C096B22E",
+      "application_url": "https://apply.workable.com/j/F4C096B22E/apply",
+      "published_on": "2026-07-30",
+      "created_at": "2026-07-30",
+      "city": "Paris",
+      "state": "Île-de-France",
+      "country": "France",
+      "locations": [
+        {
+          "country": "France",
+          "countryCode": "FR",
+          "city": "Paris",
+          "region": "Île-de-France",
+          "hidden": true
+        }
+      ],
+      "description": "<p></p><p>At Hugging Face, we're on a journey to democratize good AI. We are building the fastest growing platform for AI builders with over 11 million users who collectively shared over 4 million models, 1 million datasets &amp; 1.5 million Gradio apps. Our open-source libraries have more than 700,000 stars on Github.…</p>",
+      "experience": "Mid-Senior level",
+      "education": "Master's Degree"
+    },
+    {
+      "title": "Low-Level Senior Software Engineer, Xet Storage - US Remote",
+      "shortcode": "002470F128",
+      "code": "",
+      "employment_type": "Full-time",
+      "telecommuting": true,
+      "department": "Product",
+      "function": "Engineering",
+      "url": "https://apply.workable.com/j/002470F128",
+      "shortlink": "https://apply.workable.com/j/002470F128",
+      "application_url": "https://apply.workable.com/j/002470F128/apply",
+      "published_on": "2026-07-30",
+      "created_at": "2026-07-30",
+      "city": "New York",
+      "state": "New York",
+      "country": "United States",
+      "locations": [
+        {
+          "country": "United States",
+          "countryCode": "US",
+          "city": "New York",
+          "region": "New York",
+          "hidden": true
+        }
+      ],
+      "description": "<p></p><p>At Hugging Face, we're on a journey to democratize good AI. We are building the fastest growing platform for AI builders with over 11 million users who collectively shared over 4 million models, 1 million datasets &amp; 1.5 million Gradio apps. Our open-source libraries have more than 700,000 stars on Github.…</p>",
+      "experience": "Mid-Senior level",
+      "education": "Master's Degree"
+    },
+    {
+      "title": "Senior Open-Source Python Engineer, ML Developer Tools - EMEA Remote",
+      "shortcode": "CB1DEFE6CE",
+      "code": null,
+      "employment_type": "Full-time",
+      "telecommuting": true,
+      "department": "Product",
+      "function": "",
+      "url": "https://apply.workable.com/j/CB1DEFE6CE",
+      "shortlink": "https://apply.workable.com/j/CB1DEFE6CE",
+      "application_url": "https://apply.workable.com/j/CB1DEFE6CE/apply",
+      "published_on": "2026-09-18",
+      "created_at": "2026-06-02",
+      "city": "",
+      "state": "",
+      "country": "France",
+      "locations": [
+        {
+          "country": "France",
+          "countryCode": "FR",
+          "city": "",
+          "region": null,
+          "hidden": false
+        }
+      ],
+      "description": "<p>At Hugging Face, we're on a journey to democratize good AI. We are building the fastest growing platform for AI builders with over 11 million users who collectively shared over 4 million models, 1 million datasets &amp; 1.5 million Gradio apps. Our open-source libraries have more than 700,000 stars on Github.<br><br…</p>",
+      "experience": "Mid-Senior level",
+      "education": "Bachelor's Degree"
+    },
+    {
+      "title": "Wild Card",
+      "shortcode": "0BD8C06DB3",
+      "code": "",
+      "employment_type": "Full-time",
+      "telecommuting": true,
+      "department": "Wild Card",
+      "function": "",
+      "url": "https://apply.workable.com/j/0BD8C06DB3",
+      "shortlink": "https://apply.workable.com/j/0BD8C06DB3",
+      "application_url": "https://apply.workable.com/j/0BD8C06DB3/apply",
+      "published_on": "2024-10-17",
+      "created_at": "2022-10-19",
+      "city": "",
+      "state": "",
+      "country": "United States",
+      "locations": [
+        {
+          "country": "United States",
+          "countryCode": "US",
+          "city": "",
+          "region": null,
+          "hidden": false
+        }
+      ],
+      "description": "<p>If you don't see the perfect job position, just apply to this one - we'll brainstorm to put you in position to do the best work of your life at Hugging Face!<br></p><p></p><p><strong>Requirements</strong></p><ul> <li>You’re deeply passionate about AI, open source, and democratizing technology.</li> <li>You’ve done s…</p>",
+      "experience": "",
+      "education": "Unspecified"
+    }
+  ]
+}

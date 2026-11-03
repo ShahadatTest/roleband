@@ -1,0 +1,121 @@
+name: backend
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Read the code, nothing more: no job here writes to the repository.
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    # Same reason as dashboard.yml: an unbounded step is billed minutes. Hosted
+    # runners differ in speed, so this leaves room for a slow one to finish the
+    # whole suite and still fails a stall within the half hour.
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: backend
+    # Without a server the DB-backed tests SKIP rather than fail, deliberately
+    # (tests/conftest.py: "they run against real Postgres or they do not run at
+    # all"). Left alone, tests such as test_notification_store.py (ON CONFLICT
+    # convergence, the retraction DELETE, the tracked gate against real SQL)
+    # would skip silently while the run reports green. Here that default is
+    # inverted: ROLEBAND_REQUIRE_INTEGRATION below makes every skip a failure
+    # unless tests/skip_policy.py names its reason.
+    services:
+      postgres:
+        # pgvector, not stock postgres:16. The schema is vector-backed, so
+        # `CREATE EXTENSION vector` is part of bringing a
+        # database up, and against the stock image it fails, taking the
+        # DB-backed tests with it as ERRORS rather than skips. Locally the
+        # embedded server ships the extension, so only CI would notice.
+        image: pgvector/pgvector:pg16@sha256:7b822b0aac60967beb1ea5e576b8602c94c300a157d187f385ae3e0da199b90a
+        env:
+          POSTGRES_USER: roleband
+          POSTGRES_PASSWORD: roleband
+          POSTGRES_DB: roleband
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      ROLEBAND_DATABASE_URL: postgresql+asyncpg://roleband:roleband@localhost:5432/roleband
+      # A skip is invisible in a green run, so any skip whose reason is not an
+      # allowed category fails the run, by name, wherever it happens
+      # (tests/skip_policy.py).
+      ROLEBAND_REQUIRE_INTEGRATION: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          # The same file setup.sh reads, so CI and a local install agree.
+          python-version-file: .python-version
+          cache: pip
+          cache-dependency-path: |
+            backend/requirements.txt
+            backend/requirements-dev.txt
+            backend/constraints/linux-x86_64.txt
+      # The lock pins every transitive package, so this run installs the graph a
+      # developer's machine does rather than whatever resolved today.
+      - run: pip install -r requirements.txt -r requirements-dev.txt -c constraints/linux-x86_64.txt
+      # Known advisories against every platform lock and the Mac app's runtime
+      # lock; an accepted one needs a current entry in audit-exceptions.toml.
+      - name: dependency audit
+        run: python -m scripts.check_dependency_audit
+      # The robots matcher is its own distribution, shared with the SDK's
+      # fake host so both answer a robots file the same way.
+      - run: pip install -e ../robots/python
+      # The golden-vector test's reference model, so the ONNX encoder's parity
+      # check runs here rather than skipping. The manifest pins each file's
+      # sha256 and provisioning verifies it, so a cache keyed on the manifest
+      # can only restore the pinned bytes.
+      - name: cache the reference embedding model
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: data/models/all-MiniLM-L6-v2
+          key: minilm-${{ hashFiles('backend/tracker/semantic/manifest.py') }}
+      - name: provision the reference embedding model
+        run: python -m tracker.semantic.provision --model all-MiniLM-L6-v2 --tier fp32
+      - name: install the embedded server's prebuilt contrib modules
+        run: python -m scripts.install_pg_contrib
+      # tests/test_gitleaks_config.py runs the secret scan the release export
+      # runs, so CI holds the same version, checked against its release checksum.
+      - name: install gitleaks
+        env:
+          GITLEAKS_VERSION: 8.30.1
+          GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+        run: |
+          archive="$RUNNER_TEMP/gitleaks.tar.gz"
+          curl -sSfL -o "$archive" "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          echo "$GITLEAKS_SHA256  $archive" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/gitleaks"
+          tar -xzf "$archive" -C "$RUNNER_TEMP/gitleaks" gitleaks
+          echo "$RUNNER_TEMP/gitleaks" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/gitleaks/gitleaks" version
+      - name: ruff
+        run: ruff check tracker tests scripts ../sdk/python ../robots/python ../examples ../launcher/macos/Tools ../launcher/macos/test-transport.py
+      - name: mypy (the typed set in [tool.mypy], not the tree)
+        run: mypy
+      - name: import-linter
+        run: lint-imports
+      - name: pytest (a skip outside tests/skip_policy.py fails)
+        run: python -m pytest -q -rs --durations=30 --junitxml=test-results/pytest.xml
+      - name: upload test timings and outcomes
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: backend-test-results
+          path: backend/test-results/
+          if-no-files-found: ignore
+          retention-days: 7

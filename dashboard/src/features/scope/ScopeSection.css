@@ -1,0 +1,270 @@
+/* The scope surface of Profile › Direction: the walk, its first-run setup
+ * mode and the company exclusions list. These families live here, unscoped,
+ * once.
+ *
+ * TYPE. The font-size literals here are held deliberately: they are
+ * OFF-RAMP (13.5, 12.5, 11.5), and snapping them moves text by 0.5-1.5px,
+ * which is a redesign of this screen and not a token change. Counts and
+ * asides take `--app-type-micro`. Whisper is the one type token with a GATED
+ * recipe (tokens.test.ts: uppercase + the weight and tracking recipe tokens,
+ * never on a control), so adopting it changes weight and tracking too.
+ */
+
+/* --- Select cards, positions browser, profile suggestions ------------------ */
+
+.select-card { border-color: var(--app-border); background: var(--app-surface); color: var(--app-text); }
+.select-card { min-height: 58px; display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; align-items: center; padding: var(--app-space-2) var(--app-space-3); border: 1px solid var(--app-border); border-radius: var(--app-radius-md); background: var(--app-surface); cursor: pointer; transition: background var(--app-duration-fast), border-color var(--app-duration-fast); }
+.select-card:hover { background: var(--app-surface-hover); }
+/* A ticked card is CHOSEN: gold edge and wash, its name in the
+   chosen ink, keyed on its own checkbox or radio so the card and the control
+   can never disagree. */
+.select-card:has(> input:checked) { border-color: var(--app-chosen-line); background: var(--app-chosen-wash); }
+.select-card:has(> input:checked) .select-card-label { color: var(--app-chosen-text); }
+.select-card input { width: 15px; height: 15px; margin: 0; accent-color: var(--app-action); }
+.select-card .select-card-label { font-weight: var(--app-weight-name); font-size: var(--app-type-meta); }
+.select-card small { grid-column: 2; color: var(--app-text-faint); font-family: var(--app-font-mono); font-size: var(--app-type-micro); font-variant-numeric: tabular-nums; }
+.profile-suggestions { display: grid; gap: 10px; margin: 0 0 14px; }
+.profile-suggestion { border: 1px solid var(--app-action-line); background: var(--app-action-soft); border-radius: var(--app-radius-lg); padding: 12px 14px; }
+.profile-suggestion-title { font-weight: var(--app-weight-name); font-size: 13.5px; margin-bottom: 3px; }
+.profile-suggestion-basis { color: var(--app-text-muted); font-size: 12.5px; margin-bottom: 9px; }
+.profile-suggestion-actions { display: flex; align-items: center; gap: 14px; }
+.profile-suggestion-notice { color: var(--app-positive); font-size: 12.5px; }
+.worlds-rules { margin-top: 18px; }
+.worlds-rules h4 { margin: 0 0 4px; font-size: var(--app-type-meta); }
+.worlds-rules-note { margin: var(--app-space-2) 0; color: var(--app-text-muted); font-size: var(--app-type-meta); }
+.worlds-rules-toggle { width: 100%; justify-content: space-between; gap: var(--app-space-2); }
+.worlds-rules-count { margin-inline-start: var(--app-space-2); color: var(--app-text-muted); font-variant-numeric: tabular-nums; }
+.worlds-rule-text { min-width: 0; overflow-wrap: anywhere; }
+.worlds-rule { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0; border-top: 1px solid var(--app-border); font-size: var(--app-type-meta); }
+
+/* --- The scope surface: category/role/locations picking ---------------------- */
+
+.role-company-disclosure[open] summary { color: var(--app-text-muted); }
+.scope-rail-card { padding: var(--app-space-3); border: 1px solid var(--app-border); border-radius: var(--app-radius-lg); background: var(--app-surface); }
+.scope-impact-value.positive { color: var(--app-positive); }
+.scope-impact-value.negative { color: var(--app-danger); }
+.scope-guide-trigger:hover { border-color: var(--app-border-strong); background: var(--app-surface-hover); color: var(--app-text); }
+.scope-notice { margin: 10px 12px; padding: 9px 11px; border: 1px solid var(--app-warning); border-radius: 8px; color: var(--app-warning); background: var(--app-surface-sunken); font-size: var(--app-type-label); }
+.scope-notice.bad { border-color: var(--app-danger); color: var(--app-danger); }
+/* On the page itself, not inside a card: it lines up with the column it heads. */
+.profile-setup-unfinished { margin-inline: 0; }
+.scope-impact { margin: 12px; padding: 12px 14px; display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; border: 1px solid var(--app-border); border-radius: 10px; background: var(--app-surface-sunken); color: var(--app-text-muted); font-size: var(--app-type-micro); }
+.scope-impact-value { color: var(--app-text); font-family: var(--app-font-mono); font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.role-head { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.role-head input { width: 15px; height: 15px; accent-color: var(--app-action); }
+.role-title { margin-right: auto; display: flex; flex-direction: column; }
+.role-name { font-weight: var(--app-weight-name); }
+.role-count { color: var(--app-text-faint); font-family: var(--app-font-mono); font-size: var(--app-type-micro); line-height: 1.4; }
+.role-companies { margin-top: 10px; padding-left: 27px; display: flex; flex-wrap: wrap; gap: 6px; }
+.role-company-disclosure { margin-top: 9px; padding-left: 27px; }
+.role-company-disclosure summary { width: max-content; color: var(--app-text-faint); font-size: var(--app-type-micro); cursor: pointer; }
+.role-company-disclosure .role-companies { padding-left: 0; }
+.role-alias { padding: 3px 8px 3px 4px; border: 1px solid var(--app-border); border-radius: 8px; display: inline-flex; align-items: center; gap: 7px; background: var(--app-surface-sunken); font-size: var(--app-type-micro); }
+.scope-action-card .scope-impact { margin: 8px 0; padding: 8px 10px; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4px 8px; }
+.scope-action-card .scope-impact-value { font-size: 17px; }
+.scope-action-card .ui-btn-primary { width: 100%; }
+.scope-save-confirmation { padding: 10px 12px; border: 1px solid var(--app-positive-line); border-radius: 10px; background: color-mix(in srgb, var(--app-positive) 8%, transparent); color: var(--app-positive); font-size: 11.5px; }
+.scope-guide-trigger { min-height: 40px; width: 100%; display: flex; align-items: center; gap: 9px; color: var(--app-text-muted); text-align: left; cursor: pointer; transition: color var(--app-duration-fast), border-color var(--app-duration-fast), background var(--app-duration-fast); }
+.scope-guide-trigger svg { flex: none; }
+/* The dock, border, surface, shadow and slide-in are `ui/Sheet` right-docked;
+   the padding is this panel's own reading measure. */
+.scope-guide-sheet { padding: 26px; }
+/* The drawer is a portal under body, so its focus ring comes from styles.css,
+   which paints the outline from the legacy accent; this states the app's
+   action token. (Written without the `var(...)` spelling on purpose: the
+   legacy-tokens ratchet is a regex over raw text, so naming the token in prose
+   would count as consuming it.) */
+.scope-guide-sheet :is(button, a, input, select, [tabindex]):focus-visible { outline-color: var(--app-action); }
+.scope-guide-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.scope-guide-eyebrow { color: var(--app-action-text); font-family: var(--app-font-mono); font-size: var(--app-type-whisper); font-weight: var(--app-type-whisper-weight); letter-spacing: var(--app-type-whisper-track); text-transform: uppercase; }
+.scope-guide-head h2 { margin: 5px 0 0; font-size: var(--app-type-screen); font-weight: var(--app-weight-name); line-height: 1.2; letter-spacing: -.02em; }
+.scope-guide-intro { margin: 18px 0 20px; color: var(--app-text-muted); font-size: var(--app-type-meta); line-height: 1.55; }
+.scope-guide-flow { display: flex; flex-direction: column; gap: 8px; }
+.scope-guide-gate { position: relative; padding: 11px 12px 11px 46px; border: 1px solid var(--app-border); border-radius: var(--app-radius-md); background: var(--app-surface); animation: scope-guide-gate var(--app-duration-slow) var(--app-ease) var(--gate-delay) both; }
+/* The gates read as one sequence: a hairline joins each to the next. */
+.scope-guide-gate + .scope-guide-gate::before { content: ""; position: absolute; left: 18px; top: -9px; width: 1px; height: 8px; background: var(--app-border-strong); }
+/* The walk's two groups: the three answers that decide, the two that sharpen. */
+.scope-guide-group { margin: 6px 0 -2px; color: var(--app-text-faint); font-family: var(--app-font-mono); font-size: var(--app-type-whisper); font-weight: var(--app-type-whisper-weight); letter-spacing: var(--app-type-whisper-track); text-transform: uppercase; }
+.scope-guide-group:first-child { margin-top: 0; }
+.scope-guide-gate > span { position: absolute; left: 12px; top: 12px; color: var(--app-action-text); font-family: var(--app-font-mono); font-size: var(--app-type-micro); }
+.scope-guide-gate strong, .scope-guide-gate small { display: block; }
+.scope-guide-gate strong { color: var(--app-text); font-size: var(--app-type-meta); font-weight: var(--app-weight-name); }
+.scope-guide-gate small { margin-top: 2px; color: var(--app-text-faint); font-size: var(--app-type-micro); }
+/* The outcome in the app's action colour: green says "success", which nothing else on the page says. */
+.scope-guide-result { margin-top: 5px; padding: 12px; border: 1px solid var(--app-action-line); border-radius: var(--app-radius-md); background: var(--app-action-soft); display: flex; align-items: center; gap: 9px; color: var(--app-action-text); font-weight: var(--app-weight-name); }
+.scope-guide-pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--app-action); box-shadow: 0 0 0 0 color-mix(in srgb, var(--app-action) 35%, transparent); animation: scope-guide-pulse 1.8s ease-out infinite; }
+.scope-guide-note { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--app-border); }
+.scope-guide-note h3 { margin: 0; font-size: var(--app-type-meta); font-weight: var(--app-weight-name); }
+.scope-guide-note p { margin: 5px 0 0; color: var(--app-text-muted); font-size: var(--app-type-label); line-height: 1.5; }
+.scope-step-head { padding: var(--app-space-3) var(--app-space-4); border-bottom: 1px solid var(--app-border); background: var(--app-surface-subtle); }
+.scope-step-note { margin: 7px 0 0; max-width: 72ch; color: var(--app-text-muted); font-size: var(--app-type-label); line-height: 1.5; }
+.scope-step-body { padding: var(--app-space-3) var(--app-space-4) var(--app-space-4); }
+.loc-pick { min-height: 38px; flex: 1; min-width: 0; display: flex; align-items: center; gap: 11px; padding: 6px 10px; border-radius: 8px; cursor: pointer; transition: background var(--app-duration-fast); }
+.loc-pick:hover { background: var(--app-surface-hover); }
+.loc-pick input { width: 17px; height: 17px; flex: none; accent-color: var(--app-action); }
+.loc-pick-name { font-size: var(--app-type-body); }
+/* A ticked place is chosen: the tick is its mark and its name takes the chosen
+   ink, the checklist form of the one grammar. Never bold: that reflows the
+   row and says "chosen" in a voice nothing else uses. */
+.loc-pick:has(> input:checked) .loc-pick-name { color: var(--app-chosen-text); }
+
+/* --- The stage rail and the persona summary --------------------------------
+   The stage dimmer is the
+   career-band rail; the persona block is the rail/dock summary beside it. */
+
+/* Decoration mirroring a choice (aria-hidden), so `data-chosen` rather than an
+   ARIA state: the chosen mark. */
+.stage-rail:not(.armed) .stage-cell.has-handle:hover { border-color: var(--app-action); }
+.stage-decoder { border-color: var(--app-border); }
+.persona-rail-title { color: var(--app-text-faint); font-family: var(--app-font-mono); font-size: var(--app-type-whisper); font-weight: var(--app-type-whisper-weight); letter-spacing: var(--app-type-whisper-track); text-transform: uppercase; }
+.persona-summary { margin-top: 11px; display: flex; flex-direction: column; gap: 8px; }
+.persona-fact { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 2px 8px; align-items: start; }
+.persona-fact-label { grid-column: 1; grid-row: 1 / span 2; color: var(--app-text-faint); font-size: var(--app-type-micro); font-weight: var(--app-weight-name); letter-spacing: 0.04em; text-transform: uppercase; }
+.persona-fact-value { grid-column: 2; color: var(--app-text); font-size: var(--app-type-meta); line-height: 1.4; }
+.persona-fact-value .num { font-family: var(--app-font-mono); font-variant-numeric: tabular-nums; }
+.stage-legend-item { display: inline-flex; align-items: center; gap: 7px; }
+.stage-legend .hint { color: var(--app-text-faint); }
+.stage-marker.static, .stage-edge.static { position: static; transform: none; cursor: default; flex: none; box-shadow: none; animation: none; }
+.stage-marker.static { width: 13px; height: 13px; }
+.stage-edge.static { width: 10px; height: 10px; transform: rotate(45deg); }
+.stage-rail.armed { cursor: crosshair; }
+.stage-cells { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(7, 1fr); height: 60px; }
+.stage-cell { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 0 var(--app-space-1); border: 1px solid var(--app-border); background: transparent; color: inherit; font: inherit; text-align: center; opacity: 0.5; cursor: pointer; transition: opacity 300ms var(--app-ease-travel), border-color var(--app-duration-fast) var(--app-ease), color 300ms var(--app-ease-travel); }
+.stage-cell + .stage-cell { margin-left: -1px; }
+.stage-cell:first-child { border-radius: var(--app-radius-md) 0 0 var(--app-radius-md); }
+.stage-cell:last-child { border-radius: 0 var(--app-radius-md) var(--app-radius-md) 0; }
+.stage-cell.lit { z-index: 1; opacity: 1; border-color: var(--app-action-line); }
+.stage-cell.gated .stage-name { text-decoration: line-through; text-decoration-thickness: 1px; }
+.stage-name { display: block; font-size: var(--app-type-label); font-weight: var(--app-weight-name); line-height: 1.25; }
+.stage-count { display: block; margin-top: 3px; color: var(--app-text-faint); font-family: var(--app-font-mono); font-size: var(--app-type-micro); font-variant-numeric: tabular-nums; }
+.stage-edge { position: absolute; top: 5px; left: var(--pos); width: 15px; height: 15px; background: var(--app-action); border: 2px solid var(--app-canvas); transform: translateX(-50%) rotate(45deg); transform-origin: center; z-index: 3; pointer-events: none; transition: left 340ms var(--app-ease-travel), transform 240ms var(--app-ease-travel), box-shadow 240ms ease; }
+.stage-marker.ghost { opacity: 0.4; border-style: dashed; box-shadow: none; }
+.stage-edge.armed { transform: translateX(-50%) rotate(45deg) scale(1.16); z-index: 6; animation: stage-active 1.3s ease-in-out infinite; }
+.stage-edge.lock { animation: stage-lock-diamond 520ms var(--app-ease-travel); }
+.stage-marker:focus-visible, .stage-edge:focus-visible { outline: var(--app-ring-width) solid var(--app-action); outline-offset: var(--app-ring-offset); }
+.stage-gated-note { margin: 0; color: var(--app-text-muted); font-size: var(--app-type-label); }
+/* The one choice beside the rail that is not a rung. */
+.stage-unstated { margin-top: var(--app-space-3); }
+.stage-decoder-toggle[aria-expanded="true"] .stage-decoder-toggle-chevron { transform: rotate(180deg); }
+.stage-decoder-toggle:hover { color: var(--app-text); }
+.stage-decoder-toggle-meta { margin-left: auto; color: var(--app-text-faint); font-family: var(--app-font-mono); font-size: var(--app-type-micro); font-variant-numeric: tabular-nums; }
+.stage-decoder { margin-top: 6px; padding-top: 8px; border-top: 1px solid var(--app-border); }
+.stage-decoder-row { display: grid; grid-template-columns: 72px repeat(7, 1fr); gap: 0; }
+.stage-decoder-company { padding: 2px 8px 2px 0; color: var(--app-text-faint); font-size: var(--app-type-micro); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stage-decoder-cell { padding: 2px 2px; color: var(--app-text-muted); font-family: var(--app-font-mono); font-size: var(--app-type-micro); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stage-decoder-cell.gated { opacity: 0.3; }
+.stage-decoder-more { display: inline-block; margin-top: 8px; font-size: var(--app-type-meta); }
+
+/* --- The rail, the stage dimmer and their media rules ---------------------- */
+
+/* Scope rail: separate information, draft actions, help, and data maintenance. */
+.persona-rail { position: sticky; top: 0; display: flex; flex-direction: column; gap: 10px; }
+/* Career-stage dimmer band. Click to arm a handle, move to aim, click to lock
+   (see docs/ui.md). The dot (you are here) and diamond (aiming for)
+   live in one overlay layer positioned by percentage (--pos), so they glide
+   between stages instead of teleporting; the lit span is a single stretching
+   band (--band-start/--band-size). Decoder rows underneath translate each stage
+   into per-company corporate levels. */
+.stage-dimmer { margin: 4px 0 10px; }
+/* Legend built from the real handle glyphs — recognition, not recall — plus a
+   state-driven hint. */
+.stage-legend { display: flex; align-items: center; gap: 16px; margin: 0 0 10px; color: var(--app-text-muted); font-size: var(--app-type-micro); }
+/* Rail = positioning context; cells define height, band + handles are overlays. */
+/* A drag surface: `dragSurface` (src/ui/dragSurface.ts) carries both halves —
+   the unselectable mark and the mousedown cancel that stops a drag from ever
+   starting a selection it would then sweep across the page. */
+.stage-rail { position: relative; padding: 16px 0; touch-action: none; cursor: pointer; }
+/* Idle handle-cells hint they're grabbable. */
+.stage-cell.has-handle { cursor: pointer; }
+/* Gated: a tier the selected work never occupies. Dimmed + inert. */
+.stage-cell.gated { opacity: 0.22; cursor: not-allowed; }
+/* Lit band — one stretching layer behind the (transparent) cells. */
+.stage-band { position: absolute; top: 16px; height: 60px; left: var(--band-start); width: var(--band-size); border-radius: 10px; background: var(--app-chosen-wash); box-shadow: inset 0 -2px 0 var(--app-chosen-mark); z-index: 0; pointer-events: none; transition: left 340ms var(--app-ease-travel), width 340ms var(--app-ease-travel); }
+/* Handles: one node each, gliding on the silk curve. Pointer-events off so the
+   whole cell underneath is the click target; still keyboard-focusable sliders. */
+.stage-marker { position: absolute; bottom: 5px; left: var(--pos); width: 16px; height: 16px; border-radius: 50%; background: var(--app-action); border: 2px solid var(--app-canvas); box-shadow: 0 0 0 3px var(--app-action-glow); transform: translateX(-50%); z-index: 3; pointer-events: none; transition: left 200ms var(--app-ease-travel), transform 200ms var(--app-ease-travel), box-shadow 200ms ease; }
+/* Armed handle: lifted + a soft breathing ring — it's live and tracking. */
+.stage-marker.armed { transform: translateX(-50%) scale(1.16); z-index: 6; animation: stage-active 1.3s ease-in-out infinite; }
+/* Commit pulse when a handle locks (armed -> idle). */
+.stage-marker.lock { animation: stage-lock-dot 520ms var(--app-ease-travel); }
+/* Fallback seniority word (no distinct company code for this function): de-emphasized
+   and non-mono so real grade codes read as the emphasis. */
+.stage-decoder-cell.tier-word { font-family: inherit; font-size: var(--app-type-micro); font-style: italic; color: var(--app-text-faint); }
+/* Select-cards: chunky single-choice-per-card multi-select (role kinds, locations). */
+.select-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+/* Guided step scaffolding: one bordered card per step with a banded head,
+   which survives scrolling: wherever the user lands, the nearest edge above
+   names the step. Padding belongs to the head and body, so the head band
+   reaches the card edge. */
+.scope-step { overflow: hidden; }
+/* Title leads, bare, with no ordinal chip: an accent-bordered "STEP N" pill
+   would outrank its own headline. The accent budget goes to selection state
+   and actions. */
+.scope-step-title { margin: 0; color: var(--app-text); font-size: var(--app-type-title); font-weight: var(--app-weight-name); letter-spacing: -0.014em; line-height: 1.25; }
+/* Collapsed by default on Profile's Level step: the grading matrix is
+   reference the user opens, not a wall the section opens with. */
+.stage-decoder-toggle { width: 100%; min-height: 32px; margin-top: 12px; padding: 6px 0; border: 0; border-top: 1px solid var(--app-border); border-radius: 0; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: none; color: var(--app-text-muted); font-family: inherit; font-size: var(--app-type-meta); text-align: left; cursor: pointer; transition: color var(--app-duration-fast); }
+/* The glyph is ui/Icon chevronDown; this keeps the placement and the
+   rotate-on-expand that make it a disclosure control. */
+.stage-decoder-toggle-chevron { order: 1; display: inline-flex; color: var(--app-decor); transition: transform var(--app-duration-medium) var(--app-ease); }
+
+@media (max-width: 1240px) {
+  .persona-rail { display: none; }
+}
+
+@media (max-width: 860px) {
+  /* Stacked layout: cells run vertically, lit cells carry the range fill, and
+     the overlay handles ride the right edge at each stage's vertical center —
+     kept in the DOM (not display:none) so they stay keyboard sliders. Taps drive
+     place/arm/lock through the same handlers; --pos maps to `top`. */
+  .stage-rail { padding: 0; }
+  .stage-gated-note { margin-top: var(--app-space-3); }
+  .stage-cells { grid-template-columns: 1fr; height: auto; }
+  .stage-cell { flex-direction: row; justify-content: flex-start; gap: 10px; padding: 12px 56px 12px 14px; min-height: 46px; height: auto; }
+  .stage-cell + .stage-cell { margin-left: 0; margin-top: -1px; }
+  .stage-cell:first-child { border-radius: 10px 10px 0 0; }
+  .stage-cell:last-child { border-radius: 0 0 10px 10px; }
+  .stage-cell.lit { background: var(--app-chosen-wash); }
+  .stage-band { display: none; }
+  .stage-marker:not(.static) { left: auto; right: 14px; bottom: auto; top: var(--pos); transform: translateY(-50%); }
+  .stage-marker.armed { transform: translateY(-50%) scale(1.16); }
+  .stage-edge:not(.static) { left: auto; right: 38px; bottom: auto; top: var(--pos); transform: translateY(-50%) rotate(45deg); }
+  .stage-edge.armed { transform: translateY(-50%) rotate(45deg) scale(1.16); }
+  /* Commit keyframes assume the horizontal transform; skip them on the vertical rail. */
+  .stage-marker.lock, .stage-edge.lock { animation: none; }
+  /* The decoder is dropped on the vertical rail; its toggle goes with it,
+     or the control would open nothing. */
+  .stage-decoder, .stage-decoder-toggle { display: none; }
+  .select-card-grid { grid-template-columns: 1fr; }
+  .scope-guide-sheet { padding: 22px 18px calc(88px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 700px) {
+  .role-companies { padding-left: 0; }
+  .role-company-disclosure { padding-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scope-guide-gate, .scope-guide-pulse { animation: none; }
+}
+
+/* The rail's keyframes, on --app-* like the rules that reference them. They
+   live in this sheet because the walk loads it and not settings.css. */
+@keyframes stage-active {
+  0%, 100% { box-shadow: 0 0 0 4px var(--app-action-glow); }
+  50% { box-shadow: 0 0 0 8px var(--app-action-glow); }
+}
+@keyframes stage-lock-dot {
+  0% { transform: translateX(-50%) scale(1.3); box-shadow: 0 0 0 0 var(--app-action); }
+  55% { box-shadow: 0 0 0 12px transparent; }
+  100% { transform: translateX(-50%) scale(1); box-shadow: 0 0 0 3px var(--app-action-glow); }
+}
+@keyframes stage-lock-diamond {
+  0% { transform: translateX(-50%) rotate(45deg) scale(1.3); box-shadow: 0 0 0 0 var(--app-action); }
+  55% { box-shadow: 0 0 0 12px transparent; }
+  100% { transform: translateX(-50%) rotate(45deg) scale(1); box-shadow: 0 0 0 0 transparent; }
+}
+
+/* The drawer's keyframes, in the sheet that uses them. */
+@keyframes scope-guide-gate { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes scope-guide-pulse { 65%, 100% { box-shadow: 0 0 0 10px transparent; } }

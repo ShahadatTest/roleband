@@ -1,0 +1,213 @@
+/* Settings kit styling. Co-located, `settings-` prefixed, --app-* only
+   (docs/ui.md). */
+
+/* --- Card: one surface per zone, content owns its inset ------------------- */
+
+.settings-card {
+  padding: var(--app-space-5) var(--app-space-5) var(--app-space-5);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  /* OPAQUE, deliberately. `--app-surface` is a translucent wash meant to
+     tint whatever it sits on, which is right for a control nested inside a
+     panel and wrong for the panel itself: the page's ambient light would shine
+     straight THROUGH this card, so the beam would appear to lie on top of the
+     design instead of behind it.
+
+     Composited (surface over canvas) rather than hard-coded, so it tracks
+     either token if one is retuned. The rule: a surface laid ON the page is opaque —
+     only things nested inside an opaque panel may be translucent. */
+  background-color: var(--app-canvas);
+  background-image: linear-gradient(var(--app-surface), var(--app-surface));
+  box-shadow: var(--app-shadow);
+}
+
+/* Between blocks, not inside one: `space-5`, the rhythm Intelligence's `.intel`
+   grid separates its stacked panels by, never `space-3`, the "inside a
+   component" step. */
+.settings-card + .settings-card,
+.settings-section + .settings-card,
+.settings-card + .settings-section {
+  margin-top: var(--app-space-5);
+}
+
+.settings-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-4);
+}
+
+.settings-card-title {
+  margin: 0;
+  color: var(--app-text);
+  font-size: var(--app-type-screen);
+  font-weight: var(--app-weight-name);
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+
+.settings-card-meta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-3);
+}
+
+.settings-card-intro {
+  margin: var(--app-space-2) 0 0;
+  max-width: 68ch;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  line-height: 1.5;
+}
+
+/* The head block (title, meta, intro) is separated from the body by the
+   between-blocks step, so a kit card's head sits at the same distance from its
+   content as Intelligence's and Schedule's do — both `space-4`. The intro keeps its tight `space-2` above: a subtitle belongs to the head. */
+.settings-card-body {
+  margin-top: var(--app-space-4);
+}
+
+/* --- Row: control | copy | trailing, hairline-separated ------------------- */
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-4);
+  min-height: 48px;
+  padding: var(--app-space-3) var(--app-space-2);
+}
+
+.settings-row + .settings-row,
+/* A message between two rows (a confirm, a failed write) is a boxed aside in
+   the list, not the end of it: the row after it keeps its hairline, or the
+   list reads as two groups. */
+.settings-row ~ .settings-message + .settings-row {
+  border-top: 1px solid var(--app-border);
+}
+
+.settings-row.is-action {
+  background: var(--app-action-soft);
+}
+
+.settings-row.is-info {
+  background: color-mix(in srgb, var(--app-information) 10%, transparent);
+}
+
+.settings-row-hit {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--app-space-3);
+  cursor: pointer;
+}
+
+.settings-row-control {
+  flex: none;
+  display: inline-flex;
+  margin-top: 1px;
+}
+
+/* A checkbox's or radio's box. Never a switch's track: a Switch takes the
+   row's `toggle` slot, and this size on its track would draw a dot. */
+.settings-row-control input:is([type="checkbox"], [type="radio"]):not(.ui-switch-track) {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--app-action);
+}
+
+/* The toggle slot: the Switch's own label is the row's hit target, laid out
+   as the control slot is (track on the title's line, the row's gap). */
+.settings-row > .ui-switch.settings-row-hit {
+  align-items: flex-start;
+  gap: var(--app-space-3);
+}
+
+.settings-row-hit > .ui-switch-track {
+  margin-top: 1px;
+}
+
+.settings-row-copy {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: var(--app-space-1);
+}
+
+.settings-row-title {
+  color: var(--app-text);
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-name);
+  line-height: 1.3;
+}
+
+.settings-row-desc {
+  max-width: 68ch;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  line-height: 1.5;
+}
+
+.settings-row-facts {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.settings-row-trailing {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-2);
+}
+
+@media (max-width: 640px) {
+  .settings-card { padding: var(--app-space-4); }
+  .settings-row { flex-wrap: wrap; padding: var(--app-space-3) var(--app-space-1); }
+  /* The trailing controls take a line of their own under the copy, at the
+     copy's inset. `flex: 1` alone does not wrap them: the copy shrinks
+     instead, to a word a line beside a Select (Language) or a Start
+     (Plugins). */
+  .settings-row > :first-child { flex-basis: 100%; }
+  .settings-row-trailing { margin-left: var(--app-space-5); }
+  .settings-row > .settings-row-copy + .settings-row-trailing { margin-left: 0; }
+  .settings-row > .ui-switch + .settings-row-trailing { margin-left: calc(32px + var(--app-space-3)); }
+}
+
+.settings-message {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+  margin: var(--app-space-2) 0;
+  padding: var(--app-space-2) var(--app-space-3);
+  border: 1px solid var(--app-danger);
+  border-radius: var(--app-radius-md);
+  background: var(--app-danger-soft);
+  color: var(--app-danger);
+  font-size: var(--app-type-body);
+  line-height: 1.45;
+}
+
+/* A message's own buttons (a confirm and its way back), kept together. */
+.settings-message-actions {
+  display: flex;
+  flex: none;
+  gap: var(--app-space-2);
+}
+
+.settings-message.is-positive {
+  border-color: var(--app-positive-line);
+  background: var(--app-positive-soft);
+  color: var(--app-positive);
+}
+
+.settings-message.is-info {
+  border-color: color-mix(in srgb, var(--app-information) 32%, transparent);
+  background: color-mix(in srgb, var(--app-information) 8%, transparent);
+  color: var(--app-information);
+}

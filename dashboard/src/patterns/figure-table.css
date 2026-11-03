@@ -1,0 +1,52 @@
+/* A compact table of figures by row. Insights' trajectories and a company's pay
+   by level both use it, and either screen can be the first to load, so each
+   imports this sheet itself. */
+
+.traj-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--app-space-2);
+  font-size: var(--app-type-meta);
+}
+
+.traj-table th,
+.traj-table td {
+  padding: var(--app-space-1) var(--app-space-2);
+  border-top: 1px solid var(--app-border);
+  text-align: left;
+}
+
+.traj-table thead th {
+  border-top: 0;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.traj-table tbody th[scope="row"] {
+  font-weight: var(--app-weight-name);
+}
+
+.traj-table .num {
+  text-align: right;
+  font-family: var(--app-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.traj-table td.good {
+  color: var(--app-positive);
+}
+
+.traj-table td.bad {
+  color: var(--app-danger);
+}
+
+.traj-ticker {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+  letter-spacing: 0.03em;
+}

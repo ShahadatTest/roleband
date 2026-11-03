@@ -1,0 +1,92 @@
+/*
+ * Settings-owned component layer.
+ *
+ * Structural rule: selectors live below .settings-design-system and consume
+ * --app-* only (the promoted design system, src/design/tokens.css).
+ */
+
+/* `.main` and `.settings-design-system` are BOTH specificity 0-1-0 and the
+ * element carries both classes, so a plain-class rule here would win or lose
+ * on source order alone. One element-qualified selector (0-1-1) zeroes the top
+ * edge, so the page header states the offset on every Settings route, as it
+ * does on every other tab.
+ *
+ * Deliberately ONLY the top edge: the side gutters and the bottom are
+ * `.main`'s. */
+main.settings-design-system {
+  padding-top: 0;
+}
+
+.settings-design-system {
+  min-width: 0;
+  flex: 1;
+  overflow-y: auto;
+  /* No padding of its own: the element is also `.main`, whose gutter (and its
+     1120 and 860 steps) is the app's, so the page header and everything under
+     it share one left edge with every other tab at every width; the top edge
+     is zeroed above. */
+  /* The scope paints its OWN ground rather than letting the body show
+     through, so the scope answers for its own page. */
+  /* The scope's ambient light, mirroring what `body` paints for every other
+     route. Geometry is stated once (--app-ambient-image) and the colour per
+     theme, so a retint never has to touch three blocks.
+
+     `fixed` is load-bearing, not a flourish. Anything that imitates the page
+     ground — Companies' sticky column and sector headers, Intelligence's
+     `.intel-key` — has to paint this same wash, and a scroll-anchored gradient
+     resolves against each ELEMENT's own box, so every imitator would land on
+     different pixels and read as a plate, shifting as you scroll. `fixed`
+     anchors every layer to the VIEWPORT instead,
+     so the ground and its imitators resolve identically by construction.
+     `settings-shell.spec.ts` pins that they stay identical. */
+  background-color: var(--app-canvas);
+  background-image: var(--app-ambient-image);
+  background-attachment: fixed, fixed;
+  color: var(--app-text);
+  font-family: var(--app-font-sans);
+
+  &.settings-view > * { max-width: none; }
+  /* The page head is patterns/PageHeader, one rule for every tab of the rail
+     (surfaces.css), so Profile and Settings put their h1 where Radar and
+     Companies put theirs. */
+
+  /* The tab bar is ui/TabBar; only its page rhythm is stated here. */
+  .settings-tabbar { margin-bottom: var(--app-space-4); }
+
+  /* `.settings-shell`, `.settings-content` and the `.settings-view` uncapping
+     live in design/settings-shell.css: the wizard renders that same frame
+     without mounting this scope, so a copy sealed in here could never reach
+     it. */
+
+  /* Opaque for the same reason as `.settings-card` (ui/Card.css): a surface
+     laid ON the page must not let the page's ambient light through it.
+
+     No inset: its one consumer, `.scope-step`, needs its head band to reach
+     the card edge. An inset here would need an override in the step's own
+     sheet, and that override would depend on load order and specificity;
+     stating the inset nowhere cannot be broken by either. */
+  .settings-section {
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius-lg);
+    background-color: var(--app-canvas);
+    background-image: linear-gradient(var(--app-surface), var(--app-surface));
+    box-shadow: var(--app-shadow);
+  }
+  .settings-section .section-title { margin: 14px 12px 6px; }
+  /* Complete declaration, not a recolor: no base `.section-title` rule
+     exists, so this one states the whole whisper recipe. */
+  .section-title {
+    color: var(--app-action-text);
+    font-family: var(--app-font-mono);
+    font-size: var(--app-type-whisper);
+    font-weight: var(--app-type-whisper-weight);
+    letter-spacing: var(--app-type-whisper-track);
+    text-transform: uppercase;
+  }
+
+  .notif-center { max-width: none; }
+
+  .cloud-models input, .cloud-models select { width: 100%; min-height: 36px; padding: 7px 10px; border: 1px solid var(--app-border-control); border-radius: 8px; background: var(--app-surface-raised); color: var(--app-text); }
+
+
+}

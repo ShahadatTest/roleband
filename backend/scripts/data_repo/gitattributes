@@ -1,0 +1,2 @@
+# The app pins these files by their bytes: keep LF on every machine.
+* text=auto eol=lf

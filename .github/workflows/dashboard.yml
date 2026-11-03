@@ -1,0 +1,138 @@
+name: dashboard
+
+# The Playwright suite runs here. The specs are where nearly every user-visible
+# claim lives (focus restoration, scroll lock, sticky bands, painted recession,
+# the rail<->sheet switch); left local and opt-in, any UX-only regression could
+# land green.
+#
+# BOTH projects, not chromium-only. The mobile project is an iPhone 14: a
+# change verified only on wide screens can ship a mobile regression (bottom-nav
+# label collisions, undersized tap targets at 375px), and running chromium
+# alone would never see it.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Read the code, nothing more: no job here writes to the repository.
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    # A hung step otherwise burns the 6-hour default, and these are billed
+    # minutes on a private repo. The Playwright suite is its own job below, so
+    # this cap only has to cover install, audit, lint, build and Vitest.
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: dashboard
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          # .nvmrc (24), the file setup.sh reads too. 24 not 22: npm 10 (bundled
+          # with node 22) and npm 11 (local dev, and what Dependabot writes locks
+          # with) disagree about nested optional deps, so a lock written by one
+          # is rejected by the other.
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+      - run: npm ci
+      # High and critical advisories in what the built app ships; an accepted
+      # one needs a current entry in audit-exceptions.json.
+      - name: dependency audit
+        run: npm run audit:check
+      - name: eslint (layer rules)
+        run: npm run lint
+      # Unused files, packages and exports (knip.jsonc).
+      - name: dead code
+        run: npm run knip
+      - name: build + typecheck
+        run: npm run build
+      - name: vitest
+        run: npm run test:unit -- --reporter=default --reporter=json --outputFile=test-results/vitest.json
+      - name: upload unit test timings and outcomes
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dashboard-unit-results
+          path: dashboard/test-results/vitest.json
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # The suite split by test across three runners. One 2-core runner tops out at
+  # two workers (playwright.config.ts), and the whole suite there outgrew any
+  # cap worth setting. `fullyParallel` makes `--shard` split by test, so the
+  # three carry about the same load whatever the biggest spec weighs. Each
+  # shard serves its own build: the cost of sharding is that build and the
+  # browser install, paid three times.
+  ux:
+    runs-on: ubuntu-latest
+    # About three times what a shard needs, so a slow runner still finishes and
+    # a stall is still cut short. Below the job cap, the Playwright step has its
+    # own, so a stalled run still uploads its traces.
+    timeout-minutes: 30
+    strategy:
+      # Every shard reports: one red shard must not hide another's failures.
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    defaults:
+      run:
+        working-directory: dashboard
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          # .nvmrc (24), the file setup.sh reads too. 24 not 22: npm 10 (bundled
+          # with node 22) and npm 11 (local dev, and what Dependabot writes locks
+          # with) disagree about nested optional deps, so a lock written by one
+          # is rejected by the other.
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+      - run: npm ci
+      # Chromium + WebKit binaries are what playwright.config.ts's two projects
+      # need. Split in two so the expensive half can be cached: the BINARIES are
+      # a download keyed on the lockfile, while the apt system libraries cannot
+      # be cached and are reinstalled each run. Splitting also shows which half
+      # is hanging when one of them stalls.
+      - name: cache playwright browsers
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('dashboard/package-lock.json') }}
+      # Bounded on its own, because this is the half that cannot be cached and
+      # depends on the Ubuntu mirror, which can throttle to a crawl. A cache
+      # cannot reach it: these are dpkg packages landing in /usr/lib with
+      # package state beside them, while `actions/cache` restores files. A
+      # stalled mirror fails in 6 minutes rather than riding the job cap.
+      - name: install playwright system libraries
+        timeout-minutes: 6
+        run: npx playwright install-deps chromium webkit
+      - name: install playwright browsers
+        run: npx playwright install chromium webkit
+      # A fresh runner's first page in a browser can take tens of seconds, and
+      # a test that opened it would pay that inside its own timeout.
+      - name: warm the browsers
+        timeout-minutes: 3
+        run: node scripts/warm-browsers.mjs
+      - name: playwright (chromium + mobile), shard ${{ matrix.shard }} of 3
+        timeout-minutes: 22
+        run: npm run test:ux -- --shard=${{ matrix.shard }}/3
+      # Successful timings make shard imbalance visible; failures also retain traces.
+      - name: upload browser timings and outcomes
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: playwright-results-${{ matrix.shard }}
+          path: dashboard/test-results/
+          if-no-files-found: ignore
+          retention-days: 7

@@ -1,0 +1,25 @@
+/* The page frame shared by Settings, Profile and the welcome screen: the
+ * full-width composition and the prose measure inside the content column.
+ *
+ * It lives here rather than in settings.css because the welcome screen does
+ * NOT mount `SettingsDesignSystemRoot` (it renders `<main class="main
+ * settings-view">`), so a copy sealed under the Settings marker cannot reach
+ * it.
+ *
+ * The rest of the `.settings-*` frame — `.settings-tabbar`,
+ * `.settings-section` — is NOT here. Those render only inside the marker, so
+ * settings.css owns them outright.
+ *
+ * Tokens are `--app-*`: this sheet is part of the promoted system.
+ */
+
+/* Settings is a deliberate full-width composition (Review precedent): uncap its
+   children too, then re-cap prose inside .settings-content at a readable
+   measure. */
+.settings-view { max-width: none; }
+.main.settings-view > * { max-width: none; }
+
+/* A section tabbar over one full-width content column. */
+.settings-shell { display: block; }
+.settings-content { min-width: 0; }
+.settings-content p { max-width: 68ch; }

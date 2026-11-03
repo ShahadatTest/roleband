@@ -1,0 +1,115 @@
+{
+  "locales": [
+    {
+      "code": "en",
+      "name": "English",
+      "dir": "ltr",
+      "status": "complete",
+      "fallback": []
+    },
+    {
+      "code": "es",
+      "name": "Español",
+      "dir": "ltr",
+      "status": "beta",
+      "fallback": [
+        "en"
+      ]
+    },
+    {
+      "code": "zh-Hans",
+      "name": "简体中文",
+      "dir": "ltr",
+      "status": "beta",
+      "fallback": [
+        "en"
+      ]
+    },
+    {
+      "code": "en-XA",
+      "name": "Pseudo (accented)",
+      "dir": "ltr",
+      "status": "pseudo",
+      "fallback": [
+        "en"
+      ]
+    },
+    {
+      "code": "keys",
+      "name": "Pseudo (message keys)",
+      "dir": "ltr",
+      "status": "pseudo",
+      "fallback": [
+        "en"
+      ]
+    }
+  ],
+  "regions": [
+    "en-US",
+    "en-GB",
+    "en-CA",
+    "en-AU",
+    "en-IN",
+    "es-ES",
+    "es-MX",
+    "es-AR",
+    "es-CO",
+    "zh-CN",
+    "zh-SG"
+  ],
+  "englishOnly": [
+    "spike-consent-wall",
+    "companies-follow-copy-some-of-these-companies-careers",
+    "companies-follow-copy-some-of-these-companies-limit",
+    "jobs-standing-hedge",
+    "privacy-consent-title",
+    "privacy-consent-intro",
+    "privacy-group-usage",
+    "privacy-group-usage-detail",
+    "privacy-group-crashes",
+    "privacy-group-crashes-detail",
+    "privacy-group-questions",
+    "privacy-group-questions-detail",
+    "privacy-never",
+    "privacy-consent-change",
+    "banner-db-down",
+    "banner-api-down",
+    "banner-stuck-runs",
+    "banner-stale-data",
+    "banner-derivations-stale",
+    "banner-backup-stale",
+    "banner-daily-failed",
+    "banner-matching-title",
+    "banner-matching-body",
+    "review-title",
+    "review-search",
+    "review-language",
+    "review-kind",
+    "review-status",
+    "review-all",
+    "review-source",
+    "review-current",
+    "review-stale",
+    "review-missing",
+    "review-quarantined",
+    "review-english-only",
+    "review-unreviewed",
+    "review-reviewed",
+    "review-review-stale",
+    "review-parameters",
+    "review-terms",
+    "review-uses",
+    "review-diagnostics",
+    "review-count",
+    "review-width",
+    "review-error",
+    "review-more",
+    "review-surface",
+    "review-rule",
+    "review-changes",
+    "review-changed",
+    "review-contract",
+    "review-rendered",
+    "launcher-update-automatic"
+  ]
+}

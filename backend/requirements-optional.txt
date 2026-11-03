@@ -1,0 +1,27 @@
+# Optional extras. NOT installed by the required path: `setup.sh` installs these
+# in a separate, NON-FATAL pass, and `deploy/install.sh` does the same.
+#
+# Why they are here rather than in requirements.txt: every package
+# below is optional AT RUNTIME — the feature self-disables when the import fails
+# — but a package in requirements.txt is mandatory AT INSTALL TIME, and those two
+# were not the same thing. `apple-fm-sdk` publishes an sdist, so pip must BUILD
+# it, and its build backend requires a full Xcode install. A macOS contributor
+# with only Command Line Tools therefore had `./setup.sh` fail outright, for a
+# feature they may never use. Found by the stage 7 fresh-clone rehearsal.
+#
+# Still pinned: `scripts/lock_dependencies.py` resolves this file into the
+# platform locks, so an optional install is exact, never floating.
+
+# On-device AI (optional). Apple's official Foundation Models SDK — macOS-only, so
+# the marker keeps Linux/CI resolution working; the feature self-disables when the
+# import fails (see tracker/intelligence/apple_fm.py). Needs macOS 26+, Apple
+# silicon, and Xcode 26+ at runtime, and a full Xcode to BUILD.
+# NOTE: the unrelated PyPI package `apple-foundation-models` is a third-party
+# binding, NOT Apple's. Do not substitute it.
+apple-fm-sdk==0.2.1; sys_platform == "darwin"
+
+# Headless fetch tier. Used only for a walled company whose user
+# consented AND whose register row records `headless` or `proxy`; with it
+# absent those tiers refuse locally (`unattempted`). Needs its browser once:
+# `.venv/bin/python -m playwright install chromium`.
+playwright==1.63.0

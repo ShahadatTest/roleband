@@ -1,0 +1,134 @@
+# Dependency update candidates.
+#
+# Policy: the dependency bot may open a candidate PR, never auto-merge or
+# auto-deploy; review monthly, and upgrade for security, a required bug fix, a
+# material feature, or supportability, not freshness. So: monthly, and NO
+# auto-merge configuration anywhere.
+#
+# Two rules, both about GROUPING:
+#
+#   1. Packages that must move together need a group, or Dependabot splits one
+#      upgrade into mutually-blocking PRs. react/react-dom and their @types are
+#      one unit: bumping react + @types/react alone leaves @types/react-dom@18
+#      demanding @types/react@^18, and bumping react-dom + @types/react-dom
+#      alone leaves @types/react-dom@19 demanding @types/react@^19. Each PR is
+#      guaranteed to fail `npm ci` because the other half is missing.
+#   2. A group must not blend majors with minors, or one blocked major takes
+#      every mergeable update in the group hostage.
+#
+# NOT covered here, deliberately: the vendored snapshot in
+# `backend/tracker/vendored.py`. It is copied source, not a package, so no
+# dependency bot can see it - `scripts.check_vendored_upstream` is its watcher.
+version: 2
+
+updates:
+  - package-ecosystem: pip
+    directory: /backend
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      # Lint/test toolchain only, and minor/patch only. A major (pytest 8 -> 9)
+      # arrives on its own so it can be read on its own.
+      dev-tooling:
+        patterns: ["ruff", "import-linter", "pytest", "pytest-asyncio"]
+        update-types: ["minor", "patch"]
+    ignore:
+      # Pinned against a documented runtime contract, not to the latest release.
+      # `fastapi` 0.137 and later keep an included router as one lazy route, so
+      # `app.routes` does not list the API routes that
+      # `scripts/freeze_route_table.py` and the route-table tests read.
+      # `apple-fm-sdk`: needs a matching macOS/Xcode pair at runtime.
+      - dependency-name: fastapi
+        versions: [">=0.137"]
+      - dependency-name: apple-fm-sdk
+    #
+    # NOT ignored, but green CI does NOT clear these - read them by hand:
+    #
+    #   selectolax           IS the extraction engine. `PARSER_ID` embeds its
+    #                        version in every recipe revision's validation
+    #                        record, and it parses google listings, greenhouse
+    #                        details, the recipe runner, and the sanitizer. The
+    #                        suite pins sanitizer INVARIANTS (hidden text never
+    #                        escapes, visible content survives); there is no
+    #                        golden-output corpus, so a bump that shifts
+    #                        whitespace or text extraction passes green. Every
+    #                        0.x change is potentially breaking.
+    #                        Treat as an EXTRACTOR_VERSION project.
+    #
+    #   onnxruntime,         the embedding runtime. A bump that shifts the
+    #   tokenizers           embedding space silently rewrites every derived
+    #                        cluster.
+    #
+    #   pgvector             vector column types; verify with `alembic check`.
+
+  - package-ecosystem: npm
+    directory: /dashboard
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      # One upgrade unit. Peer ranges make any partial bump unresolvable, so
+      # these four move together or not at all. No update-types filter: a React
+      # major SHOULD arrive, as one coherent PR that shows what it costs.
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      # Also one unit: @vitejs/plugin-react peers a vite major, and vitest
+      # peers vite too, so the three resolve only together.
+      vite:
+        patterns:
+          - "vite"
+          - "vitest"
+          - "@vitejs/plugin-react"
+      # The two ecosystem-lag pairs. Each plugin peers a range of its partner
+      # (@typescript-eslint/* on typescript, eslint-plugin-import on eslint),
+      # so a partner major is BLOCKED UPSTREAM until the plugin widens it.
+      #
+      # Grouped, each becomes a readiness indicator: it stays red while the
+      # ecosystem lags and goes green on its own the moment the partner widens
+      # its range. What it must NOT do is sit inside dev-tooling, where one
+      # un-adoptable major blocks every mergeable update beside it.
+      typescript:
+        patterns:
+          - "typescript"
+          - "@typescript-eslint/*"
+      eslint:
+        patterns:
+          - "eslint"
+          - "eslint-plugin-import"
+      # Everything else in devDependencies, minor/patch only, so a major is
+      # always read on its own.
+      dev-tooling:
+        dependency-type: development
+        exclude-patterns:
+          - "typescript"
+          - "@typescript-eslint/*"
+          - "@types/react"
+          - "@types/react-dom"
+          - "vite"
+          - "vitest"
+          - "@vitejs/plugin-react"
+          - "eslint"
+          - "eslint-plugin-import"
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "chore(ci)"
+    groups:
+      # Actions are fully exercised by the workflows themselves, so a major is
+      # proven by the same run that proposes it. One PR is enough.
+      actions:
+        patterns: ["*"]

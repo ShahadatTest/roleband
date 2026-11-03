@@ -1,0 +1,981 @@
+/* The surface itself is the kit's `.settings-card` (kit.css), same as every
+   other Settings tab. The card owns the inset; this rule only clips the dial
+   to the rounded corner. */
+.schedule-section {
+  overflow: clip;
+}
+
+.schedule-visual { min-width: 0; }
+.schedule-visual-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-5);
+}
+.schedule-visual-head h2 {
+  margin: 0;
+  color: var(--app-text);
+  font-size: var(--app-type-screen);
+  font-weight: var(--app-weight-name);
+  letter-spacing: -.025em;
+  line-height: 1.25;
+}
+.schedule-head-aside {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-3);
+}
+.schedule-local-time {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+.schedule-local-time svg { color: var(--app-decor); }
+
+/* ---- help ---- */
+/* Outrank .ui-popover .ui-popover-inner's `width: max-content` — equal
+   specificity would leave the panel content-sized. */
+.ui-popover.schedule-help .ui-popover-inner {
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  padding: var(--app-space-4) var(--app-space-4);
+}
+.schedule-help h3 {
+  margin: 0 0 var(--app-space-3);
+  color: var(--app-text);
+  font-size: var(--app-type-title);
+  line-height: 1.3;
+  font-weight: var(--app-weight-name);
+  letter-spacing: -.01em;
+}
+.schedule-help dl {
+  display: grid;
+  gap: var(--app-space-1) 0;
+  margin: 0;
+}
+.schedule-help dt {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  color: var(--app-text);
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+}
+.schedule-help dt::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--app-decor);
+}
+.schedule-help dt.discovery::before { background: var(--app-information); }
+.schedule-help dt.reconcile::before {
+  border-radius: 1px;
+  background: var(--app-warning);
+  transform: rotate(45deg);
+}
+.schedule-help dd {
+  margin: 0 0 var(--app-space-3) var(--app-space-3);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.55;
+}
+.schedule-help dd:last-of-type { margin-bottom: 0; }
+.schedule-help > p {
+  margin: var(--app-space-3) 0 0;
+  padding-top: var(--app-space-3);
+  border-top: 1px solid var(--app-border);
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+  line-height: 1.55;
+}
+
+.schedule-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- layout: dial | rail ---- */
+.schedule-clock-editor {
+  display: grid;
+  grid-template-columns: minmax(480px, 1.35fr) minmax(320px, 1fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+  margin-top: var(--app-space-4);
+}
+/* The dial is a drag surface, so a pointer that misses a mark must not start
+   a text selection and leave the numerals and labels highlighted. Selection
+   stays on everywhere else — the agenda and the inspector are copyable.
+   The selection half is `data-selection="chrome"` on the element; the
+   drag half of the problem is `dragSurface`, which the dial wears. */
+.schedule-clock-main {
+  min-width: 0;
+}
+/* The dial's 620-unit square keeps 50 units outside the tick ring
+   (`SIZE`, `R_TICKS` in charts/dial.ts) for the labels of runs near 00 and 12.
+   Left as layout, that band would sit between the card title and the ring
+   and push the ring's foot below the fold of a laptop window. So the stage keeps its square box (handles and pointer
+   maths are fractions of it) and overlaps the band instead: all of it above,
+   where the head row has nothing over the dial's centre, and above the bottom
+   labels' floor (~604 units) below, so a noon label never sits on the legend.
+   The size also answers the window's height: 300px is the page above the ring
+   (top bar, Settings head, tabs, card head) plus a little air under it, and
+   1.19 is 620/520, the square per unit of ring. */
+.schedule-clock-stage {
+  --dial-size: min(100%, 640px, max(440px, (100svh - 300px) * 1.19));
+  position: relative;
+  width: var(--dial-size);
+  aspect-ratio: 1;
+  margin: calc(var(--dial-size) * -50 / 620) auto calc(var(--dial-size) * -16 / 620);
+}
+.schedule-dial-figure { margin: 0; height: 100%; }
+.schedule-dial {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ---- dial chrome ---- */
+.dial-night { fill: color-mix(in srgb, var(--app-information) 5%, transparent); }
+.dial-night-edge {
+  fill: none;
+  stroke: color-mix(in srgb, var(--app-information) 16%, transparent);
+  stroke-width: 1;
+  stroke-dasharray: 1 5;
+}
+.dial-night-text {
+  fill: color-mix(in srgb, var(--app-information) 42%, transparent);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-viz);
+  letter-spacing: .2em;
+}
+.dial-tick { stroke: color-mix(in srgb, var(--app-text) 12%, transparent); stroke-width: 1; }
+.dial-tick.hour { stroke: color-mix(in srgb, var(--app-text) 26%, transparent); }
+.dial-tick.major { stroke: color-mix(in srgb, var(--app-text) 48%, transparent); stroke-width: 1.5; }
+/* The dial's own scale, not a fact anyone reads for content: these sit in the
+   same visual layer as .dial-tick above (12/26/48% mixes of text) and every
+   event they help locate is listed as text in the agenda beside the dial. That
+   text alternative is what makes the `viz` size tier legal here, and it is the
+   same argument for the non-text colour tier. */
+.dial-numeral {
+  fill: var(--app-decor);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-viz);
+  font-variant-numeric: tabular-nums;
+}
+.dial-orbit { fill: none; stroke: var(--app-border); stroke-width: 1; }
+.dial-hub { fill: var(--app-surface-subtle); stroke: var(--app-border-strong); stroke-width: 1; }
+
+/* Filled band, not a stroked line: the edges are concentric with the orbit and
+   each end is a half-round of the band's own half-thickness, so the window
+   keeps the dial's curvature however few minutes it covers and still ends the
+   way a lit thread ends. It carries no outline: a hard edge all the way round
+   turns the band into a slab competing with the marks on it. Both fills come
+   from gradients on the same axis (see the paths); the classes here only
+   colour the stops. */
+.dial-window-glow { stroke: none; }
+.dial-window { stroke: none; }
+/* Certain at the start, speculative by the end — but the thread has to stay
+   visible through the last mark, so it holds most of its weight and only
+   falls away over the final stretch, where nothing is scheduled anyway. */
+.dial-window-from { stop-color: var(--app-warning); stop-opacity: .95; }
+.dial-window-mid { stop-color: var(--app-warning); stop-opacity: .5; }
+.dial-window-to { stop-color: var(--app-warning); stop-opacity: .05; }
+/* The halo is the track's own light, so it follows the track's curve down to
+   nothing. Held flat it would outlive the track and its trailing edge would
+   become the shape's edge. */
+.dial-window-glow-from { stop-color: var(--app-warning); stop-opacity: .16; }
+.dial-window-glow-mid { stop-color: var(--app-warning); stop-opacity: .09; }
+.dial-window-glow-to { stop-color: var(--app-warning); stop-opacity: 0; }
+
+/* The schedule plan's runs. A planned scan is a stretch of the
+   orbit its kind rides, as long as the scan takes: amber on the outer orbit
+   for a full scan, cyan on the inner for a quick one. Brighter while it runs;
+   fainter when it waits for the computer to be turned on, since that start is
+   a guess at the usual hour rather than a time. */
+.dial-run { stroke: none; }
+.dial-run.full { fill: color-mix(in srgb, var(--app-warning) 62%, transparent); }
+.dial-run.quick { fill: color-mix(in srgb, var(--app-information) 58%, transparent); }
+.dial-run.running.full { fill: var(--app-warning); }
+.dial-run.running.quick { fill: var(--app-information); }
+.dial-run.wake { fill-opacity: .45; }
+
+.dial-label {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-viz);
+  font-variant-numeric: tabular-nums;
+}
+.dial-label.muted { fill: var(--app-text-muted); }
+.dial-label.cyan { fill: color-mix(in srgb, var(--app-information) 78%, transparent); }
+.dial-label.warn { fill: var(--app-warning); }
+/* The time is the datum, the company is what it belongs to: same colour, two
+   weights, so a crowded arc reads as times first without a second hue. */
+.dial-label-time { font-weight: var(--app-weight-name); }
+.dial-label-who { fill-opacity: .62; letter-spacing: -.01em; }
+
+.dial-hand line { stroke: var(--app-text); stroke-width: 1.6; stroke-linecap: round; }
+.dial-hand circle { fill: var(--app-text); }
+
+/* ---- hub ---- */
+/* The hub disc itself is painted in the SVG (under mark labels); this layer
+ * only centers the hub copy above it. */
+.schedule-clock-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 33%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+.schedule-clock-center span {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+.schedule-clock-center strong {
+  margin-top: var(--app-space-2);
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-display);
+  font-weight: 500;
+  letter-spacing: -.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.schedule-clock-center strong.due { color: var(--app-warning); font-size: var(--app-type-stat); }
+.schedule-clock-center small {
+  max-width: 82%;
+  margin-top: var(--app-space-2);
+  overflow: hidden;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.schedule-clock-center small.relative {
+  margin-top: var(--app-space-1);
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+}
+
+/* ---- draggable marks ---- */
+.schedule-drag-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.schedule-drag-handle {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 3px solid var(--app-canvas);
+  border-radius: 50%;
+  background: var(--app-information);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--app-information) 35%, transparent);
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+  transform: translate(-50%, -50%);
+  transition:
+    box-shadow var(--app-duration-fast) var(--app-ease),
+    filter var(--app-duration-fast) var(--app-ease);
+}
+.schedule-drag-handle.reconcile {
+  border-radius: var(--app-radius-sm);
+  background: var(--app-warning);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--app-warning) 35%, transparent);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+/* The plan's runs as marks: the same shapes as a company's
+   (amber diamond = full scan, cyan dot = quick scan), sitting where the run's
+   arc begins. A run in progress can be opened but not moved. */
+/* A handle glides the last few pixels after a drop, or when a saved plan comes
+   back a minute off, instead of jumping. Never while dragging: then it must sit exactly under the pointer, and a
+   transition there is what makes a mark trail behind it. */
+.schedule-clock-stage:not(.is-dragging) .schedule-drag-handle {
+  transition:
+    left 160ms var(--app-ease),
+    top 160ms var(--app-ease),
+    box-shadow var(--app-duration-fast) var(--app-ease),
+    filter var(--app-duration-fast) var(--app-ease);
+}
+.schedule-clock-stage.is-dragging .schedule-drag-handle { will-change: left, top; }
+
+.schedule-drag-handle.plan-handle.running {
+  cursor: pointer;
+  outline: 2px solid color-mix(in srgb, var(--app-text) 40%, transparent);
+  outline-offset: 2px;
+}
+
+.schedule-drag-handle.cluster {
+  width: 24px;
+  height: 24px;
+  border-width: 2px;
+  background: var(--app-surface-raised);
+  cursor: pointer;
+}
+.schedule-drag-handle.cluster b {
+  display: block;
+  color: var(--app-information);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-viz);
+  font-weight: 700;
+  line-height: 1;
+}
+.schedule-drag-handle.cluster.reconcile b { color: var(--app-warning); }
+.schedule-drag-handle.cluster.reconcile b { transform: rotate(-45deg); }
+/* The members left behind while one is dragged out of the stack: dimmed and
+   inert, so the moving mark is unmistakably the only one changing. */
+.schedule-drag-handle.parked {
+  cursor: default;
+  filter: grayscale(.5);
+  opacity: .45;
+}
+.schedule-drag-handle.overdue {
+  border-color: color-mix(in srgb, var(--app-warning) 40%, var(--app-canvas));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--app-warning) 55%, transparent);
+}
+/* Hover and an open inspector light the mark; FOCUS is the app's one ring,
+   which the handle takes from shell.css as every button does. Focus never
+   shares this glow: it is too faint to pass as a focus ring, and it would say
+   "hovered" and "open" in the same breath as "focused". */
+.schedule-drag-handle:hover,
+.schedule-drag-handle[aria-expanded="true"] {
+  box-shadow: 0 0 0 4px var(--app-action-line), 0 0 24px var(--app-action-glow);
+  filter: saturate(1.15);
+}
+.schedule-drag-handle:active { cursor: grabbing; }
+.schedule-drag-handle.locked {
+  cursor: pointer;
+  filter: grayscale(.6);
+  opacity: .55;
+}
+.schedule-drag-handle:disabled { cursor: progress; opacity: .5; }
+.schedule-drag-handle.parked:disabled { cursor: default; opacity: .45; }
+
+/* ---- legend + readout ---- */
+.schedule-clock-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-4);
+  min-height: 32px;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+.schedule-clock-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  white-space: nowrap;
+}
+.schedule-clock-legend i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--app-information);
+  font-style: normal;
+}
+.schedule-clock-legend i.reconcile {
+  border-radius: 2px;
+  background: var(--app-warning);
+  transform: rotate(45deg);
+}
+.schedule-clock-legend i.off {
+  width: 14px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--app-information) 14%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--app-information) 22%, transparent);
+}
+.schedule-clock-legend i.pinned {
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--app-text-muted);
+}
+.schedule-clock-legend i.window {
+  width: 22px;
+  height: 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-warning) 55%, transparent);
+}
+.schedule-clock-readout {
+  min-height: 18px;
+  margin: var(--app-space-2) 0 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.5;
+  text-align: center;
+}
+.schedule-clock-error {
+  margin-top: var(--app-space-2);
+  padding: var(--app-space-2) var(--app-space-2);
+  border: 1px solid var(--app-danger);
+  border-radius: var(--app-radius-md);
+  color: var(--app-danger);
+  font-size: var(--app-type-meta);
+}
+
+/* ---- rail ---- */
+.schedule-clock-queue {
+  min-width: 0;
+  padding-top: var(--app-space-3);
+}
+/* The plan column starts level with the top of the tick ring. */
+.schedule-plan-panel { padding-top: 0; }
+.schedule-exceptions {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: var(--app-space-4);
+  padding: var(--app-space-2) var(--app-space-3);
+  border: 1px solid color-mix(in srgb, var(--app-danger) 30%, transparent);
+  border-radius: var(--app-radius-md);
+  background: color-mix(in srgb, var(--app-danger) 6%, transparent);
+  font-size: var(--app-type-body);
+}
+.schedule-exceptions b { color: var(--app-danger); font-weight: var(--app-weight-name); }
+.schedule-exceptions span { color: var(--app-text-muted); line-height: 1.45; }
+.schedule-waiting {
+  margin: 0 0 var(--app-space-4);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  line-height: 1.45;
+}
+/* Self-contained: no base `.section-title` rule supplies the mono/uppercase. */
+.schedule-clock-queue-head .section-title {
+  margin: 0 0 var(--app-space-2);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+.schedule-upcoming-list {
+  border-top: 1px solid var(--app-border);
+}
+.schedule-upcoming-row {
+  display: grid;
+  grid-template-columns: 68px 14px minmax(0, 1fr);
+  gap: var(--app-space-2);
+  align-items: start;
+  min-height: 60px;
+  padding: var(--app-space-3) var(--app-space-2);
+  border-bottom: 1px solid var(--app-border);
+  transition: background var(--app-duration-fast), color var(--app-duration-fast);
+}
+.schedule-upcoming-row time {
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-name);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+}
+.schedule-upcoming-row.next {
+  border-color: color-mix(in srgb, var(--app-information) 20%, var(--app-border));
+  background: color-mix(in srgb, var(--app-information) 13%, transparent);
+}
+.schedule-upcoming-row.next time,
+.schedule-upcoming-row.next strong { color: var(--app-information); }
+.schedule-upcoming-row.reconciliation.next {
+  border-color: color-mix(in srgb, var(--app-warning) 24%, var(--app-border));
+  background: color-mix(in srgb, var(--app-warning) 10%, transparent);
+}
+.schedule-upcoming-row.reconciliation.next time,
+.schedule-upcoming-row.reconciliation.next strong { color: var(--app-warning); }
+.schedule-upcoming-marker {
+  width: 8px;
+  height: 8px;
+  margin-top: var(--app-space-1);
+  border-radius: 50%;
+  background: var(--app-information);
+}
+.schedule-upcoming-row.reconciliation .schedule-upcoming-marker {
+  border-radius: 2px;
+  background: var(--app-warning);
+  transform: rotate(45deg);
+}
+.schedule-upcoming-row strong,
+.schedule-upcoming-row small { display: block; }
+.schedule-upcoming-row strong {
+  color: var(--app-text);
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-name);
+  line-height: 1.3;
+}
+.schedule-upcoming-row small {
+  margin-top: 3px;
+  overflow: hidden;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.schedule-upcoming-more {
+  padding: var(--app-space-2) var(--app-space-2);
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  letter-spacing: .05em;
+}
+/* ---- inspector popover (styles land on the Popover's glass inner) ---- */
+.ui-popover.schedule-inspector .ui-popover-inner {
+  width: 272px;
+  max-height: min(60vh, 480px);
+  padding: var(--app-space-4) var(--app-space-4);
+}
+/* Names the stack the inspector was opened on, so a cluster reads as one
+   combined view of its companies rather than an unexplained list. */
+.schedule-inspector-stack {
+  margin-bottom: var(--app-space-3);
+  padding-bottom: var(--app-space-3);
+  border-bottom: 1px solid var(--app-border);
+}
+.schedule-inspector-stack strong {
+  display: block;
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-body);
+  font-variant-numeric: tabular-nums;
+}
+.schedule-inspector-stack span {
+  display: block;
+  margin-top: var(--app-space-1);
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+  line-height: 1.4;
+}
+.schedule-inspector-row + .schedule-inspector-row {
+  margin-top: var(--app-space-3);
+  padding-top: var(--app-space-3);
+  border-top: 1px solid var(--app-border);
+}
+.schedule-inspector-row header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+}
+.schedule-inspector-row header strong {
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-name);
+  letter-spacing: -.01em;
+}
+.schedule-inspector-row dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--app-space-2) var(--app-space-3);
+  margin: var(--app-space-3) 0 0;
+}
+.schedule-inspector-row dt {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+.schedule-inspector-row dd {
+  margin: 0;
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.schedule-inspector-row dd.warn { color: var(--app-warning); }
+.schedule-inspector-repeat {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  margin-top: var(--app-space-2);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+.schedule-inspector-note {
+  margin: var(--app-space-2) 0 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.schedule-inspector-time {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+  margin-top: var(--app-space-3);
+  /* The WRAPPER is the control — it carries the border, the fill and the
+     radius; the input inside it is transparent text. So the scale's height
+     belongs here, and the input declares none of its own. */
+  min-height: var(--app-control-md);
+  padding: var(--app-space-2) var(--app-space-3);
+  border: 1px solid var(--app-border-control);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface-sunken);
+}
+.schedule-inspector-time span {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.4;
+}
+.schedule-inspector-time input[type="time"] {
+  /* Intrinsic width: a 12-hour locale renders "04:10 AM" plus a picker
+     indicator, and any fixed width clips the meridiem. */
+  flex: none;
+  width: auto;
+  padding: 2px var(--app-space-1);
+  border: 0;
+  background: transparent;
+  color: var(--app-text);
+  color-scheme: dark;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-name);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+[data-theme="light"] .schedule-inspector-time input[type="time"] { color-scheme: light; }
+.schedule-inspector-time input[type="time"]:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+  border-radius: var(--app-radius-sm);
+}
+.schedule-inspector-time input[type="time"]:disabled { color: var(--app-text-faint); }
+
+/* ---- policy strip ---- */
+.schedule-policy-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: var(--app-space-5);
+  border-top: 1px solid var(--app-border);
+}
+.schedule-policy-strip > div {
+  min-width: 0;
+  padding: var(--app-space-3) var(--app-space-4) var(--app-space-1);
+  border-right: 1px solid var(--app-border);
+}
+/* The outer cells give their gutter back to the card: the strip's first label
+   has to start on the same vertical as the "Synchronization clock" heading and
+   the foot line, not one cell inset further in. */
+.schedule-policy-strip > div:first-child { padding-left: 0; }
+.schedule-policy-strip > div:last-child { padding-right: 0; border-right: 0; }
+.schedule-policy-strip span {
+  display: block;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+.schedule-policy-strip b {
+  display: block;
+  margin-top: var(--app-space-1);
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-stat);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.schedule-policy-strip small {
+  display: block;
+  margin-top: 3px;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.45;
+}
+
+/* The plan's settings, in the column beside the dial: one row per
+   question, label over answer, the same type the cadence strip uses so the
+   card keeps one voice. The repeat control sits where the others carry their
+   answer. */
+.schedule-plan-settings {
+  display: grid;
+  margin: 0 0 var(--app-space-4);
+  border-top: 1px solid var(--app-border);
+}
+.schedule-plan-settings > div {
+  padding: var(--app-space-3) 0;
+  border-bottom: 1px solid var(--app-border);
+}
+.schedule-plan-settings dt {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+.schedule-plan-settings dd { margin: var(--app-space-1) 0 0; }
+.schedule-plan-settings dd > b {
+  display: block;
+  color: var(--app-text);
+  font-weight: var(--app-weight-name);
+}
+.schedule-plan-settings dd > small {
+  display: block;
+  margin-top: 3px;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.45;
+}
+/* The rows whose answer is a control: a wrapping line of chips, buttons or a
+   time field with its links, aligned on one baseline with the label text. */
+.schedule-plan-ready,
+.schedule-plan-days,
+.schedule-plan-pause {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--app-space-2);
+  margin-top: var(--app-space-2);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+.schedule-plan-ready b,
+.schedule-plan-pause b { color: var(--app-text); font-weight: var(--app-weight-name); }
+/* The first scan's row reads as one sentence with its control in it:
+   "Full scan, done by [04:50]". */
+.schedule-plan-ready > span {
+  color: var(--app-text);
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+}
+/* What the plan learned and how it treats a computer that was off: facts, not
+   settings, so one quiet note under the controls instead of rows of their own. */
+.schedule-plan-learned {
+  margin: 0 0 var(--app-space-4);
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+  line-height: 1.5;
+}
+.schedule-plan-days { margin-top: var(--app-space-1); gap: var(--app-space-1); }
+.schedule-plan-error {
+  margin: var(--app-space-2) 0 0;
+  color: var(--app-danger);
+  font-size: var(--app-type-meta);
+}
+.schedule-plan-pinned { margin-top: var(--app-space-3); }
+.schedule-plan-pinned .schedule-upcoming-list { margin-top: var(--app-space-2); }
+
+/* ---- foot line + deadlines sheet ---- */
+.schedule-foot-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-4);
+  margin-top: var(--app-space-4);
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.schedule-deadlines-sheet {
+  width: min(760px, 92vw);
+  padding: var(--app-space-4) var(--app-space-5) var(--app-space-5);
+  overflow-y: auto;
+}
+.schedule-ledger-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-5);
+  padding-bottom: var(--app-space-2);
+}
+.schedule-ledger-head h2 {
+  margin: 0;
+  color: var(--app-text);
+  font-size: var(--app-type-screen);
+  font-weight: var(--app-weight-name);
+  letter-spacing: -.02em;
+  line-height: 1.25;
+}
+.schedule-ledger { overflow-x: auto; }
+.schedule-ledger table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--app-type-body);
+}
+.schedule-ledger th {
+  padding: var(--app-space-2) var(--app-space-2);
+  border-bottom: 1px solid var(--app-border);
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  /* Stated, not inherited: a th's UA default is bold, while every other column
+     header sits at 500. */
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-align: left;
+  text-transform: uppercase;
+}
+.schedule-ledger td {
+  min-width: 120px;
+  padding: var(--app-space-3) var(--app-space-2);
+  border-bottom: 1px solid var(--app-border);
+  vertical-align: top;
+}
+.schedule-ledger tbody tr:last-child td { border-bottom: 0; }
+.schedule-ledger td:first-child { min-width: 130px; }
+.schedule-ledger td:last-child { min-width: 118px; }
+.schedule-ledger strong,
+.schedule-ledger span,
+.schedule-ledger small { display: block; }
+.schedule-ledger strong {
+  color: var(--app-text);
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-name);
+}
+.schedule-ledger span {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+}
+.schedule-ledger span.muted { color: var(--app-text-faint); }
+/* Clock time leads — it is what differs between rows — with the day beneath it.
+   Line 1 sits on the connector name's baseline, line 2 on the provider's. */
+.schedule-ledger-when b {
+  display: block;
+  color: var(--app-text);
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-name);
+}
+.schedule-ledger-when small { margin-top: 2px; font-family: var(--app-font-mono); }
+/* Cadence carries one token, not a sentence: the column already says which
+   pass, so "24h" beats "24h cadence" and buys the row its legible size. */
+.schedule-ledger-every {
+  display: inline-block;
+  margin-left: var(--app-space-1);
+  padding: 1px var(--app-space-1);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+  font-style: normal;
+  vertical-align: 1px;
+}
+.schedule-ledger small {
+  margin-top: var(--app-space-1);
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+  line-height: 1.35;
+}
+.schedule-ledger td:first-child small { font-family: var(--app-font-mono); }
+.schedule-ledger .ui-badge {
+  display: inline-flex;
+  gap: var(--app-space-1);
+  align-items: center;
+  margin-top: 0;
+}
+
+/* ---- responsive ---- */
+@media (max-width: 1080px) {
+  .schedule-clock-editor {
+    grid-template-columns: minmax(420px, 1.2fr) minmax(280px, .9fr);
+    gap: var(--app-space-5);
+  }
+}
+
+@media (max-width: 860px) {
+  .schedule-visual-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--app-space-2);
+  }
+  .schedule-clock-editor {
+    grid-template-columns: 1fr;
+    gap: var(--app-space-3);
+    margin-top: var(--app-space-3);
+  }
+  /* Stacked, the head's second line can sit over the dial's centre, so the
+     band above the ring stays layout here. */
+  .schedule-clock-stage {
+    --dial-size: min(100%, 460px);
+    margin-block: 0;
+  }
+  .schedule-clock-center strong { font-size: var(--app-type-stat); }
+  .schedule-clock-center strong.due { font-size: var(--app-type-title); }
+  .schedule-clock-legend {
+    gap: var(--app-space-3);
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+  .schedule-clock-queue { padding-top: var(--app-space-1); }
+  .schedule-upcoming-row { min-height: 56px; }
+  .schedule-policy-strip { grid-template-columns: 1fr; }
+  .schedule-policy-strip > div {
+    padding: var(--app-space-3) 0 var(--app-space-2);
+    border-right: 0;
+    border-bottom: 1px solid var(--app-border);
+  }
+  .schedule-policy-strip > div:last-child { border-bottom: 0; }
+  .schedule-foot-line {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--app-space-1);
+  }
+}
+
+@media (max-width: 520px) {
+  .schedule-dial .dial-label,
+  .schedule-dial .dial-night-text { display: none; }
+  /* The hub is a fixed fraction of a much smaller stage here, so the readout
+     runs out of room — and the ramp's floors do not bend to make it fit. Drop
+     and widen instead of shrinking: give the readout more of the hub, retire
+     the eyebrow (a 34px time under a dial needs no caption), and let the
+     sub-line wrap rather than ellipsise away the connector's name. Every event
+     is listed in full in the agenda directly below. */
+  .schedule-clock-center { width: 46%; }
+  .schedule-clock-center span { display: none; }
+  .schedule-clock-center small.relative { display: none; }
+  .schedule-clock-center strong { font-size: var(--app-type-title); }
+  .schedule-clock-center strong.due { font-size: var(--app-type-name); }
+  .schedule-clock-center small { white-space: normal; }
+  .schedule-drag-handle { width: 22px; height: 22px; }
+  .schedule-clock-legend {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--app-space-2) var(--app-space-3);
+    overflow: visible;
+    font-size: var(--app-type-meta);
+  }
+  .schedule-upcoming-row {
+    grid-template-columns: 58px 10px minmax(0, 1fr);
+    gap: var(--app-space-2);
+    padding-inline: var(--app-space-1);
+  }
+  .schedule-upcoming-row time { font-size: var(--app-type-body); }
+  .schedule-ledger td { min-width: 112px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schedule-drag-handle,
+  .schedule-clock-stage:not(.is-dragging) .schedule-drag-handle { transition: none; }
+}

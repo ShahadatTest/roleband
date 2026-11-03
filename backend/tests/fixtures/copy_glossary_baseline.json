@@ -1,0 +1,5 @@
+[
+  "vocabulary:drift|tracker/notifications/run_result.py|drift recorded",
+  "vocabulary:vectors|tracker/semantic/backfill.py|another embedder is already running; two would rewrite the same vectors",
+  "vocabulary:vector|tracker/workflows/watchdog.py|DO $$ BEGIN IF EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'vector') THEN PERFORM '[1]'::vector; END IF; IF EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_trgm') THEN PERFORM similarity('probe', 'probe'); END IF; END $$"
+]

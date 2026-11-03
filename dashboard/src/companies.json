@@ -1,0 +1,13 @@
+{
+  "google": { "name": "Google", "color": "#4285F4" },
+  "apple": { "name": "Apple", "color": "#555b62" },
+  "netflix": { "name": "Netflix", "color": "#E50914" },
+  "openai": { "name": "OpenAI", "color": "#10a37f" },
+  "anthropic": { "name": "Anthropic", "color": "#c9662b" },
+  "amazon": { "name": "Amazon", "color": "#FF9900" },
+  "google-deepmind": { "name": "Google DeepMind", "color": "#1a73e8" },
+  "nvidia": { "name": "Nvidia", "color": "#76b900" },
+  "meta": { "name": "Meta", "color": "#0668E1" },
+  "microsoft": { "name": "Microsoft", "color": "#0067b8" },
+  "spotify": { "name": "Spotify", "color": "#1DB954" }
+}

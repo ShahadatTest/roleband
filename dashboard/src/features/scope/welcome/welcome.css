@@ -1,0 +1,167 @@
+/* The front door of first-run setup, on --app-*: the radar intro and the
+ * usage-sharing question, asked in the intro's own scene.
+ *
+ * The intro is a scene that fills the window: the planet runs off the right
+ * and bottom edges like a horizon, so the page's own padding is taken back
+ * here. Below the planet's stacking width (STACKED_BELOW in globeView.ts,
+ * measured on the intro itself) the planet sits across the top and the copy
+ * follows it.
+ */
+
+/* The page's own ground, without the app's ambient wash: beside a lit planet
+   the wash's warm corner reads as a stray light, not as atmosphere. */
+.main.welcome-main {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: var(--app-canvas);
+}
+
+/* The scene takes the page's full width and height, past the page measure. */
+.main.welcome-main > .welcome-intro {
+  max-width: none;
+  margin: 0;
+}
+
+.welcome-intro {
+  container: welcome-intro / inline-size;
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+.welcome-globe {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  transition: opacity var(--app-duration-medium) var(--app-ease);
+}
+
+/* The copy reads over the planet's western edge, on a wash of the page ground. */
+.welcome-intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    var(--app-canvas) 0%,
+    color-mix(in srgb, var(--app-canvas) 82%, transparent) 24%,
+    color-mix(in srgb, var(--app-canvas) 35%, transparent) 36%,
+    transparent 46%
+  );
+}
+
+/* The copy is a crossfade (`PhaseFade`): the intro's words, then the
+   question in their place. */
+.welcome-intro-copy {
+  position: absolute;
+  z-index: 2;
+  top: 54%;
+  left: max(var(--app-space-5), 5%);
+  transform: translateY(-50%);
+  justify-items: start;
+  max-width: 68ch;
+}
+
+.welcome-intro-words {
+  display: grid;
+  justify-items: start;
+  gap: var(--app-space-3);
+}
+
+.welcome-intro-copy h1 {
+  margin: 0;
+  font-size: var(--app-type-page);
+  font-weight: var(--app-weight-name);
+  line-height: 1.2;
+}
+
+.welcome-intro-copy p {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+}
+
+/* The promise on one line, the cost on the next. */
+.welcome-intro-line { display: block; }
+
+.welcome-intro-stats {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+}
+
+@container welcome-intro (max-width: 639px) {
+  /* A vertical swipe on the planet still scrolls the page; a sideways one
+     turns it. */
+  .welcome-globe {
+    position: relative;
+    height: auto;
+    aspect-ratio: 1 / 1.05;
+    touch-action: pan-y;
+    mask-image: linear-gradient(to bottom, var(--app-canvas) 72%, transparent);
+  }
+
+  .welcome-intro::before { display: none; }
+
+  .welcome-intro-copy {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: calc(-1 * var(--app-space-5)) var(--app-space-4) var(--app-space-5);
+  }
+}
+
+/* The sharing question, in the same scene: the planet dims behind it and the
+   question stands where the words stood. It joins the page's flow, centred by
+   auto margins that give way when it is taller than the window, so a short
+   window scrolls it instead of cutting it off; the wash widens to its width. */
+.welcome-intro--asking {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+.welcome-intro--asking .welcome-globe { opacity: 0.42; }
+
+.welcome-intro--asking::before {
+  background: linear-gradient(
+    to right,
+    var(--app-canvas) 0%,
+    color-mix(in srgb, var(--app-canvas) 88%, transparent) 30%,
+    color-mix(in srgb, var(--app-canvas) 40%, transparent) 44%,
+    transparent 56%
+  );
+}
+
+.welcome-intro--asking .welcome-intro-copy {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  width: min(500px, 90%);
+  margin: auto 0 auto max(var(--app-space-5), 5%);
+  padding-block: var(--app-space-6);
+}
+
+@container welcome-intro (max-width: 639px) {
+  /* A shorter planet on a phone, so the question starts on the first screen. */
+  .welcome-intro--asking .welcome-globe { aspect-ratio: auto; height: min(300px, 80vw); }
+
+  .welcome-intro--asking .welcome-intro-copy {
+    width: auto;
+    margin: calc(-1 * var(--app-space-6)) var(--app-space-4) var(--app-space-5);
+    padding-block: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-globe { transition: none; }
+}

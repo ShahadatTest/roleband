@@ -1,0 +1,75 @@
+{
+ "status": 200,
+ "error": {
+  "message": "",
+  "body": ""
+ },
+ "data": {
+  "count": 3,
+  "positions": [
+   {
+    "id": 274922421610,
+    "displayJobId": "R0137858",
+    "name": "Software Engineer",
+    "locations": [
+     "Central Singapore, Singapore"
+    ],
+    "standardizedLocations": [
+     "Singapore, SG"
+    ],
+    "postedTs": 1789948800,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Software Engineering",
+    "creationTs": 1789430400,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "R0137858",
+    "positionUrl": "/careers/job/274922421610"
+   },
+   {
+    "id": 274922336359,
+    "displayJobId": "R0137518",
+    "name": "Account Manager, Large Enterprise Commercial",
+    "locations": [
+     "London, County London, England, United Kingdom"
+    ],
+    "standardizedLocations": [
+     "London, England, GB"
+    ],
+    "postedTs": 1789689600,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Large Enterprise Commercial",
+    "creationTs": 1788912000,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "R0137518",
+    "positionUrl": "/careers/job/274922336359"
+   },
+   {
+    "id": 274922421570,
+    "displayJobId": "R0137847",
+    "name": "Account Manager, Zettle – SMB",
+    "locations": [
+     "London, County London, England, United Kingdom"
+    ],
+    "standardizedLocations": [
+     "London, England, GB"
+    ],
+    "postedTs": 1789689600,
+    "solrScore": null,
+    "stars": 0,
+    "department": "Small & Medium Business",
+    "creationTs": 1789430400,
+    "isHot": 0,
+    "workLocationOption": "onsite",
+    "locationFlexibility": null,
+    "atsJobId": "R0137847",
+    "positionUrl": "/careers/job/274922421570"
+   }
+  ]
+ }
+}

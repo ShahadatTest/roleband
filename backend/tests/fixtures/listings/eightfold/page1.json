@@ -1,0 +1,194 @@
+{
+  "count": 11,
+  "positions": [
+    {
+      "id": 790298012345,
+      "ats_job_id": "JR31842",
+      "display_job_id": "JR31842",
+      "name": "Senior Software Engineer, Streaming Algorithms",
+      "posting_name": "Senior Software Engineer, Streaming Algorithms",
+      "locations": [
+        "Los Gatos, California",
+        "Remote, United States"
+      ],
+      "location": "Los Gatos, California",
+      "department": "Core Engineering",
+      "business_unit": "Encoding Technologies",
+      "work_location_option": "hybrid",
+      "canonicalPositionUrl": "https://explore.jobs.netflix.net/careers/job/790298012345",
+      "t_create": 1781000000,
+      "t_update": 1784000000,
+      "job_description": ""
+    },
+    {
+      "id": 790298067890,
+      "ats_job_id": "JR31901",
+      "display_job_id": "JR31901",
+      "name": "Engineering Manager, Ads Platform",
+      "posting_name": "Engineering Manager, Ads Platform",
+      "locations": [
+        "Warsaw, Poland"
+      ],
+      "location": "Warsaw, Poland",
+      "department": "Ads Engineering",
+      "business_unit": "Ads",
+      "work_location_option": "onsite",
+      "canonicalPositionUrl": "https://explore.jobs.netflix.net/careers/job/790298067890",
+      "t_create": 1782000000,
+      "t_update": 1784100000,
+      "job_description": ""
+    },
+    {
+      "id": 790298100001,
+      "ats_job_id": "JR100001",
+      "display_job_id": "JR100001",
+      "name": "Senior Software Engineer, Streaming Infrastructure",
+      "posting_name": "Senior Software Engineer, Streaming Infrastructure",
+      "locations": [
+        "Los Gatos, California",
+        "Remote, United States"
+      ],
+      "location": "Los Gatos, California",
+      "department": "Core Engineering",
+      "business_unit": "Encoding Technologies",
+      "work_location_option": "hybrid",
+      "canonicalPositionUrl": "https://explore.jobs.netflix.net/careers/job/790298100001",
+      "t_create": 1781000000,
+      "t_update": 1784000000,
+      "job_description": ""
+    },
+    {
+      "id": 790298100002,
+      "ats_job_id": "JR100002",
+      "display_job_id": "JR100002",
+      "name": "Product Manager, Member Experience",
+      "posting_name": "Product Manager, Member Experience",
+      "locations": [
+        "Los Gatos, California",
+        "Remote, United States"
+      ],
+      "location": "Los Gatos, California",
+      "department": "Core Engineering",
+      "business_unit": "Encoding Technologies",
+      "work_location_option": "hybrid",
+      "canonicalPositionUrl": "https://explore.jobs.netflix.net/careers/job/790298100002",
+      "t_create": 1781000000,
+      "t_update": 1784000000,
+      "job_description": ""
+    },
+    {
+      "id": 790298100003,
+      "ats_job_id": "JR100003",
+      "display_job_id": "JR100003",
+      "name": "Engineering Manager, Data Platform",
+      "posting_name": "Engineering Manager, Data Platform",
+      "locations": [
+        "Los Gatos, California",
+        "Remote, United States"
+      ],
+      "location": "Los Gatos, California",
+      "department": "Core Engineering",
+      "business_unit": "Encoding Technologies",
+      "work_location_option": "hybrid",
+      "canonicalPositionUrl": "https://explore.jobs.netflix.net/careers/job/790298100003",
+      "t_create": 1781000000,
+      "t_update": 1784000000,
+      "job_description": ""
+    },
+    {
+      "id": 790298100004,
+      "ats_job_id": "JR100004",
+      "display_job_id": "JR100004",
+      "name": "Staff Machine Learning Engineer, Personalization",
+      "posting_name": "Staff Machine Learning Engineer, Personalization",
+      "locations": [
+        "Los Gatos, California",
+        "Remote, United States"
+      ],
+      "location": "Los Gatos, California",
+      "department": "Core Engineering",
+      "business_unit": "Encoding Technologies",
+      "work_location_option": "hybrid",
+      "canonicalPositionUrl": "https://explore.jobs.netflix.net/careers/job/790298100004",
+      "t_create": 1781000000,
+      "t_update": 1784000000,
+      "job_description": ""
+    },
+    {
+      "id": 790298100005,
+      "ats_job_id": "JR100005",
+      "display_job_id": "JR100005",
+      "name": "Technical Program Manager, Studio Technology",
+      "posting_name": "Technical Program Manager, Studio Technology",
+      "locations": [
+        "Los Gatos, California",
+        "Remote, United States"
+      ],
+      "location": "Los Gatos, California",
+      "department": "Core Engineering",
+      "business_unit": "Encoding Technologies",
+      "work_location_option": "hybrid",
+      "canonicalPositionUrl": "https://explore.jobs.netflix.net/careers/job/790298100005",
+      "t_create": 1781000000,
+      "t_update": 1784000000,
+      "job_description": ""
+    },
+    {
+      "id": 790298100006,
+      "ats_job_id": "JR100006",
+      "display_job_id": "JR100006",
+      "name": "Senior Data Scientist, Ads",
+      "posting_name": "Senior Data Scientist, Ads",
+      "locations": [
+        "Los Gatos, California",
+        "Remote, United States"
+      ],
+      "location": "Los Gatos, California",
+      "department": "Core Engineering",
+      "business_unit": "Encoding Technologies",
+      "work_location_option": "hybrid",
+      "canonicalPositionUrl": "https://explore.jobs.netflix.net/careers/job/790298100006",
+      "t_create": 1781000000,
+      "t_update": 1784000000,
+      "job_description": ""
+    },
+    {
+      "id": 790298100007,
+      "ats_job_id": "JR100007",
+      "display_job_id": "JR100007",
+      "name": "Engineering Manager, Payments",
+      "posting_name": "Engineering Manager, Payments",
+      "locations": [
+        "Los Gatos, California",
+        "Remote, United States"
+      ],
+      "location": "Los Gatos, California",
+      "department": "Core Engineering",
+      "business_unit": "Encoding Technologies",
+      "work_location_option": "hybrid",
+      "canonicalPositionUrl": "https://explore.jobs.netflix.net/careers/job/790298100007",
+      "t_create": 1781000000,
+      "t_update": 1784000000,
+      "job_description": ""
+    },
+    {
+      "id": 790298100008,
+      "ats_job_id": "JR100008",
+      "display_job_id": "JR100008",
+      "name": "Director, Product Management, Games",
+      "posting_name": "Director, Product Management, Games",
+      "locations": [
+        "Los Gatos, California",
+        "Remote, United States"
+      ],
+      "location": "Los Gatos, California",
+      "department": "Core Engineering",
+      "business_unit": "Encoding Technologies",
+      "work_location_option": "hybrid",
+      "canonicalPositionUrl": "https://explore.jobs.netflix.net/careers/job/790298100008",
+      "t_create": 1781000000,
+      "t_update": 1784000000,
+      "job_description": ""
+    }
+  ]
+}

@@ -1,0 +1,271 @@
+/* The usage-sharing question (patterns/privacy, docs/architecture.md).
+   Three tiers, read top to bottom: why we ask; what each kind covers (the only
+   bordered block, boxes only once someone chooses); quiet notes. Two answers
+   of equal weight and equal width close it. Tokens only. */
+
+.privacy-consent {
+  display: grid;
+  gap: var(--app-space-4);
+  max-width: 560px;
+}
+
+/* Inside the one-time dialog the pane is the whole panel: it owns the inset
+   (ui/Dialog paints the surface and pads nothing). */
+.privacy-consent-dialog .privacy-consent {
+  max-width: none;
+  padding: var(--app-space-5);
+}
+
+.privacy-consent-head {
+  display: grid;
+  gap: var(--app-space-2);
+}
+
+.privacy-consent-title {
+  margin: 0;
+  font-size: var(--app-type-screen);
+  font-weight: var(--app-weight-name);
+  color: var(--app-text);
+}
+
+.privacy-consent-intro {
+  margin: 0;
+  font-size: var(--app-type-body);
+  line-height: 1.5;
+  color: var(--app-text-muted);
+}
+
+/* The decision: one bordered list, a hairline between kinds. */
+.privacy-consent-groups {
+  display: grid;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-md);
+  overflow: hidden;
+}
+
+/* Box in the first column across both lines; name over sentence in the
+   second. A row with no box (one kind asked) is the second column alone. */
+.privacy-consent-choice {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--app-space-3);
+  row-gap: 2px;
+  align-items: start;
+  padding: var(--app-space-3);
+  transition: background-color var(--app-duration-fast) var(--app-ease);
+}
+
+.privacy-consent-choice + .privacy-consent-choice {
+  border-top: 1px solid var(--app-border);
+}
+
+/* The row is the hit target (a <label>), so it answers the pointer. */
+label.privacy-consent-choice {
+  cursor: pointer;
+}
+
+label.privacy-consent-choice:hover {
+  background: var(--app-surface-hover);
+}
+
+/* A ticked group is CHOSEN: wash and name, keyed on its checkbox.
+   The words are pinned consent copy; only their colour follows the state. */
+label.privacy-consent-choice:has(> input:checked) {
+  background: var(--app-chosen-wash);
+}
+
+label.privacy-consent-choice:has(> input:checked) .privacy-consent-group-label {
+  color: var(--app-chosen-text);
+}
+
+div.privacy-consent-choice {
+  grid-template-columns: 1fr;
+}
+
+.privacy-consent-choice input {
+  grid-row: span 2;
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  accent-color: var(--app-action);
+  cursor: pointer;
+}
+
+.privacy-consent-group-label {
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+  color: var(--app-text);
+}
+
+.privacy-consent-group-detail {
+  font-size: var(--app-type-meta);
+  line-height: 1.45;
+  color: var(--app-text-muted);
+}
+
+/* What holds whatever is chosen, where to change it, and the way to choose. */
+.privacy-consent-notes {
+  display: grid;
+  justify-items: start;
+  gap: var(--app-space-1);
+  font-size: var(--app-type-meta);
+  line-height: 1.45;
+  color: var(--app-text-muted);
+}
+
+.privacy-consent-notes p {
+  margin: 0;
+}
+
+.privacy-consent-error {
+  margin: 0;
+  font-size: var(--app-type-meta);
+  color: var(--app-danger);
+}
+
+/* Equal weight AND equal width: neither answer is the default-looking one. */
+.privacy-consent-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--app-space-2);
+  padding-top: var(--app-space-4);
+  border-top: 1px solid var(--app-border);
+}
+
+@media (max-width: 640px) {
+  .privacy-consent-dialog .privacy-consent {
+    padding: var(--app-space-4);
+  }
+
+}
+
+/* ---- The welcome's scene (`look="scene"`): the welcome's type, no table.
+   Each kind under its own gold icon, a box in the icon's place once someone
+   chooses; the never-sent promise in full ink with its own mark; "Change it"
+   and "Let me choose" on one line; the two answers larger, still equal. */
+.privacy-consent--scene {
+  max-width: none;
+}
+
+.privacy-consent--scene .privacy-consent-title {
+  font-size: var(--app-type-page);
+  line-height: 1.2;
+}
+
+.privacy-consent--scene .privacy-consent-groups {
+  gap: var(--app-space-1);
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+
+/* The row keeps an inset, pulled back by a negative margin, so a chosen
+   row's wash has room and the words still share the title's left edge. */
+.privacy-consent--scene .privacy-consent-choice {
+  margin-inline: calc(-1 * var(--app-space-2));
+  padding: var(--app-space-2);
+  border-radius: var(--app-radius-sm);
+}
+
+.privacy-consent--scene .privacy-consent-choice + .privacy-consent-choice {
+  border-top: 0;
+}
+
+.privacy-consent--scene div.privacy-consent-choice {
+  grid-template-columns: auto 1fr;
+}
+
+.privacy-consent--scene .privacy-consent-icon {
+  display: inline-flex;
+  grid-row: span 2;
+  padding-top: 2px;
+  color: var(--app-action);
+}
+
+/* "Let me choose" follows "Change it" on its line, and moves to the next one
+   whole when the line is full. */
+.privacy-consent--scene .privacy-consent-notes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--app-space-2) var(--app-space-3);
+}
+
+.privacy-consent--scene .privacy-consent-notes .ui-btn-link {
+  white-space: nowrap;
+}
+
+.privacy-consent--scene .privacy-consent-never {
+  flex-basis: 100%;
+  display: flex;
+  gap: var(--app-space-2);
+  align-items: flex-start;
+  color: var(--app-text);
+}
+
+.privacy-consent--scene .privacy-consent-never .privacy-consent-icon {
+  padding-top: 1px;
+  color: var(--app-text-muted);
+}
+
+.privacy-consent--scene .privacy-consent-actions {
+  gap: var(--app-space-3);
+  padding-top: var(--app-space-2);
+  border-top: 0;
+}
+
+.privacy-preview {
+  max-height: 320px;
+  margin: 0;
+  overflow: auto;
+  padding: var(--app-space-3);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-subtle);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Settings > Privacy: the consent question's title over the switches it
+   records, in the kicker idiom (`.eyebrow`), on the rows' inset. */
+.privacy-settings-question {
+  margin: 0;
+  padding: 0 var(--app-space-2);
+}
+
+/* What was sent recently: one line per sent row, the event's own name in the
+   data voice, then how often and when. */
+.privacy-sent {
+  max-height: 320px;
+  margin: 0;
+  overflow: auto;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-subtle);
+}
+
+.privacy-sent li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-1) var(--app-space-3);
+  padding: var(--app-space-2) var(--app-space-3);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.privacy-sent li + li {
+  border-top: 1px solid var(--app-border);
+}
+
+.privacy-sent code {
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+}
+
+.privacy-sent-from {
+  color: var(--app-text-faint);
+}

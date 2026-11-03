@@ -1,0 +1,1519 @@
+{
+  "format": 1,
+  "now": "2026-10-27T18:00:00Z",
+  "cases": [
+    {
+      "name": "never_scanned",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": null,
+        "activity_since": null,
+        "coverage_at": null,
+        "last_scan_at": null
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": null,
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "ready",
+        "symbol": "checkmark.circle"
+      }
+    },
+    {
+      "name": "scanning",
+      "facts": {
+        "running": true,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "last_run_started_at": "2026-10-27T17:58:00Z"
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "scanning",
+        "activity_since": "2026-10-27T17:58:00Z",
+        "hold": null
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "scanning",
+        "activity_since": "2026-10-27T17:58:00Z",
+        "hold": null,
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "scanning",
+        "symbol": "arrow.triangle.2.circlepath"
+      }
+    },
+    {
+      "name": "executing_derivation",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [
+          {
+            "job": "reestimate",
+            "state": "running",
+            "reason": null,
+            "queued": 0,
+            "since": "2026-10-27T17:59:00Z"
+          }
+        ],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "updating",
+        "activity_since": "2026-10-27T17:59:00Z"
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "updating",
+        "activity_since": "2026-10-27T17:59:00Z",
+        "hold": null,
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "updating",
+        "symbol": "arrow.triangle.2.circlepath"
+      }
+    },
+    {
+      "name": "execution_lock",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": true,
+      "expected": {
+        "activity": "updating",
+        "activity_since": null
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "updating",
+        "activity_since": null,
+        "hold": null,
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "updating",
+        "symbol": "arrow.triangle.2.circlepath"
+      }
+    },
+    {
+      "name": "pending_estimates_held",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": "schema_pending"
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 12,
+          "target_fp": "fp-next"
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "queued": "update",
+        "hold": {
+          "kind": "attention",
+          "reason": "schema_pending"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "attention",
+          "reason": "schema_pending"
+        },
+        "attention": [],
+        "queued": "update",
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "needs-attention",
+        "symbol": "exclamationmark.circle",
+        "reason": "reason-setup"
+      }
+    },
+    {
+      "name": "queued_reembed",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [
+          {
+            "job": "reembed",
+            "state": "queued",
+            "reason": null,
+            "queued": 1,
+            "since": "2026-10-27T17:59:00Z"
+          }
+        ],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "matching_switch": "converting"
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "waiting",
+          "reason": "update_queued"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "waiting",
+          "reason": "update_queued"
+        },
+        "attention": [],
+        "queued": "update",
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "waiting",
+        "symbol": "pause.circle",
+        "reason": "reason-queued"
+      }
+    },
+    {
+      "name": "pending_without_execution",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 12,
+          "target_fp": "fp-next"
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "estimatesMoving": true
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": {
+          "kind": "waiting",
+          "reason": "update_queued"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "waiting",
+          "reason": "update_queued"
+        },
+        "attention": [],
+        "queued": "update",
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "waiting",
+        "symbol": "pause.circle",
+        "reason": "reason-queued"
+      }
+    },
+    {
+      "name": "dependencies_pending",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": "dependencies_pending"
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": {
+          "kind": "attention",
+          "reason": "dependencies_pending"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "attention",
+          "reason": "dependencies_pending"
+        },
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "needs-attention",
+        "symbol": "exclamationmark.circle",
+        "reason": "reason-setup"
+      }
+    },
+    {
+      "name": "build_failed",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": "build_failed"
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": {
+          "kind": "attention",
+          "reason": "build_failed"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "attention",
+          "reason": "build_failed"
+        },
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "needs-attention",
+        "symbol": "exclamationmark.circle",
+        "reason": "reason-build"
+      }
+    },
+    {
+      "name": "supervisor_absent",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "absent"
+        },
+        "jobs": [
+          {
+            "job": "reembed",
+            "state": "running",
+            "reason": null,
+            "queued": 0,
+            "since": "2026-10-27T17:59:00Z"
+          }
+        ],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": {
+          "kind": "attention",
+          "reason": "supervisor_absent"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "attention",
+          "reason": "supervisor_absent"
+        },
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "needs-attention",
+        "symbol": "exclamationmark.circle",
+        "reason": "reason-supervisor"
+      }
+    },
+    {
+      "name": "supervisor_stale",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "stale"
+        },
+        "jobs": [
+          {
+            "job": "reembed",
+            "state": "running",
+            "reason": null,
+            "queued": 0,
+            "since": "2026-10-27T17:59:00Z"
+          }
+        ],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": {
+          "kind": "attention",
+          "reason": "supervisor_stale"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "attention",
+          "reason": "supervisor_stale"
+        },
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "needs-attention",
+        "symbol": "exclamationmark.circle",
+        "reason": "reason-supervisor"
+      }
+    },
+    {
+      "name": "activity_keeps_attention",
+      "facts": {
+        "running": true,
+        "supervisor": {
+          "state": "stale"
+        },
+        "jobs": [],
+        "stuck_running": 1,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": true,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "last_run_started_at": "2026-10-27T17:58:00Z"
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "scanning",
+        "hold": {
+          "kind": "attention",
+          "reason": "supervisor_stale"
+        },
+        "attention": [
+          "coverage",
+          "stuck_scan"
+        ]
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "scanning",
+        "activity_since": "2026-10-27T17:58:00Z",
+        "hold": {
+          "kind": "attention",
+          "reason": "supervisor_stale"
+        },
+        "attention": [
+          "coverage",
+          "stuck_scan"
+        ],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "scanning",
+        "symbol": "exclamationmark.circle",
+        "reason": "reason-supervisor"
+      }
+    },
+    {
+      "name": "preflight_failed",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [
+          {
+            "job": "scan",
+            "state": "waiting",
+            "reason": "preflight_failed",
+            "queued": 0,
+            "since": "2026-10-27T17:59:00Z"
+          }
+        ],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": {
+          "kind": "attention",
+          "reason": "preflight_failed"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "attention",
+          "reason": "preflight_failed"
+        },
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "needs-attention",
+        "symbol": "exclamationmark.circle",
+        "reason": "reason-checks"
+      }
+    },
+    {
+      "name": "waiting_for_mains",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [
+          {
+            "job": "scan",
+            "state": "waiting",
+            "reason": "waiting_for_mains",
+            "queued": 0,
+            "since": "2026-10-27T17:59:00Z"
+          }
+        ],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": {
+          "kind": "waiting",
+          "reason": "waiting_for_mains"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "waiting",
+          "reason": "waiting_for_mains"
+        },
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "waiting",
+        "symbol": "pause.circle",
+        "reason": "reason-power"
+      }
+    },
+    {
+      "name": "waiting_for_wake",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [
+          {
+            "job": "scan",
+            "state": "waiting",
+            "reason": "waiting_for_wake",
+            "queued": 0,
+            "since": "2026-10-27T17:59:00Z"
+          }
+        ],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": {
+          "kind": "waiting",
+          "reason": "waiting_for_wake"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "waiting",
+          "reason": "waiting_for_wake"
+        },
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "waiting",
+        "symbol": "pause.circle",
+        "reason": "reason-wake"
+      }
+    },
+    {
+      "name": "preflight_running",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [
+          {
+            "job": "scan",
+            "state": "waiting",
+            "reason": "preflight_running",
+            "queued": 0,
+            "since": "2026-10-27T17:59:00Z"
+          }
+        ],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": {
+          "kind": "waiting",
+          "reason": "preflight_running"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "waiting",
+          "reason": "preflight_running"
+        },
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "waiting",
+        "symbol": "pause.circle",
+        "reason": "reason-preflight"
+      }
+    },
+    {
+      "name": "busy_external",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [
+          {
+            "job": "scan",
+            "state": "waiting",
+            "reason": "busy_external",
+            "queued": 0,
+            "since": "2026-10-27T17:59:00Z"
+          }
+        ],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": {
+          "kind": "waiting",
+          "reason": "busy_external"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "waiting",
+          "reason": "busy_external"
+        },
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "waiting",
+        "symbol": "pause.circle",
+        "reason": "reason-busy"
+      }
+    },
+    {
+      "name": "past_busy_is_not_a_hold",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [
+          {
+            "job": "reestimate",
+            "state": "idle",
+            "reason": "busy_external",
+            "queued": 0,
+            "since": "2026-10-20T09:00:00Z"
+          }
+        ],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": null,
+        "queued": null
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": null,
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "ready",
+        "symbol": "checkmark.circle"
+      }
+    },
+    {
+      "name": "past_refusal_is_not_a_hold",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [
+          {
+            "job": "scan",
+            "state": "idle",
+            "reason": "preflight_failed",
+            "queued": 0,
+            "since": "2026-10-27T17:00:00Z"
+          }
+        ],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": null,
+        "queued": null
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": null,
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "ready",
+        "symbol": "checkmark.circle"
+      }
+    },
+    {
+      "name": "pending_rows_without_target",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 12,
+          "target_fp": null
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": null,
+        "queued": null
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": null,
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "ready",
+        "symbol": "checkmark.circle"
+      }
+    },
+    {
+      "name": "maintenance",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "maintenance"
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "hold": {
+          "kind": "waiting",
+          "reason": "maintenance"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "waiting",
+          "reason": "maintenance"
+        },
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "waiting",
+        "symbol": "pause.circle",
+        "reason": "reason-maintenance"
+      }
+    },
+    {
+      "name": "model_missing",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "missing",
+      "reembed_executing": false,
+      "expected": {
+        "hold": {
+          "kind": "attention",
+          "reason": "model_missing"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "attention",
+          "reason": "model_missing"
+        },
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "missing"
+      },
+      "native": {
+        "title": "needs-attention",
+        "symbol": "exclamationmark.circle",
+        "reason": "reason-model"
+      }
+    },
+    {
+      "name": "model_preparing",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "preparing",
+      "reembed_executing": false,
+      "expected": {
+        "hold": {
+          "kind": "waiting",
+          "reason": "model_preparing"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "waiting",
+          "reason": "model_preparing"
+        },
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "preparing"
+      },
+      "native": {
+        "title": "waiting",
+        "symbol": "pause.circle",
+        "reason": "reason-preparing"
+      }
+    },
+    {
+      "name": "model_disabled",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "unused",
+      "reembed_executing": false,
+      "expected": {
+        "hold": null
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": null,
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "unused"
+      },
+      "native": {
+        "title": "ready",
+        "symbol": "checkmark.circle"
+      }
+    },
+    {
+      "name": "scan_queued",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [
+          "acme"
+        ],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "queued": "scan",
+        "activity_since": null
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": null,
+        "attention": [],
+        "queued": "scan",
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "queued",
+        "symbol": "pause.circle"
+      }
+    },
+    {
+      "name": "provider_pause",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [
+          "acme"
+        ],
+        "manual_blocked": [
+          {
+            "reason": "paused"
+          }
+        ],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "hold": {
+          "kind": "waiting",
+          "reason": "provider_paused"
+        }
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": {
+          "kind": "waiting",
+          "reason": "provider_paused"
+        },
+        "attention": [],
+        "queued": "scan",
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "waiting",
+        "symbol": "pause.circle",
+        "reason": "reason-provider"
+      }
+    },
+    {
+      "name": "provider_backoff_while_scanning",
+      "facts": {
+        "running": true,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [
+          "acme"
+        ],
+        "manual_blocked": [
+          {
+            "reason": "backoff"
+          }
+        ],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "last_run_started_at": "2026-10-27T17:58:00Z"
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "scanning",
+        "hold": null,
+        "queued": "scan"
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "scanning",
+        "activity_since": "2026-10-27T17:58:00Z",
+        "hold": null,
+        "attention": [],
+        "queued": "scan",
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "scanning",
+        "symbol": "arrow.triangle.2.circlepath"
+      }
+    },
+    {
+      "name": "unrelated_background_work",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [
+          {
+            "job": "prices",
+            "state": "running",
+            "reason": null,
+            "queued": 0,
+            "since": "2026-10-27T17:59:00Z"
+          },
+          {
+            "job": "backup",
+            "state": "running",
+            "reason": null,
+            "queued": 0,
+            "since": "2026-10-27T17:59:00Z"
+          },
+          {
+            "job": "plugin_run",
+            "state": "running",
+            "reason": null,
+            "queued": 0,
+            "since": "2026-10-27T17:59:00Z"
+          }
+        ],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": false,
+        "last_success_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "activity": "idle",
+        "hold": null
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": null,
+        "attention": [],
+        "queued": null,
+        "coverage_at": null,
+        "last_scan_at": null,
+        "last_scan_outcome": null,
+        "model": "ready"
+      },
+      "native": {
+        "title": "ready",
+        "symbol": "checkmark.circle"
+      }
+    },
+    {
+      "name": "coverage_is_not_last_scan",
+      "facts": {
+        "running": false,
+        "supervisor": {
+          "state": "running",
+          "reason": null
+        },
+        "jobs": [],
+        "stuck_running": 0,
+        "manual_queued": [],
+        "manual_blocked": [],
+        "reference": {
+          "pending_jobs": 0
+        },
+        "coverage_attention": true,
+        "last_success_at": "2026-10-25T09:00:00Z",
+        "last_scan_at": "2026-10-27T17:30:00Z",
+        "last_scan_outcome": "partial"
+      },
+      "model": "ready",
+      "reembed_executing": false,
+      "expected": {
+        "coverage_at": "2026-10-25T09:00:00Z",
+        "last_scan_at": "2026-10-27T17:30:00Z",
+        "last_scan_outcome": "partial",
+        "attention": [
+          "coverage"
+        ]
+      },
+      "wire": {
+        "observed_at": "2026-10-27T18:00:00Z",
+        "activity": "idle",
+        "activity_since": null,
+        "hold": null,
+        "attention": [
+          "coverage"
+        ],
+        "queued": null,
+        "coverage_at": "2026-10-25T09:00:00Z",
+        "last_scan_at": "2026-10-27T17:30:00Z",
+        "last_scan_outcome": "partial",
+        "model": "ready"
+      },
+      "native": {
+        "title": "ready",
+        "symbol": "checkmark.circle"
+      }
+    }
+  ]
+}

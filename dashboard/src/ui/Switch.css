@@ -1,0 +1,91 @@
+/* ui/Switch — see Switch.tsx. */
+
+/* The TARGET, which is bigger than the control: it stretches the full height of
+   whatever row it sits in — past the 24px minimum — and is reached without
+   distorting the track itself. */
+.ui-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  min-width: 32px;
+  min-height: 24px;
+  cursor: pointer;
+}
+
+/* With visible text the switch is a row in a toolbar, not a cell in a table:
+   it sizes to the control scale and stops stretching, or `align-self` would
+   beat whatever its toolbar aligns to. */
+.ui-switch.is-labelled {
+  align-self: auto;
+  min-height: var(--app-control-sm);
+  gap: var(--app-space-2);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+}
+
+/* 32x18, scaled with the ramp: a smaller track beside a row's name reads as a
+   control from a smaller product. Knob geometry derives: 14px knob, 2px inset, 14px throw. */
+.ui-switch-track {
+  position: relative;
+  flex: none;
+  width: 32px;
+  height: 18px;
+  margin: 0;
+  border-radius: 999px;
+  /* Off is a state, so its track holds the control edge's 3:1. */
+  background-color: var(--app-border-control);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: background-color var(--app-duration-medium) var(--app-ease);
+}
+
+.ui-switch-track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  /* The surface composited on the canvas, as a kit card's ground is:
+     `--app-surface` is a translucent wash, and a bare wash draws no visible
+     knob on a kit card (Plugins, Privacy, Schedule's power switch). */
+  background-color: var(--app-canvas);
+  background-image: linear-gradient(var(--app-surface), var(--app-surface));
+  transition: transform var(--app-duration-medium) var(--app-ease);
+}
+
+/* On is INK, on every material: a switch shows a state, not an action, so it
+   does not take the action colour, which would make it a different colour
+   per material: two switches for one control, flipping with the tab
+   (`settings-shell.spec.ts` compares the tabs in both themes). The text
+   colour is the register's ink exactly. */
+.ui-switch-track:checked {
+  background-color: var(--app-on-fill);
+}
+
+.ui-switch-track:checked::after {
+  transform: translateX(14px);
+}
+
+.ui-switch-track:indeterminate {
+  background-color: var(--app-text-muted);
+}
+
+.ui-switch-track:indeterminate::after {
+  transform: translateX(7px);
+}
+
+/* The one ring: a halo does not reach 3:1 against the page, on a control you
+   toggle by keyboard. */
+.ui-switch-track:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+.ui-switch-track:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

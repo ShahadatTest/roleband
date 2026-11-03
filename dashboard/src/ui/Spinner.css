@@ -1,0 +1,38 @@
+/* F1 inline busy indicator. Sized in em so it matches whatever text it sits
+   beside; colored from currentColor so it inherits a cell's or button's tone. */
+.ui-spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid var(--app-border-strong);
+  border-top-color: var(--app-action);
+  border-radius: 50%;
+  vertical-align: -0.15em;
+  animation: ui-spinner-spin 0.7s linear infinite;
+}
+
+.ui-spinner.sm {
+  width: 0.8em;
+  height: 0.8em;
+  border-width: 1.5px;
+}
+
+@keyframes ui-spinner-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respect a reduced-motion preference: keep the affordance, drop the rotation
+   (a pulse still reads as "working" without vestibular cost). */
+@media (prefers-reduced-motion: reduce) {
+  .ui-spinner {
+    animation: ui-spinner-pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes ui-spinner-pulse {
+    50% {
+      opacity: 0.35;
+    }
+  }
+}

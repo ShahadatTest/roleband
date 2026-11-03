@@ -1,0 +1,266 @@
+{
+ "accenture": {
+  "ticker": "ACN",
+  "cik": 1467373
+ },
+ "adobe": {
+  "ticker": "ADBE",
+  "cik": 796343
+ },
+ "affirm": {
+  "ticker": "AFRM",
+  "cik": 1820953
+ },
+ "airbnb": {
+  "ticker": "ABNB",
+  "cik": 1559720
+ },
+ "amazon": {
+  "ticker": "AMZN",
+  "cik": 1018724
+ },
+ "amd": {
+  "ticker": "AMD",
+  "cik": 2488
+ },
+ "apple": {
+  "ticker": "AAPL",
+  "cik": 320193
+ },
+ "applied-materials": {
+  "ticker": "AMAT",
+  "cik": 6951
+ },
+ "arm": {
+  "ticker": "ARM",
+  "cik": 1973239
+ },
+ "asana": {
+  "ticker": "ASAN",
+  "cik": 1477720
+ },
+ "asml": {
+  "ticker": "ASML",
+  "cik": 937966
+ },
+ "atlassian": {
+  "ticker": "TEAM",
+  "cik": 1650372
+ },
+ "aurora": {
+  "ticker": "AUR",
+  "cik": 1828108
+ },
+ "block": {
+  "ticker": "XYZ",
+  "cik": 1512673
+ },
+ "booking": {
+  "ticker": "BKNG",
+  "cik": 1075531
+ },
+ "broadcom": {
+  "ticker": "AVGO",
+  "cik": 1730168
+ },
+ "cadence": {
+  "ticker": "CDNS",
+  "cik": 813672
+ },
+ "cloudflare": {
+  "ticker": "NET",
+  "cik": 1477333
+ },
+ "coinbase": {
+  "ticker": "COIN",
+  "cik": 1679788
+ },
+ "confluent": {
+  "ticker": "CFLT",
+  "cik": 1699838
+ },
+ "crowdstrike": {
+  "ticker": "CRWD",
+  "cik": 1535527
+ },
+ "datadog": {
+  "ticker": "DDOG",
+  "cik": 1561550
+ },
+ "doordash": {
+  "ticker": "DASH",
+  "cik": 1792789
+ },
+ "dropbox": {
+  "ticker": "DBX",
+  "cik": 1467623
+ },
+ "elastic": {
+  "ticker": "ESTC",
+  "cik": 1707753
+ },
+ "electronic-arts": {
+  "ticker": "EA",
+  "cik": 712515
+ },
+ "figma": {
+  "ticker": "FIG",
+  "cik": 1579878
+ },
+ "fortinet": {
+  "ticker": "FTNT",
+  "cik": 1262039
+ },
+ "gitlab": {
+  "ticker": "GTLB",
+  "cik": 1653482
+ },
+ "google": {
+  "ticker": "GOOGL",
+  "cik": 1652044
+ },
+ "instacart": {
+  "ticker": "CART",
+  "cik": 1579091
+ },
+ "intel": {
+  "ticker": "INTC",
+  "cik": 50863
+ },
+ "klarna": {
+  "ticker": "KLAR",
+  "cik": 2003292
+ },
+ "lyft": {
+  "ticker": "LYFT",
+  "cik": 1759509
+ },
+ "meta": {
+  "ticker": "META",
+  "cik": 1326801
+ },
+ "micron": {
+  "ticker": "MU",
+  "cik": 723125
+ },
+ "microsoft": {
+  "ticker": "MSFT",
+  "cik": 789019
+ },
+ "mongodb": {
+  "ticker": "MDB",
+  "cik": 1441816
+ },
+ "netflix": {
+  "ticker": "NFLX",
+  "cik": 1065280
+ },
+ "nvidia": {
+  "ticker": "NVDA",
+  "cik": 1045810
+ },
+ "okta": {
+  "ticker": "OKTA",
+  "cik": 1660134
+ },
+ "palantir": {
+  "ticker": "PLTR",
+  "cik": 1321655
+ },
+ "palo-alto-networks": {
+  "ticker": "PANW",
+  "cik": 1327567
+ },
+ "paypal": {
+  "ticker": "PYPL",
+  "cik": 1633917
+ },
+ "pinterest": {
+  "ticker": "PINS",
+  "cik": 1506293
+ },
+ "playstation": {
+  "ticker": "SONY",
+  "cik": 313838
+ },
+ "qualcomm": {
+  "ticker": "QCOM",
+  "cik": 804328
+ },
+ "reddit": {
+  "ticker": "RDDT",
+  "cik": 1713445
+ },
+ "robinhood": {
+  "ticker": "HOOD",
+  "cik": 1783879
+ },
+ "roblox": {
+  "ticker": "RBLX",
+  "cik": 1315098
+ },
+ "rocket-lab": {
+  "ticker": "RKLB",
+  "cik": 1819994
+ },
+ "salesforce": {
+  "ticker": "CRM",
+  "cik": 1108524
+ },
+ "samsara": {
+  "ticker": "IOT",
+  "cik": 1642896
+ },
+ "sentinelone": {
+  "ticker": "S",
+  "cik": 1583708
+ },
+ "servicenow": {
+  "ticker": "NOW",
+  "cik": 1373715
+ },
+ "shopify": {
+  "ticker": "SHOP",
+  "cik": 1594805
+ },
+ "snap": {
+  "ticker": "SNAP",
+  "cik": 1564408
+ },
+ "snowflake": {
+  "ticker": "SNOW",
+  "cik": 1640147
+ },
+ "spotify": {
+  "ticker": "SPOT",
+  "cik": 1639920
+ },
+ "synopsys": {
+  "ticker": "SNPS",
+  "cik": 883241
+ },
+ "take-two-interactive": {
+  "ticker": "TTWO",
+  "cik": 946581
+ },
+ "tesla": {
+  "ticker": "TSLA",
+  "cik": 1318605
+ },
+ "tsmc": {
+  "ticker": "TSM",
+  "cik": 1046179
+ },
+ "uber": {
+  "ticker": "UBER",
+  "cik": 1543151
+ },
+ "unity": {
+  "ticker": "U",
+  "cik": 1810806
+ },
+ "zscaler": {
+  "ticker": "ZS",
+  "cik": 1713683
+ }
+}

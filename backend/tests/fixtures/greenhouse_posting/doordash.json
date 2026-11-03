@@ -1,0 +1,162 @@
+{
+ "id": 7611520,
+ "title": "Sr. Staff Technical Program Manager (Hardware) - DoorDash Dot",
+ "questions": [
+  {
+   "label": "First Name",
+   "required": true,
+   "fields": [
+    {
+     "name": "first_name",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Last Name",
+   "required": true,
+   "fields": [
+    {
+     "name": "last_name",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Email",
+   "required": true,
+   "fields": [
+    {
+     "name": "email",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Phone",
+   "required": true,
+   "fields": [
+    {
+     "name": "phone",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Resume/CV",
+   "required": true,
+   "fields": [
+    {
+     "name": "resume",
+     "type": "input_file"
+    },
+    {
+     "name": "resume_text",
+     "type": "textarea"
+    }
+   ]
+  },
+  {
+   "label": "Cover Letter",
+   "required": false,
+   "fields": [
+    {
+     "name": "cover_letter",
+     "type": "input_file"
+    },
+    {
+     "name": "cover_letter_text",
+     "type": "textarea"
+    }
+   ]
+  },
+  {
+   "label": "LinkedIn Profile",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_63441989",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "How much did content from the DoorDash Engineering blog influence your decision to apply for a role at DoorDash?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_63441990",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Are you legally authorized to work in the United States?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_63441991",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Will you now require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., H-1B, E-3, TN, O-1, STEM OPT, or any immigration work authorization requiring a written submission from the company to a government agency)?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_63441992",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Have you worked at DoorDash?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_63441993",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Applicant Privacy Acknowledgement ",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_63441994",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "We would like to contact you via SMS or WhatsApp to provide updates on your progress. Mark yes if you agree. If you mark no, we will contact you via the email you provided.",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_63441995",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Will you in the future require immigration require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., H-1B, E-3, TN, O-1, STEM OPT, or any immigration work authorization requiring a written submission from the company to a government agency)? ",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_63441996",
+     "type": "multi_value_single_select"
+    }
+   ]
+  }
+ ],
+ "pay_input_ranges": [
+  {
+   "title": "The national base pay range for this position within the United States, including Illinois and Colorado.",
+   "min_cents": 19380000,
+   "max_cents": 28500000,
+   "currency_type": "USD"
+  }
+ ]
+}

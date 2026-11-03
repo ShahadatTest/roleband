@@ -1,0 +1,66 @@
+{
+  "_doc": "Parity fixture: the level axis for postings whose level we cannot place (basis `none`: states no level; `unmapped`: a level in the company's own terms, e.g. \"Senior Manager\", guessed from a role word). Read by backend/tests/test_level_basis.py (passes_filters, job_scope_expr over jobs and posting_inventory, the catalog's count key) and dashboard/src/features/scope/scopeCells.test.ts (cellPasses). Every gate must admit exactly `passes` for each scope. `cell_band` is the band a catalog cell carries; `track_bands` must equal taxonomy.tracks.allowed_bands_for. `include_unstated_level_default` is the switch an untouched install starts with (on): levels.INCLUDE_UNSTATED_LEVEL_DEFAULT and the dashboard's INCLUDE_UNSTATED_LEVEL_DEFAULT must both equal it.",
+  "include_unstated_level_default": true,
+  "track_bands": {
+    "technical": ["intern", "entry", "mid", "senior", "staff", "principal", "director_plus"],
+    "management": ["senior", "staff", "principal", "director_plus"]
+  },
+  "postings": [
+    {"id": "swe_senior", "band": "senior", "basis": "generic", "track": "technical", "family": "software_engineering", "cell_band": "senior"},
+    {"id": "swe_unstated", "band": "mid", "basis": "none", "track": "technical", "family": "software_engineering", "cell_band": "unstated"},
+    {"id": "em_unstated", "band": "mid", "basis": "none", "track": "management", "family": "engineering_management", "cell_band": "unstated"},
+    {"id": "em_unmapped", "band": "staff", "basis": "unmapped", "track": "management", "family": "engineering_management", "cell_band": "unstated"},
+    {"id": "swe_mid", "band": "mid", "basis": "generic", "track": "technical", "family": "software_engineering", "cell_band": "mid"},
+    {"id": "swe_mid_legacy", "band": "mid", "basis": null, "track": "technical", "family": "software_engineering", "cell_band": "mid"},
+    {"id": "em_principal", "band": "principal", "basis": "company", "track": "management", "family": "engineering_management", "cell_band": "principal"}
+  ],
+  "scopes": [
+    {
+      "name": "senior+ without unstated",
+      "bands": ["senior", "principal"], "include_unstated_level": false, "answers": null,
+      "passes": ["swe_senior", "em_principal"]
+    },
+    {
+      "name": "senior+ with unstated",
+      "bands": ["senior", "principal"], "include_unstated_level": true, "answers": null,
+      "passes": ["swe_senior", "swe_unstated", "em_unstated", "em_unmapped", "em_principal"]
+    },
+    {
+      "name": "mid without unstated: a placeholder mid is not mid",
+      "bands": ["mid"], "include_unstated_level": false, "answers": null,
+      "passes": ["swe_mid", "swe_mid_legacy"]
+    },
+    {
+      "name": "mid with unstated",
+      "bands": ["mid"], "include_unstated_level": true, "answers": null,
+      "passes": ["swe_unstated", "em_unstated", "em_unmapped", "swe_mid", "swe_mid_legacy"]
+    },
+    {
+      "name": "answers: unstated skips the management range when included",
+      "bands": ["senior", "principal"], "include_unstated_level": true,
+      "answers": [{"track": "technical", "roles": "any"}, {"track": "management", "roles": "any"}],
+      "passes": ["swe_senior", "swe_unstated", "em_unstated", "em_unmapped", "em_principal"]
+    },
+    {
+      "name": "answers: unstated stays out when not included",
+      "bands": ["mid", "senior"], "include_unstated_level": false,
+      "answers": [{"track": "technical", "roles": "any"}, {"track": "management", "roles": "any"}],
+      "passes": ["swe_senior", "swe_mid", "swe_mid_legacy"]
+    },
+    {
+      "name": "staff without the switch: a guessed staff is not staff",
+      "bands": ["staff"], "include_unstated_level": false, "answers": null,
+      "passes": []
+    },
+    {
+      "name": "principal with the switch: a level we cannot place passes like one never stated",
+      "bands": ["principal"], "include_unstated_level": true, "answers": null,
+      "passes": ["swe_unstated", "em_unstated", "em_unmapped", "em_principal"]
+    },
+    {
+      "name": "an empty level axis admits nothing, unstated included",
+      "bands": [], "include_unstated_level": true, "answers": null,
+      "passes": []
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "_comment": "Read by scripts/check-bundle-size.mjs.confined: directories the startup chunk may take only the listed modules from. infrastructure: lazy-only exports the shell provides to screens BY DESIGN, each with its reason; add one only with a reason a reviewer can check. debt: known leaks, shrink-only by hand; `npm run bundle:record` prunes paid-off entries and files only what the shell itself stopped using. The copy entries are the copy system's: messages only lazy code says belong in a lazy .ftl, and formatters only screens call in their own module.",
+  "confined": [
+    {
+      "dir": "src/api/",
+      "allow": [
+        "src/api/shell.ts",
+        "src/api/startup.ts",
+        "src/api/transport.ts"
+      ],
+      "why": "the shell calls the client through api/shell.ts, the startup endpoints only. A domain object or the composed api ships whole, with every method any screen adds."
+    }
+  ],
+  "infrastructure": [
+    {
+      "module": "src/api/transport.ts",
+      "exports": [
+        "deleteJSON",
+        "isNotFound",
+        "patchJSON",
+        "writesSettled"
+      ],
+      "why": "the one request boundary: every domain module calls its verbs, isNotFound reads its ApiError, and the kept answers check writesSettled, the count of writes it sends; the shell needs the module for its own calls."
+    },
+    {
+      "module": "src/context/MissionState.tsx",
+      "exports": [
+        "useBoardQuery"
+      ],
+      "why": "a context the shell provides; the hook must live beside the context it reads."
+    },
+    {
+      "module": "src/context/SyncState.tsx",
+      "exports": [
+        "useJob",
+        "usePayByPlugin",
+        "usePricesVersion",
+        "useReferenceVersion",
+        "useSourceSwitch",
+        "useStatusPoll"
+      ],
+      "why": "hooks every switching screen calls, and the supervised jobs and the prices epoch the status poll carries; they read the SyncState context the shell provides."
+    },
+    {
+      "module": "src/copy/runtime.ts",
+      "exports": [
+        "S",
+        "beginIntent",
+        "choice",
+        "copyCheckOn",
+        "locale",
+        "setActive"
+      ],
+      "why": "the copy runtime every lazy catalog chunk and formatter calls; the shell's own messages need the module."
+    },
+    {
+      "module": "src/routing/setupMode.ts",
+      "exports": [
+        "SETUP_PATH",
+        "forgetSetupProbe",
+        "onSetupProbeForgotten"
+      ],
+      "why": "first-run setup's one answer, read once and shared: the shell mutes the app from it, Welcome and Profile enter and leave setup through it, and the board and Profile drop their way back into setup when a save forgets it, so they never disagree."
+    }
+  ],
+  "debt": [
+    {
+      "module": "src/copy/format/basic.ts",
+      "export": "calendarDay"
+    },
+    {
+      "module": "src/copy/format/basic.ts",
+      "export": "money"
+    },
+    {
+      "module": "src/copy/format/basic.ts",
+      "export": "number"
+    },
+    {
+      "module": "src/copy/format/basic.ts",
+      "export": "percent"
+    },
+    {
+      "module": "src/copy/format/display.ts",
+      "export": "compare"
+    },
+    {
+      "module": "src/copy/format/display.ts",
+      "export": "relative"
+    },
+    {
+      "module": "src/copy/format/display.ts",
+      "export": "weekday"
+    },
+    {
+      "module": "src/copy/gen/format.ts",
+      "export": "formatDays"
+    },
+    {
+      "module": "src/copy/gen/format.ts",
+      "export": "formatDaysToday"
+    },
+    {
+      "module": "src/copy/gen/ui.ts",
+      "export": "uiInfoTipMoreInformation"
+    }
+  ]
+}

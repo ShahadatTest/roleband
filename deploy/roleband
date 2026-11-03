@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# RoleBand's one background item. launchd starts this file, and macOS lists the
+# item under the file's name in System Settings > General > Login Items, so it
+# is called `roleband`. It runs the supervisor, which runs the API and every
+# background job itself.
+set -euo pipefail
+export PATH="/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:$PATH"
+export PYTHONUNBUFFERED=1
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT/backend"
+exec "$ROOT/backend/.venv/bin/python" -m tracker.supervisor run

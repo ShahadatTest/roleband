@@ -1,0 +1,1054 @@
+/* Review, on the promoted system. Behavior contract in
+ * tests/ux/review.spec.ts; every value comes from --app-*
+ * (src/design/tokens.css), type sits on the ten roles, geometry on the four
+ * scales. The ledger's small labels (the "Same" tag, field labels, history
+ * requisitions) sit on the ramp's tiers like everything else, and the geometry
+ * around them widens on the space scale so the type keeps its breathing room.
+ *
+ * The fixed console's rail clearance reads --app-nav-width (tokens.css), the
+ * same name the shell grid reads, so this sheet consumes no token outside the
+ * promoted system.
+ *
+ * Shared components that render here bring their own paint: CompanyChip
+ * (.chip, design/surfaces.css) in the casebar.
+ */
+
+/* ---- shell --------------------------------------------------------------- */
+
+/* The app's side gutter (`.main`, with its 1120 and 860 steps), so the page
+   header sits at the same left edge as on every other tab; the header pays
+   the top air (surfaces.css). */
+.main.review-main {
+  padding-top: 0;
+  padding-bottom: 64px; /* clearance for the fixed console */
+}
+
+.main.review-main > * {
+  max-width: none;
+}
+
+.review {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* The tab row sits as every tab row does (Settings, Profile, Insights): no
+   line under it, the content 20px below, the tabs at the page's left edge.
+   It stays sticky, since the queue scrolls under it, and only while pinned
+   does it take a surface and a line, painted on a pseudo-element that
+   reaches into the gutter so the tabs never move. A band at rest would sit
+   it lower than every other tab row, and wider than the page. */
+.review-toolbar-marker { display: block; height: 1px; margin-bottom: -1px; }
+.review-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 12;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--app-space-4);
+}
+.review-toolbar::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(-1 * var(--app-space-4)) calc(-1 * var(--app-space-1));
+  z-index: -1;
+  border-bottom: 1px solid var(--app-border);
+  background: var(--app-surface-glass);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  transition: opacity var(--app-duration-fast);
+}
+.review-toolbar[data-stuck]::before { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .review-toolbar::before { transition: none; }
+}
+
+/* The view switch is ui/TabBar with count badges. */
+
+/* Loading, failed and empty are the shared primitives (ResourceLoadState,
+   EmptyState); this screen states no shape of its own. */
+
+/* ---- queue workspace ----------------------------------------------------- */
+
+.review-workspace {
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 92px; /* fixed-console clearance */
+}
+
+.review-workspace:has(.review-decision-console.has-ai-response) {
+  padding-bottom: 208px;
+}
+
+.review-casebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-4);
+  min-height: 38px;
+  padding: 0 var(--app-space-1) var(--app-space-2);
+}
+
+.review-pair-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  min-width: 0;
+}
+
+/* A count is a fact: `meta` mono, never smaller. */
+.review-pair-identity > span {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.review-system-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.review-system-indicator > strong {
+  color: var(--app-text);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.review-system-indicator .info-tip {
+  margin-left: 0;
+  vertical-align: 0;
+}
+
+.review-system-indicator .info-tip-popover {
+  right: 0;
+  left: auto;
+}
+
+.review-system-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-1);
+  min-width: 210px;
+}
+
+.review-system-detail > strong {
+  color: var(--app-text);
+  text-transform: capitalize;
+}
+
+/* ---- comparison ledger --------------------------------------------------- */
+
+.review-ledger-wrap {
+  overflow: hidden;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-surface-raised);
+}
+
+.review-ledger {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-collapse: collapse;
+}
+
+.review-ledger thead,
+.review-ledger tbody {
+  display: block;
+}
+
+.review-ledger tr {
+  display: grid;
+  grid-template-columns: minmax(142px, 0.42fr) minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.review-ledger thead tr {
+  min-height: 40px;
+  border-bottom: 1px solid var(--app-border-strong);
+  background: var(--app-surface-sunken);
+}
+
+.review-ledger tbody tr + tr {
+  border-top: 1px solid var(--app-border);
+}
+
+.review-ledger th,
+.review-ledger td {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  padding: var(--app-space-2) var(--app-space-3);
+  border-left: 1px solid var(--app-border);
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.review-ledger tr > :first-child {
+  border-left: 0;
+}
+
+/* Column heads are chrome: uppercase mono on the `whisper` tier. */
+.review-ledger thead th {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.review-ledger thead th:not(:first-child) {
+  color: var(--app-text-muted);
+}
+
+/* The field label stacks over its "Different" tag: at these sizes the pair
+   does not fit side-by-side in the label column, and a tag wrapping mid-word
+   is worse than a second line. */
+.review-ledger tbody th {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.review-ledger tbody th small {
+  color: var(--app-warning);
+  font-size: var(--app-type-label);
+  font-weight: var(--app-weight-name);
+  letter-spacing: 0.06em;
+}
+
+.review-ledger td {
+  min-height: var(--app-control-md);
+  color: var(--app-text);
+  font-size: var(--app-type-body);
+  line-height: 1.4;
+}
+
+.review-ledger td[colspan="2"] {
+  grid-column: 2 / -1;
+}
+
+.review-ledger tr.is-different td {
+  background: var(--app-warning-soft);
+  box-shadow: inset 2px 0 0 var(--app-warning);
+  font-weight: var(--app-weight-name);
+}
+
+/* The title pair is the decision's subject: one clear step above body. */
+.review-ledger tr.is-title td {
+  min-height: 54px;
+  color: var(--app-text);
+  font-size: var(--app-type-title);
+  font-weight: var(--app-weight-name);
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+}
+
+.review-ledger tr.is-same td {
+  color: var(--app-text-muted);
+}
+
+.review-ledger tr.row-estimated-comp td,
+.review-ledger tr.row-disclosed-comp td,
+.review-ledger tr.row-first-seen td,
+.review-ledger tr.row-last-observed td,
+.review-ledger tr.row-age td {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.review-ledger-same {
+  flex: 0 0 auto;
+  margin-right: var(--app-space-2);
+  padding: 1px 6px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+/* The two destinations sit apart on one line: a button-shaped way into the
+   role in the app, then the text link out to the careers page. */
+.review-ledger tr.row-links td {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--app-space-3);
+}
+
+.review-ledger tr.review-ledger-run {
+  background: color-mix(in srgb, var(--app-surface-sunken) 42%, transparent);
+}
+
+.review-ledger tr.review-ledger-run th {
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: var(--app-space-1);
+  color: var(--app-text-faint);
+}
+
+.review-ledger tr.review-ledger-run th strong {
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-title);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.review-ledger tr.review-ledger-run td {
+  min-height: 40px;
+}
+
+.review-ledger-run-range {
+  overflow: hidden;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ui/Button link rank. A link inherits its line's type, so the ledger's
+   uppercase mono label voice is stated here; nothing here paints a box. */
+.review-ledger-run-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  margin-left: auto;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.review-ledger tr.is-run-detail {
+  background: color-mix(in srgb, var(--app-surface) 64%, transparent);
+}
+
+.review-ledger tr.is-run-detail th {
+  padding-left: var(--app-space-4);
+}
+
+/* ---- decision bar (history editor) --------------------------------------- */
+
+.review-decision-bar {
+  position: sticky;
+  bottom: var(--app-space-3);
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  align-items: stretch;
+  gap: var(--app-space-2);
+  margin: var(--app-space-3) 0 var(--app-space-4);
+  padding: var(--app-space-2);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-surface-glass);
+  box-shadow: var(--app-shadow-pop);
+  backdrop-filter: blur(18px);
+}
+
+.review-decision-intro {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: var(--app-space-1) var(--app-space-2);
+}
+
+.review-decision-intro span {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.review-decision-intro strong {
+  margin-top: 3px;
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+}
+
+.review-decision-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--app-space-1);
+}
+
+.review-decision-option {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  align-items: center;
+  gap: var(--app-space-2);
+  min-height: 58px;
+  padding: var(--app-space-2) var(--app-space-2);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface-raised);
+  color: var(--app-text);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--app-duration-fast),
+    background var(--app-duration-fast),
+    transform var(--app-duration-fast);
+}
+
+.review-decision-option:not(:disabled):hover {
+  transform: translateY(-1px);
+  border-color: var(--app-border-strong);
+  background: var(--app-surface-hover);
+}
+
+.review-decision-option:disabled:not([aria-pressed="true"]) {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The current verdict is CHOSEN: gold wash and edge, its name in
+   the chosen ink, its radio as the chosen mark. Keyed on `aria-pressed`. */
+.review-decision-option[aria-pressed="true"] {
+  border-color: var(--app-chosen-line);
+  background: var(--app-chosen-wash);
+  opacity: 1;
+}
+
+.review-decision-option[aria-pressed="true"] strong {
+  color: var(--app-chosen-text);
+}
+
+.review-decision-radio {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--app-border-strong);
+  border-radius: 50%;
+}
+
+.review-decision-option[aria-pressed="true"] .review-decision-radio {
+  border: 3px solid var(--app-chosen-mark);
+}
+
+.review-decision-option strong {
+  display: block;
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+}
+
+.review-decision-option small {
+  display: block;
+  margin-top: 2px;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.35;
+}
+
+.review-decision-option kbd,
+.review-decision-option em {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.review-decision-option kbd {
+  min-width: 22px;
+  padding: 2px 5px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-sunken);
+  text-align: center;
+}
+
+/* ---- queue decision console (fixed) -------------------------------------- */
+/* Fixed, not sticky: the reviewer's verdict controls stay reachable while the
+   descriptions scroll. Taken out of flow, the console has to clear the rail by
+   arithmetic, and --app-nav-width is the width the shell grid itself uses —
+   read through the cascade, so `.app.nav-expanded`'s override slides the
+   console with the rail instead of leaving it under one. A literal here is the
+   bug this token exists to prevent. */
+
+.review-decision-console {
+  position: fixed;
+  left: calc(var(--app-nav-width) + var(--app-space-4));
+  right: var(--app-space-4);
+  bottom: var(--app-space-3);
+  z-index: 19;
+  padding: var(--app-space-2);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-xl);
+  background: var(--app-surface-glass);
+  box-shadow: var(--app-shadow-pop);
+  backdrop-filter: blur(20px) saturate(125%);
+  transition: left var(--app-duration-medium) var(--app-ease);
+}
+
+.review-decision-console.has-ai-response {
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+}
+
+.review-console-assessment,
+.review-console-ai-error {
+  display: grid;
+  grid-template-columns: minmax(210px, auto) minmax(220px, 1fr) auto;
+  align-items: center;
+  gap: var(--app-space-3);
+  min-width: 0;
+  margin-bottom: var(--app-space-1);
+  padding: var(--app-space-2) var(--app-space-2);
+  border: 1px solid var(--app-border);
+  border-left: 3px solid var(--app-warning);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface-sunken);
+}
+
+.review-console-assessment.assessment-confirmed {
+  border-left-color: var(--app-positive);
+}
+
+.review-console-assessment.assessment-rejected {
+  border-left-color: var(--app-danger);
+}
+
+.review-console-assessment > div {
+  display: flex;
+  align-items: baseline;
+  gap: var(--app-space-2);
+  min-width: 0;
+}
+
+.review-console-assessment span {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.review-console-assessment strong {
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+}
+
+.review-console-assessment b {
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.review-console-assessment p {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.4;
+}
+
+.review-console-assessment > small {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  white-space: nowrap;
+}
+
+.review-console-ai-error {
+  display: flex;
+  gap: var(--app-space-2);
+  border-left-color: var(--app-danger);
+}
+
+.review-console-ai-error strong {
+  color: var(--app-danger);
+  font-size: var(--app-type-body);
+}
+
+.review-console-ai-error span {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.review-console-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--app-space-1);
+}
+
+.review-console-option {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--app-space-2);
+  min-height: 46px;
+  padding: var(--app-space-1) var(--app-space-2);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface-raised);
+  color: var(--app-text);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--app-duration-fast),
+    border-color var(--app-duration-fast),
+    background var(--app-duration-fast);
+}
+
+.review-console-option:not(:disabled):hover {
+  transform: translateY(-1px);
+  border-color: var(--app-border-strong);
+  background: var(--app-surface-hover);
+}
+
+.review-console-option:disabled {
+  opacity: 0.58;
+  cursor: default;
+}
+
+.review-console-option strong {
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.review-console-option kbd {
+  min-width: 22px;
+  padding: 2px 5px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-sunken);
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  text-align: center;
+}
+
+.review-console-ai {
+  grid-template-columns: 24px minmax(0, 1fr);
+  color: var(--app-text-muted);
+}
+
+.review-console-ai:not(:disabled):hover {
+  color: var(--app-text);
+}
+
+.review-console-option-mark {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--app-action-line);
+  border-radius: var(--app-radius-sm);
+  color: var(--app-action-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  font-weight: 700;
+}
+
+/* ---- decision history ---------------------------------------------------- */
+
+.review-history {
+  width: 100%;
+  min-height: calc(100vh - 190px);
+}
+
+.review-history-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--app-space-4);
+  margin: var(--app-space-2) 0 var(--app-space-4);
+}
+
+/* The archive eyebrow is chrome on the `whisper` tier. */
+.review-case-index {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.review-history-head h2 {
+  margin: var(--app-space-1) 0 0;
+  font-size: var(--app-type-screen);
+  font-weight: var(--app-weight-name);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* ui/SearchField at md; the class only sets its measure. */
+.review-history-search {
+  width: min(390px, 38vw);
+}
+
+.review-history-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+  margin-bottom: var(--app-space-2);
+}
+
+.review-history-tools > span {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+
+.review-history-list {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-surface-raised);
+  list-style: none;
+}
+
+.review-history-list > li + li {
+  border-top: 1px solid var(--app-border);
+}
+
+.review-history-list > li.is-open {
+  background: var(--app-selected);
+}
+
+.review-history-summary {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100px minmax(180px, 1fr) 24px minmax(180px, 1fr) 104px 20px;
+  align-items: center;
+  gap: var(--app-space-3);
+  min-height: 72px;
+  padding: var(--app-space-2) var(--app-space-3);
+  border: 0;
+  background: transparent;
+  color: var(--app-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.review-history-summary:hover {
+  background: var(--app-surface-hover);
+}
+
+.review-history-summary .review-history-decision {
+  justify-self: start;
+}
+
+.review-history-titles {
+  min-width: 0;
+}
+
+.review-history-titles strong,
+.review-history-titles small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.review-history-titles strong {
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-name);
+  line-height: 1.3;
+}
+
+.review-history-titles small {
+  margin-top: 3px;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+}
+
+/* Both are aria-hidden Icon glyphs (the pair connector arrow and the
+   disclosure chevron) — decor territory, named in DECOR_GLYPH_SELECTORS. */
+.review-history-connector {
+  color: var(--app-decor);
+  text-align: center;
+}
+
+.review-history-chevron {
+  color: var(--app-decor);
+  text-align: center;
+}
+
+.review-history-score {
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.review-history-score small {
+  display: block;
+  margin-top: 3px;
+  color: var(--app-text-faint);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.review-history-chevron {
+  transition: transform var(--app-duration-fast);
+}
+
+.is-open > .review-history-summary .review-history-chevron {
+  transform: rotate(180deg);
+}
+
+.review-history-detail {
+  padding: var(--app-space-4);
+  border-top: 1px solid var(--app-border);
+  animation: review-history-detail-in var(--app-duration-medium) var(--app-ease);
+}
+
+@keyframes review-history-detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+}
+
+.review-history-evidence {
+  display: flex;
+  gap: var(--app-space-2) var(--app-space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--app-space-3);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.review-history-evidence strong {
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-weight: 600;
+}
+
+.review-history-detail .review-ledger-wrap {
+  margin-bottom: var(--app-space-3);
+  background: var(--app-surface-subtle);
+}
+
+.review-history-detail .review-decision-bar {
+  position: static;
+  margin: 0 0 var(--app-space-3);
+  box-shadow: none;
+}
+
+
+/* ---- responsive ---------------------------------------------------------- */
+
+@media (max-width: 980px) {
+  .review-decision-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .review-decision-intro {
+    display: block;
+  }
+
+  .review-console-assessment {
+    grid-template-columns: minmax(170px, auto) minmax(0, 1fr);
+  }
+
+  .review-console-assessment > small {
+    display: none;
+  }
+
+  .review-history-summary {
+    grid-template-columns: 92px minmax(0, 1fr) 18px minmax(0, 1fr) 66px 18px;
+    gap: var(--app-space-2);
+  }
+}
+
+@media (max-width: 860px) {
+  .review-workspace {
+    padding-bottom: 146px;
+  }
+
+  .review-workspace:has(.review-decision-console.has-ai-response) {
+    padding-bottom: 270px;
+  }
+
+  .review-decision-console {
+    left: var(--app-space-2);
+    right: var(--app-space-2);
+    bottom: calc(68px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 760px) {
+  .main.review-main {
+    padding: 0 var(--app-space-3) 88px;
+  }
+
+  .review-toolbar::before { inset-inline: calc(-1 * var(--app-space-3)); }
+
+
+  .review-casebar {
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .review-pair-identity {
+    flex: 1 1 auto;
+  }
+
+  .review-system-indicator {
+    margin-left: auto;
+  }
+
+  .review-ledger thead tr {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .review-ledger thead th:first-child {
+    display: none;
+  }
+
+  .review-ledger tbody tr {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .review-ledger tbody th {
+    grid-column: 1 / -1;
+    min-height: 32px;
+    padding: var(--app-space-1) var(--app-space-2);
+    border-bottom: 1px solid var(--app-border);
+    border-left: 0;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  .review-ledger tbody td {
+    min-height: 40px;
+    padding: var(--app-space-2) var(--app-space-2);
+  }
+
+  .review-ledger td[colspan="2"] {
+    grid-column: 1 / -1;
+  }
+
+  .review-ledger tr.is-title td {
+    min-height: 52px;
+    font-size: var(--app-type-name);
+  }
+
+  .review-ledger tbody tr.review-ledger-run {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .review-ledger tbody tr.review-ledger-run th {
+    grid-column: auto;
+    min-height: 40px;
+    border-right: 1px solid var(--app-border);
+    border-bottom: 0;
+  }
+
+  .review-ledger tbody tr.review-ledger-run td[colspan="2"] {
+    grid-column: auto;
+  }
+
+  .review-ledger-run-range {
+    display: none;
+  }
+
+  .review-ledger tr.is-run-detail th {
+    padding-left: var(--app-space-3);
+  }
+
+  .review-decision-bar {
+    position: static;
+  }
+
+  .review-decision-options {
+    grid-template-columns: 1fr;
+  }
+
+  .review-decision-console {
+    padding: var(--app-space-1);
+  }
+
+  .review-console-options {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--app-space-1);
+  }
+
+  .review-console-option {
+    display: flex;
+    min-height: 54px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3px;
+    padding: var(--app-space-1) var(--app-space-1);
+    text-align: center;
+  }
+
+  .review-console-option strong {
+    font-size: var(--app-type-label);
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .review-console-option .review-decision-radio,
+  .review-console-option kbd {
+    display: none;
+  }
+
+  .review-console-ai {
+    color: var(--app-text-muted);
+  }
+
+  .review-console-option-mark {
+    width: 20px;
+    height: 20px;
+  }
+
+  .review-console-assessment {
+    grid-template-columns: 1fr;
+    gap: var(--app-space-1);
+    padding: var(--app-space-1) var(--app-space-2);
+  }
+
+  .review-console-assessment p {
+    white-space: normal;
+  }
+}

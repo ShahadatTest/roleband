@@ -1,0 +1,35 @@
+/* Dialog shell — centered glass panel over a dimmed page. */
+.ui-dialog-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.ui-dialog {
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: var(--app-surface-glass);
+  backdrop-filter: blur(28px) saturate(160%);
+  /* A portalled overlay inherits <body>'s ink and face, not the route's.
+     These two live here with the rest of this box's chrome, not on the
+     doorway class (`.app-overlay`), so the primitive paints itself and the
+     class is not part of how an overlay LOOKS. */
+  color: var(--app-text);
+  font-family: var(--app-font-sans);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-xl);
+  box-shadow: var(--app-shadow-pop);
+  animation: ui-dialog-in var(--app-duration-medium) var(--app-ease) both;
+}
+.ui-dialog-solid {
+  background-color: var(--app-canvas);
+  background-image: linear-gradient(var(--app-surface), var(--app-surface));
+  backdrop-filter: none;
+}
+@keyframes ui-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
+  }
+}

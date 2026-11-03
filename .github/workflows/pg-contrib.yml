@@ -1,0 +1,50 @@
+name: build prebuilt database extensions
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bundle:
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            platform: darwin-arm64
+          - runner: ubuntu-24.04-arm
+            platform: linux-aarch64
+            image: quay.io/pypa/manylinux_2_28_aarch64@sha256:0333f44c4eb759ec8f47b27bc9dc27b1c929932a267cf13ce0cff1a4b758cccb
+          - runner: ubuntu-24.04
+            platform: linux-x86_64
+            image: quay.io/pypa/manylinux_2_28_x86_64@sha256:b74a5b6f1705ecff17be8bd792589bef9b3b039766d12205720ecd2a9e919192
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        if: matrix.platform == 'darwin-arm64'
+        with:
+          python-version-file: .python-version
+      - name: build macOS bundle
+        if: matrix.platform == 'darwin-arm64'
+        working-directory: backend
+        run: |
+          python -m pip install -c constraints/macos-arm64.txt certifi
+          python -m scripts.package_pg_contrib --download
+      - name: build Linux bundle
+        if: matrix.platform != 'darwin-arm64'
+        env:
+          BUILD_IMAGE: ${{ matrix.image }}
+        run: >-
+          docker run --rm -v "$PWD:/work" -w /work/backend "$BUILD_IMAGE"
+          /opt/python/cp312-cp312/bin/python -m scripts.package_pg_contrib --download
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: pg-contrib-${{ matrix.platform }}
+          path: |
+            backend/tracker/platform/pgcontrib/${{ matrix.platform }}.tar.gz
+            backend/tracker/platform/pgcontrib/manifest.json
+          retention-days: 14

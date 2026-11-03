@@ -1,0 +1,10 @@
+# Accepted advisories against the locked install graph, read by
+# scripts/check_dependency_audit.py. An entry is the only way a known
+# vulnerability passes CI, and it fails the run once it expires or once the
+# advisory no longer applies, so every entry is reviewed again.
+#
+# [[exception]]
+# id = "GHSA-xxxx-xxxx-xxxx"   # the advisory id, or any alias the audit reports
+# package = "example"
+# reason = "Why it does not reach RoleBand, or what the upgrade waits on."
+# expires = YYYY-MM-DD        # a TOML date, unquoted

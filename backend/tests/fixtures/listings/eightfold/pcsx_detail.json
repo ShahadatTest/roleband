@@ -1,0 +1,109 @@
+{
+ "status": 200,
+ "error": {
+  "message": "",
+  "body": ""
+ },
+ "data": {
+  "id": 274922421610,
+  "displayJobId": "R0137858",
+  "name": "Software Engineer",
+  "locations": [
+   "Central Singapore, Singapore"
+  ],
+  "standardizedLocations": [
+   "Singapore, SG"
+  ],
+  "postedTs": 1789948800,
+  "stars": 0,
+  "department": "Software Engineering",
+  "creationTs": 1789430400,
+  "jobDescription": "<p style=\"text-align:left\"><b>The Company</b></p><p style=\"text-align:inherit\"></p><p style=\"text-align:left\">PayPal has been revolutionizing commerce globally for more than 25 years. Creating innovative experiences that make moving money, selling, and shopping simple, personalized, and secure, PayPal empowers consumers and businesses in approximately 200 markets to join and thrive in the global economy. </p><p style=\"text-align:inherit\"></p><p style=\"text-align:left\">We operate a global, two-sided network at scale that connects hundreds of millions of merchants and consumers. We help merchants and consumers connect, transact, and complete payments, whether they are online or in person. PayPal is more than a connection to third-party payment networks. We provide proprietary payment solutions accepted by merchants that enable the completion of payments on our platform on behalf of our customers.</p><p style=\"text-align:inherit\"></p><p style=\"text-align:left\">We offer our customers the flexibility to use their accounts to purchase and receive payments for goods and services, as well as the ability to transfer and withdraw funds. We enable consumers to exchange funds more safely with merchants using a variety of funding sources, which may include a bank account, a PayPal or Venmo account balance, PayPal and Venmo branded credit products, a credit card, a debit card, certain cryptocurrencies, or other stored value products such as gift cards, and eligible credit card rewards.  Our PayPal, Venmo, and Xoom products also make it safer and simpler for friends and family to transfer funds to each other. We offer merchants an end-to-end payments solution that provides authorization and settlement capabilities, as well as instant access to funds and payouts. We also help merchants connect with their customers, process exchanges and returns, and manage risk. We enable consumers to engage in cross-border shopping and merchants to extend their global reach while reducing the complexity and friction involved in enabling cross-border trade. </p><p style=\"text-align:inherit\"></p><p style=\"text-align:left\">Our beliefs are the foundation for how we conduct business every day.  We live each day guided by our core values of Inclusion, Innovation, Collaboration, and Wellness. Together, our values ensure that we work together as one global team with our customers at the center of everything we do – and they push us to ensure we take care of ourselves, each other, and our communities.</p><p style=\"text-align:inherit\"></p><p style=\"text-align:inherit\"></p><p style=\"text-align:left\"><b>Job Summary:</b></p>Merchant onboarding is one of the most complex problems at PayPal. It spans 200+ markets, 15 banking licenses, 40+ products, and more than 200,000 combinations of country, product, license, and data-field requirements — each with local risk, compliance, tax, and legal nuances. Our mission is to make that complexity invisible: to merchants, to partners, and to the engineers who build on our platform.<br><br>Our team owns the partner onboarding and experience domain within PayPal’s Payment Services &amp; Crypto Engineering organization. We build and operate the platforms that bring merchants and partners onto PayPal and serve them across their entire lifecycle — from first sign-up through the day-to-day work of running their business.<p style=\"text-align:inherit\"></p><p style=\"text-align:left\"><b>Job Description:</b></p><p><b>Essential Responsibilities: </b></p><ul>\r\n<li>Implements tasks within the Software Development Lifecycle (SDLC), receiving structure and oversight from more experienced staff</li>\r\n<li>Follows well-established internal conventions and standard procedures</li>\r\n<li>Understands internal standards &amp; processes an applies them to make technical decisions</li>\r\n<li>Collaborates with peers, manager, and project lead to gain understanding of tasks and review solutions</li>\r\n<li>May contribute to code &amp; design reviews</li>\r\n</ul><p></p><p><b>Minimum Qualifications:</b></p><ul>\r\n<li>1+ years relevant experience and a Bachelor’s degree OR Any equivalent combination of education and experience.</li>\r\n</ul><div><div><div><div><p style=\"text-align:inherit\"></p><p style=\"text-align:left\"><b>Additional Responsibilities &amp; Preferred Qualifications<span>:</span></b></p></div></div></div></div><h2><u><b>What We Build</b></u></h2><h2><b>Enhanced Onboarding Platform</b></h2><p>A next-generation platform that consolidates every onboarding path — direct/organic, connected-path (Integrated Signup), and managed-path (Multi-Account Management) — onto a single, consistent set of rails. EOP replaces flow-by-flow, hard-wired experiences with dynamic, just-in-time UI driven by downstream risk and compliance requirements. Business logic is centralized in a server-side orchestration mid-tier (Merchant Onboarding Management), keeping front-end experiences lightweight. The platform supports web, mobile, API, and webhook integration models and integrates in real time with the Salesforce CRM platform to onboard high-value merchants and partners.</p><p></p><h2><b>Merchant Servicing Platform</b></h2><p>The platform that supports merchants once they are live — wallet, profile, settings, preferences, configuration, and transaction history. We are extending servicing beyond the UI to offer APIs and webhooks as first-class servicing experiences, especially for partners managing merchants on their own platforms, across all merchant segments from SMB through Large Enterprise.</p><p></p><h2><u><b>Role Summary</b></u></h2><p>We are looking for a Software Engineer with 3+ years of experience to help design, build, and scale the microservices, APIs, and data pipelines behind our onboarding and servicing platforms. You will write high-quality Java code, build resilient RESTful services and batch workflows on the Spring ecosystem, and collaborate with product and cross-functional partners to deliver features that thousands of merchants and partners depend on every day.</p><p></p><h2><u><b>Key Responsibilities</b></u></h2><h2><b>Software Development</b></h2><ul><li>Write and maintain clean, efficient, and scalable code primarily in Java and Scala for data pipelines and microservices.</li><li>Implement microservices architecture, ensuring modularity, scalability, and maintainability.</li><li>Conduct rigorous code reviews and debugging, and develop automated tests to verify software functionality and performance.</li><li>Develop and maintain RESTful APIs, Java services, and batch processing jobs using the Spring Framework (including Spring MVC and Spring Boot/Batch where applicable) to support scalable enterprise applications.</li></ul><p></p><p><b>Collaboration and Integration</b></p><ul><li>Participate actively in agile development processes, including code reviews, daily stand-ups, and design discussions.</li><li>Adhere to software engineering best practices such as version control and continuous integration/deployment.</li></ul><p></p><h2><u><b>Skills and Qualifications</b></u></h2><h2><b>Technical Skills</b></h2><ul><li>Proficient in the Java programming language with a solid grasp of software development principles.</li><li>Familiarity with core computer science concepts such as data structures, algorithms, software design principles, object-oriented programming, and relational database concepts.</li><li>Knowledge of building and optimizing data storage solutions and managing cloud infrastructure for high availability and performance.</li><li>Proficient in Java and the Spring ecosystem, with experience building REST APIs, web services, scalable microservices, and batch workflows.</li><li>Familiarity with programming for data processing and automation to complement Java-based Spring applications.</li><li>Familiarity with developing automated tests to ensure software functionality and performance.</li><li>Ability to design, develop, and manage automated workflows for seamless data orchestration.</li></ul><p></p><h2><b>Analytical and Collaboration Skills</b></h2><ul><li>Strong analytical and problem-solving skills with attention to detail.</li><li>Effective communication and collaboration abilities to work with cross-functional teams, including product teams.</li></ul><p></p><h2><u><b>Why Join Us</b></u></h2><p>You will build distributed systems with real scale and real stakes — orchestration across PayPal’s core platforms (risk, compliance, identity, and growth), event-driven and batch processing, and API and webhook design. You will see first-hand how strong architecture reduces time-to-market, cuts defects, and improves developer productivity, working alongside engineers and product partners who care deeply about building reusable platform rails rather than one-off flows.<i>.</i></p><p style=\"text-align:inherit\"></p><p style=\"text-align:left\"><b>Subsidiary:</b></p>PayPal<p style=\"text-align:inherit\"></p><p style=\"text-align:left\"><b>Travel Percent:</b></p>0<p style=\"text-align:inherit\"></p><p style=\"text-align:inherit\"></p><p style=\"text-align:inherit\"></p><p style=\"text-align:inherit\"></p><p style=\"text-align:inherit\"></p><p style=\"text-align:inherit\"></p><p></p><p><span>PayPal does not charge candidates any fees for courses, applications, resume reviews, interviews, background checks, or onboarding. When making an application directly, we will never ask you to share passwords, one-time passcodes (OTP), or verification codes.  Any such request is a red flag and likely part of a scam. All communication regarding your application will come from official PayPal email domains. If you suspect fraudulent activity, please report it immediately.  To learn more about how to identify and avoid recruitment fraud please visit </span><a href=\"http://careers.pypl.com/contact-us\" target=\"_blank\"><span>https://careers.pypl.com/contact-us</span></a><span>. </span></p><p></p><p>For the majority of employees, PayPal's balanced hybrid work model offers 3 days in the office for effective in-person collaboration and 2 days at your choice of either the PayPal office or your home workspace, ensuring that you equally have the benefits and conveniences of both locations.</p><p></p><p><b>Our Benefits:</b></p><p>At PayPal, we’re committed to building an equitable and inclusive global economy. And we can’t do this without our most important asset-you. That’s why we offer comprehensive, choice-based programs, to support all aspects of personal wellbeing—physical, emotional, and financial—delivering meaningful value where it matters most. We strive to create a flexible, balanced work culture with a holistic approach to benefits, including generous paid time off, healthcare coverage for you and your family, and resources to create financial security and support your mental health.</p><p></p><p><b>Who We Are:</b></p><p><a href=\"https://about.pypl.com/who-we-are/default.aspx\" target=\"_blank\"><span>Click Here</span></a><span> to learn more about our culture and community.</span></p><p></p><p><b>Commitment to Diversity and Inclusion  </b></p><p><span>PayPal provides equal employment opportunity (EEO) to all persons regardless of age, color, national origin, citizenship status, physical or mental disability, race, religion, creed, gender, sex, pregnancy, sexual orientation, gender identity and/or expression, genetic information, marital status, status with regard to public assistance, veteran status, or any other characteristic protected by federal, state, or local law.  In addition, PayPal will provide reasonable accommodations for qualified individuals with disabilities.  If you are unable to submit an application because of incompatible assistive technology or a disability, please contact us at </span><a href=\"mailto:paypalglobaltalentacquisition@paypal.com\" target=\"_blank\"><span><span><span>paypalglobaltalentacquisition@paypal.com</span></span></span></a><span>.  </span></p><p></p><p><b>Belonging at PayPal:</b> </p><p>Our employees are central to advancing our mission, and we strive to create an environment where everyone can do their best work with a sense of purpose and belonging. Belonging at PayPal means creating a workplace with a sense of acceptance and security where all employees feel included and valued. We are proud to have a diverse workforce reflective of the merchants, consumers, and communities that we serve, and we continue to take tangible actions to cultivate inclusivity and belonging at PayPal.</p><p></p><p><span>Any general requests for consideration of your skills, please </span><a href=\"https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpaypal.eightfold.ai%2Fcareers%2Fjoin%3Fdomain%3Dpaypal.com&amp;data=05%7C01%7Chmouchel%40paypal.com%7C896c661e48224f2f6c0608db51a99675%7Cfb00791460204374977e21bac5f3f4c8%7C0%7C0%7C638193561037230485%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=iYNNAXZqfoYTLGNP79IEWsPoYxBR8lE1%2BqNN6c2Kmnk%3D&amp;reserved=0\" target=\"_blank\">Join our Talent Community</a><span>. </span></p><p></p><p><u>We know the confidence gap and imposter syndrome can get in the way of meeting spectacular candidates. Please don’t hesitate to apply.</u></p><p></p>",
+  "location": "Central Singapore, Singapore",
+  "isHot": 0,
+  "workLocationOption": "onsite",
+  "locationFlexibility": null,
+  "atsJobId": "R0137858",
+  "positionUrl": "/careers/job/274922421610",
+  "publicUrl": "https://paypal.eightfold.ai/careers/job/274922421610",
+  "efcustomTextJobFunction2": null,
+  "efcustomTextTimeType": [
+   "Full time"
+  ],
+  "efcustomTextTimeTypeEvg": [],
+  "jdHighlight": [],
+  "positionExtraDetails": {
+   "videos": [
+    {
+     "url": "https://www.youtube.com/embed/VyoiQO4VJ0s?si=ohRE9Lle_5gzifk2",
+     "title": "A Peek Inside PayPal’s Two-Sided Network of Consumers and Businesses",
+     "description": "Find out more about what makes PayPal uniquely positioned to help businesses sell and consumers shop with confidence.\n\nLearn more about PayPal’s Two-S..."
+    },
+    {
+     "url": "https://www.youtube.com/embed/NumgKtM7jNY?si=ljmo0cJRnhAm0uTc",
+     "title": "Every Person Has the Right to Participate Fully in the Global Economy",
+     "description": "Our mission at PayPal is to democratize financial services to ensure that everyone, regardless of background or economic standing, has access to affor..."
+    },
+    {
+     "url": "https://www.youtube.com/embed/D8gmmCU44w4?si=ANjkw2p7I1j58O6r",
+     "title": "Day in the Life of a PayPal EMEA Intern",
+     "description": "PayPal EMEA interns share with us a glimpse into their life while interning for our Fall 2022 program.  Building a career at PayPal gives you a chance..."
+    }
+   ],
+   "blogs": [],
+   "perks": [
+    {
+     "title": "Comprehensive Health and Wellness",
+     "description": "Holistic programs to help you and your family stay healthy at every stage of life",
+     "image": null,
+     "imageAlt": null,
+     "icon": "fas fa-heartbeat",
+     "isFavicon": true
+    },
+    {
+     "title": "Financial Security ",
+     "description": "Retirement and investment resources to give you financial security today and in the years ahead",
+     "image": null,
+     "imageAlt": null,
+     "icon": "fa-piggy-bank",
+     "isFavicon": true
+    },
+    {
+     "title": "Time Off and Leaves",
+     "description": "Our time off and leave programs support employees with the time they need to rest and recharge, so they can bring their best to their work and everyday lives.",
+     "image": null,
+     "imageAlt": null,
+     "icon": "fal fa-clock",
+     "isFavicon": true
+    },
+    {
+     "title": "Career and Leadership Training and Development ",
+     "description": "Educational benefits, training and skill-building to help you grow your career ",
+     "image": null,
+     "imageAlt": null,
+     "icon": "fa-laptop",
+     "isFavicon": true
+    },
+    {
+     "title": "Community Involvement ",
+     "description": "Impact the community you call home with company-matched giving, volunteering opportunities and employee experiences",
+     "image": null,
+     "imageAlt": null,
+     "icon": "fal fa-user-friends",
+     "isFavicon": true
+    }
+   ],
+   "pymww": {
+    "people": [],
+    "count": 0
+   },
+   "customContent": [
+    {
+     "body": "<center>When you become part of our Talent Community, we’ll keep you posted about future job opportunities that you may be a match for, as well as career-related events.<br><br><br><a class='nav-btn btn btn-sm header-search-btn' href='https://paypal.eightfold.ai/careers/join?domain=paypal.com'>Join Talent Community</a><br><br><a style='color:#337ab7' href='https://careers.pypl.com/candidate-privacy-statement/'target='_blank' >Candidate Privacy</a><br><br><a style='color:#337ab7' onClick='manageCookiePreferences()' >Cookies</a> </center>",
+     "title": ""
+    }
+   ]
+  }
+ },
+ "metadata": null
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema-jsonc.json",
+  // Files reached in ways knip cannot follow from package.json, index.html and
+  // the Vite, Vitest and Playwright configs.
+  "entry": [
+    // Loaded by a plain <script> tag from index.html.
+    "public/theme-boot.js",
+    // Served by the copy Vite plugin's inline page (scripts/copy/vite-plugin.mjs).
+    "src/copy/review/main.tsx",
+    // Read by path from tests, never imported.
+    "src/**/*.fixture.ts",
+    "src/test/cycle-fixture/*.ts",
+    // Compiled by tsc only; it fails to type-check when the API contract drifts.
+    "src/test/api-contract.types.ts",
+    // The primitive tier's public API (docs/architecture.md); callers also
+    // import primitives from their own files, so a name here can be unused.
+    "src/ui/index.ts",
+    // Command-line tools run by hand or from CI workflows.
+    "scripts/*.mjs",
+    "scripts/copy/codemod.mjs"
+  ],
+  // The generated copy in src/copy/gen/ is gitignored but imports the copy
+  // runtime, so `npm run knip` passes --no-gitignore and the project names the
+  // source roots instead.
+  "project": ["src/**", "scripts/**", "tests/**", "public/**", "*.{js,ts}"],
+  "ignore": [
+    // Type declarations for the .mjs scripts; tsc reads them beside their module.
+    "scripts/**/*.d.mts",
+    "src/**/*.gen.ts",
+    "src/copy/gen/**"
+  ],
+  // Exported types are the component and API vocabulary; an unused one costs
+  // nothing at runtime, and reporting them buries the findings that matter.
+  "rules": {
+    "types": "off"
+  }
+}

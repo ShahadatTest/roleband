@@ -1,0 +1,59 @@
+name: A company is missing or wrong
+description: RoleBand cannot read a company, misses or keeps its postings, or shows a wrong level, pay or benefits figure.
+labels: [area:sources, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        To add a company yourself, try **Settings > Companies > Add a company by link** first.
+  - type: input
+    id: company
+    attributes:
+      label: Company
+    validations:
+      required: true
+  - type: input
+    id: careers-page
+    attributes:
+      label: Careers page link
+      description: The public page that lists the company's jobs.
+      placeholder: https://
+    validations:
+      required: true
+  - type: dropdown
+    id: problem
+    attributes:
+      label: What is wrong
+      options:
+        - It is not in RoleBand
+        - Adding it by link fails
+        - Some or all of its postings are missing
+        - Closed postings are still shown
+        - A posting's text or place is wrong
+        - A level, pay or benefits figure is wrong
+        - Syncing it fails with an error
+    validations:
+      required: true
+  - type: textarea
+    id: row
+    attributes:
+      label: What its row in Settings > Companies says
+      description: For example "Blocked", "Careers page gone", or when it was last read.
+  - type: textarea
+    id: example
+    attributes:
+      label: An example
+      description: A posting link that shows the problem, and what RoleBand shows for it.
+  - type: textarea
+    id: source
+    attributes:
+      label: Where the right value comes from
+      description: For a level, pay or benefits figure. A public pay filing, the company's own page, or another source anyone can check.
+  - type: checkboxes
+    id: public
+    attributes:
+      label: Before you submit
+      description: RoleBand reads only public listings.
+      options:
+        - label: The jobs list opens without signing in and without a CAPTCHA.
+          required: true

@@ -1,0 +1,80 @@
+name: vendored-provenance
+
+# Has upstream moved under our vendored snapshots?
+#
+# RoleBand installs no scraper engine, so the only upstream code here is a
+# vendored snapshot that deliberately never auto-follows upstream. That
+# policy is right and it creates one blind spot: a stale snapshot is
+# indistinguishable from a current one, so upstream fixes silently never arrive.
+# This job is the notice, not an updater - it never edits code and no dependency
+# bot can see vendored source.
+#
+# NON-BLOCKING by construction. It runs on a schedule and on demand, never on
+# push or pull_request, so a GitHub outage or an API rate limit can never fail
+# somebody's PR. A failure here means "read this", not "the build is broken".
+#
+# CAVEAT worth knowing: `schedule` only fires on the default branch of the
+# GitHub remote. A checkout whose commits sit unpushed is not covered, so treat
+# this as a backstop and run the script by hand monthly:
+#
+#     cd backend && .venv/bin/python -m scripts.check_vendored_upstream
+
+on:
+  schedule:
+    # 07:00 UTC on the 1st: the monthly review cadence.
+    - cron: "0 7 1 * *"
+  workflow_dispatch:
+  push:
+    # Only when the pins themselves change, so a bad record is caught at the
+    # commit that wrote it rather than up to a month later.
+    branches: [main]
+    paths:
+      - "backend/tracker/vendored.py"
+      - "backend/scripts/check_vendored_upstream.py"
+      - ".python-version"
+      - ".github/workflows/vendored-provenance.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      # httpx alone: the checker fetches and hashes blobs and needs none of the
+      # DB/ML stack, so this stays a ~5s job rather than a full install.
+      - run: pip install "httpx[http2]==0.28.1"
+      - name: check vendored upstream
+        working-directory: backend
+        env:
+          # Lifts the 60/hour unauthenticated GitHub API limit. Read-only.
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          python -m scripts.check_vendored_upstream | tee report.txt
+          code=${PIPESTATUS[0]}
+          {
+            echo "## Vendored upstream provenance"
+            echo
+            echo '```'
+            cat report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          case $code in
+            0) echo "::notice::vendored snapshots are current" ;;
+            1) echo "::warning::upstream changed a vendored file - diff it and decide" ;;
+            2) echo "::error::a recorded provenance hash no longer matches its own ref" ;;
+            3) echo "::notice::could not reach upstream; no verdict about the code" ;;
+          esac
+          # A broken PIN is our own record being wrong and is worth failing on.
+          # DRIFT and UNKNOWN are information, and this job must not become a
+          # red X people learn to ignore.
+          [ "$code" = "2" ] && exit 1
+          exit 0

@@ -1,0 +1,31 @@
+{
+  "counts": {
+    "diagnostics": {
+      "error-message-shown": 1
+    },
+    "features/companies": {
+      "literal-copy": 1,
+      "module-scope-copy": 1
+    },
+    "features/company-profiles": {
+      "split-sentence": 1,
+      "message-spacer": 1
+    },
+    "features/scope": {
+      "plural-ternary": 1,
+      "recased-copy": 2
+    },
+    "features/settings": {
+      "plural-ternary": 2
+    },
+    "features/statistics": {
+      "plural-ternary": 1,
+      "recased-copy": 1
+    },
+    "ui": {
+      "plural-ternary": 1,
+      "recased-copy": 6
+    }
+  },
+  "literals": []
+}

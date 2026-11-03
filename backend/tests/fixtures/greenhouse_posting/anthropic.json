@@ -1,0 +1,228 @@
+{
+ "id": 5407418008,
+ "title": "Head of Policy Design, Societal Harms",
+ "questions": [
+  {
+   "label": "First Name",
+   "required": true,
+   "fields": [
+    {
+     "name": "first_name",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Last Name",
+   "required": true,
+   "fields": [
+    {
+     "name": "last_name",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Email",
+   "required": true,
+   "fields": [
+    {
+     "name": "email",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Phone",
+   "required": false,
+   "fields": [
+    {
+     "name": "phone",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Resume/CV",
+   "required": true,
+   "fields": [
+    {
+     "name": "resume",
+     "type": "input_file"
+    },
+    {
+     "name": "resume_text",
+     "type": "textarea"
+    }
+   ]
+  },
+  {
+   "label": "(Optional) Personal Preferences",
+   "required": false,
+   "fields": [
+    {
+     "name": "question_18498794008",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Website",
+   "required": false,
+   "fields": [
+    {
+     "name": "question_18498795008",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Are you open to working in-person in one of our offices 25% of the time?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_18498796008",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "When is the earliest you would want to start working with us?",
+   "required": false,
+   "fields": [
+    {
+     "name": "question_18498797008",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Do you have any deadlines or timeline considerations we should be aware of?",
+   "required": false,
+   "fields": [
+    {
+     "name": "question_18498798008",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "AI Policy for Application",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_18498799008",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Why Anthropic?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_18498800008",
+     "type": "textarea"
+    }
+   ]
+  },
+  {
+   "label": "Do you require visa sponsorship? ",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_18498801008",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Will you now or will you in the future require employment visa sponsorship to work in the country in which the job you're applying for is located? ",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_18498802008",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Additional Information",
+   "required": false,
+   "fields": [
+    {
+     "name": "question_18498803008",
+     "type": "textarea"
+    }
+   ]
+  },
+  {
+   "label": "LinkedIn Profile",
+   "required": false,
+   "fields": [
+    {
+     "name": "question_18498804008",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Are you open to relocation for this role? ",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_18498805008",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "What is the address from which you plan on working? If you would need to relocate, please type \"relocating\".",
+   "required": false,
+   "fields": [
+    {
+     "name": "question_18498806008",
+     "type": "input_text"
+    }
+   ]
+  },
+  {
+   "label": "Have you ever interviewed at Anthropic before?",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_18498807008",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Please read the arbitration agreement below",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_18498808008",
+     "type": "multi_value_single_select"
+    }
+   ]
+  },
+  {
+   "label": "Agreement to Arbitrate",
+   "required": true,
+   "fields": [
+    {
+     "name": "question_18498809008",
+     "type": "multi_value_single_select"
+    }
+   ]
+  }
+ ],
+ "pay_input_ranges": [
+  {
+   "title": "Annual Salary:",
+   "min_cents": 33000000,
+   "max_cents": 39500000,
+   "currency_type": "USD"
+  }
+ ]
+}

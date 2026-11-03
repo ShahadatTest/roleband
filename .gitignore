@@ -1,0 +1,40 @@
+# Python
+backend/.venv
+__pycache__/
+*.pyc
+backend/.env
+.pytest_cache/
+backend/.pytest_cache/
+backend/.mypy_cache/
+
+# Node
+node_modules/
+dashboard/node_modules/
+dashboard/dist/
+dashboard/dist.next/
+dashboard/dist.previous/
+test-results/
+dashboard/test-results/
+dashboard/playwright-report/
+dashboard/tsconfig.tsbuildinfo
+
+# Data / logs
+data/
+*.log
+
+# OS
+.DS_Store
+
+# Local Codex settings
+.codex/config.toml
+
+# Local agent tooling and settings: each contributor's own, never committed.
+.claude/
+.codex/
+.agents/
+
+# Plugin SDK and template build output (never under backend/)
+sdk/python/build/
+robots/python/build/
+sdk/python/dist/
+*.egg-info/

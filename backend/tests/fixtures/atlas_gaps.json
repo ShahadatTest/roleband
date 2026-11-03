@@ -1,0 +1,39 @@
+{
+  "annual_refresh": [],
+  "bonus_rule": [],
+  "equity_rule": [],
+  "filed_base": [
+    "ami-labs",
+    "anduril",
+    "gitlab",
+    "google-deepmind",
+    "grafana-labs",
+    "hugging-face",
+    "linear",
+    "revolut",
+    "supercell",
+    "wiz"
+  ],
+  "identity": [],
+  "ladder": [
+    "broadcom",
+    "snyk",
+    "ubisoft"
+  ],
+  "level_base": [
+    "ami-labs",
+    "broadcom",
+    "grafana-labs",
+    "hugging-face",
+    "linear",
+    "lovable",
+    "mistral",
+    "revolut",
+    "roland-berger",
+    "snyk",
+    "supercell",
+    "wiz",
+    "xtx-markets"
+  ],
+  "vesting": []
+}

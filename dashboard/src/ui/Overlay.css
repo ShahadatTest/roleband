@@ -1,0 +1,74 @@
+/* Overlay core (ui- prefix, tokens only — docs/ui.md).
+   Wrapper spans the viewport but lets clicks through except on the scrim and
+   the content itself, so shells can position content anywhere inside it. */
+.ui-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  pointer-events: none;
+}
+
+/* THE LAYER SCALE — three ranks at the root, low to high:
+ *    60  a COVER: a screen laid over the list it was opened from
+ *        (patterns/Cover). Opaque and scrimless — it IS the screen, not a
+ *        question put over one.
+ *   110  what reports ON the screen: ui/Toast's host, carrying the way back
+ *        from the screen's own gestures. Above a cover, or the Undo raised
+ *        inside the comparison paints underneath it.
+ *   120  a DIALOG, sheet or popover: a question put over the screen. Above
+ *        the toast, because a dialog owns its own failure feedback, in the
+ *        dialog. The command
+ *        palette (shell.css) is the same kind of thing at the same rank.
+ * Anything that paints on the middle rank and carries a control joins a
+ * cover's Tab ring by carrying `data-above-cover` (Overlay.tsx). */
+.ui-overlay.ui-overlay-cover {
+  z-index: 60;
+}
+.ui-overlay-scrim {
+  position: fixed;
+  inset: 0;
+  pointer-events: auto;
+  appearance: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  cursor: default;
+}
+.ui-overlay-scrim-dim {
+  background: rgba(4, 3, 2, 0.45);
+  backdrop-filter: blur(4px);
+  animation: ui-overlay-fade-in var(--app-duration-fast) var(--app-ease) both;
+}
+@keyframes ui-overlay-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+.ui-overlay-content {
+  position: relative;
+  pointer-events: auto;
+  outline: none;
+}
+
+/* Full-bleed: the content element IS the viewport, not a box positioned inside
+   it. `relative` above is the default for ANCHORED shells (Popover), and it
+   collapses to zero height around a `position: fixed` child — which reads to a
+   browser, and to Playwright, as a hidden dialog. The one cover this exists for
+   is the opportunity detail. Opt in with `className`, so no shell
+   gets it by accident. */
+.ui-overlay-content.ui-overlay-full {
+  position: fixed;
+  inset: 0;
+}
+
+/* The shell takes focus on open (tabindex="-1") so the trap has somewhere to
+ * land, but it is a focus TARGET, not a control — the app's global
+ * `[tabindex]:focus-visible` ring would otherwise draw a 2px accent outline
+ * around the whole dialog, which reads as "this panel is selected". That rule
+ * is specificity 0-2-0, so plain `.ui-overlay-content` above cannot cancel it;
+ * this selector matches it and wins on source order. Controls INSIDE the
+ * overlay keep their own rings. */
+.ui-overlay-content:focus-visible {
+  outline: none;
+}

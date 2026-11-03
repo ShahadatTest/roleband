@@ -1,0 +1,177 @@
+/* The PAGE variant's family (`.empty`, `.empty-art` and its motif, `.big`)
+   lives in design/overlays.css with the other shared classes. CSS here
+   follows the primitive rule: co-located with the primitive, `ui-`
+   prefixed. */
+
+/* The INLINE variant, for an empty that happens inside a container that is
+   still furnished: the register body under its own column head, the 260px
+   company selector beside the profile it drives. The page variant's 88px radar,
+   dashed frame and centred `--app-type-name` heading are sized for a screen's
+   whole content column — dropped into a 260px rail they overwhelm it. This one
+   keeps the voice (a stated title, then the way out)
+   and drops the furniture: text, in the flow, inheriting the material. */
+.ui-empty-inline {
+  padding: var(--app-space-4) var(--app-space-2);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  line-height: 1.5;
+}
+
+.ui-empty-inline-title {
+  margin: 0;
+  color: var(--app-text);
+  font-weight: var(--app-weight-name);
+}
+
+/* The recovery. `ui/Button`'s `link` variant is a verb inside running text, so
+   the actions live in this sentence rather than in a button row — two of them
+   wrap on their own at 260px. */
+.ui-empty-inline-body {
+  margin: var(--app-space-1) 0 0;
+}
+
+/* The PREVIEW variant: a ghost of the content's silhouette with the copy
+   centred over it. Ghost and copy stack in one grid cell, so the taller of
+   the two sets the height and the copy never clips. */
+.ui-empty-preview {
+  display: grid;
+}
+
+.ui-empty-preview > * {
+  grid-area: 1 / 1;
+}
+
+.ui-empty-preview-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--app-space-4);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  line-height: 1.5;
+  /* A soft wash of the ground lifts the copy off the ghost behind it. */
+  background: radial-gradient(ellipse 62% 58% at center, var(--app-canvas) 35%, transparent 78%);
+}
+
+.ui-empty-preview-copy .ui-empty-inline-body {
+  max-width: 48ch;
+}
+
+.ui-empty-preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--app-space-3);
+  margin-top: var(--app-space-3);
+}
+
+/* The chart ghost keeps the chart primitive's height and its layout: a label
+   column, the plot, a date row. The blur is the point: enough that no label
+   or price can be read, little enough that it is plainly a chart. Its edges
+   blur too, so the frame clips them. */
+.ui-empty-ghost-chart {
+  height: 220px;
+  overflow: hidden;
+  color: var(--app-text-muted);
+}
+
+.ui-empty-ghost-snapshot {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  grid-template-rows: 1fr 20px;
+  column-gap: var(--app-space-2);
+  height: 100%;
+  filter: blur(3px);
+  opacity: 0.75;
+}
+
+.ui-empty-ghost-snapshot svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ui-empty-ghost-grid {
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.3;
+  vector-effect: non-scaling-stroke;
+}
+
+.ui-empty-ghost-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Label smudges: one beside each gridline, a row of dates under the plot. */
+.ui-empty-ghost-yaxis {
+  position: relative;
+}
+
+.ui-empty-ghost-yaxis span {
+  position: absolute;
+  right: 0;
+  width: 32px;
+  transform: translateY(-50%);
+}
+
+.ui-empty-ghost-xaxis {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ui-empty-ghost-xaxis span {
+  width: 34px;
+}
+
+.ui-empty-ghost-yaxis span,
+.ui-empty-ghost-xaxis span {
+  height: 7px;
+  border-radius: 4px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+/* The rows ghost: a table's bones. The first column is the row head, so it
+   is a shade stronger, like a real table's. */
+.ui-empty-ghost-rows {
+  display: grid;
+  align-content: center;
+  gap: var(--app-space-5);
+  min-height: 180px;
+  padding: var(--app-space-4) 0;
+}
+
+.ui-empty-ghost-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.2fr 1fr 1fr;
+  gap: var(--app-space-5);
+  align-items: center;
+}
+
+.ui-empty-ghost-row span {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--app-border);
+}
+
+.ui-empty-ghost-row span:first-child {
+  background: var(--app-border-strong);
+}
+
+/* Uneven cell widths, so the rows read as a table's absent data rather than
+   as decoration. */
+.ui-empty-ghost-row span:nth-child(2) { width: 72%; }
+.ui-empty-ghost-row span:nth-child(3) { width: 58%; }
+.ui-empty-ghost-row span:nth-child(4) { width: 80%; }
+.ui-empty-ghost-row span:nth-child(5) { width: 48%; }
+.ui-empty-ghost-row:nth-child(even) span:nth-child(2) { width: 56%; }
+.ui-empty-ghost-row:nth-child(even) span:nth-child(4) { width: 64%; }
+.ui-empty-ghost-row:nth-child(3) span:nth-child(5) { width: 70%; }

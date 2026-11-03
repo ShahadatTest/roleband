@@ -1,0 +1,145 @@
+{
+ "offset": 0,
+ "limit": 100,
+ "totalFound": 3,
+ "content": [
+  {
+   "id": "744000150000001",
+   "name": "Senior Engineering Manager - Payments",
+   "uuid": "0000-744000150000001",
+   "jobAdId": "ad-744000150000001",
+   "defaultJobAd": true,
+   "refNumber": "R-1001",
+   "company": {
+    "identifier": "Wise",
+    "name": "Wise"
+   },
+   "releasedDate": "2026-09-15T10:00:00.000Z",
+   "location": {
+    "city": "London",
+    "region": "England",
+    "country": "gb",
+    "remote": false,
+    "fullLocation": "London, England, United Kingdom"
+   },
+   "industry": {
+    "id": "financial_services",
+    "label": "Financial Services"
+   },
+   "department": {
+    "id": "d-engineering",
+    "label": "Engineering"
+   },
+   "function": {
+    "id": "engineering",
+    "label": "Engineering"
+   },
+   "typeOfEmployment": {
+    "id": "permanent",
+    "label": "Full-time"
+   },
+   "experienceLevel": {
+    "id": "mid_senior_level",
+    "label": "Mid-Senior Level"
+   },
+   "ref": "https://api.smartrecruiters.com/v1/companies/Wise/postings/744000150000001",
+   "language": {
+    "code": "en",
+    "label": "English",
+    "labelNative": "English (US)"
+   }
+  },
+  {
+   "id": "744000150000002",
+   "name": "Staff Product Manager - Treasury",
+   "uuid": "0000-744000150000002",
+   "jobAdId": "ad-744000150000002",
+   "defaultJobAd": true,
+   "refNumber": "R-1002",
+   "company": {
+    "identifier": "Wise",
+    "name": "Wise"
+   },
+   "releasedDate": "2026-09-12T08:30:00.000Z",
+   "location": {
+    "city": "Tallinn",
+    "region": "Harju",
+    "country": "ee",
+    "remote": false,
+    "fullLocation": "Tallinn, Harju, Estonia"
+   },
+   "industry": {
+    "id": "financial_services",
+    "label": "Financial Services"
+   },
+   "department": {
+    "id": "d-product",
+    "label": "Product"
+   },
+   "function": {
+    "id": "engineering",
+    "label": "Engineering"
+   },
+   "typeOfEmployment": {
+    "id": "permanent",
+    "label": "Full-time"
+   },
+   "experienceLevel": {
+    "id": "mid_senior_level",
+    "label": "Mid-Senior Level"
+   },
+   "ref": "https://api.smartrecruiters.com/v1/companies/Wise/postings/744000150000002",
+   "language": {
+    "code": "en",
+    "label": "English",
+    "labelNative": "English (US)"
+   }
+  },
+  {
+   "id": "744000150000003",
+   "name": "Principal Engineer - Platform",
+   "uuid": "0000-744000150000003",
+   "jobAdId": "ad-744000150000003",
+   "defaultJobAd": true,
+   "refNumber": "R-1003",
+   "company": {
+    "identifier": "Wise",
+    "name": "Wise"
+   },
+   "releasedDate": "2026-09-10T15:45:00.000Z",
+   "location": {
+    "city": "Austin",
+    "region": "TX",
+    "country": "us",
+    "remote": true,
+    "fullLocation": "Austin, TX, United States"
+   },
+   "industry": {
+    "id": "financial_services",
+    "label": "Financial Services"
+   },
+   "department": {
+    "id": "d-engineering",
+    "label": "Engineering"
+   },
+   "function": {
+    "id": "engineering",
+    "label": "Engineering"
+   },
+   "typeOfEmployment": {
+    "id": "permanent",
+    "label": "Full-time"
+   },
+   "experienceLevel": {
+    "id": "mid_senior_level",
+    "label": "Director"
+   },
+   "ref": "https://api.smartrecruiters.com/v1/companies/Wise/postings/744000150000003",
+   "language": {
+    "code": "en",
+    "label": "English",
+    "labelNative": "English (US)"
+   }
+  }
+ ]
+}

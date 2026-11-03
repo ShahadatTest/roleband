@@ -1,0 +1,416 @@
+/* The shared layer, promoted.
+ *
+ * The app is not a set of separable
+ * screens: it has a COMMON vocabulary — page hero, results head, buttons,
+ * tables, bars, stat tiles — that almost every screen renders, and a set of
+ * shared components (JobCard, DescriptionComparison) that cross screen
+ * boundaries. Styling that vocabulary per screen would duplicate it once per
+ * slot.
+ *
+ * So the layer is stated ONCE, here, behind the opt-in marker the rest of the
+ * promoted skin uses: `[data-design-system="app"]`. A rule applies only where
+ * a screen's root carries the marker.
+ *
+ * Shared class NAMES (`.page-hero`, `.panel`), not `ui-` names: they are
+ * written into every consuming screen's markup.
+ */
+
+/* ---- utilities ----------------------------------------------------------- */
+
+/* Visually hidden, still announced. A generic a11y utility (a chart's
+   screen-reader summary, JobCard's row summary, Review, the notification
+   diagnostics), so it sits unscoped in the shared layer rather than under a
+   marker or in a chart sheet: every consumer is a lazy route chunk, and this
+   file loads eagerly from main.tsx.
+
+   No token names it and none should. The 1px box and the `clip` rect are the
+   standard recipe, not a design decision this system gets to retune. */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* ---- page chrome --------------------------------------------------------- */
+
+/* ONE page header (patterns/PageHeader), on every tab of the rail: the same
+   h1, at the same height and the same left edge, whichever screen you switch
+   to. Stated for both design-system scopes because Profile and
+   Settings mount the settings scope. The header pays the page's top air
+   itself (`.main > .page-hero`), so every scroller that leads with it sets
+   `padding-top: 0`: a sticky bar then pins at the scrollport edge. A
+   `.page-hero` INSIDE a panel (Insights' Demand,
+   Skills, Clusters) is a panel head and takes no top air. */
+[data-design-system] .page-hero {
+  margin-bottom: var(--app-space-4);
+  padding: 0 0 var(--app-space-4);
+  border-bottom: 1px solid var(--app-border);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--app-space-5);
+}
+
+/* The title keeps its screen's measure (Board 1460, Companies 1480, full
+   width on Settings, Profile, Insights and Duplicates) so it shares a left
+   edge with the content under it. Up to ~1560px every tab is full width and
+   the title sits at one point; past that the measures differ, which is a
+   measure question, not a header one. */
+.main > .page-hero { margin-top: var(--app-space-5); }
+/* An action (Profile's guide, the Insights view switch) never sets the row's
+   height: the title's does, so the h1 sits where it sits on every tab
+   (page-header.spec.ts). */
+[data-design-system] .page-hero > .ui-btn-icon,
+[data-design-system] .page-hero > .ui-switch {
+  align-self: center;
+  margin-block: calc(-1 * var(--app-space-1));
+}
+
+[data-design-system] .page-hero h1 {
+  margin: 0;
+  color: var(--app-text);
+  font-size: var(--app-type-page);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: var(--app-weight-name);
+}
+
+/* A panel head inside a page (Insights' Demand, Skills, Clusters) is an h2
+   under the page's h1, at the card-heading rank. */
+[data-design-system] .page-hero h2 {
+  margin: 0;
+  color: var(--app-text);
+  font-size: var(--app-type-screen);
+  line-height: 1.2;
+  font-weight: var(--app-weight-name);
+}
+
+[data-design-system] .page-hero p {
+  max-width: 68ch;
+  margin: 5px 0 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+}
+
+/* The eyebrow is a recognition label: the whisper recipe, uppercase and
+   tracked.
+
+   Unscoped, like the rest of the shared classes: ScopeGuide renders it inside
+   the Settings scope and on the wizard, where no `app` marker is. */
+.eyebrow {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+[data-design-system="app"] .results-head {
+  margin-bottom: var(--app-space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  flex-wrap: wrap;
+}
+
+/* A count is a fact, so it stops at `meta`. */
+[data-design-system="app"] .results-count {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+[data-design-system="app"] .results-count strong {
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  /* 600, a face we load: an unloaded mono weight paints a neighbouring face
+     (font-weights.test.ts), and a heavier one outweighs the h1 beside it. A
+     count is a fact, and the name rank is where a fact's emphasis stops. */
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- controls ------------------------------------------------------------ */
+/* No button rules here: a button is ui/Button. Anything reaching for one:
+   import it. There is one. */
+
+/* The chip: the base of the controls that sit among a job row's labels (the
+   company chip, the search interpretation's terms). The read-only labels
+   themselves are ui/Badge tags, which own their geometry in ui/Badge.css.
+   Chip text is `micro` for the same reason a tag's is: at the `label` floor
+   four to six of them per row outweigh the 14px title they decorate. The
+   company chip carries its brand in a 14px MARK, not a fill. */
+[data-design-system="app"] .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 20px;
+  padding: 2px 7px;
+  border-radius: var(--app-radius-sm);
+  font-size: var(--app-type-micro);
+  font-weight: var(--app-weight-name);
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* The company chip: a 14px brand MARK beside the name, in the ink of the line
+   it sits on — no plate, no border, no fill (a frame around a mark and a word
+   contains what needs no containing). It stays a button (hover card, profile) and reads as text;
+   hover raises the ink, the ring is the focus signal. */
+[data-design-system="app"] .chip-co {
+  gap: 5px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--app-radius-sm);
+  background: transparent;
+  color: inherit;
+  letter-spacing: normal;
+}
+
+[data-design-system="app"] .co-chip-wrap {
+  display: inline-flex;
+}
+
+[data-design-system="app"] button.chip-co {
+  cursor: pointer;
+  font: inherit;
+  font-weight: var(--app-weight-ui);
+}
+
+[data-design-system="app"] button.chip-co:hover {
+  color: var(--app-text);
+}
+
+[data-design-system="app"] button.chip-co:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+[data-design-system="app"] .pager {
+  margin-top: var(--app-space-4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--app-space-2);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Prev / Next are ui/Button ghost/sm; the pager only lays them out. */
+
+/* ---- data surfaces ------------------------------------------------------- */
+/* `.panel`, `.loading`/`.spinner` and `.empty-hint` are stated in
+   overlays.css, where the ResourceLoadState primitive needs them; the rest of
+   the data vocabulary lives here. */
+
+[data-design-system="app"] .data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--app-type-meta);
+}
+
+[data-design-system="app"] .data-table th {
+  padding: var(--app-space-1) var(--app-space-2);
+  text-align: left;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+[data-design-system="app"] .data-table td {
+  padding: var(--app-space-2);
+  border-top: 1px solid var(--app-border);
+}
+
+[data-design-system="app"] .data-table th.num,
+[data-design-system="app"] .data-table td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+[data-design-system="app"] .data-table tbody tr {
+  transition: background var(--app-duration-fast);
+}
+
+[data-design-system="app"] .data-table tbody tr:hover {
+  background: var(--app-surface-hover);
+}
+
+[data-design-system="app"] .data-table td.num {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+}
+
+[data-design-system="app"] .data-table .pos {
+  color: var(--app-positive);
+  font-weight: var(--app-weight-name);
+}
+
+[data-design-system="app"] .data-table .dim {
+  color: var(--app-text-muted);
+}
+
+[data-design-system="app"] .bar-row {
+  margin-bottom: var(--app-space-2);
+  display: grid;
+  grid-template-columns: 132px 1fr 40px;
+  align-items: center;
+  gap: var(--app-space-2);
+  font-size: var(--app-type-meta);
+}
+
+[data-design-system="app"] .bar-row > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+[data-design-system="app"] .bar-track {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--app-surface-sunken);
+}
+
+/* The bar fill, on the categorical ramp, so a bar and its track come from
+   one system. */
+[data-design-system="app"] .bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--app-data-1), var(--app-data-2));
+  transition: width var(--app-duration-slow) var(--app-ease);
+}
+
+[data-design-system="app"] .bar-row .val {
+  text-align: right;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Provenance chips for the comp split (measured vs estimated) — rendered by
+   the job package panel and the trajectory table. */
+[data-design-system="app"] .split-src {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid var(--app-border);
+  color: var(--app-text-faint);
+}
+
+/* One class per wire value of `split_source`: a ratio this company was
+   measured to pay is `measured` (positive); one borrowed from another
+   discipline at the company, or a blend, is partly measured (warning). */
+[data-design-system="app"] .split-src-measured {
+  color: var(--app-positive);
+  border-color: var(--app-positive-line);
+}
+
+[data-design-system="app"] .split-src-cross_family,
+[data-design-system="app"] .split-src-mixed {
+  color: var(--app-warning);
+  border-color: var(--app-warning-line);
+}
+
+[data-design-system="app"] .split-src-heuristic {
+  color: var(--app-text-faint);
+}
+
+/* A measured split for a level we have reason to doubt: the chip keeps its own word
+   (where the ratios came from is a fact) and loses its confident colour. */
+[data-design-system="app"] .split-src-suspect {
+  color: var(--app-warning);
+  border-color: var(--app-warning-line);
+}
+
+/* ---- responsive: the shared vocabulary owns its own breakpoints ---------- *
+ *
+ * Responsive behaviour belongs with the rule it modifies: same file, same
+ * specificity, later in source order. A screen sheet's plain-class override
+ * (`.page-hero`, 0-1-0) never beats the base rule here (`[data-design-system=
+ * "app"] .page-hero`, 0-2-0), and a media query adds no specificity, so the
+ * base would win at every width.
+ */
+
+/* ---- the docked toolbar -------------------------------------------------- */
+
+/* THE sticky-toolbar recipe, so every screen that docks a search bar states
+ * the same physics from one place (`.ledger-toolbar` still restates the same
+ * values locally). One scroll, and the page comes to rest against this band:
+ * - sticky at the scrollport edge — which the SCREEN must make true by
+ *   zeroing its `.main` top padding (a sticky offset resolves against the
+ *   content box, so scroll padding parks `top: 0` that far low);
+ * - the air above the controls (space-2, the settings "pudding") and below
+ *   them (space-4) is PADDING inside the frozen band, never margin — margins
+ *   are transparent and rows travel through them; the negative top margin
+ *   hands the space-2 back to the flow so at-rest geometry doesn't grow;
+ * - the ground is the page's own canvas + ambient wash at `fixed`, so the
+ *   band is invisible until something slides behind it. */
+[data-design-system="app"] .app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--app-space-3) var(--app-space-4);
+  margin-top: calc(-1 * var(--app-space-2));
+  padding: var(--app-space-2) 0 var(--app-space-4);
+  background-color: var(--app-canvas);
+  background-image: var(--app-ambient-image);
+  background-attachment: fixed, fixed;
+}
+
+@media (max-width: 860px) {
+  [data-design-system] .page-hero {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--app-space-2);
+  }
+  /* An action about the title's size (Profile's guide, the Insights view
+     switch) keeps the row. */
+  [data-design-system] .page-hero:has(> .ui-btn-icon:last-child),
+  [data-design-system] .page-hero:has(> .ui-switch:last-child) {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  /* A wrapped toolbar is three or four rows tall here — pinning it would
+     spend the viewport on chrome (the register's own narrow-arm reasoning).
+     Longhands, never the `background` shorthand. */
+  [data-design-system="app"] .app-toolbar {
+    position: relative;
+    background-color: transparent;
+    background-image: none;
+  }
+
+  /* The label column gives way first — the bar itself is the reading. */
+  [data-design-system="app"] .bar-row {
+    grid-template-columns: 96px 1fr 36px;
+  }
+}
+
+@media (max-width: 540px) {
+  [data-design-system="app"] .results-head {
+    gap: var(--app-space-2);
+  }
+}

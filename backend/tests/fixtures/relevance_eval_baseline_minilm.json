@@ -1,0 +1,37 @@
+{
+  "fixture_version": 1,
+  "macro_auc": 0.9108,
+  "total_control_violations": 53,
+  "intents": {
+    "ai_frontier": {
+      "auc": 0.9905,
+      "control_violations": 0,
+      "control_pairs": 195,
+      "p_at_5": 1.0
+    },
+    "cloud_platform": {
+      "auc": 0.6231,
+      "control_violations": 37,
+      "control_pairs": 60,
+      "p_at_5": 0.6
+    },
+    "media_streaming": {
+      "auc": 1.0,
+      "control_violations": 0,
+      "control_pairs": 33,
+      "p_at_5": 1.0
+    },
+    "logistics_ops": {
+      "auc": 0.9563,
+      "control_violations": 12,
+      "control_pairs": 160,
+      "p_at_5": 1.0
+    },
+    "security_leadership": {
+      "auc": 0.9843,
+      "control_violations": 4,
+      "control_pairs": 120,
+      "p_at_5": 1.0
+    }
+  }
+}

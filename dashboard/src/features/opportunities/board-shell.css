@@ -1,0 +1,326 @@
+/* The Board (Opportunities) + Saved, on the promoted system: the
+ * operational core. Keyboard-first signal list, one filter grammar, every value from
+ * --app-*. The semantic chip vocabulary (.chip/.badge-*) and .filter-chip
+ * live in surfaces.css, since Compare, Review and Job detail render them
+ * through shared components; this sheet holds what is the Board's own.
+ *
+ * Density is the screen's identity: comp is `meta` mono (13). The ROW is
+ * ranked rather than the page: the title sits at `name` (the ramp's
+ * primary-row role) and the numeral gives up its weight, so the position
+ * leads the row the way the screen leads with
+ * the search box. The row's scale lives in patterns/jobs/job-row.css.
+ */
+
+/* ---- one scroll, and the page rests against the search bar --------------- *
+ *
+ * The Board scrolls the way Settings > Companies scrolls: `.main` is the ONE
+ * scroller, the hero slides away like any page content, the toolbar docks at
+ * the top via the shared `.app-toolbar` recipe (surfaces.css: the register's
+ * own physics, one source so the two screens cannot drift), and the column
+ * head and filter register pin beneath it at the toolbar's measured height.
+ * A page of roles is rendered IN FULL in the flow, with no inner scroll
+ * windows anywhere; the pager follows row 20.
+ *
+ * Sticky bands over the list hold only because the table carries no
+ * floating-card frame. `--app-shadow` is a Gaussian and a frozen band is a
+ * rectangle (an opaque band over that shadow only relocates the seam), so the
+ * list wears the register's ledger treatment instead: rows on the page's own
+ * ground, hairline-separated, and the pinned bands are plain opaque canvas
+ * with nothing translucent, rounded, or glowing sliding underneath. No
+ * shadow, no corners, no covers, no measured multi-tier deck: one band
+ * height, stated as arithmetic and corrected by measurement where the bar
+ * wraps. */
+
+/* The docked band's height: the shared .app-toolbar arithmetic (its air,
+   one control, the gap it holds open). The honest one-line answer at desktop
+   widths; BoardScreen writes the measured box height here when the bar wraps,
+   because the column head and the rail pin against this number. */
+.main.board-main:has(> .board-toolbar) {
+  --board-toolbar-h: calc(var(--app-space-2) + var(--app-control-md) + var(--app-space-4));
+}
+
+/* ---- toolbar: search leads the screen it filters (the settings idiom) ----- */
+
+/* Search, the result count as a fact, the mission-lens chips, and ordering on
+   the right: the same anatomy as the register toolbar, and the same STICKY
+   PHYSICS, consumed from surfaces.css (`.app-toolbar`) rather than
+   restated: change the recipe there and both screens move together. This
+   sheet adds only what is the Board's own. */
+
+/* ui/SearchField at md; the class only gives it its share of the band. */
+.board-search-box {
+  flex: 1 1 240px;
+  max-width: 340px;
+}
+
+/* The count is a fact, so it speaks the data voice, the same shared class
+   Company profiles use (company-profiles.css). */
+.board-toolbar .results-count {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  white-space: nowrap;
+  font-family: var(--app-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* "of" and the separator are the quiet parts of the fraction. */
+.board-toolbar .results-sep {
+  color: var(--app-text-faint);
+}
+
+.board-toolbar-end {
+  margin-left: auto;
+  /* The rows' ledger margin (patterns/jobs/margin.css): the ordering controls
+     end where the rows end. */
+  margin-right: var(--job-margin, 0px);
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+}
+
+/* ---- the shell row: the register beside the table ------------------------- */
+
+/* The two-column shell itself is patterns/rail-shell.css: the grid, the
+   sticky register and the rail-mode arm are the same composition Notifications
+   wears. What stays here is the Board's own wiring: the height its
+   register pins under, which the shared sheet reads as --rail-shell-top. */
+.board-shell {
+  --rail-shell-top: var(--board-toolbar-h);
+}
+
+.board-content {
+  min-width: 0;
+}
+
+/* The reader's own mark, first in the register. The switch row
+   carries the group gap so the facets below it start on the register's rhythm;
+   the label recipe is ui/Switch's own (body / muted / the whole row is the
+   target), unchanged here. */
+.board-unread {
+  margin-bottom: var(--app-space-4);
+  padding: 0 var(--app-space-1);
+}
+
+/* Widened measure, the /company precedent: rail + gutter + the 1200 measure,
+   so the table keeps its full width beside the register. One pair of left
+   edges for hero, toolbar, strips and shell. The hero arm lives in
+   patterns/jobs/job-page.css instead: Saved renders a `.board-main` hero too
+   and imports only that sheet. */
+.board-main > .board-toolbar,
+.board-main > .search-interp,
+.board-main > .board-shell {
+  max-width: 1460px;
+}
+
+.search-interp {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--app-space-1);
+  padding-bottom: var(--app-space-2);
+}
+
+/* ---- the filter register's Board-only pieces --------------------------------
+   The group anatomy (.filter-group, .filter-head, .check-row, .filter-pop ...)
+   is the shared ui/FilterRail sheet, which the Notifications rail reads too;
+   only the comp range row is the Board's own. */
+
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+}
+
+.range-row input {
+  min-width: 0;
+  width: 100%;
+  min-height: var(--app-control-sm);
+  padding: 0 var(--app-control-sm-pad);
+  border: 1px solid var(--app-border-control);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-sunken);
+  color: var(--app-text);
+  font-size: var(--app-type-meta);
+}
+
+.range-row span {
+  color: var(--app-text-faint);
+}
+
+/* ---- hero + results chrome ----------------------------------------------- */
+
+.sort-select {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--app-text-faint);
+  font-size: var(--app-type-label);
+}
+
+/* The select itself is ui/Select: the band's control-md rank, the
+   chevron at the text's own inset, the halo for keyboard focus only. Nothing
+   about the box is restated here. */
+
+/* The order toggle on Best match: gone entirely (the backend ignores asc/desc
+   there). It sits BEFORE the select and the group is anchored to the bar's
+   end, so its coming and going moves nothing on the page's right line: the
+   select's edge stays aligned with the hero badge and the table, where a
+   reserved invisible slot would read as misalignment. */
+.sort-select .ui-btn:disabled {
+  display: none;
+}
+
+/* ---- search interpretation + notices ------------------------------------- */
+
+.search-truncation-note {
+  margin: var(--app-space-1) 0 var(--app-space-2);
+  padding: var(--app-space-1) var(--app-space-2);
+  border: 1px solid var(--app-border);
+  border-left: 2px solid var(--app-warning);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface-sunken);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-label);
+  line-height: 1.5;
+}
+
+.search-interp .si-label {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  text-transform: uppercase;
+  letter-spacing: var(--app-type-whisper-track);
+}
+
+.si-chip .k {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  /* A loaded face (mono is static; 640 would paint 700). */
+  font-weight: 600;
+  margin-right: 2px;
+}
+
+.search-section-head {
+  margin: var(--app-space-2) 0 var(--app-space-1);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  text-transform: uppercase;
+  letter-spacing: var(--app-type-whisper-track);
+}
+
+/* Best fit's second group: roles whose level we cannot place. Sits
+   between rows, so it takes the row's inset and the list's hairline; the type
+   is the section head's own, so the Board keeps one heading voice. */
+.level-group-head {
+  padding: var(--app-space-3) 18px var(--app-space-1) 22px;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.level-group-title {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  text-transform: uppercase;
+  letter-spacing: var(--app-type-whisper-track);
+}
+
+.level-group-count {
+  margin-left: var(--app-space-2);
+}
+
+.level-group-note {
+  margin: var(--app-space-1) 0 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.search-related-disclosure {
+  margin: var(--app-space-2) 0 var(--app-space-2);
+}
+
+/* ui/Button ghost/md; the class only stretches it across the list. */
+.search-related-toggle {
+  width: 100%;
+}
+
+@media (max-width: 540px) {
+  .sort-select {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .sort-select .ui-select {
+    flex: 1;
+  }
+
+}
+
+/* ---- the wait for the first roles ----------------------------------------
+   Before the first scan finishes: the radar mark alone, larger and without
+   the empty state's frame, a title and one line. Its sweep is the shared
+   motif's, held still under reduced motion by the shell's rule. */
+.board-first-scan .empty {
+  padding: clamp(var(--app-space-6), 10vh, 120px) var(--app-space-4) var(--app-space-6);
+  border: 0;
+  font-variant-numeric: tabular-nums;
+}
+.board-first-scan .empty-art { width: 168px; height: 168px; opacity: 0.8; }
+.board-first-scan .empty-art .ring:nth-child(2) { inset: 34px; }
+.board-first-scan .empty-art .ring:nth-child(3) { inset: 68px; }
+.board-first-scan .empty-art .blip { width: 6px; height: 6px; }
+.board-first-scan-finish {
+  display: block;
+  width: fit-content;
+  margin: var(--app-space-3) auto 0;
+}
+.board-first-scan .empty .big {
+  margin: var(--app-space-5) 0 var(--app-space-2);
+  font-size: var(--app-type-screen);
+}
+
+/* The first scan's lines: each a paragraph of its own, a step apart. */
+.board-first-scan .empty p { margin: 0; }
+.board-first-scan .empty p + p { margin-top: var(--app-space-2); }
+.board-first-scan-filtered { margin-top: var(--app-space-3) !important; }
+.board-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--app-space-4);
+  margin: var(--app-space-3) 0 0;
+}
+
+/* Work that is moving: three dots fade in turn after the words. Each holds
+   its own width, so the title never shifts as they fade. Under reduced motion
+   the shell's rule ends the animation at once and the dots rest at full
+   strength, a plain ellipsis. Inline, so the dots read as the end of the
+   line they follow. */
+.scan-dots { margin-left: 0.05em; }
+.scan-dots > span { animation: scan-dot 1.2s ease-in-out infinite; }
+.scan-dots > span:nth-child(2) { animation-delay: 0.2s; }
+.scan-dots > span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes scan-dot {
+  0%, 100% { opacity: 0.2; }
+  40% { opacity: 1; }
+}
+
+/* Over a list while the first scan reads, and under the last page. */
+.board-first-scan-line {
+  padding: var(--app-space-2) 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  font-variant-numeric: tabular-nums;
+}
+.board-list-end {
+  margin: var(--app-space-5) 0 var(--app-space-4);
+  text-align: center;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+}

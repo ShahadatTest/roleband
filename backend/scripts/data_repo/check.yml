@@ -1,0 +1,49 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Read the data and the app, nothing more.
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  datasets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: roleband-data
+      # The rules are the app's, so the data is checked against the code that
+      # will read it. APP_REPOSITORY and APP_READ_TOKEN are set only while the
+      # app's repository is private (a trial); the public app needs neither.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ vars.APP_REPOSITORY || 'roleband/roleband' }}
+          token: ${{ secrets.APP_READ_TOKEN || github.token }}
+          path: roleband
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: roleband/.python-version
+          cache: pip
+          cache-dependency-path: |
+            roleband/backend/requirements.txt
+            roleband/backend/constraints/linux-x86_64.txt
+      - name: install the app's backend
+        working-directory: roleband/backend
+        run: |
+          pip install -r requirements.txt -c constraints/linux-x86_64.txt
+          pip install -e ../robots/python
+      - name: the app commit the rules come from
+        run: git -C roleband log -1 --format='%H %s'
+      - name: check the datasets
+        working-directory: roleband/backend
+        run: python -m scripts.check_datasets --root ../../roleband-data

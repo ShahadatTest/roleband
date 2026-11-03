@@ -1,0 +1,103 @@
+/* Sync scope picker. Rides the Popover primitive's glass shell, so this file
+   owns only the panel's own grammar: search, tri-state select-all, rows,
+   presets, commit. Row and checkbox metrics match the Companies board's
+   selection rows so the two selection surfaces read as one. */
+
+.sync-scope-popover .ui-popover-inner {
+  width: 340px;
+}
+
+.sync-scope {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+/* ui/SearchField at sm, stretched across the panel. */
+.sync-scope-search {
+  width: 100%;
+}
+
+.sync-scope-all {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 2px 6px;
+  border-bottom: 1px solid var(--app-border);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-label);
+  font-weight: var(--app-weight-name);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.sync-scope-rows {
+  display: grid;
+  gap: 1px;
+  max-height: 260px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.sync-scope-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: var(--app-radius-sm);
+  font-size: var(--app-type-meta);
+  cursor: pointer;
+}
+
+.sync-scope-row:hover {
+  background: var(--app-surface-hover);
+}
+
+/* A ticked target is CHOSEN: wash and name, keyed on its checkbox. */
+.sync-scope-row:has(> input:checked) {
+  background: var(--app-chosen-wash);
+}
+
+.sync-scope-row:has(> input:checked) .sync-scope-name {
+  color: var(--app-chosen-text);
+}
+
+.sync-scope-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--app-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sync-scope-age {
+  flex: 0 0 auto;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.sync-scope-age.is-stale {
+  color: var(--app-warning);
+}
+
+.sync-scope-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Layout only. The button is ui/Button and takes its height from the shared
+   scale; a feature sheet must not resize a global control. */
+.sync-scope-actions .ui-btn {
+  width: 100%;
+}
+
+.sync-scope-note {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.45;
+}

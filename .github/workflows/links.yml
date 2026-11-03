@@ -1,0 +1,46 @@
+name: links
+
+# External links in the Markdown the repository ships. A link can rot with no
+# change here, so the check runs weekly and fails there; on a push or a pull
+# request it only reports, because a link that rotted elsewhere is not that
+# change's to fix. Loopback addresses (the local API and dev server the docs
+# point at) are skipped, and a rate-limited answer counts as alive. The
+# project's own repositories are skipped too: a trial export is checked while
+# they are still private.
+# backend/scripts/data_repo/ holds the data repository's files, whose relative
+# links resolve in that repository (tests/test_docs_closed_set.py checks them).
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/*.md"
+      - .github/workflows/links.yml
+  pull_request:
+    paths:
+      - "**/*.md"
+      - .github/workflows/links.yml
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  external-links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: >-
+            --no-progress
+            --exclude-loopback
+            --max-retries 3
+            --retry-wait-time 5
+            --accept 200,206,429
+            --exclude "^https://github.com/roleband/"
+            --exclude-path backend/scripts/data_repo
+            "./**/*.md"
+          fail: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}

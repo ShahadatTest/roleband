@@ -1,0 +1,63 @@
+Bundle stock contrib modules (pg_trgm) in the wheel
+
+The wheel builds core Postgres + pgvector: pgbuild/Makefile runs `make install`,
+which does not descend into contrib/ (that is `make install-world`). So the only
+extensions a pgserver cluster can create are plpgsql and vector, and any schema
+using a stock contrib module fails at `CREATE EXTENSION`:
+
+    ERROR:  extension "pg_trgm" is not available
+    DETAIL: Could not open extension control file ".../pg_trgm.control"
+
+pg_trgm is the common case — trigram indexes back typo-tolerant search in a lot
+of pgvector-adjacent applications, so it tends to sit right next to the vector
+column the wheel already supports.
+
+This builds the listed modules from the already-configured build tree, so it
+needs no extra toolchain, no PGXS, and no sysroot handling: same compiler flags
+and same install prefix as core. It runs before `fixup`, so macOS rpath
+rewriting covers the new libraries too. Adds ~120 KB per platform.
+
+CONTRIB_MODULES is a list, so other stock modules (btree_gin, pg_stat_statements,
+citext, ...) are one word each if you want them.
+
+Verified on macOS arm64 against PG 16.14: pg_trgm 1.6 creates, gin_trgm_ops
+indexes build, and similarity() uses them.
+
+--- a/pgbuild/Makefile
++++ b/pgbuild/Makefile
+@@
+ .PHONY: all
+ all: fixup
+
+ # Rewrite the absolute dylib install names Postgres bakes in to @rpath-relative form, so
+ # the install tree is relocatable and PG16 + PG18 can coexist in one wheel without a
+ # delocate basename collision (e.g. two libpq.5.dylib). No-op off macOS. Runs last, after
+ # both postgres and pgvector have installed their libraries into $(INSTALL_PREFIX).
+ .PHONY: fixup
+-fixup: pgvector postgres
++fixup: pgvector contrib postgres
+ 	bash fixup_macos_rpaths.sh $(INSTALL_PREFIX)
+
+ ### postgres
+@@
+ .PHONY: pgvector
+ pgvector: postgres $(INSTALL_PREFIX)/lib/vector.so
+
++### contrib
++# Stock contrib modules. Core `make install` skips contrib/ entirely, so without
++# this the wheel can only offer plpgsql and vector. Built from the configured
++# build tree (not PGXS) so flags, prefix, and sysroot match core exactly.
++CONTRIB_MODULES := pg_trgm
++
++$(INSTALL_PREFIX)/share/postgresql/extension/pg_trgm.control: $(INSTALL_PREFIX)/bin/postgres
++	unset MAKELEVEL && unset MAKEFLAGS && unset MFLAGS \
++		&& for m in $(CONTRIB_MODULES); do \
++			$(MAKE) -C $(POSTGRES_BLD)/contrib/$$m -j install || exit 1; \
++		done
++
++.PHONY: contrib
++contrib: postgres $(INSTALL_PREFIX)/share/postgresql/extension/pg_trgm.control
++
+ ### other
+ .PHONY: clean clean-all
+ clean:

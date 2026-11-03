@@ -1,0 +1,21 @@
+{
+  "count": 11,
+  "positions": [
+    {
+      "id": 790298099999,
+      "ats_job_id": "JR32044",
+      "display_job_id": "JR32044",
+      "name": "Staff Machine Learning Engineer, Personalization",
+      "posting_name": "Staff Machine Learning Engineer, Personalization",
+      "locations": ["Los Gatos, California"],
+      "location": "Los Gatos, California",
+      "department": "Machine Learning",
+      "business_unit": "Personalization",
+      "work_location_option": "remote",
+      "canonicalPositionUrl": "https://explore.jobs.netflix.net/careers/job/790298099999",
+      "t_create": 1783000000,
+      "t_update": 1784200000,
+      "job_description": ""
+    }
+  ]
+}

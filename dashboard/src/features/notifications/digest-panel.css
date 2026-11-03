@@ -1,0 +1,66 @@
+/* The daily digest's expanded body. Lives inside `.notif-details`, so it takes
+ * that panel's ground and adds only the list anatomy: a lead sentence at meta
+ * rank, then the day's roles as one hairline-separated ledger — the same
+ * treatment the notification list itself wears, one level in.
+ *
+ * `space-3` inset: this is a block nested inside a row's disclosure, which is
+ * the third step of the card-inset rule, not a card of its own.
+ */
+
+.digest-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-2);
+}
+
+.digest-panel-lead,
+.digest-panel-more {
+  margin: 0;
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+.digest-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--app-border);
+}
+
+.digest-list > li + li {
+  border-top: 1px solid var(--app-border);
+}
+
+/* The row itself is `JobLinkRow`'s anchor; this only lays it out. The link
+   reset and focus ring come from `.job-link`. */
+.digest-entry {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  padding: var(--app-space-2) var(--app-space-3);
+}
+
+.digest-entry:hover {
+  background: var(--app-surface-hover);
+}
+
+.digest-entry-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.digest-entry-title {
+  font-weight: var(--app-weight-name);
+  color: var(--app-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.digest-entry-company {
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}

@@ -1,0 +1,613 @@
+company,family,code,band,aliases,pay_label,people_manager,seed_median_usd,bonus_low,bonus_high,as_of,note
+google,company,L3,entry,,,false,,,,2026-10-02,
+google,company,L4,mid,,,false,,,,2026-10-02,
+google,company,L5,senior,,,false,408000,15,20,2026-10-02,
+google,company,L6,staff,,,false,644000,20,25,2026-10-02,
+google,company,L7,principal,,,false,900000,25,30,2026-10-02,25% printed in our own postings at L7.
+google,company,L8,director_plus,,,false,1200000,,,2026-10-02,Director is L8 (Engineering Director posts L8's range).
+google,company,L9,director_plus,,,false,,,,2026-10-02,
+google,company,L10,director_plus,,,false,,,,2026-10-02,
+google,software_engineering,L3,entry,,,false,,,,2026-10-02,Software Engineer II
+google,software_engineering,L4,mid,,,false,,,,2026-10-02,Software Engineer III
+google,software_engineering,L5,senior,,,false,,,,2026-10-02,Senior
+google,software_engineering,L6,staff,,,false,,,,2026-10-02,Staff
+google,software_engineering,L7,principal,,,false,,,,2026-10-02,Senior Staff
+google,software_engineering,L8,principal,,,false,,,,2026-10-02,Principal
+google,software_engineering,L9,director_plus,,,false,,,,2026-10-02,Distinguished
+google,software_engineering,L10,director_plus,,,false,,,,2026-10-02,Fellow
+google,engineering_management,L6,staff,,,true,,,,2026-10-02,
+google,engineering_management,L7,principal,,,true,,,,2026-10-02,
+google,engineering_management,L8,director_plus,,,true,,,,2026-10-02,
+google,engineering_management,L9,director_plus,,,true,,,,2026-10-02,
+google,engineering_management,L10,director_plus,,,true,,,,2026-10-02,
+google,product_management,L4,mid,,,false,,,,2026-10-02,Product Manager I
+google,product_management,L5,senior,,,false,,,,2026-10-02,Product Manager II
+google,product_management,L6,senior,,,false,,,,2026-10-02,Senior Product Manager
+google,product_management,L7,principal,,,false,,,,2026-10-02,Group Product Manager
+google,product_management,L8,principal,,,false,,,,2026-10-02,Principal Product Manager
+google,technical_program_management,L3,entry,,,false,,,,2026-10-02,Technical Program Manager I
+google,technical_program_management,L4,mid,,,false,,,,2026-10-02,Technical Program Manager II
+google,technical_program_management,L5,senior,,,false,,,,2026-10-02,Technical Program Manager III
+google,technical_program_management,L6,senior,,,false,,,,2026-10-02,Senior Technical Program Manager (I)
+google,technical_program_management,L7,senior,,,false,,,,2026-10-02,Senior Technical Program Manager II
+google,program_management,L3,entry,,,false,,,,2026-10-02,Program Manager I
+google,program_management,L4,mid,,,false,,,,2026-10-02,Program Manager II
+google,program_management,L5,senior,,,false,,,,2026-10-02,Program Manager III
+google,program_management,L6,senior,,,false,,,,2026-10-02,Senior Program Manager
+apple,software_engineering,ICT2,entry,,,false,,,,2026-10-02,
+apple,software_engineering,ICT3,mid,,,false,,,,2026-10-02,
+apple,software_engineering,ICT4,senior,,,false,349000,,,2026-10-02,
+apple,software_engineering,ICT5,staff,,,false,479000,,,2026-10-02,
+apple,software_engineering,ICT6,principal,,,false,650000,,,2026-10-02,
+apple,software_engineering,Distinguished Engineer,director_plus,,,false,900000,,,2026-10-02,
+apple,engineering_management,M1,senior,,,true,,,,2026-10-02,
+apple,engineering_management,M2,staff,,,true,,,,2026-10-02,
+apple,engineering_management,M3,principal,,,true,,,,2026-10-02,
+apple,engineering_management,D1,director_plus,,,true,,,,2026-10-02,
+amazon,software_engineering,L4,entry,SDE I,SDE I,false,,,,2026-10-02,
+amazon,software_engineering,L5,mid,SDE II,SDE II,false,,,,2026-10-02,
+amazon,software_engineering,L6,senior,SDE III,SDE III,false,320000,,,2026-10-02,
+amazon,software_engineering,L7,principal,Principal SDE,Principal SDE,false,600000,,,2026-10-02,
+amazon,software_engineering,L8,director_plus,Senior Principal SDE,Senior Principal SDE,false,900000,,,2026-10-02,
+amazon,software_engineering,L10,director_plus,Distinguished Engineer,Distinguished Engineer,false,,,,2026-10-02,
+netflix,software_engineering,L3,entry,,,false,,,,2026-10-02,
+netflix,software_engineering,L4,mid,,,false,,,,2026-10-02,
+netflix,software_engineering,L5,senior,,,false,500000,,,2026-10-02,
+netflix,software_engineering,L6,staff,,,false,700000,,,2026-10-02,
+netflix,software_engineering,L7,principal,,,false,900000,,,2026-10-02,
+openai,software_engineering,L2,entry,,,false,,,,2026-10-02,
+openai,software_engineering,L3,mid,,,false,,,,2026-10-02,
+openai,software_engineering,L4,senior,,,false,900000,,,2026-10-02,
+openai,software_engineering,L5,staff,,,false,1100000,,,2026-10-02,
+openai,software_engineering,L6,principal,,,false,1300000,,,2026-10-02,
+openai,software_engineering,L7,director_plus,,,false,1500000,,,2026-10-02,Above L6 (senior staff / fellow).
+anthropic,software_engineering,Software Engineer,mid,,,false,,,,2026-10-02,
+anthropic,software_engineering,Senior Software Engineer,senior,,,false,700000,,,2026-10-02,
+anthropic,software_engineering,Staff Software Engineer,staff,,,false,900000,,,2026-11-02,
+anthropic,software_engineering,Senior Staff Software Engineer,principal,,,false,1100000,,,2026-11-02,
+nvidia,software_engineering,IC1,entry,,,false,,,,2026-10-02,
+nvidia,software_engineering,IC2,entry,,,false,,,,2026-10-02,
+nvidia,software_engineering,IC3,mid,,,false,,,,2026-10-02,
+nvidia,software_engineering,IC4,senior,,,false,350000,,,2026-10-02,
+nvidia,software_engineering,IC5,staff,,,false,500000,,,2026-10-02,
+nvidia,software_engineering,IC6,principal,,,false,700000,,,2026-10-02,
+nvidia,software_engineering,IC7,director_plus,,,false,,,,2026-10-02,
+nvidia,software_engineering,Distinguished Engineer,director_plus,,,false,1000000,,,2026-10-02,
+nvidia,engineering_management,M2,senior,,,true,,,,2026-10-02,
+nvidia,engineering_management,M3,staff,,,true,,,,2026-10-02,
+nvidia,engineering_management,M4,principal,,,true,,,,2026-10-02,
+nvidia,engineering_management,M5,director_plus,,,true,,,,2026-10-02,
+spotify,software_engineering,Associate Engineer,entry,,,false,,,,2026-10-02,
+spotify,software_engineering,Engineer I,entry,,,false,,,,2026-10-05,
+spotify,software_engineering,Engineer II,mid,,,false,,,,2026-10-02,
+spotify,software_engineering,Senior Engineer,senior,,,false,283000,,,2026-10-02,
+spotify,software_engineering,Staff Engineer,staff,,,false,409000,,,2026-10-02,
+microsoft,software_engineering,59,entry,,,false,,,,2026-10-02,
+microsoft,software_engineering,60,entry,,,false,,,,2026-10-02,
+microsoft,software_engineering,61,mid,,,false,,,,2026-10-02,
+microsoft,software_engineering,62,mid,,,false,,,,2026-10-02,
+microsoft,software_engineering,63,senior,,,false,250000,15,15,2026-10-14,
+microsoft,software_engineering,64,senior,,,false,320000,15,15,2026-10-14,
+microsoft,software_engineering,65,principal,,,false,450000,20,20,2026-10-14,
+microsoft,software_engineering,66,principal,,,false,,20,20,2026-10-14,
+microsoft,software_engineering,67,principal,,,false,,,,2026-10-02,
+microsoft,software_engineering,68,director_plus,,,false,800000,,,2026-10-02,
+microsoft,software_engineering,69,director_plus,,,false,,,,2026-10-02,
+microsoft,software_engineering,70,director_plus,,,false,,,,2026-10-02,
+ey,company,Staff,entry,Associate|Analyst|Consultant|Associate Consultant,entry,false,,,,2026-10-02,
+ey,company,Senior,mid,Senior Consultant|Senior Associate|Senior Analyst|Supervising Associate,mid,false,,,,2026-10-02,
+ey,company,Assistant Manager,mid,Associate Manager,mid,false,,,,2026-10-02,
+ey,company,Manager,senior,,senior,false,,,,2026-10-02,
+ey,company,Senior Manager,staff,Assistant Director,staff,false,,,,2026-10-02,
+ey,company,Associate Director,principal,,principal,false,,,,2026-10-02,
+ey,company,Director,principal,,principal,false,,,,2026-10-02,
+ey,company,Partner,director_plus,Managing Director,director_plus,false,,,,2026-10-02,
+kpmg,company,Associate,entry,Analyst,entry,false,,,,2026-10-02,
+kpmg,company,Senior Associate,mid,,mid,false,,,,2026-10-02,
+kpmg,company,Manager,senior,,senior,false,,,,2026-10-02,
+kpmg,company,Senior Manager,staff,,staff,false,,,,2026-10-02,
+kpmg,company,Associate Director,principal,,principal,false,,,,2026-10-02,
+kpmg,company,Director,principal,,principal,false,,,,2026-10-02,
+kpmg,company,Partner,director_plus,Managing Director|Associate Managing Director,director_plus,false,,,,2026-10-02,
+deloitte,company,Analyst,entry,,entry,false,,,,2026-10-02,
+deloitte,company,Consultant,mid,,mid,false,,,,2026-10-05,"Deloitte's Consultant is its second rung (Analyst, Consultant, Senior Consultant); mid, as every other firm's second rung."
+deloitte,company,Senior Consultant,mid,Senior,mid,false,,,,2026-10-02,
+deloitte,company,Manager,senior,,senior,false,,,,2026-10-02,
+deloitte,company,Senior Manager,staff,,staff,false,,,,2026-10-02,
+deloitte,company,Associate Director,principal,,principal,false,,,,2026-10-02,
+deloitte,company,Director,principal,,principal,false,,,,2026-10-02,
+deloitte,company,Partner,director_plus,Managing Director,director_plus,false,,,,2026-10-02,
+pwc,company,Associate,entry,,entry,false,,,,2026-10-02,
+pwc,company,Senior Associate,mid,,mid,false,,,,2026-10-02,
+pwc,company,Manager,senior,,senior,false,,,,2026-10-02,
+pwc,company,Senior Manager,staff,,staff,false,,,,2026-10-02,
+pwc,company,Director,principal,,principal,false,,,,2026-10-02,
+pwc,company,Partner,director_plus,Managing Director,director_plus,false,,,,2026-10-02,
+accenture,company,Analyst,entry,New Associate|Associate,entry,false,,,,2026-10-02,
+accenture,company,Senior Analyst,mid,,mid,false,,,,2026-10-02,
+accenture,company,Consultant,mid,Team Lead,mid,false,,,,2026-10-02,
+accenture,company,Associate Manager,mid,,mid,false,,,,2026-10-02,
+accenture,company,Manager,senior,,senior,false,,,,2026-10-02,
+accenture,company,Senior Manager,staff,,staff,false,,,,2026-10-02,
+accenture,company,Associate Director,principal,,principal,false,,,,2026-10-02,
+accenture,company,Principal Director,director_plus,Managing Director,director_plus,false,,,,2026-10-02,
+stripe,software_engineering,L3,senior,,,false,,,,2026-10-02,
+stripe,software_engineering,L4,staff,,,false,,,,2026-10-02,
+stripe,software_engineering,L5,principal,,,false,,,,2026-10-02,
+stripe,software_engineering,L6,director_plus,,,false,,,,2026-10-02,
+coinbase,software_engineering,IC5,senior,,,false,,,,2026-10-02,
+coinbase,software_engineering,IC6,staff,,,false,,,,2026-10-02,
+coinbase,software_engineering,IC7,principal,,,false,,,,2026-10-02,
+coinbase,software_engineering,IC8,director_plus,,,false,,,,2026-10-02,
+airbnb,software_engineering,G9,senior,,,false,,,,2026-10-02,
+airbnb,software_engineering,G10,staff,,,false,,,,2026-10-02,
+airbnb,software_engineering,G11,principal,,,false,,,,2026-10-02,
+airbnb,software_engineering,G12,director_plus,,,false,,,,2026-10-02,
+reddit,software_engineering,IC4,senior,,,false,,,,2026-10-02,
+reddit,software_engineering,IC5,staff,,,false,,,,2026-10-02,
+reddit,software_engineering,IC6,principal,,,false,,,,2026-10-02,
+waymo,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+waymo,software_engineering,L5,senior,Senior,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+waymo,software_engineering,L6,staff,Staff,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+waymo,software_engineering,Senior Staff,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+waymo,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+dropbox,software_engineering,IC1,entry,,,false,,,,2026-10-09,
+dropbox,software_engineering,IC2,mid,,,false,,,,2026-10-09,
+dropbox,software_engineering,IC3,mid,,,false,,,,2026-10-09,
+dropbox,software_engineering,IC4,senior,Senior,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+dropbox,software_engineering,IC5,staff,Staff,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+dropbox,software_engineering,IC6,principal,Principal,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+dropbox,software_engineering,IC7,principal,Senior Principal,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+figma,software_engineering,L3,senior,,,false,,,,2026-10-02,
+figma,software_engineering,L4,staff,,,false,,,,2026-10-02,
+figma,software_engineering,L5,principal,,,false,,,,2026-10-02,
+databricks,software_engineering,L4,senior,,,false,,,,2026-10-02,
+databricks,software_engineering,L5,staff,,,false,,,,2026-10-02,
+databricks,software_engineering,L6,principal,,,false,,,,2026-10-02,
+databricks,software_engineering,L7,director_plus,,,false,,,,2026-10-02,
+servicenow,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+servicenow,software_engineering,Senior,senior,IC3,,false,,,,2026-10-09,
+servicenow,software_engineering,Staff,staff,IC4,,false,,,,2026-10-09,
+servicenow,software_engineering,Senior Staff,principal,IC5,Principal,false,,,,2026-10-09,"pay_label is Principal: the estimate is per band, and this rung is the principal band's lowest, so it reads the Principal pay row."
+servicenow,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+qualcomm,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+qualcomm,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+qualcomm,software_engineering,Staff,staff,,,false,,,,2026-10-09,
+qualcomm,software_engineering,Senior Staff,principal,,Principal,false,,,,2026-10-09,"pay_label is Principal: the estimate is per band, and this rung is the principal band's lowest, so it reads the Principal pay row."
+qualcomm,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+zscaler,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+zscaler,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+zscaler,software_engineering,Staff,staff,,,false,,,,2026-10-09,
+zscaler,software_engineering,Senior Staff,principal,,Principal,false,,,,2026-10-09,"pay_label is Principal: the estimate is per band, and this rung is the principal band's lowest, so it reads the Principal pay row."
+zscaler,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+micron,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+micron,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+micron,software_engineering,Staff,staff,,,false,,,,2026-10-09,
+micron,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+okta,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+okta,software_engineering,Staff,staff,,,false,,,,2026-10-09,
+okta,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+affirm,software_engineering,Engineer II,mid,II,,false,,,,2026-10-09,
+affirm,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+affirm,software_engineering,Staff,staff,,,false,,,,2026-10-09,
+playstation,software_engineering,Engineer II,mid,II,,false,,,,2026-10-09,
+playstation,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+playstation,software_engineering,Staff,staff,,,false,,,,2026-10-09,
+cadence,software_engineering,Engineer II,mid,II,,false,,,,2026-10-09,
+cadence,software_engineering,Lead,senior,,,false,,,,2026-10-09,
+cadence,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+cadence,software_engineering,Senior Principal,principal,,,false,,,,2026-10-09,
+anduril,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+anduril,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+anduril,software_engineering,Staff,staff,,,false,,,,2026-10-09,
+anduril,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+fortinet,software_engineering,Software Development Engineer,mid,,,false,,,,2026-10-09,
+fortinet,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+fortinet,software_engineering,Staff,staff,,,false,,,,2026-10-09,
+fortinet,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+snowflake,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+snowflake,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+snowflake,software_engineering,Staff,staff,,,false,,,,2026-10-09,
+snowflake,software_engineering,Principal I,principal,,,false,,,,2026-10-09,
+snowflake,software_engineering,Principal II,principal,,,false,,,,2026-10-09,
+arm,software_engineering,Graduate Engineer,entry,,,false,,,,2026-10-09,
+arm,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+arm,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+arm,software_engineering,Staff,staff,,,false,,,,2026-10-09,
+arm,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+arm,software_engineering,Senior Principal,principal,,,false,,,,2026-10-09,
+arm,software_engineering,Distinguished,director_plus,,,false,,,,2026-10-09,
+arm,software_engineering,Fellow,director_plus,,,false,,,,2026-10-09,
+tiktok,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+tiktok,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+tiktok,software_engineering,Staff,staff,Tech Lead,,false,,,,2026-10-09,
+shield-ai,software_engineering,Engineer I,entry,L1,,false,,,,2026-10-09,
+shield-ai,software_engineering,Engineer II,mid,L2,,false,,,,2026-10-09,
+shield-ai,software_engineering,Senior,senior,L3,,false,,,,2026-10-09,
+shield-ai,software_engineering,Staff,staff,L4,,false,,,,2026-10-09,
+shield-ai,software_engineering,Senior Staff,principal,L5,,false,,,,2026-10-09,
+shield-ai,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+tsmc,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+tsmc,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+tsmc,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+palo-alto-networks,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+palo-alto-networks,software_engineering,Senior,senior,,,false,,,,2026-10-09,
+palo-alto-networks,software_engineering,Staff,staff,,,false,,,,2026-10-09,
+palo-alto-networks,software_engineering,Sr Staff,principal,Senior Staff,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+palo-alto-networks,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+palo-alto-networks,software_engineering,Sr Principal,principal,Senior Principal,,false,,,,2026-10-09,
+palo-alto-networks,software_engineering,Distinguished,director_plus,,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+amd,software_engineering,SDE,mid,Software Development Engineer,,false,,,,2026-10-09,
+amd,software_engineering,Sr. SDE,senior,Senior Software Development Engineer,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+amd,software_engineering,MTS,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+amd,software_engineering,SMTS,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+amd,software_engineering,PMTS,principal,,,false,,,,2026-10-09,
+amd,software_engineering,Fellow,director_plus,,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+amd,software_engineering,Senior Fellow,director_plus,Sr. Fellow,,false,,,,2026-10-09,
+amd,software_engineering,Corporate Fellow,director_plus,,,false,,,,2026-10-09,
+salesforce,software_engineering,AMTS,entry,,,false,,,,2026-10-09,
+salesforce,software_engineering,MTS,mid,,,false,,,,2026-10-09,
+salesforce,software_engineering,SMTS,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+salesforce,software_engineering,LMTS,staff,,,false,,,,2026-10-09,
+salesforce,software_engineering,PMTS,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+salesforce,software_engineering,Architect,director_plus,,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+salesforce,software_engineering,Principal Architect,director_plus,,,false,,,,2026-10-09,
+applied-materials,company,E1,entry,,,false,,,,2026-10-09,
+applied-materials,company,E2,mid,,,false,,,,2026-10-09,
+applied-materials,company,E3,senior,,,false,,,,2026-10-09,
+applied-materials,company,E4,staff,,,false,,,,2026-10-09,
+applied-materials,company,E5,principal,,,false,,,,2026-10-09,
+intel,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+intel,software_engineering,Principal,principal,,,false,,,,2026-10-09,
+intel,software_engineering,Sr. Principal,principal,Senior Principal,,false,,,,2026-10-09,
+intel,software_engineering,Fellow,director_plus,,,false,,,,2026-10-09,
+intel,software_engineering,Senior Fellow,director_plus,,,false,,,,2026-10-09,
+roblox,software_engineering,Early Career,entry,,,false,,,,2026-10-09,
+roblox,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+roblox,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+roblox,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+roblox,software_engineering,Distinguished,director_plus,,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+palantir,software_engineering,New Grad,entry,,,false,,,,2026-10-09,
+palantir,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+palantir,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+mongodb,software_engineering,Software Engineer 2,entry,,,false,,,,2026-10-09,
+mongodb,software_engineering,Software Engineer 3,mid,,,false,,,,2026-10-09,
+mongodb,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+mongodb,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+mongodb,software_engineering,Senior Staff,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+elastic,software_engineering,Software Engineer I,entry,,,false,,,,2026-10-09,
+elastic,software_engineering,Software Engineer II,mid,,,false,,,,2026-10-09,
+elastic,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+elastic,software_engineering,Principal I,principal,Principal,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+elastic,software_engineering,Principal II,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+elastic,software_engineering,Distinguished I,director_plus,Distinguished,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+rocket-lab,software_engineering,Engineer I,entry,Junior,,false,,,,2026-10-09,
+rocket-lab,software_engineering,Engineer II,mid,,,false,,,,2026-10-09,
+rocket-lab,software_engineering,Senior I,senior,Senior,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+rocket-lab,software_engineering,Senior II,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+rocket-lab,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+zipline,software_engineering,Engineer I,entry,,,false,,,,2026-10-09,
+zipline,software_engineering,Engineer II,mid,,,false,,,,2026-10-09,
+zipline,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+zipline,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+zoox,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+zoox,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+zoox,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+zoox,software_engineering,Senior Staff,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+zoox,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+asml,software_engineering,Associate Engineer,entry,,,false,,,,2026-10-09,
+asml,software_engineering,Engineer,mid,JG06|JG07,,false,,,,2026-10-09,
+asml,software_engineering,Senior Engineer,senior,JG08|JG09,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+asml,software_engineering,Principal Engineer,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+asml,software_engineering,Architect,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+synopsys,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+synopsys,software_engineering,Sr Engineer,senior,Senior Engineer,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+synopsys,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+synopsys,software_engineering,Sr Staff,principal,Senior Staff,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+synopsys,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+synopsys,software_engineering,Architect,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+synopsys,software_engineering,Director,director_plus,,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+electronic-arts,software_engineering,Software Engineer I,entry,,,false,,,,2026-10-09,
+electronic-arts,software_engineering,Software Engineer II,mid,,,false,,,,2026-10-09,
+electronic-arts,software_engineering,Software Engineer III,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+electronic-arts,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+electronic-arts,software_engineering,Technical Director,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+electronic-arts,software_engineering,Principal Technical Director,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+electronic-arts,software_engineering,Director,director_plus,,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+wise,software_engineering,IC1,entry,,,false,,,,2026-10-09,
+wise,software_engineering,IC2,mid,Engineer,,false,,,,2026-10-09,
+wise,software_engineering,IC3,senior,Senior,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+wise,software_engineering,IC4,staff,Staff,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+wise,software_engineering,IC5,principal,Senior Staff,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+wise,software_engineering,IC6,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+jane-street,software_engineering,New Grad,entry,,,false,,,,2026-10-09,
+jane-street,software_engineering,Software Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+susquehanna-international-group,software_engineering,Associate,entry,New Grad,,false,,,,2026-10-09,
+susquehanna-international-group,software_engineering,Software Developer,mid,,,false,,,,2026-10-09,
+susquehanna-international-group,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+drw,software_engineering,Junior,entry,,,false,,,,2026-10-09,
+drw,software_engineering,Software Developer,mid,,,false,,,,2026-10-09,
+drw,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+imc-trading,software_engineering,Graduate,entry,Early Career,,false,,,,2026-10-09,
+imc-trading,software_engineering,Software Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+optiver,software_engineering,Graduate,entry,,,false,,,,2026-10-09,
+optiver,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+optiver,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+optiver,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+jump-trading,software_engineering,Campus,entry,,,false,,,,2026-10-09,
+jump-trading,software_engineering,Software Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+hugging-face,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+hugging-face,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+runway,software_engineering,Member of Technical Staff,mid,MTS,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+ami-labs,software_engineering,Engineer,mid,AMI Engineer,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+lovable,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+lovable,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+lovable,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+notion,software_engineering,New Grad,entry,Early Career,,false,,,,2026-10-09,
+notion,software_engineering,Software Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+linear,software_engineering,Product Engineer,mid,,,false,,,,2026-10-09,
+linear,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+linear,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+crowdstrike,software_engineering,Engineer I,entry,,,false,,,,2026-10-09,
+crowdstrike,software_engineering,Engineer II,mid,,,false,,,,2026-10-09,
+crowdstrike,software_engineering,Engineer III,mid,,,false,,,,2026-10-09,
+crowdstrike,software_engineering,Sr.,senior,Senior,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+crowdstrike,software_engineering,Sr. II,senior,Senior II,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+crowdstrike,software_engineering,Principal,principal,Principal Staff,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+sentinelone,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+sentinelone,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+sentinelone,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+sentinelone,software_engineering,Distinguished,director_plus,Distinguished Architect,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+1password,software_engineering,Developer,mid,,,false,,,,2026-10-09,
+1password,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+1password,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+1password,software_engineering,Senior Staff,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+1password,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+vercel,software_engineering,Software Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+wiz,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+wiz,software_engineering,Expert,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+xai,software_engineering,Member of Technical Staff,mid,Software Engineer|MTS,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+mistral,software_engineering,Software Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+scaleai,software_engineering,New Grad,entry,,,false,,,,2026-10-09,
+scaleai,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+scaleai,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+scaleai,software_engineering,Staff,staff,L6,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+scaleai,software_engineering,Senior Staff,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+perplexity,software_engineering,New Grad,entry,Early Career,,false,,,,2026-10-09,
+perplexity,software_engineering,Member of Technical Staff,mid,MTS,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+cohere,software_engineering,Member of Technical Staff,mid,MTS,,false,,,,2026-10-09,
+cohere,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+cohere,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+cohere,software_engineering,Lead Member of Technical Staff,staff,Lead MTS,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+datadog,software_engineering,Software Engineer I,entry,,,false,,,,2026-10-09,
+datadog,software_engineering,Software Engineer II,mid,,,false,,,,2026-10-09,
+datadog,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+datadog,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+cloudflare,software_engineering,Systems Engineer,mid,Software Engineer,,false,,,,2026-10-09,
+cloudflare,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+cloudflare,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+cloudflare,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+gitlab,software_engineering,Associate,entry,P2,,false,,,,2026-10-09,
+gitlab,software_engineering,Intermediate,mid,P3,,false,,,,2026-10-09,
+gitlab,software_engineering,Senior,senior,P4,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+gitlab,software_engineering,Staff,staff,P5,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+gitlab,software_engineering,Senior Staff,principal,P5b,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+gitlab,software_engineering,Principal,principal,P6,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+gitlab,software_engineering,Distinguished,director_plus,P7,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+gitlab,software_engineering,Fellow,director_plus,P8,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+grafana-labs,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+grafana-labs,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+grafana-labs,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+doordash,software_engineering,Software Engineer I,entry,E3,,false,,,,2026-10-09,
+doordash,software_engineering,Software Engineer II,mid,E4,,false,,,,2026-10-09,
+doordash,software_engineering,Senior,senior,E5,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+doordash,software_engineering,Staff,staff,E6,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+doordash,software_engineering,Senior Staff,principal,E7,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+doordash,software_engineering,Principal,principal,E8,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+lyft,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+lyft,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+lyft,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+pinterest,software_engineering,University Grad,entry,,,false,,,,2026-10-09,
+pinterest,software_engineering,Software Engineer I,entry,,,false,,,,2026-10-09,
+pinterest,software_engineering,Software Engineer II,mid,,,false,,,,2026-10-09,
+pinterest,software_engineering,Sr.,senior,Senior,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+pinterest,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+pinterest,software_engineering,Sr. Staff,principal,Senior Staff,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+pinterest,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+snap,software_engineering,L3,entry,Level 3,,false,,,,2026-10-09,
+snap,software_engineering,L4,mid,Level 4,,false,,,,2026-10-09,
+snap,software_engineering,L5,senior,Level 5,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+snap,software_engineering,L6,staff,Level 6,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+snap,software_engineering,L7,principal,Level 7,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+snap,software_engineering,Senior Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+instacart,software_engineering,Software Engineer II,mid,,,false,,,,2026-10-09,
+instacart,software_engineering,Senior,senior,Senior I,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+instacart,software_engineering,Senior II,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+instacart,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+instacart,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+atlassian,software_engineering,Graduate,entry,,,false,,,,2026-10-09,
+atlassian,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+atlassian,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+atlassian,software_engineering,Principal,principal,P60,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+atlassian,software_engineering,Senior Principal,principal,P70,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+github,software_engineering,Software Engineer III,mid,,,false,,,,2026-10-09,
+github,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+github,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+github,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+docker,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+docker,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+docker,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+docker,software_engineering,Senior Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+hashicorp,software_engineering,Engineer II,mid,,,false,,,,2026-10-09,
+hashicorp,software_engineering,Sr. Engineer,senior,Senior Engineer,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+hashicorp,software_engineering,Sr. Engineer II,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+hashicorp,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+confluent,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+confluent,software_engineering,Senior II,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+confluent,software_engineering,Staff I,staff,Staff,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+confluent,software_engineering,Principal I,principal,Principal,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+twitch,software_engineering,Software Engineer I,entry,,,false,,,,2026-10-09,
+twitch,software_engineering,SDE II,mid,Software Development Engineer II,,false,,,,2026-10-09,
+twitch,software_engineering,SDE III,senior,Software Development Engineer III,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+unity,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+unity,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+unity,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+unity,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+supercell,software_engineering,Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+discord,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+discord,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+discord,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+discord,software_engineering,Senior Staff,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+valve,software_engineering,Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+riot-games,software_engineering,Associate,entry,,,false,,,,2026-10-09,
+riot-games,software_engineering,II,mid,,,false,,,,2026-10-09,
+riot-games,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+riot-games,software_engineering,Staff,staff,III,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+riot-games,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+riot-games,software_engineering,Sr. Principal,principal,Senior Principal,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+epic-games,software_engineering,Engineer,mid,Programmer,,false,,,,2026-10-09,
+epic-games,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+epic-games,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+take-two-interactive,software_engineering,Junior,entry,,,false,,,,2026-10-09,
+take-two-interactive,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+take-two-interactive,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+take-two-interactive,software_engineering,Staff,staff,Expert,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+take-two-interactive,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+nintendo,software_engineering,Software Engineer II,mid,,,false,,,,2026-10-09,
+nintendo,software_engineering,Sr,senior,Senior,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+paypal,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+paypal,software_engineering,Sr,senior,Senior,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+paypal,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+paypal,software_engineering,Sr Staff,principal,Senior Staff,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+paypal,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+block,software_engineering,L3,entry,,,false,,,,2026-10-09,
+block,software_engineering,L4,mid,Software Engineer,,false,,,,2026-10-09,
+block,software_engineering,L5,senior,Senior,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+block,software_engineering,L7,staff,Staff,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+block,software_engineering,L8,principal,Principal,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+robinhood,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+robinhood,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+robinhood,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+robinhood,software_engineering,Senior Staff,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+plaid,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+plaid,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+plaid,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+brex,software_engineering,Software Engineer II,mid,,,false,,,,2026-10-09,
+brex,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+brex,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+ramp,software_engineering,Software Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+adyen,software_engineering,Software Engineer,mid,Software Engineer II,,false,,,,2026-10-09,
+adyen,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+adyen,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+klarna,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+klarna,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+klarna,software_engineering,Lead,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+revolut,software_engineering,Graduate,entry,,,false,,,,2026-10-09,
+revolut,software_engineering,Mid,mid,,,false,,,,2026-10-09,
+revolut,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+revolut,software_engineering,Lead,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+tower-research-capital,software_engineering,Software Engineer I,entry,,,false,,,,2026-10-09,
+tower-research-capital,software_engineering,Software Engineer II,mid,,,false,,,,2026-10-09,
+tower-research-capital,software_engineering,Software Engineer III,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+hudson-river-trading,software_engineering,New Grad,entry,Junior,,false,,,,2026-10-09,
+hudson-river-trading,software_engineering,Software Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+two-sigma,software_engineering,Campus,entry,New Grad,,false,,,,2026-10-09,
+two-sigma,software_engineering,Software Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+xtx-markets,software_engineering,Software Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+citadel,software_engineering,University Graduate,entry,,,false,,,,2026-10-09,
+citadel,software_engineering,Software Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+citadel-securities,software_engineering,University Graduate,entry,,,false,,,,2026-10-09,
+citadel-securities,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+citadel-securities,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+citadel-securities,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+samsara,software_engineering,Software Engineer I,entry,,,false,,,,2026-10-09,
+samsara,software_engineering,Software Engineer II,mid,,,false,,,,2026-10-09,
+samsara,software_engineering,Senior I,senior,Senior,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+samsara,software_engineering,Senior II,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+samsara,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+skydio,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+skydio,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+skydio,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+nuro,software_engineering,New Grad,entry,,,false,,,,2026-10-09,
+nuro,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+nuro,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+nuro,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+nuro,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+aurora,software_engineering,Software Engineer I,entry,,,false,,,,2026-10-09,
+aurora,software_engineering,Software Engineer II,mid,,,false,,,,2026-10-09,
+aurora,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+aurora,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+aurora,software_engineering,Senior Staff,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+figure,software_engineering,Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+tesla,software_engineering,Associate,entry,,,false,,,,2026-10-09,
+tesla,software_engineering,Engineer,mid,,,false,,,,2026-10-09,
+tesla,software_engineering,Sr,senior,Senior,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+tesla,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+tesla,software_engineering,Sr Staff,principal,Senior Staff,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+boston-consulting-group,company,Associate,entry,,,false,,,,2026-10-09,
+boston-consulting-group,company,Consultant,mid,,,false,,,,2026-10-09,
+boston-consulting-group,company,Project Leader,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+boston-consulting-group,company,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+boston-consulting-group,company,Partner,director_plus,Managing Director and Partner,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+bain-company,company,Associate Consultant,entry,,,false,,,,2026-10-09,
+bain-company,company,Senior Associate Consultant,mid,,,false,,,,2026-10-09,
+bain-company,company,Consultant,mid,,,false,,,,2026-10-09,
+bain-company,company,Manager,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+bain-company,company,Senior Manager,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+bain-company,company,Associate Partner,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+bain-company,company,Partner,director_plus,,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+roland-berger,company,Business Analyst,entry,Consulting Analyst,,false,,,,2026-10-09,
+roland-berger,company,Junior Consultant,entry,,,false,,,,2026-10-09,
+roland-berger,company,Consultant,mid,,,false,,,,2026-10-09,
+roland-berger,company,Senior Consultant,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+roland-berger,company,Project Manager,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+roland-berger,company,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+roland-berger,company,Partner,director_plus,,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+mckinsey-company,company,Business Analyst,entry,,,false,,,,2026-10-09,
+mckinsey-company,company,Associate,mid,,,false,,,,2026-10-09,
+mckinsey-company,company,Engagement Manager,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+mckinsey-company,company,Associate Partner,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+mckinsey-company,company,Partner,director_plus,,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+oliver-wyman,company,Consultant,entry,,,false,,,,2026-10-09,
+oliver-wyman,company,Senior Consultant,mid,,,false,,,,2026-10-09,
+oliver-wyman,company,Associate,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+oliver-wyman,company,Engagement Manager,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+oliver-wyman,company,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+oliver-wyman,company,Partner,director_plus,,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+asana,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+asana,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+asana,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+asana,software_engineering,Senior Staff,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+asana,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+gusto,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+gusto,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+gusto,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+gusto,software_engineering,Senior Staff,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+meta,software_engineering,University Grad,entry,,,false,,,,2026-10-09,
+meta,software_engineering,Software Engineer,mid,,mid,false,,,,2026-10-09,pay_label is the band word (a priced band falls to this rung).
+flexport,software_engineering,Software Engineer I,entry,,,false,,,,2026-10-09,
+flexport,software_engineering,Software Engineer II,mid,,,false,,,,2026-10-09,
+flexport,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+flexport,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+adobe,software_engineering,University Graduate,entry,,,false,,,,2026-10-09,
+adobe,software_engineering,Software Development Engineer,mid,,,false,,,,2026-10-09,
+adobe,software_engineering,SDE 3,mid,Software Development Engineer 3,,false,,,,2026-10-09,
+adobe,software_engineering,SDE 4,senior,P40|Software Engineer 4,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+adobe,software_engineering,SDE 5,staff,Senior Software Development Engineer 5|Staff,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+adobe,software_engineering,Senior Computer Scientist,principal,Senior Staff,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+adobe,software_engineering,Principal Scientist,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+shopify,software_engineering,Software Engineer,mid,,,false,,,,2026-10-09,
+shopify,software_engineering,Senior,senior,,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+shopify,software_engineering,Staff,staff,,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+shopify,software_engineering,Senior Staff,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+shopify,software_engineering,Principal,principal,,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+shopify,software_engineering,Distinguished,director_plus,Fellow,director_plus,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+booking,software_engineering,Software Engineer I,entry,,,false,,,,2026-10-09,
+booking,software_engineering,Software Engineer II,mid,,,false,,,,2026-10-09,
+booking,software_engineering,Senior I,senior,Senior,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+uber,software_engineering,L3,entry,Level 3,,false,,,,2026-10-09,
+uber,software_engineering,L4,mid,Software Engineer II|Level 4,,false,,,,2026-10-09,
+uber,software_engineering,L5,senior,Sr|Level 5,senior,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+uber,software_engineering,L5B,staff,Staff|Level 5B,staff,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+uber,software_engineering,L6,principal,Sr Staff|Level 6,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).
+uber,software_engineering,L7,principal,Principal Engineer|Level 7,principal,false,,,,2026-10-09,pay_label is the band word: pay is looked up by the band asked for (`pay.pay_label`).

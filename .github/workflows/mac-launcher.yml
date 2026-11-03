@@ -1,0 +1,191 @@
+name: mac-launcher
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  release:
+    types: [published]
+  schedule:
+    # Monday 04:41 UTC: the full bundle once a week, for engine changes no path below names.
+    - cron: "41 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+
+jobs:
+  # A gate takes no `paths:` filter, so this job picks the tiers a change needs. NATIVE_PATHS
+  # is what the native tests read; the bundle also needs BUNDLE_PATHS, and copies the whole
+  # engine and dashboard besides, which the weekly run and every release build cover.
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      native: ${{ steps.decide.outputs.native }}
+      bundle: ${{ steps.decide.outputs.bundle }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - id: decide
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          NATIVE_PATHS: |
+            launcher/**
+            dashboard/src/copy/**
+            dashboard/scripts/export-launcher-copy.mjs
+            dashboard/scripts/copy/**
+            dashboard/package.json
+            dashboard/package-lock.json
+            backend/tracker/__init__.py
+            backend/tracker/platform/**
+            .nvmrc
+            .python-version
+            .github/workflows/mac-launcher.yml
+          BUNDLE_PATHS: |
+            backend/packaged.py
+            backend/alembic.ini
+            backend/requirements.txt
+            backend/constraints/**
+            backend/scripts/install_pg_contrib.py
+            backend/scripts/check_source_review.py
+            deploy/build_dashboard.sh
+            dashboard/csp-policy.json
+        run: python3 launcher/macos/Tools/ci_changes.py
+
+  build:
+    needs: changes
+    if: needs.changes.outputs.native == 'true'
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - name: Verify runner and pinned toolchain
+        run: |
+          test "$(uname -m)" = arm64
+          swift --version
+          xcodebuild -version
+      - run: npm ci
+        working-directory: dashboard
+      - name: Verify native copy
+        run: node dashboard/scripts/export-launcher-copy.mjs --check
+      # One test at a time keeps the three-core hosted Mac predictable, and the step limit ends
+      # a stalled run early. Local runs stay parallel, where concurrency faults show up.
+      - name: Native behavior tests
+        timeout-minutes: 10
+        run: launcher/macos/test-core.sh --no-parallel
+      - name: Install pinned packaging tools
+        run: |
+          python3 -m venv "$RUNNER_TEMP/roleband-packaging"
+          "$RUNNER_TEMP/roleband-packaging/bin/python" -m pip install --only-binary=:all: --require-hashes -r launcher/macos/packaging-requirements.txt
+      - name: Installer and release behavior tests
+        run: '"$RUNNER_TEMP/roleband-packaging/bin/python" -m unittest discover -s launcher/macos/Tools -p "test_*.py"'
+      - name: Install guide test browsers
+        run: npm exec -- playwright install chromium webkit
+        working-directory: dashboard
+      - name: Offline installation guide behavior
+        run: node launcher/macos/Tools/test_guide.mjs
+      - name: Build source companion app
+        run: launcher/macos/build-app.sh
+      - name: The assembled app finds its copy without its build folder
+        run: |
+          mv launcher/macos/.build "$RUNNER_TEMP/launcher-build"
+          "$RUNNER_TEMP/launcher-build/RoleBand Launcher.app/Contents/MacOS/RoleBandLauncher" --check-copy
+          "$RUNNER_TEMP/launcher-build/RoleBand Launcher.app/Contents/MacOS/RoleBandLauncher" --render-panel "$RUNNER_TEMP/panel-es.png" --lang=es
+          test -s "$RUNNER_TEMP/panel-es.png"
+      - name: The built app's HTTP client refuses redirects, oversized and slow answers
+        timeout-minutes: 5
+        run: python3 launcher/macos/test-transport.py "$RUNNER_TEMP/launcher-build/RoleBand Launcher.app/Contents/MacOS/RoleBandLauncher"
+      - name: Export downloadable installation guide
+        run: python3 launcher/macos/Tools/install_guide.py "$RUNNER_TEMP/roleband-install-guide"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: macos-install-guide
+          path: ${{ runner.temp }}/roleband-install-guide/
+          if-no-files-found: error
+          retention-days: 7
+
+  bundle:
+    needs: [changes, build]
+    if: needs.changes.outputs.bundle == 'true'
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      # Every cached file is checked on use: bundle.py verifies each download's sha256 and
+      # pip installs only hash-pinned wheels, so a cache changes speed, never the bytes shipped.
+      - name: Cache the pinned runtime downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/roleband-cache/*.tar.gz
+          key: mac-launcher-downloads-${{ runner.arch }}-${{ hashFiles('launcher/macos/runtime.json') }}
+      - name: Cache the locked wheels
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/Library/Caches/pip
+          key: mac-launcher-pip-${{ runner.arch }}-${{ hashFiles('launcher/macos/runtime-lock.txt', 'launcher/macos/packaging-requirements.txt') }}
+      - name: Install pinned packaging tools
+        run: |
+          python3 -m venv "$RUNNER_TEMP/roleband-packaging"
+          "$RUNNER_TEMP/roleband-packaging/bin/python" -m pip install --only-binary=:all: --require-hashes -r launcher/macos/packaging-requirements.txt
+          echo "ROLEBAND_PACKAGING_PYTHON=$RUNNER_TEMP/roleband-packaging/bin/python" >> "$GITHUB_ENV"
+      - run: npm ci
+        working-directory: dashboard
+      - name: Build the dashboard with its source tree stamp
+        run: deploy/build_dashboard.sh
+      - name: Build the standalone candidate
+        run: |
+          command -v zstd || brew install zstd
+          launcher/macos/build-bundle.sh "$RUNNER_TEMP/RoleBand.app" --cache "$RUNNER_TEMP/roleband-cache"
+      - name: Launch the immutable app without the Swift build folder
+        run: |
+          mv "$RUNNER_TEMP/roleband-cache/swift" "$RUNNER_TEMP/hidden-swift-build"
+          chmod -R a-w "$RUNNER_TEMP/RoleBand.app"
+          "$RUNNER_TEMP/RoleBand.app/Contents/MacOS/RoleBandLauncher" --check-copy
+          "$RUNNER_TEMP/RoleBand.app/Contents/MacOS/RoleBandLauncher" --check-engine "$RUNNER_TEMP/engine-probe" > "$RUNNER_TEMP/engine-probe.json"
+          codesign --verify --deep --strict "$RUNNER_TEMP/RoleBand.app"
+      - name: Package the candidate for local release signing
+        run: '"$ROLEBAND_PACKAGING_PYTHON" launcher/macos/Tools/release.py candidate "$RUNNER_TEMP/RoleBand.app" "$RUNNER_TEMP/distribution"'
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: macos-candidate-arm64
+          path: ${{ runner.temp }}/distribution/
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: macos-bundle-probe
+          path: ${{ runner.temp }}/engine-probe.json
+          if-no-files-found: error
+          retention-days: 7

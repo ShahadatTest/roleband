@@ -1,0 +1,287 @@
+company,family,base_min,base_max,year,band,anchor,anchors
+accenture,solutions_sales_eng,94400,266300,2026,senior,SAP Solution Architect Manager [Manager],3
+adobe,engineering_management,206400,384675,2026,director_plus,"Director, Engineering – Agentic Product",2
+adobe,engineering_management,209300,429350,2026,director_plus,"Sr. Director, Engineering - Digital Video & Audio (DVA)",2
+adobe,product_management,148100,282100,2026,principal,"Principal Product Manager, Adobe Express",15
+adobe,product_management,170000,320000,2026,director_plus,"Director, Product Marketing LATAM & Emerging",2
+adobe,product_management,172400,334500,2026,director_plus,Director Product Manager,2
+adobe,product_management,173800,334500,2026,director_plus,Director of Product Management - Adobe Builders eXperience (ABX),2
+affirm,product_management,340000,375000,2026,director_plus,"Senior Director, Product Management (Card)",2
+airwallex,data_science,300000,320000,2026,director_plus,Director of Data Science,2
+amazon,business_operations_strategy,103900,148400,2026,senior,"Senior Supply Chain Manager, NA Sort Centers, Engineering Capacity Planning, NASC Engineering",11
+amazon,business_operations_strategy,115400,160000,2026,senior,"Sr. Supply Chain Manager, Amazon Flex, Amazon Flex Operation",27
+amazon,business_operations_strategy,118200,160000,2026,senior,"Sr Campaign Operations Manager, Amazon Music Experiences",2
+amazon,business_operations_strategy,121200,163900,2026,senior,"Buying & Supplier Manager III, Robotics Supply Chain - Procurement",4
+amazon,business_operations_strategy,121500,164400,2026,senior,Sr. Operations Manager,17
+amazon,business_operations_strategy,124700,168700,2026,senior,"Manager III, Procurement (AMZ1531973)",3
+amazon,business_operations_strategy,126900,181400,2026,senior,"Sr. Supply Chain Manager, Supply Chain",9
+amazon,business_operations_strategy,133900,181200,2026,senior,"Senior Sales Operations Manager, New Seller Recruitment",3
+amazon,business_operations_strategy,135000,182700,2026,senior,Sr. Operations Manager,150
+amazon,business_operations_strategy,147300,199300,2026,senior,"Sr. Sales Operations Manager, Amazon Ads - Sales Enablement",2
+amazon,business_operations_strategy,147900,200100,2026,senior,"Sr. Global Category Manager, Amazon Web Services (AWS) Power and Cooling (PAC) Procurement and Supply Chain",21
+amazon,business_operations_strategy,148500,200900,2026,senior,Senior Operations Manager,4
+amazon,business_operations_strategy,182300,272500,2026,principal,"Senior Manager, Manufacturing Operations, AWS Infrastructure Services Supply Chain",2
+amazon,business_operations_strategy,193700,262000,2026,principal,"Sr Manager, Ground Systems Supply Chain, Amazon Leo",5
+amazon,data_engineering,132100,178800,2026,mid,"Data Engineer II, Global Logistics, Exports",3
+amazon,data_engineering,154600,209100,2026,senior,"Data Engineer III, Amazon Manufacturing Services (AMS)",2
+amazon,data_engineering,170000,230000,2026,senior,"Sr. Data Engineer, Deal Tooling and Insights, Strategic Customer Engagements",2
+amazon,data_engineering,170872,209100,2026,senior,Data Engineer III - AMZ10066423,2
+amazon,data_science,73600,128800,2026,senior,"Senior Financial Analyst, Engineering Capex Analytics & Planning",4
+amazon,data_science,99500,160000,2026,mid,"Business Intelligence Engineer II, SCOT-FO, TVP",5
+amazon,data_science,118200,160000,2026,senior,"Senior System/Data Analyst, Global Tax Data",2
+amazon,data_science,130400,176300,2026,senior,"Sr BIE, ASP Business Intelligence",15
+amazon,data_science,132100,178800,2026,senior,Senior Industrial Analytics Engineer,2
+amazon,data_science,136000,184000,2026,mid,"Data Scientist II, Selection Growth Science",2
+amazon,data_science,142800,193200,2026,senior,"Senior Sales Specialist, Analytics, ISV",2
+amazon,data_science,143400,194000,2026,senior,"Manager III, Business Intelligence, Robotics Delivery and Packaging Innovation",4
+amazon,data_science,144200,195000,2026,principal,"Principal Risk Manager, Analytics and Insights",2
+amazon,data_science,154600,209100,2026,senior,"Senior Data Engineer, AWS Analytics Engineering",4
+amazon,data_science,157100,212600,2026,senior,"Sr Analytics Sales Specialist, HITECH Enterprise Accounts",2
+amazon,data_science,159200,215300,2026,senior,"Sr Data Scientist, SPX AI Lab, SPX Science",6
+amazon,data_science,162700,220200,2026,senior,"Sr. GTM Specialist, Analytics, Media & Entertainment, AWS Industries - Media, Entertainment, Games & Sports",2
+amazon,data_science,168100,227400,2026,senior,"Sr. Software Development Engineer, Advanced Analytics",5
+amazon,data_science,175100,236900,2026,senior,"Sr. Data Scientist, Amazon Publisher Cloud",5
+amazon,data_science,183000,247600,2026,senior,Data Scientist III - AMZ10087624,5
+amazon,data_science,189400,256200,2026,principal,"Principal Data Scientist, AWS Analytics Engineering (AAE)",2
+amazon,data_science,208300,281800,2026,principal,"Senior Manager, Data Science and Analytics, Prime Video Personalization & Analytics",2
+amazon,data_science,210200,284300,2026,principal,"Principal Analytics Solutions Architect, US AGS Specialist SA",2
+amazon,hardware_engineering,193700,262000,2026,principal,"Strategic Silicon & Tech Sourcing Principal, Networking Silicon",3
+amazon,hardware_engineering,277400,350000,2026,principal,"Sr. Manager, Physical Design Engineering, Annapurna Labs",4
+amazon,infrastructure_sre,178800,241900,2026,principal,"Senior Manager of DC Infrastructure Engineering, Design Engineering (AMER)",2
+amazon,ml_ai_research,136000,184000,2026,mid,"ASIC Design Engineer II, Annapurna Labs - Cloud-Scale Machine Learning Acceleration",3
+amazon,ml_ai_research,142800,193200,2026,mid,"Applied Scientist II - GenAI/LLM, Translation Services",18
+amazon,ml_ai_research,143700,194400,2026,mid,"Software Dev Engineer II, AWS Applied AI Solutions",3
+amazon,ml_ai_research,147900,200100,2026,senior,"Sr. Supply Chain Product Mgr, AWS AI/ML Supply Chain",2
+amazon,ml_ai_research,153600,207800,2026,senior,"Sr. Delivery Consultant - AI/ML, AWSI Energy SDT",11
+amazon,ml_ai_research,154700,209300,2026,principal,"Principal, HR Business Partner, Applied AI Solutions PXT",2
+amazon,ml_ai_research,156400,211600,2026,senior,"Sr. UX Designer - AI/ML, Amazon Quick",2
+amazon,ml_ai_research,157100,212600,2026,senior,"Senior Sales Specialist, GenAI/ML , Enterprise",3
+amazon,ml_ai_research,159200,215300,2026,senior,"Sr. DFT Design Engineer, AWS Machine Learning Acceleration",3
+amazon,ml_ai_research,167100,226100,2026,senior,"Senior Applied Scientist - Manipulation RL,  Amazon Robotics - Vulcan Stow",46
+amazon,ml_ai_research,168100,227400,2026,senior,"Sr Software Engineer, AWS Applied AI Solutions – Core Services",8
+amazon,ml_ai_research,171600,222200,2026,mid,"Applied Scientist II, Amazon, Amazon",12
+amazon,ml_ai_research,172400,223400,2026,mid,"Applied Scientist II, Advertising Incrementality Measurement",2
+amazon,ml_ai_research,173900,235200,2026,senior,"Sr. PM-T, Kernels, AI/ML, Annapurna Labs",4
+amazon,ml_ai_research,176600,239000,2026,senior,"Sr. Delivery Consultant - AI/ML, AWS Professional Services",5
+amazon,ml_ai_research,182800,247300,2026,principal,"Principal Delivery Consultant- GenAI/ML & Data Science, Professional Services, AWS Industries",3
+amazon,ml_ai_research,183000,247600,2026,senior,"Senior Cloud Hardware Development Engineer, Cloud AI/ML/storage server teams",14
+amazon,ml_ai_research,183800,248700,2026,senior,"Senior Applied Scientist, Fauna",35
+amazon,ml_ai_research,192200,260000,2026,senior,"Senior Applied Scientist, Delivery Foundation Model",48
+amazon,ml_ai_research,193300,261500,2026,senior,"Sr. Software Engineer- AI/ML, AWS Neuron Distributed Training",14
+amazon,ml_ai_research,198900,269000,2026,principal,"Principal Applied Scientist, Personalization",20
+amazon,ml_ai_research,211400,286000,2026,senior,"Applied Science Manager, Ads Measurement Science",6
+amazon,ml_ai_research,218800,295900,2026,principal,"Senior Manager Applied Science, Prime Video Personalization & Discovery",8
+amazon,ml_ai_research,228700,309400,2026,principal,"Principal Applied Scientist, Ads Optimization, Full Funnel Agentic Intelligence and Models",10
+amazon,ml_ai_research,239600,324100,2026,principal,"Sr. Manager ASIC, Annapurna Labs - Cloud Scale Machine Learning Acceleration Team",3
+amazon,ml_ai_research,240600,325500,2026,principal,"Sr. Manager, Applied Science, AWS Agentic AI",4
+amazon,ml_ai_research,276100,350000,2026,director_plus,"Sr. Principal Applied Scientist, Advertising Full Funnel Agentic Intelligence",4
+amazon,product_management,124500,168500,2026,senior,"Sr. Product Manager Global DSP SLS, SLS Performance",8
+amazon,product_management,136000,184100,2026,senior,"Sr. Product Manager, Amazon Customer Service",60
+amazon,product_management,147900,200100,2026,senior,"Sr. Supply Chain Product Manager, AWS Power & Cooling Procurement - Liquid Cooling",2
+amazon,product_management,151200,204600,2026,senior,"Sr Product Manager - Tech, EC2 Core Product Management",137
+amazon,product_management,152200,205900,2026,senior,"Sr. Product Manager Technical, Amazon Connect Customer",25
+amazon,product_management,152200,206000,2026,senior,"Sr. Product Management - SLS, Amazon Hub Delivery",8
+amazon,product_management,161900,219000,2026,principal,"Principal Product Manager, Amazon Customer Service",10
+amazon,product_management,162700,220200,2026,senior,"Senior Product Manager, Optimization and Licensing Assessment (OLA)",4
+amazon,product_management,166300,225000,2026,senior,"Sr. Product Manager - Tech, AI, Sub Same Day",14
+amazon,product_management,173900,235200,2026,senior,"Senior Product Manager- Tech, Alexa- Echo Devices Product Management",15
+amazon,product_management,175000,236800,2026,senior,Senior Product Manager -Tech,10
+amazon,product_management,178100,240900,2026,principal,"Sr. Manager, Product Management, Worldwide Returns & ReCommerce",5
+amazon,product_management,179900,243400,2026,principal,"Principal Product Manager Tech, Prime Video",72
+amazon,product_management,181100,245000,2026,principal,"Principal Product Manager, Technical, Database Services",20
+amazon,product_management,197900,267800,2026,principal,"Principal Product Manager - Technical, Ads AI Core Infrastructure",27
+amazon,product_management,199200,269500,2026,principal,"Principal Product Manager, Tech, Amazon Connect",6
+amazon,product_management,206900,279900,2026,principal,"Principal Product Manager - Technical, Shopper Understanding and Response Prediction",16
+amazon,product_management,208300,281800,2026,principal,"Principal Product Manager - Technical, External Services, Amazon Aurora",14
+amazon,product_management,237500,321300,2026,director_plus,"Director Product Management-Technical, Amazon Customer Service",2
+amazon,program_management,55600,97400,2026,entry,"Program Manager I, Transportation Engineering Systems, Transportation Engineering Systems",3
+amazon,program_management,66300,107100,2026,entry,"Network Execution Program Manager I, Hub Delivery",3
+amazon,program_management,66800,116800,2026,mid,"Program Manager II, Global Logistics Supply Chain Design",5
+amazon,program_management,74200,129800,2026,mid,"Program Manager II, NAST ACES",11
+amazon,program_management,80200,97400,2026,entry,"Network Execution Program Manager I, Hub Delivery",5
+amazon,program_management,82700,129800,2026,mid,"Program Manager II, Last Mile Science",5
+amazon,program_management,95300,160000,2026,entry,"Tech Infra Program Manager I, Network Design and Deployment Team (NIDD)",2
+amazon,program_management,95400,163200,2026,senior,"Senior Program Manager, Corporate Accounting Enterprise Program Office (CAEPO)",3
+amazon,program_management,104100,155400,2026,senior,"Sr. Program Manager, Workplace Health & Safety (WHS) Operational Excellence (OpEx)",44
+amazon,program_management,111300,186100,2026,mid,"Data Center Project Manager II, Critical Projects Implementation",4
+amazon,program_management,115600,160000,2026,senior,"Senior Program Manager , Selling Partner Trust",147
+amazon,program_management,119300,208900,2026,senior,"Sr. Security Program Manager, U.S. Amazon Dedicated Cloud",3
+amazon,program_management,119600,161700,2026,senior,"Senior Program Manager - Robotics Deployment and Experimentation, RME New Technology Integration",3
+amazon,program_management,121200,163900,2026,senior,"Senior Program Manager, Dangerous Goods (DG) Regulatory Engagement (LEO Program)",4
+amazon,program_management,124900,169000,2026,principal,"Principal Program Manager, Central Learning Solutions (CLS) Operations",2
+amazon,program_management,125800,170200,2026,senior,"Senior Program Manager, Transformation",3
+amazon,program_management,127200,172100,2026,senior,"Senior Physical Security Program Manager Implementation, Worldwide Operations Security (WWOS)",3
+amazon,program_management,127200,185000,2026,senior,"Sr. Program Manager, SSD Ops Integration",21
+amazon,program_management,129500,175100,2026,senior,"Senior Design Program Manager, Prime Video, Prime Video",5
+amazon,program_management,130000,185000,2026,senior,"Senior Program Manager, Global Expo Strategy, AWS Global Events",3
+amazon,program_management,137600,186200,2026,principal,"Principal Program Manager , Selling Partner Trust",9
+amazon,program_management,138400,187300,2026,senior,"Sr. Program Manager, AWS PXT Marketing",2
+amazon,program_management,141200,191100,2026,senior,"Sr. Tech Infra Program Manager, OTS ACES Solution Design",4
+amazon,program_management,142400,192600,2026,senior,"Sr. Creative Program Manager, eero Packaging Team",2
+amazon,program_management,147900,200100,2026,senior,"Sr. Supply Chain Program Manager, NPI",3
+amazon,program_management,148700,201200,2026,senior,"Senior Technical Infrastructure. Program Manager, Infrastructure Capacity Management - CDR Execution, Infrastructure Capacity Management - CDR Execution",35
+amazon,program_management,156400,211600,2026,senior,"Senior Engineering Program Manager – Device Packaging, Devices & Services Experience Design - Packaging",2
+amazon,program_management,163600,221300,2026,senior,"Sr. SAP Tech Program Manager, Leo Finance Technology",2
+amazon,program_management,171000,231300,2026,senior,"Sr. Operations Program Manager, Product Operations, Echo Pre-Concept",4
+amazon,program_management,171000,231400,2026,senior,"Sr Tech Program Manager, Business Data Technologies",2
+amazon,program_management,176900,239400,2026,principal,"Principal Environmental Global Program Manager, AWS Environmental",2
+amazon,program_management,177000,239400,2026,principal,"Principal Tech Program Manager, Measurement, Ad Tech, and Data Science",10
+amazon,program_management,194700,263400,2026,principal,"Principal Tech Program Manager, Amazon Publisher Monetization, Amazon Ads",3
+amazon,program_management,203500,275300,2026,principal,"Principal Tech Program Manager, Amazon Publisher Services (APS)",3
+amazon,sales_business_development,210200,284300,2026,principal,"Principal Technical Account Manager, ES - NAMER - US-Frontier AI",2
+amazon,software_engineering,165700,260000,2026,principal,"Principal Tech Ops Engineer, AWS Rack Manufacturing",2
+amazon,software_engineering,167800,227000,2026,senior,"Senior PostgreSQL Database Engineer, RDS",4
+amazon,software_engineering,168100,227400,2026,senior,"Senior Software Development Engineer, Agentic WorkSpaces",2
+amazon,software_engineering,193300,261500,2026,senior,"Sr. Software Development Engineer, Amazon Shopping (Rufus)",17
+amazon,solutions_sales_eng,210200,284300,2026,principal,"Principal Solutions Architect, TMEGS , TMEGS",5
+amazon,technical_program_management,137300,185700,2026,senior,"Sr Production TPM, AMZ Leo Production OPs",3
+amazon,technical_program_management,141300,191100,2026,senior,"Sr Technical Program Manager, Ops Infrastructure Solutions",3
+amazon,technical_program_management,148700,201200,2026,senior,"Senior Technical Program Manager, Region Services",128
+amazon,technical_program_management,163600,221300,2026,senior,"Sr. Technical Program Manager, Advertising Services, Amazon Ads",10
+amazon,technical_program_management,168100,227400,2026,principal,"Principal Technical Program Manager, Operations Network Engineering",2
+amazon,technical_program_management,171000,231400,2026,senior,"Sr. Product Design TPM, HW Development, Amazon Devices - Hardware",18
+amazon,technical_program_management,177000,239400,2026,principal,"Principal Technical Program Manager, Amazon Customer Service",62
+amazon,technical_program_management,194700,263400,2026,principal,"Principal Technical Program Manager, Special Projects",7
+amazon,technical_program_management,203500,275300,2026,principal,"Principal Security TPM, AGS Security Engineering",9
+anthropic,software_engineering,320000,405000,2026,staff,"Staff Software Engineer, Growth",7
+anthropic,software_engineering,320000,485000,2026,staff,"Staff+ Software Engineer, Capacity Engineering",10
+anthropic,software_engineering,405000,485000,2026,staff,"Staff+ Software Engineer, Claude Science",25
+anthropic,software_engineering,405000,625000,2026,staff,"Staff+ Software Engineer, Developer Productivity",2
+apple,data_engineering,175000,308500,2026,staff,Staff Data Engineer,2
+apple,data_engineering,262500,394000,2026,principal,"Principal Data Architect, PostgreSQL Database - Ai & Data Platforms (AiDP)",2
+apple,data_science,184700,324800,2026,staff,Staff Data Scientist - Experimentation,3
+apple,data_science,272500,408900,2026,principal,"Principal Counsel, IP — IP Special Deals & Analytics",2
+apple,ml_ai_research,175000,308500,2026,staff,"Staff Machine Learning Engineer - News, Books, and Stocks Team",3
+apple,ml_ai_research,184700,324800,2026,staff,Staff ML Engineer - Ads ML Infrastructure,8
+apple,ml_ai_research,205400,308500,2026,staff,"Staff Machine Learning Engineer - News, Books, and Stocks Team",5
+apple,ml_ai_research,216200,324800,2026,staff,"Staff Research Scientist, Siri Innovation Studio",4
+apple,ml_ai_research,262500,394000,2026,principal,"Principal Research Scientist, Siri Innovation Studio",3
+apple,ml_ai_research,311100,496900,2026,director_plus,Places Data and ML Director,2
+apple,software_engineering,262500,394000,2026,staff,Staff Software Engineer - FoundationDB,3
+apple,software_engineering,311100,496900,2026,director_plus,Director of Software Engineering - Security,2
+asana,engineering_management,306000,360000,2026,director_plus,"Director of Engineering, AI Agents",2
+asana,software_engineering,323500,336750,2026,principal,"Senior Staff Software Engineer, Developer Productivity",2
+assorthealth,product_management,300000,330000,2026,director_plus,"Director of Agent Product Management, Mid-Market Accounts",3
+brex,legal_policy,270000,335000,2026,director_plus,Head of Regulatory Affairs,2
+brex,product_management,240000,300000,2026,staff,"Staff Product Manager, Growth",15
+brex,product_management,340000,425000,2026,director_plus,"Director of Product, Growth/AI",4
+clera,customer_success,170000,220000,2026,director_plus,Head of Customer Success,2
+coinbase,product_management,243865,286900,2026,principal,"Group Product Manager, Developer Infrastructure",4
+crowdstrike,product_management,160000,250000,2026,principal,Principal Product Manager - Threat Detection Engine and Content (Hybrid),4
+crusoe,engineering_management,285000,335000,2026,director_plus,"Director of Engineering, Flex Compute",2
+crusoe,product_management,285000,335000,2026,principal,"Principal Product Manager, Bare Metal",3
+cyberhaven,product_management,250000,275000,2026,director_plus,Director of Product Management (Agentic Data Security),3
+databricks,product_management,172200,236850,2026,staff,"Staff Product Manager, Agentic AI Applications",2
+databricks,product_management,181700,249800,2026,staff,"Staff Product Manager, US Public Sector",2
+databricks,software_engineering,166000,225000,2026,staff,Staff Backend Software Engineer- (Databricks AI),2
+databricks,software_engineering,190000,265000,2026,staff,"Staff Software Engineer, AI Runtime",3
+databricks,software_engineering,190000,270000,2026,staff,Staff Software Engineer - Agent Quality,2
+databricks,software_engineering,190900,253750,2026,staff,Staff Software Engineer - AI Platform (NYC),3
+databricks,software_engineering,198200,272600,2026,staff,"Staff Software Engineer, AI Native Web Platform",3
+databricks,technical_program_management,180200,243340,2026,principal,Sr. Staff Technical Program Manager - Reliability,2
+databricks,technical_program_management,189800,256160,2026,principal,Sr. Staff Technical Program Manager - Reliability,2
+deloitte,solutions_sales_eng,141200,278300,2026,senior,MES Solution Architect Manager,3
+doordash,business_operations_strategy,197200,290000,2026,director_plus,"Director, New Restaurant Models- Strategy & Operations",3
+doordash,data_science,255000,375000,2026,director_plus,"Director, Analytics, Commerce Platform",2
+doordash,ml_ai_research,242800,357000,2026,principal,Senior Staff Machine Learning Engineer,2
+elastic,product_management,159800,252800,2026,principal,Principal Product Manager Agents and Context - Elasticsearch,3
+everpure,product_management,198000,297000,2026,principal,"Principal Product Manager, Systems FlashBlade",2
+harvey,customer_success,276000,325000,2026,director_plus,"Head of Customer Success, Enterprise",2
+hightouch,ml_ai_research,230000,400000,2026,director_plus,Head of Machine Learning,2
+highwire,marketing_communications,130000,195000,2026,director_plus,"Vice President, Public Relations (B2B Technology)",2
+highwire,marketing_communications,175000,249000,2026,director_plus,"Senior Vice President, Public Relations (Health)",2
+intel,hardware_engineering,220920,311890,2026,director_plus,"Director, SoC Design Engineering",2
+kpmg,product_management,198000,368000,2026,principal,"Director, Platform Product Management",2
+kpmg,solutions_sales_eng,184870,324185,2026,principal,"Director, SAP Enterprise Architect - Power & Utilities",2
+lambda,product_management,365000,540000,2026,director_plus,"Senior Director, Product Management - Platform",2
+leandata,product_management,180000,220000,2026,director_plus,Director of Product Design,2
+linkedin,product_management,187000,305000,2026,principal,"Principal Product Manager, Agentic Platform",3
+linkedin,software_engineering,215000,352000,2026,director_plus,"Director, Software Engineering - Enterprise Infrastructure",2
+lyft,product_management,176000,260000,2026,principal,"Group Product Manager, Verticals",2
+microsoft,business_operations_strategy,130900,277200,2026,director_plus,"Director, Marketing Strategy & Operations, Minecraft",3
+microsoft,data_engineering,106400,203600,2026,senior,Senior Cloud Solution Architect - Cloud & AI Data Platform [IC4/IC5],2
+microsoft,data_engineering,119800,234700,2026,senior,Senior Data Engineer [IC4],3
+microsoft,data_science,106400,203600,2026,senior,Senior Business Analytics Specialist [IC4],2
+microsoft,data_science,119800,234700,2026,senior,Senior Data Scientist - Media Data Science & Analytics [IC4],5
+microsoft,data_science,130900,277200,2026,principal,Principal Data Scientist Lead [IC6],2
+microsoft,data_science,142800,274800,2026,principal,Principal Data Scientist,11
+microsoft,engineering_management,142800,274800,2026,principal,Principal Software Engineering Manager,34
+microsoft,engineering_management,165600,296400,2026,principal,Principal Software Engineering Manager,13
+microsoft,hardware_engineering,142800,274800,2026,principal,Principal Firmware Engineer,24
+microsoft,infrastructure_sre,142800,274800,2026,principal,Principal Site Reliability Engineer - CTJ - Secret,2
+microsoft,ml_ai_research,102100,202200,2026,mid,"Member of Technical Staff, Microsoft Robotics (Spatial AI) [IC3]",3
+microsoft,ml_ai_research,119800,234700,2026,senior,Senior Applied Scientist [IC4],16
+microsoft,ml_ai_research,142800,274800,2026,principal,Principal Applied Scientist [IC5],20
+microsoft,ml_ai_research,165600,296400,2026,principal,Principal Applied Scientist [IC6],6
+microsoft,product_management,102100,202200,2026,mid,Product Manager II - Microsoft Foundry [IC3],4
+microsoft,product_management,119800,234700,2026,senior,Senior Product Manager [IC4],34
+microsoft,product_management,130900,251900,2026,director_plus,"Director, Product Marketing",2
+microsoft,product_management,142800,274800,2026,principal,Principal Product Manager [IC5],53
+microsoft,product_management,155800,277200,2026,director_plus,"Senior Director, Product Marketing - Endpoint Security & Management",2
+microsoft,product_management,165600,296400,2026,principal,Principal Product Manager [IC6],14
+microsoft,product_management,188000,304200,2026,principal,Principal Product Manager [IC5],4
+microsoft,program_management,84400,168800,2026,mid,Data Center Program Manager [IC3],7
+microsoft,program_management,97600,188400,2026,senior,Land Development & Permitting Program Manager [IC4],16
+microsoft,program_management,101800,193800,2026,senior,Senior Project Manager - CTJ - TS/SCI,5
+microsoft,program_management,116900,203600,2026,principal,Senior Land Development & Permitting Program Manager [IC5],14
+microsoft,program_management,119800,234700,2026,senior,Senior Lease Delivery Program Manager [IC4],9
+microsoft,program_management,124500,214600,2026,principal,Principal Project Manager - Manufacturing and Mobility [IC5],2
+microsoft,program_management,130900,277200,2026,principal,"Principal Learning Program Manager, Credential Growth & Experience [IC6]",7
+microsoft,program_management,142800,274800,2026,principal,Principal Security Program Manager [IC5],13
+microsoft,security_engineering,142800,274800,2026,principal,Principal Security Engineer,5
+microsoft,software_engineering,119800,234700,2026,principal,Sr Software Engineer/Principal Software Engineer [IC5],5
+microsoft,software_engineering,142800,274800,2026,principal,Principal Software Engineer,51
+microsoft,software_engineering,165600,296400,2026,principal,Principal Software Engineer,7
+microsoft,technical_program_management,119800,234700,2026,senior,Senior TPM Manager,2
+microsoft,technical_program_management,142800,274800,2026,principal,Principal Technical Program Manager,5
+mirum-pharmaceuticals,legal_policy,280000,310000,2026,director_plus,"Senior Director, Regulatory Affairs",2
+monks,design_ux,160000,190000,2026,director_plus,"Creative Director, Interactive Digital Experiences",2
+nvidia,hardware_engineering,272000,431250,2026,principal,Principal Firmware Engineer – Server Manageability and Observability,2
+nvidia,hardware_engineering,320000,488750,2026,director_plus,"Distinguished Engineer, Power Architecture",2
+nvidia,product_management,240000,379500,2026,principal,"Principal Product Manager, AI Frameworks",9
+nvidia,product_management,272000,425500,2026,director_plus,"Director, Product Management – AI Networking Spectrum HW",3
+nvidia,sales_business_development,296000,448500,2026,director_plus,OEM Sales Director,2
+nvidia,software_engineering,272000,431250,2026,principal,Principal Software Engineer – GT Data,12
+nvidia,software_engineering,320000,488750,2026,director_plus,"Director, Software Engineering - Semiconductor Inspection",4
+okta,engineering_management,275000,378000,2026,director_plus,"Director, Engineering - Okta Integration Network",2
+okta,people_recruiting,224000,308000,2026,director_plus,"Director, Global Tech Recruiting",2
+openai,software_engineering,347000,490000,2026,principal,"Principal Software Engineer, Codex Cyber",3
+opentable,product_management,200000,215000,2026,principal,"Principal Product Manager, Diner Engagement",2
+opentable,sales_business_development,165000,185000,2026,director_plus,"Director, Global Partnerships",2
+paypal,product_management,198000,294250,2026,director_plus,"Director, Product Management -Agentic AI platform",2
+paypal,product_management,218000,323950,2026,director_plus,"Director, AI Strategy and Product Management",3
+paypal,sales_business_development,197400,293370,2026,director_plus,"Director, Partnerships",2
+pwc,data_science,155000,410000,2026,principal,"Deal Data Technology & Analytics, Director",2
+pwc,solutions_sales_eng,99000,232000,2026,senior,"P&C Technical Solutions Architect, Manager",2
+qualcomm,hardware_engineering,190200,285400,2026,principal,Sr. Staff/Principal PCIE Subsystem Architect,2
+qualcomm,hardware_engineering,221100,331700,2026,principal,"Principal Ethernet Scale-Out Architect, AI Data Center",2
+qualcomm,hardware_engineering,256600,385000,2026,director_plus,"Senior Director Power Architecture, Datacenter AI",2
+qualcomm,infrastructure_sre,190200,285400,2026,principal,Sr. Staff / Principal Software Engineer – Linux Kernel & ARM Server Platforms,2
+qualcomm,product_management,229800,344800,2026,director_plus,"Director, Product Management - Ethernet Portfolio (PHY, NIC, & Switching)",3
+reddit,business_operations_strategy,245800,344100,2026,director_plus,"Director, Revenue Strategy & Operations (Large Customer Sales) [D2]",5
+renesas-electronics,product_management,210000,270000,2026,principal,Principal Product Manager (Hyperscalers),2
+robinhood,product_management,191000,225000,2026,staff,Staff Product Manager - Prediction Markets,4
+roblox,engineering_management,399420,457970,2026,director_plus,"Engineering Director, Storage",3
+salesforce,product_management,197300,313700,2026,director_plus,"Director of Product Management, Developer Experience",4
+salesforce,product_management,263200,401400,2026,director_plus,"Sr. Director of Product Management, Data 360",2
+scout-motors,product_management,160000,192500,2026,principal,"Senior Staff Technical Product Manager, Vehicle Transaction Platform",2
+servicenow,engineering_management,221200,387100,2026,director_plus,"Director of Engineering, HR Service Delivery",2
+servicenow,hardware_engineering,184000,253100,2026,director_plus,"Director, GSOC Operations, Travel Risk & Access Management",2
+servicenow,infrastructure_sre,221200,387100,2026,director_plus,"Director, Site Reliability Engineering & Service Enablement",2
+servicenow,product_management,166500,291400,2026,principal,"Principal Inbound Product Manager, CRM Voice AI",2
+servicenow,product_management,190900,334100,2026,principal,"Senior Staff Product Manager, Conversational AI",7
+sierra,sales_business_development,280000,315000,2026,director_plus,Enterprise Sales Director,3
+sierra,sales_business_development,300000,345000,2026,director_plus,Enterprise Sales Director - Majors,2
+sierra,sales_business_development,315000,355000,2026,director_plus,"Enterprise Sales Director - Majors, Healthcare",2
+socure,data_science,250000,300000,2026,director_plus,Head of Data Science - Identity & Compliance,2
+spotify,ml_ai_research,184050,262928,2026,senior,"Senior Machine Learning Engineer, Personalization, Muse",2
+spotify,ml_ai_research,227495,324993,2026,staff,"Staff Machine Learning Engineer, Personalization",5
+spotify,product_management,182308,260441,2026,principal,"Principal Product Manager, Engagement Journeys",2
+tatari,product_management,175000,225000,2026,principal,"Principal Product Manager, Reporting and Measurement",3
+volta,product_management,255000,330000,2026,principal,Group Product Manager - Orchestration,3
+waymo,engineering_management,298000,368000,2026,principal,"Senior Staff Technical Lead Manager, In-Car Experience [7]",2
+waymo,software_engineering,298000,368000,2026,principal,"Sr. Staff Software Engineer, DUE Experience [7]",2
+zip,product_management,200000,280000,2026,principal,"Principal Product Manager, Identity",2
+zscaler,product_management,171500,245000,2026,principal,Principal Product Manager,6
+zscaler,software_engineering,157500,225000,2026,principal,Senior Staff Software Engineer – Test Automation Infrastructure (ZIA Core),5
+zscaler,software_engineering,185500,265000,2026,principal,Principal Software Development Engineer (Control-Plane),2

@@ -1,0 +1,14 @@
+{
+  "warning.png": {
+    "source": "Owner-supplied macOS warning capture for a RoleBand test app",
+    "captured_on": "2026-10-27",
+    "language": "en",
+    "use": "Illustrative example; app name may differ"
+  },
+  "security.png": {
+    "source": "macOS System Settings capture with isolated RoleBand Launcher fixture",
+    "captured_on": "2026-10-28",
+    "language": "en",
+    "use": "Illustrative example; approval was not granted"
+  }
+}

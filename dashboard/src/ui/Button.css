@@ -1,0 +1,308 @@
+/* ui/Button — the app's one button. Paints --app-* only (src/design/tokens.css),
+ * so it is correct on any surface AND inside any material: a material's
+ * tokens recolour it without a line of its own.
+ *
+ * Every variant declares its whole state set — hover, active, disabled,
+ * focus-visible. That is the point of the primitive: a state nobody declares
+ * is a state some other rule decides.
+ *
+ * The ring is owned here rather than inherited. shell.css supplies a global
+ * ring on every focusable element, and a button that took it would be sized
+ * and offset by a rule that knows nothing about this control. Declaring it
+ * makes the button correct wherever it is mounted.
+ */
+
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-2);
+  border: 0;
+  border-radius: var(--app-radius-md);
+  font-family: var(--app-font-sans);
+  /* An anchor may wear these classes (docs/ui.md); it must not
+     keep the UA underline the link rank re-adds for itself. */
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--app-duration-fast),
+    border-color var(--app-duration-fast),
+    color var(--app-duration-fast),
+    filter var(--app-duration-fast);
+}
+
+.ui-btn:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+/* `aria-disabled` is a control that cannot act now but stays focusable, so a
+   reason beside it (aria-describedby) can still be reached. It looks the
+   same as `disabled` and takes no hover. */
+.ui-btn:disabled,
+.ui-btn[aria-disabled="true"] {
+  opacity: 0.38;
+  cursor: default;
+}
+
+/* ---- size: the control scale, never a literal ---------------------------- */
+
+.ui-btn-sm {
+  min-height: var(--app-control-sm);
+  padding: 0 var(--app-control-sm-pad);
+  /* The small rank takes the small corner: every 28px control in the app sits
+     at radius-sm, and the md corner on a 28px box reads rounder than the
+     inputs beside it. */
+  border-radius: var(--app-radius-sm);
+  font-size: var(--app-type-meta);
+}
+
+.ui-btn-md {
+  min-height: var(--app-control-md);
+  padding: 0 var(--app-control-md-pad);
+  font-size: var(--app-type-body);
+}
+
+.ui-btn-lg {
+  min-height: var(--app-control-lg);
+  padding: 0 var(--app-control-lg-pad);
+  font-size: var(--app-type-body);
+}
+
+/* An icon button is square: the size class gives it height, this takes the
+   padding back and matches the width to it.
+
+   `flex: none` is what makes the square hold. `width` alone is a HINT to a
+   flex parent, which may shrink it — and an icon button's home is an action
+   row, so the parent is nearly always flex. A primitive that only holds its shape outside a flex row is not
+   holding it. */
+.ui-btn-icon.ui-btn-sm { width: var(--app-control-sm); padding: 0; flex: none; }
+.ui-btn-icon.ui-btn-md { width: var(--app-control-md); padding: 0; flex: none; }
+.ui-btn-icon.ui-btn-lg { width: var(--app-control-lg); padding: 0; flex: none; }
+
+/* ---- primary: commits state ---------------------------------------------- */
+
+.ui-btn-primary {
+  background: var(--app-action);
+  color: var(--app-action-ink);
+  font-weight: var(--app-weight-name);
+}
+
+.ui-btn-primary:not(:disabled):not([aria-disabled="true"]):hover {
+  filter: brightness(1.06);
+}
+
+.ui-btn-primary:not(:disabled):not([aria-disabled="true"]):active {
+  filter: brightness(0.96);
+}
+
+/* ---- ghost: the default rank --------------------------------------------- */
+
+.ui-btn-ghost {
+  /* The control edge, 3:1 on every ground (WCAG 1.4.11): the plain rank has
+     no fill to be seen by, so its outline is what marks it as a button. */
+  border: 1px solid var(--app-border-control);
+  background: var(--app-surface-subtle);
+  color: var(--app-text-muted);
+  font-weight: var(--app-weight-name);
+}
+
+.ui-btn-ghost:not(:disabled):not([aria-disabled="true"]):hover {
+  border-color: var(--app-text-faint);
+  color: var(--app-text);
+}
+
+.ui-btn-ghost:not(:disabled):not([aria-disabled="true"]):active {
+  background: var(--app-surface-hover);
+}
+
+/* A ghost that is a MODE, not a one-shot action: same single convention as the
+   icon rank, so "currently on" is spelled one way across the whole system. */
+.ui-btn-ghost[aria-pressed="true"] {
+  border-color: var(--app-chosen-line);
+  background: var(--app-chosen-wash);
+  color: var(--app-chosen-text);
+}
+
+/* The toolbar rank: same button, stated as the band's action rather than one
+   more label in it. Ships here so a screen never restates it by override,
+   where a specificity fight it cannot see decides the result. */
+.ui-btn-ghost.ui-btn-strong {
+  border-color: var(--app-text-faint);
+  color: var(--app-text);
+}
+
+.ui-btn-ghost.ui-btn-strong:not(:disabled):not([aria-disabled="true"]):not([aria-pressed="true"]):hover {
+  background: var(--app-surface-hover);
+}
+
+/* A full-width opener with a short description. Ghost owns its states; this
+   modifier only gives the two-line label room. Also worn by navigation links. */
+.ui-btn.ui-btn-tile {
+  width: 100%;
+  min-height: calc(var(--app-control-lg) + 2 * var(--app-space-3));
+  padding: var(--app-space-3);
+  justify-content: flex-start;
+  text-align: left;
+}
+.ui-btn-tile > svg { flex: none; }
+.ui-btn-tile-copy { flex: 1; min-width: 0; }
+.ui-btn-tile-title { display: block; }
+.ui-btn-tile-description {
+  display: block;
+  margin-top: var(--app-space-1);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-body);
+}
+
+/* ---- icon: icon-only square ---------------------------------------------- */
+
+.ui-btn-icon {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--app-decor);
+}
+
+.ui-btn-icon:not(:disabled):not([aria-disabled="true"]):hover {
+  border-color: var(--app-border);
+  background: var(--app-surface-subtle);
+  color: var(--app-text);
+}
+
+.ui-btn-icon:not(:disabled):not([aria-disabled="true"]):active {
+  background: var(--app-surface-hover);
+}
+
+/* ONE convention for "this control is currently on": the ARIA state
+   (`aria-pressed`, `aria-expanded`), never a state class such as `.is-on` or
+   `.on`. */
+.ui-btn-icon[aria-expanded="true"],
+.ui-btn-icon[aria-pressed="true"] {
+  border-color: var(--app-chosen-line);
+  background: var(--app-chosen-wash);
+  color: var(--app-chosen-text);
+}
+
+/* ---- link: a verb inside running text ------------------------------------ */
+
+.ui-btn-link {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--app-action-text);
+  font-size: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--app-action-line);
+}
+
+.ui-btn-link:not(:disabled):not([aria-disabled="true"]):hover {
+  color: var(--app-text);
+  text-decoration-color: currentColor;
+}
+
+.ui-btn-link:not(:disabled):not([aria-disabled="true"]):active {
+  color: var(--app-action);
+}
+
+/* The QUIET rank of the same verb. The verb splits two ways and the split is
+   real, not drift: some are the accented offer in a
+   sentence (Retry, Open deadlines) and some are an aside beside content it
+   must not outrank ("Show 23 more", "Choose automatically", "Track all"). One
+   variant, two ranks — rather than a sixth variant, or nine colours. */
+.ui-btn-link.ui-btn-quiet {
+  color: var(--app-text-muted);
+  text-decoration-color: var(--app-border-strong);
+}
+
+.ui-btn-link.ui-btn-quiet:not(:disabled):not([aria-disabled="true"]):hover {
+  color: var(--app-text);
+}
+
+/* A quiet verb that is unavailable must LOOK unavailable: a disabled verb
+   that declares nothing reads as live. */
+.ui-btn-link:disabled,
+.ui-btn-link[aria-disabled="true"] {
+  color: var(--app-text-faint);
+  text-decoration: none;
+}
+
+/* ---- danger: destructive and irreversible -------------------------------- */
+
+.ui-btn-danger {
+  border: 1px solid var(--app-danger);
+  background: transparent;
+  color: var(--app-danger);
+  font-weight: var(--app-weight-name);
+}
+
+.ui-btn-danger:not(:disabled):not([aria-disabled="true"]):hover {
+  background: var(--app-danger-soft);
+}
+
+.ui-btn-danger:not(:disabled):not([aria-disabled="true"]):active,
+.ui-btn-danger[aria-pressed="true"] {
+  background: var(--app-danger);
+  color: var(--app-danger-ink);
+}
+
+/* ---- beacon: a consequence's tick in the margin -------------------------- */
+
+/* One modifier on the small rank (docs/ui.md): the
+   rail badge's pill grown to control height, worn by the two margin beacons
+   the job lists raise. On `primary` it is a STANDING state (there is a
+   comparison); on `ghost` it is a WAY BACK (you can undo). Same pill, same
+   28px, same radius-999 as the badge — the count inside is the badge
+   inverted. The ring and glow are the new-signal bar's own (job-row.css),
+   so the two "something happened here" marks on a list share one light. */
+.ui-btn.ui-beacon {
+  gap: var(--app-space-1);
+  padding: 0 var(--app-control-sm-pad);
+  border-radius: 999px;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-micro);
+  font-weight: var(--app-weight-strong);
+}
+
+.ui-btn-primary.ui-beacon {
+  box-shadow: 0 0 0 5px var(--app-action-soft), 0 0 22px var(--app-action-glow);
+}
+
+.ui-btn-primary.ui-beacon:not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: 0 0 0 6px var(--app-action-soft), 0 0 30px var(--app-action-glow);
+}
+
+.ui-btn-ghost.ui-beacon {
+  border-color: var(--app-action-line);
+  background: var(--app-surface-glass);
+  backdrop-filter: blur(20px);
+  color: var(--app-action-text);
+  /* Derived from the theme's own action colour, never a literal of the dark
+     theme's gold that the light theme's undo beacon would also wear. */
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--app-action) 6%, transparent);
+}
+
+.ui-btn-ghost.ui-beacon:not(:disabled):not([aria-disabled="true"]):hover {
+  border-color: var(--app-action);
+  background: var(--app-surface-glass);
+  color: var(--app-action-text);
+  box-shadow: 0 0 0 6px var(--app-action-soft);
+}
+
+.ui-beacon-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 var(--app-space-1);
+  border-radius: 999px;
+  background: var(--app-action-ink);
+  color: var(--app-action);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-btn { transition: none; }
+}

@@ -1,0 +1,130 @@
+/* FilterSelect — trigger pill + option list inside the Popover glass panel. */
+/* The trigger is a FilterChip that opens a picker: same 28px pill, same
+   type, and its open state is the chip's pressed tint keyed off
+   aria-expanded. */
+.ui-filterselect-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  min-height: var(--app-control-sm);
+  padding: 0 var(--app-control-sm-pad);
+  border: 1px solid var(--app-border-control);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+  cursor: pointer;
+  transition: border-color var(--app-duration-fast), color var(--app-duration-fast), background var(--app-duration-fast);
+}
+.ui-filterselect-trigger:hover {
+  border-color: var(--app-text-faint);
+  color: var(--app-text);
+}
+.ui-filterselect-trigger:active {
+  background: var(--app-surface-hover);
+}
+.ui-filterselect-trigger:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+.ui-filterselect-trigger[aria-expanded="true"],
+.ui-filterselect-trigger.ui-has-value {
+  border-color: var(--app-chosen-line);
+  color: var(--app-chosen-text);
+  background: var(--app-chosen-wash);
+}
+.ui-filterselect {
+  width: 344px;
+  max-width: calc(100vw - 32px);
+  padding: 12px 12px 14px;
+}
+.ui-filterselect-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.ui-filterselect-head strong {
+  font-size: var(--app-type-meta);
+  letter-spacing: -0.01em;
+}
+/* ui/SearchField at sm, stretched across the panel head. */
+.ui-filterselect-search {
+  width: 100%;
+  margin-bottom: var(--app-space-2);
+}
+.ui-filterselect-list {
+  max-height: 46vh;
+  overflow-y: auto;
+}
+/* Without a search box the list itself is the Tab stop (tabIndex 0). The one
+   ring, inside, since the popover clips. */
+.ui-filterselect-list:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: calc(-1 * var(--app-ring-offset));
+}
+.ui-filterselect-empty {
+  padding: 10px 6px;
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+}
+/* A popover facet's option is the SAME entity as the Board register's value
+   row: body, sentence case, muted, on the
+   32px row grid; hover/active raise the ink, selection takes the action ink.
+   State is ink, never weight. */
+.ui-filterselect-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 32px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: var(--app-radius-sm);
+  background: transparent;
+  color: var(--app-text-muted);
+  font: inherit;
+  font-size: var(--app-type-body);
+  text-align: left;
+  cursor: pointer;
+}
+.ui-filterselect-option:hover,
+.ui-filterselect-option.ui-cursor {
+  background: var(--app-surface-hover);
+  color: var(--app-text);
+}
+/* The option the keyboard is on (`aria-activedescendant`), which Enter acts
+   on, wears the app's one ring inside: a hover fill alone does not reach the
+   3:1 a focus indicator needs. */
+.ui-filterselect-option.ui-cursor {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: calc(-1 * var(--app-ring-offset));
+}
+/* A ticked option is chosen: its name in the chosen ink and the tick as its
+   mark, no wash (a listbox marks a choice the way a checklist does, by the
+   tick; docs/ui.md "Two states"). Keyed on the option's own
+   `aria-selected`, never a class beside it. */
+.ui-filterselect-option[aria-selected="true"] {
+  color: var(--app-chosen-text);
+}
+.ui-filterselect-mark {
+  display: inline-flex;
+  width: 14px;
+  justify-content: center;
+  color: var(--app-chosen-mark);
+}
+.ui-filterselect-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ui-filterselect-count {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}

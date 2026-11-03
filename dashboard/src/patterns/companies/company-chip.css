@@ -1,0 +1,126 @@
+/* ---- company hover card -------------------------------------------------- */
+
+.co-chip-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Portalled to <body>, positioned in viewport coords (see CompanyHoverCard).
+   Fixed + a high z-index so it clears every job row's own stacking context. */
+.co-card-portal {
+  position: fixed;
+  z-index: 200;
+  cursor: pointer;
+}
+
+.co-card {
+  width: 236px;
+  padding: var(--app-space-3) var(--app-space-3);
+  text-align: left;
+  /* Opaque base so row text behind can never read through: an ancestor
+     .job-row runs a transform keyframe that defeats backdrop-filter, so the
+     blur alone would leave raw translucent glass. */
+  background-color: var(--app-surface-raised);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 42%);
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-lg);
+  box-shadow: var(--app-shadow-pop), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  animation: board-pop-in var(--app-duration-medium) var(--app-ease) both;
+}
+
+@keyframes board-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.99);
+  }
+}
+
+:root[data-theme="dark"] .co-card,
+:root:not([data-theme="light"]):not([data-theme="dark"]) .co-card {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 42%);
+  box-shadow: var(--app-shadow-pop), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.co-card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+}
+
+.co-card-logo {
+  width: 30px;
+  height: 30px;
+}
+
+.co-card-id {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.co-card-name {
+  font-weight: var(--app-weight-strong);
+  font-size: var(--app-type-body);
+  color: var(--app-text);
+}
+
+.co-card-price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--app-space-2);
+  margin-top: var(--app-space-2);
+}
+
+.co-card-quote {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-screen);
+  font-weight: 700;
+  color: var(--app-text);
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.co-card-change {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.co-change-up {
+  color: var(--app-positive);
+}
+
+.co-change-down {
+  color: var(--app-danger);
+}
+
+.co-change-flat {
+  color: var(--app-text-muted);
+}
+
+.co-card-roles {
+  margin-top: var(--app-space-2);
+  padding-top: var(--app-space-2);
+  border-top: 1px solid var(--app-border);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+  color: var(--app-text-muted);
+}
+
+.co-card-cities {
+  margin-top: 3px;
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.co-card-hint {
+  margin-top: var(--app-space-1);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}

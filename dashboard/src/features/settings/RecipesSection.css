@@ -1,0 +1,52 @@
+/* Settings › Recipes. The JSON editor is the screen's one custom
+   element; everything else is Card / CardRow / Button / Select. */
+
+.recipe-editor-label {
+  display: block;
+  margin-bottom: var(--app-space-2);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-label);
+}
+
+.recipe-editor {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 320px;
+  padding: var(--app-space-3);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface-sunken);
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.recipe-editor:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+.recipe-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--app-space-2);
+  margin-top: var(--app-space-3);
+}
+
+.recipe-versions .recipe-actions,
+.recipe-check .recipe-actions {
+  margin-top: 0;
+}
+
+.recipe-check,
+.recipe-versions {
+  margin-top: var(--app-space-3);
+}
+
+.recipe-list {
+  margin: var(--app-space-1) 0 0;
+  padding-left: var(--app-space-4);
+}

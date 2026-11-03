@@ -1,0 +1,45 @@
+company,code,band
+microsoft,IC3,mid
+microsoft,IC4,senior
+microsoft,IC5,principal
+microsoft,IC6,principal
+microsoft,M3,mid
+microsoft,M4,senior
+microsoft,M5,principal
+microsoft,M6,principal
+accenture,New Associate,entry
+accenture,Associate,entry
+accenture,Analyst,entry
+accenture,Senior Analyst,mid
+accenture,Team Lead,mid
+accenture,Consultant,mid
+accenture,Associate Manager,mid
+accenture,Manager,senior
+accenture,Senior Manager,staff
+accenture,Associate Director,principal
+accenture,Principal Director,director_plus
+accenture,Managing Director,director_plus
+reddit,IC4,senior
+reddit,IC6,principal
+reddit,IC7,principal
+reddit,D1,director_plus
+reddit,D2,director_plus
+waymo,5,senior
+waymo,6,staff
+waymo,7,principal
+dropbox,IC1,entry
+dropbox,IC2,mid
+dropbox,IC3,mid
+dropbox,IC4,senior
+dropbox,IC5,staff
+dropbox,IC6,principal
+dropbox,IC7,principal
+dropbox,MGR7,director_plus
+dropbox,MGR8,director_plus
+sambanova,IC3,senior
+sambanova,IC4,principal
+sambanova,M5,director_plus
+sharkninja,Senior,senior
+sharkninja,Director,director_plus
+sharkninja,Senior Director,director_plus
+sharkninja,Vice President,director_plus

@@ -1,0 +1,15 @@
+/* ProgressBar — a hairline track and its fill, tokens only. */
+.ui-progress {
+  display: block;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--app-surface-hover);
+  overflow: hidden;
+}
+
+.ui-progress > i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--app-text-muted);
+}

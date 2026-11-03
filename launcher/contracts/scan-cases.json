@@ -1,0 +1,98 @@
+{
+  "format": 1,
+  "cases": [
+    {
+      "name": "scanning",
+      "wire": {
+        "phase": "collecting",
+        "percent": 38,
+        "companies_total": 42,
+        "in_flight": [
+          {"name": "Nvidia", "since": "2026-10-31T11:57:32Z"},
+          {"name": "Apple", "since": "2026-10-31T11:57:47Z"}
+        ],
+        "roles_pending": 214,
+        "roles_recorded": 498,
+        "last_companies": 42,
+        "last_new_roles": 18,
+        "last_postings": 712,
+        "last_stopped": false,
+        "next_scan_at": "2026-10-31T15:00:00Z",
+        "scheduling": "plan",
+        "paused_until": null
+      }
+    },
+    {
+      "name": "stopped_by_the_person",
+      "wire": {
+        "phase": null,
+        "percent": null,
+        "companies_total": null,
+        "in_flight": [],
+        "roles_pending": null,
+        "roles_recorded": null,
+        "last_companies": 16,
+        "last_new_roles": 7,
+        "last_postings": 301,
+        "last_stopped": true,
+        "next_scan_at": null,
+        "scheduling": "off",
+        "paused_until": null
+      }
+    },
+    {
+      "name": "never_scanned",
+      "wire": {
+        "phase": null,
+        "percent": null,
+        "companies_total": null,
+        "in_flight": [],
+        "roles_pending": null,
+        "roles_recorded": null,
+        "last_companies": null,
+        "last_new_roles": null,
+        "last_postings": null,
+        "last_stopped": false,
+        "next_scan_at": null,
+        "scheduling": "timers",
+        "paused_until": null
+      }
+    },
+    {
+      "name": "paused_by_the_person",
+      "wire": {
+        "phase": null,
+        "percent": null,
+        "companies_total": null,
+        "in_flight": [],
+        "roles_pending": null,
+        "roles_recorded": null,
+        "last_companies": 16,
+        "last_new_roles": 7,
+        "last_postings": 301,
+        "last_stopped": false,
+        "next_scan_at": "2026-10-31T15:00:00Z",
+        "scheduling": "plan",
+        "paused_until": "2026-10-31T15:00:00Z"
+      }
+    },
+    {
+      "name": "finishing_after_every_company_is_read",
+      "wire": {
+        "phase": "finishing",
+        "percent": 100,
+        "companies_total": 123,
+        "in_flight": [],
+        "roles_pending": 0,
+        "roles_recorded": 59,
+        "last_companies": 15,
+        "last_new_roles": 0,
+        "last_postings": 0,
+        "last_stopped": false,
+        "next_scan_at": "2026-11-02T18:50:00Z",
+        "scheduling": "plan",
+        "paused_until": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,599 @@
+/* ---- the signal list ----------------------------------------------------- */
+
+/* The ledger treatment: rows on the page's own ground, hairline
+   separated, closed by one bottom hairline before the pager. NO floating-card
+   frame — no shadow, no radius, no surface fill — because the column head
+   pins over these rows while the page scrolls, and an opaque band over a
+   Gaussian shadow can only relocate the seam.
+   Structurally this is Settings > Companies' table, which is the point. */
+.job-list {
+  /* role | location | comp | actions. Four columns, not five: the age sits
+     UNDER the numeral (the row is two lines tall anyway, so the comp cell's
+     second line is free), and the width a fifth column would take goes to
+     the city, which truncates first. */
+  --row-cols: minmax(0, 1fr) 232px 140px 94px;
+  /* The row's two LINE BOXES, shared by every cell so the lines align across
+     the grid without a table: the position, the city and the numeral sit on
+     line one; the facts, the region and the age on line two. Named from the
+     ramp rather than typed — a title at `name` with a heading's leading
+     (1.25) IS the first line, and the second is the fact floor at the same
+     leading. */
+  --row-line-1: calc(var(--app-type-name) * 1.25);
+  --row-line-2: calc(var(--app-type-meta) * 1.25);
+  border-bottom: 1px solid var(--app-border);
+  /* The list is the container its own column arms query: the register varies
+     the table's width independently of the viewport, so a viewport-keyed arm
+     would show columns the table has no room for (and vice versa). */
+  container-type: inline-size;
+}
+
+/* The column head pins under the docked toolbar — the `.ledger-colhead`
+   recipe: an opaque band of the page's own canvas + wash (`fixed`, so the
+   gradient lands on exactly the pixels the body already draws and the band is
+   invisible until a row slides behind it), closed by its hairline. Offset by
+   the toolbar's measured height, never a literal. */
+.list-head {
+  position: sticky;
+  top: var(--board-toolbar-h);
+  z-index: 2;
+  display: grid;
+  grid-template-columns: var(--row-cols);
+  gap: 16px;
+  align-items: center;
+  padding: 9px 18px 8px 22px;
+  background-color: var(--app-canvas);
+  background-image: var(--app-ambient-image);
+  background-attachment: fixed, fixed;
+  border-bottom: 1px solid var(--app-border);
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.list-head .col-comp {
+  text-align: right;
+}
+
+.col-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  /* Whisper text alone is a ~13px hit box; pad to the 24px minimum target and
+     take the growth back with margin so the head keeps its height. */
+  padding: 6px 0;
+  margin: -6px 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  transition: color var(--app-duration-fast);
+}
+
+.list-head .col-comp .col-sort {
+  flex-direction: row-reverse;
+}
+
+.col-sort:hover {
+  color: var(--app-text-muted);
+}
+
+/* The sort in force is CHOSEN: its name in the chosen ink. */
+.col-sort[aria-pressed="true"] {
+  color: var(--app-chosen-text);
+}
+
+.col-sort-arrow {
+  font-size: var(--app-type-micro);
+  line-height: 1;
+}
+
+.col-sort:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+  border-radius: 3px;
+}
+
+.job-row {
+  /* The row's own scale: three ink steps and two weights. "Viewed" shifts THIS
+     scale instead of patching one element, so the row's internal ranking —
+     position on top, numeral beside it, facts beneath them — survives in
+     both states. Dimming only .job-title would leave the comp numeral as the
+     loudest mark on a row the reader had already dealt with, and drop the
+     title onto exactly its own meta line's ink, so identity and metadata
+     would merge into one grey block. Every reference
+     carries the base value as a fallback — .job-meta and the fact classes are
+     reused by the detail hero, outside any .job-row.
+
+     The rank ORDER inside the row is the position first. A 15px
+     sans title at 600 outweighs a 13px mono numeral at 500 by size, weight
+     and family together; a numeral heavier than the title makes the reader
+     scan salaries, not roles. The numeral keeps the title's ink — it is the second decision fact — and gives
+     up the weight; both are loaded Plex Mono faces (400/500/600/700). */
+  --row-ink: var(--app-text);
+  --row-ink-2: var(--app-text-muted);
+  --row-ink-3: var(--app-text-faint);
+  /* The resting title IS the role the ramp names ("a row's name"). The read
+     step below is deliberately NOT --app-weight-ui: 500 is that role's
+     number, but a title is not a control, and filing it there would make
+     the ramp mean less. It stays a named escape until the ramp gets a
+     quiet-name rank, which is a decision about the ramp. */
+  --row-title-weight: var(--app-weight-name);
+  /* Mono. The sans ramp is not this value's ramp; loaded-face coverage is
+     font-weights.test.ts's job. Both 500 and the 400 below are loaded. */
+  --row-numeral-weight: 500;
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--row-cols);
+  gap: 16px;
+  /* Cells start at the top and stack their two lines on --row-line-1/-2, so
+     the city reads level with the title and the age level with the facts.
+     `center` would put the numeral in the seam between the title and its
+     facts, belonging to neither line. */
+  align-items: start;
+  /* space-3 above and below: the row's own air. Titles at `name` need the
+     hairline to read as a boundary between rows, not a rule through a block. */
+  padding: var(--app-space-3) 18px var(--app-space-3) 22px;
+  cursor: pointer;
+  transition: background var(--app-duration-fast);
+}
+
+.job-row + .job-row {
+  border-top: 1px solid var(--app-border);
+}
+
+/* The visited-link pattern, as a shift of the scale above, on two retreat
+   channels: ink and weight (unread bold / read regular — the mail-client
+   convention, and a shape cue rather than a colour one, so 1.4.1 is met
+   without a ratio to clear; the ink step alone is under the 3:1 heuristic).
+   NO ground fill: the --app-selected tint is invisible against the canvas and
+   against hover, and would consume the hover feedback on every read row. A
+   fill is also the wrong channel: it lifts a row toward figure, which is why
+   hover / selected / focus use it, and raised to the 3:1 WCAG 1.4.11 asks of
+   a state fill it makes read rows look CHOSEN. Read is a retreat state; it
+   lives on the retreat channels. --row-ink-3 does not move: faint is the last
+   step tokens.test.ts holds to AA. */
+.job-row.is-viewed {
+  --row-ink: var(--app-text-muted);
+  --row-ink-2: var(--app-text-faint);
+  --row-title-weight: 500;
+  --row-numeral-weight: 400;
+}
+
+.job-row:hover {
+  background: var(--app-surface-hover);
+}
+
+/* The one ring, drawn INSIDE the row: a full-bleed row has no edge
+   for a ring at a 2px offset. Not a gold left edge: that edge is exactly the
+   mark of a row picked for Compare, and a keyboard user could not tell "I am
+   here" from "I picked this".
+   The row carries `tabindex`, so the global ring's `[tabindex]:focus-visible`
+   arm reaches it too. The doubled class under the marker reaches 0-4-0
+   deliberately: a tie would leave the winner to source order between two
+   sheets whose import order nothing guarantees. Most visible after
+   click-then-Escape, where the keypress flips the browser into keyboard
+   modality while the row still holds the focus the click gave it.
+   `board-focus.test.ts` holds this. */
+[data-design-system="app"] .job-row.job-row:focus-visible,
+.job-row:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: calc(-1 * var(--app-ring-offset));
+}
+
+/* A row picked for Compare is CHOSEN, keyed on its own Compare
+   toggle so the row and the control cannot disagree: the wash, the chosen
+   mark as its edge (a flush row has no border to draw a line on), and its
+   title in the chosen ink. */
+.job-row:has(.jr-compare[aria-pressed="true"]) {
+  background: var(--app-chosen-wash);
+  box-shadow: inset 3px 0 0 var(--app-chosen-mark);
+}
+
+
+
+/* Two faint offset layers behind a multi-posting row imply a paper stack. */
+.job-row.is-stacked::before,
+.job-row.is-stacked::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  left: 22px;
+  top: 4px;
+  bottom: 4px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.job-row.is-stacked::before {
+  transform: translate(3px, 4px) scale(0.996);
+  opacity: 0.55;
+}
+
+.job-row.is-stacked::after {
+  transform: translate(6px, 8px) scale(0.992);
+  opacity: 0.3;
+}
+
+.job-signal {
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background: transparent;
+}
+
+.job-row.is-new .job-signal {
+  background: var(--app-data-1);
+  box-shadow: 0 0 10px var(--app-action);
+}
+
+/* The role cell: the position first, then one line of plain facts. Two
+   sizes in the cell —
+   `name` for the title, `meta` for the facts under it — and two inks. The
+   step between them is what separates identity from metadata.
+
+   The facts are at the FACT FLOOR, not micro: the company, the level and the
+   track are the row's own descriptors — the second thing a reader decides on
+   after the title — and the ramp's rule for text that describes a row's
+   primary string is `meta` (docs/ui.md). At micro the line reads as a smudge
+   under a crisp title; at `meta` it reads as the title's second line. The row
+   keeps its height: the second line box is the one the region and age
+   use. Micro stays for the true asides — the region under the city, the
+   age under the numeral. */
+.jr-role {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-1);
+}
+
+/* ONE line, never two: a fact that does not fit truncates rather than
+   wrapping, so every row is the same height and the eye can run down the
+   column. The company and the level never shrink (they are the line's
+   emphasis); the track and the world give way first. The 3px pad/margin pair
+   keeps the company chip's focus ring inside the clipped box — the ring is
+   the chip's only focus signal, and `overflow: hidden` on a line exactly one
+   glyph tall would cut it. */
+.job-meta {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0 var(--app-space-2);
+  margin: -3px;
+  padding: 3px;
+  overflow: hidden;
+  color: var(--row-ink-2, var(--app-text-muted));
+  font-size: var(--app-type-meta);
+  line-height: var(--row-line-2);
+}
+
+/* One line under the facts, when a lens has something to say about this
+   row (the Not-for-me lens's exclusion offer). Link rank, so it
+   never outranks the title beside it. */
+.job-foot {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px var(--app-space-3);
+  font-size: var(--app-type-micro);
+  line-height: 1.4;
+}
+
+.job-fact {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The company (a mark and a button) and the level are the line's emphasis
+   and keep their whole width; their ring and mark need the overflow open. */
+.job-band,
+.job-fact-company {
+  flex: none;
+  overflow: visible;
+}
+
+.job-fact-company {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Chips on the line are state, and state is never truncated. */
+.job-meta > .chip,
+.job-meta > .ui-badge {
+  flex: none;
+}
+
+/* Facts are separated by a middot, never by a box. */
+.job-fact + .job-fact::before {
+  content: "·";
+  margin-right: var(--app-space-2);
+  color: var(--row-ink-3, var(--app-text-faint));
+}
+
+/* The band is the one emphasis on the line: weight, not hue. */
+.job-band {
+  font-weight: var(--app-weight-ui);
+}
+
+.job-band-note {
+  font-weight: var(--app-weight-body);
+  color: var(--row-ink-3, var(--app-text-faint));
+}
+
+/* The mark rests muted and lights in its brand colour when the ROW is under
+   the pointer — identity on demand, twenty quiet marks at rest. */
+.job-row:hover .ui-company-icon {
+  opacity: 1;
+  color: var(--brand-l);
+}
+
+:root[data-theme="dark"] .job-row:hover .ui-company-icon {
+  color: var(--brand-d);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .job-row:hover .ui-company-icon {
+    color: var(--brand-d);
+  }
+}
+
+/* The position IS the row: the ramp's primary-row role (`name`), the one the
+   notification row's title already wears — so a job headline is never set
+   smaller than the notice that a scrape finished. Heading line-height, not
+   the body's 1.5, and the tracking eases as the size rises. */
+.job-title {
+  margin: 0;
+  color: var(--row-ink, var(--app-text));
+  font-size: var(--app-type-name);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  font-weight: var(--row-title-weight, var(--app-weight-name));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A row picked for Compare: its title in the chosen ink. After the
+   base rule so a substring reader of `.job-title {` finds the base first. */
+.job-row:has(.jr-compare[aria-pressed="true"]) .job-title {
+  color: var(--app-chosen-text);
+}
+
+/* Location: the city on line one, its region on line two — no pin, no
+   plate, no middot (on one line, at the widths this screen is used at, the
+   city loses the contest for the width every time). The city is a decision fact (where would I live?), so
+   it sits at the fact floor level with the numeral, one ink down; the region
+   is the aside and stays micro, level with the facts. */
+.jr-loc {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-1);
+  color: var(--row-ink-2, var(--app-text-muted));
+  font-size: var(--app-type-meta);
+  white-space: nowrap;
+}
+
+.jr-loc .job-location {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: var(--row-line-1);
+}
+
+/* "+2": the other cities a posting lists, as a count. Fainter than the city
+   it follows, and the whole list is the cell's tooltip. */
+.jr-loc .job-loc-more {
+  color: var(--row-ink-3, var(--app-text-faint));
+}
+
+.jr-loc .job-loc-group {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--row-ink-3, var(--app-text-faint));
+  font-size: var(--app-type-micro);
+  line-height: var(--row-line-2);
+}
+
+/* The numeral on line one, the age under it on line two: a value and its
+   when, right-aligned as one cell. The cell never paints past its column:
+   a wide figure is cut at the column edge, not drawn over the location. */
+.jr-comp {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--app-space-1);
+}
+
+.comp {
+  color: var(--row-ink, var(--app-text));
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  /* 500, never 720: mono is static, 720 loads no face, and a fallback is
+     exactly where that goes unnoticed. */
+  font-weight: var(--row-numeral-weight, 500);
+  letter-spacing: -0.02em;
+  line-height: var(--row-line-1);
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  /* An empty cell keeps its line, so the age stays on line two. */
+  min-height: var(--row-line-1);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jr-age {
+  color: var(--row-ink-3, var(--app-text-faint));
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-micro);
+  line-height: var(--row-line-2);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* "today" on a new row is the state in words, beside the bar that is the
+   state in colour; no chip says it a third time. Positive ink is a text token, AA on every ground. */
+.job-row.is-new .jr-age {
+  color: var(--app-positive);
+}
+
+/* The actions span both lines and centre on the row. */
+.jr-actions {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--app-space-1);
+}
+
+/* On a pointer device the row's verbs rest INVISIBLE and appear for the row
+   under the pointer or holding focus. A dimmed resting verb is neither a
+   control a reader can identify (1.4.11 asks 3:1) nor the clean margin a
+   resting list wants: a smudge on every row. What must stay visible is STATE:
+   a saved star is a fact about the row, not a verb, and keeps its full
+   opacity through the pressed rank every row action already speaks. Touch
+   layouts never enter this block and show every action at rest. */
+@media (hover: hover) {
+  .job-row .jr-actions .ui-btn {
+    opacity: 0;
+    transition: opacity var(--app-duration-fast);
+  }
+
+  .job-row .jr-actions .ui-btn[aria-pressed="true"],
+  .job-row:hover .jr-actions .ui-btn,
+  .job-row:focus-within .jr-actions .ui-btn {
+    opacity: 1;
+  }
+}
+
+/* Row actions are ui/Button icon/sm; the star's saved state is the rank's
+   pressed state (aria-pressed), so it is announced and painted by one rule. */
+
+/* Skeleton loading (ui/RowSkeleton) takes the row's columns: the arms below
+   set --row-cols on it beside .job-row and hide the cells whose column goes. */
+
+/* ---- responsive ---------------------------------------------------------- */
+
+/* Column arms, keyed to the TABLE's own width. The overrides sit on the
+   card's children because a container's own condition never matches itself;
+   --row-cols inherits from these three to nothing else. Thresholds are the
+   table widths the columns need, not viewport widths. The 860 media arm below must stay AFTER these blocks —
+   equal specificity, so order is what lets the card layout win on phones. */
+@container (max-width: 1088px) {
+  .list-head,
+  .job-row,
+  .ui-skel-row {
+    --row-cols: minmax(0, 1fr) 200px 128px 94px;
+  }
+}
+
+@container (max-width: 940px) {
+  .list-head,
+  .job-row,
+  .ui-skel-row {
+    --row-cols: minmax(0, 1fr) 128px 94px;
+  }
+
+  .list-head .col-loc,
+  .job-row .jr-loc,
+  .ui-skel-row .ui-skel:nth-child(2) {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  /* Nothing pins below the card breakpoint: the column head is display:none
+     (rows are cards), and a wrapped toolbar would spend the viewport on
+     chrome — the shared `.app-toolbar` arm in surfaces.css already unfreezes
+     the bar itself. The page just scrolls. */
+
+  /* Rows become stacked cards on touch layouts. */
+  .job-list {
+    --row-cols: 1fr;
+  }
+
+  .list-head {
+    display: none;
+  }
+
+  .job-row {
+    grid-template-columns: 1fr;
+    gap: var(--app-space-2);
+    padding: var(--app-space-3) var(--app-space-3) var(--app-space-3) var(--app-space-4);
+  }
+
+  /* The card reads top to bottom, so the facts may take a second line here
+     and the city and its region share one. */
+  .job-meta {
+    flex-wrap: wrap;
+    gap: 2px var(--app-space-2);
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+  }
+
+  .job-row .jr-loc {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--app-space-2);
+  }
+
+  .jr-loc .job-loc-group::before {
+    content: "·";
+    margin-right: var(--app-space-2);
+  }
+
+  /* The numeral leads its line and the age closes it. */
+  .jr-comp {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--app-space-2);
+  }
+
+  .comp {
+    font-size: var(--app-type-name);
+  }
+
+  .jr-actions {
+    align-self: auto;
+  }
+
+  .job-title {
+    white-space: normal;
+  }
+
+  .ui-skel-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ui-skel-row .ui-skel:not(:first-child) {
+    display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .job-location {
+    max-width: 220px;
+  }
+}

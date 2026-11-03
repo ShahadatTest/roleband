@@ -1,0 +1,67 @@
+/* ui/Segmented — the one segmented control. Paints --app-* only, so it is
+ * correct on any migrated surface and inside any material. Every state is
+ * declared here (hover, active, disabled, focus-visible, pressed). */
+
+.ui-seg {
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
+  background: var(--app-surface-sunken);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-md);
+}
+
+.ui-seg-btn {
+  flex: 1 1 auto;
+  min-height: var(--app-control-sm);
+  padding: 0 var(--app-control-sm-pad);
+  border: 0;
+  border-radius: var(--app-radius-sm);
+  background: transparent;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-meta);
+  /* Control text, not a name: `--app-weight-ui` is the token whose
+     job is "controls, tabs, buttons — text you act on". Not
+     `--app-weight-name` (600), the weight a ROW's name wears, which is a
+     louder voice than a four-option track has any business using. */
+  font-weight: var(--app-weight-ui);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color var(--app-duration-fast),
+    background var(--app-duration-fast);
+}
+
+.ui-seg-btn:not(:disabled):hover {
+  color: var(--app-text);
+}
+
+.ui-seg-btn:not(:disabled):active {
+  background: var(--app-surface-hover);
+}
+
+/* The chosen segment is CHOSEN like every other option in the app: the gold
+   wash and the gold name of a tab or a chip, so a Board facet and the filter
+   chip beside it say "chosen" in one look. The sunken track stays; it is what makes the row read as one control.
+   Keyed off the attribute, never a class. */
+.ui-seg-btn[aria-pressed="true"] {
+  background: var(--app-chosen-wash);
+  color: var(--app-chosen-text);
+}
+
+.ui-seg-btn:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+.ui-seg-btn:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  /* Inset: the segment sits inside the track's 3px gutter, and an outward
+     ring would be clipped by the neighbour. Same value, inverted. */
+  outline-offset: calc(-1 * var(--app-ring-offset));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-seg-btn { transition: none; }
+}

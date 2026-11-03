@@ -1,0 +1,309 @@
+/* Compare, on the promoted system: values from --app-*.
+ *
+ * The page chrome it renders (.page-hero, .results-head, .btn-ghost,
+ * EmptyState) comes from the shared layer in design/surfaces.css, which the
+ * route's `data-design-system="app"` marker switches on — this file holds only
+ * what belongs to Compare.
+ *
+ * The screen is ONE grid inside the cover: heads, ledger and the
+ * descriptions as aligned columns, all on the same tracks. The passage model
+ * (what makes two passages the same) lives in patterns/jobs; the columns are
+ * Compare's own.
+ */
+
+/* The cover's body runs full-bleed with the page gutter: a comparison is
+   columnar, and the reading measure Job detail keeps (`.jd-container`) would
+   cost the third column its width (docs/ui.md "Cover"). */
+.cmp-body {
+  padding: var(--app-space-5) var(--app-space-5) 96px;
+  /* The phone form below asks how wide the comparison is, not the viewport. */
+  container: compare / inline-size;
+}
+
+/* The cover's scroller is the one that snaps, because the grid does not scroll
+   itself. Nothing snaps until the phone form names snap points. */
+.compare-cover .cover-scroll {
+  scroll-snap-type: x mandatory;
+}
+
+/* The frame line in the bar: text, not a control. */
+.cmp-frame {
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+  white-space: nowrap;
+}
+
+/* The grid is NOT its own scroller: the cover scrolls, so the head row and
+   the label column stick to the cover's edges (a grid that scrolls itself
+   claims sticky and never sticks). */
+.compare-grid {
+  --cmp-label-w: 160px;
+  display: grid;
+  grid-template-columns: var(--cmp-label-w) repeat(var(--cmp-columns), minmax(200px, 1fr));
+  align-items: stretch;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-surface-raised);
+}
+
+/* Sticky header and label column are opaque on purpose: rows scroll under
+   them. They paint --app-surface-raised, the same ground the grid does, so no
+   seam shows where they overlap. */
+.cmp-corner,
+.cmp-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--app-surface-raised);
+  border-bottom: 1px solid var(--app-border);
+}
+
+.cmp-corner {
+  left: 0;
+  z-index: 3;
+}
+
+.cmp-head {
+  padding: var(--app-space-3);
+  border-left: 1px solid var(--app-border);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--app-space-2);
+}
+
+/* The job title is this column's one primary string. */
+.cmp-head-title {
+  color: var(--app-text);
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-name);
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.cmp-head-title:hover {
+  color: var(--app-action-text);
+}
+
+/* The verbs the row has, and the way out. The star is the row's StarButton;
+   the others are ui/Button icon rank. Pinned with the head. */
+.cmp-head-verbs {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  width: 100%;
+  margin-top: auto;
+}
+
+.cmp-head-spacer {
+  flex: 1;
+}
+
+
+/* Column heads for the attribute rows: uppercase mono chrome at the `label`
+   floor. */
+.cmp-label {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  padding: var(--app-space-2) var(--app-space-3);
+  border-top: 1px solid var(--app-border);
+  display: flex;
+  align-items: center;
+  /* The run's count and its word are two items: the gap is their space. */
+  gap: var(--app-space-1);
+  background: var(--app-surface-raised);
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.cmp-label strong {
+  color: var(--app-text);
+}
+
+/* A cell across every role column holds its content in one body, so the phone
+   form can keep that body in view whichever column is showing. */
+.cmp-span-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  flex-wrap: wrap;
+}
+
+.cmp-cell {
+  padding: var(--app-space-2) var(--app-space-3);
+  border-top: 1px solid var(--app-border);
+  border-left: 1px solid var(--app-border);
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  flex-wrap: wrap;
+  color: var(--app-text);
+  font-size: var(--app-type-body);
+}
+
+/* An attribute row is a grid PARTICIPANT, not a box: its label and cells must
+   land on the parent grid's tracks, so the wrapper contributes no box of its
+   own. */
+.cmp-row {
+  display: contents;
+}
+
+/* Status is stored lowercase and read as a word. */
+.cmp-status {
+  text-transform: capitalize;
+}
+
+/* A row where the roles disagree is the whole point of the screen: the label
+   takes the action hue and a rule, the cells take the wash. */
+.cmp-row--diff .cmp-label {
+  color: var(--app-action-text);
+  box-shadow: inset 2px 0 0 var(--app-action);
+}
+
+.cmp-row--diff .cmp-cell {
+  background: var(--app-action-soft);
+}
+
+/* Agreement is compressed: one cell across every column, with the value said
+   once; the mark is ui/Badge. */
+.cmp-same {
+  color: var(--app-text-muted);
+}
+
+.cmp-span-2 {
+  grid-column: span 2;
+}
+
+.cmp-span-3 {
+  grid-column: span 3;
+}
+
+.cmp-run-range {
+  color: var(--app-text-muted);
+}
+
+/* A run opened by Show: its rows are the same rows, one step quieter. */
+.cmp-row--detail .cmp-label {
+  padding-left: var(--app-space-5);
+}
+
+/* The divider between the facts and the descriptions carries the legend and
+   the one control the descriptions have. */
+.cmp-divider {
+  justify-content: flex-start;
+  padding-top: var(--app-space-3);
+  padding-bottom: var(--app-space-3);
+}
+
+.cmp-legend {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+/* A description cell is the reading surface: the posting's sections in the
+   posting's own order, body type, generous leading. The three cells share one
+   grid row, so the row is the tallest posting and no taller. */
+.cmp-prose {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--app-space-2);
+  padding-top: var(--app-space-3);
+  padding-bottom: var(--app-space-3);
+}
+
+.cmp-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-2);
+  padding: var(--app-space-3) 0 var(--app-space-1);
+}
+
+.cmp-section + .cmp-section {
+  border-top: 1px solid var(--app-border);
+}
+
+.cmp-section-title {
+  margin: 0;
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-name);
+  line-height: 1.3;
+}
+
+/* A reading measure however wide the column grows. */
+.cmp-passage {
+  max-width: 75ch;
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  line-height: 1.62;
+  white-space: pre-wrap;
+}
+
+/* Not in every posting: the warning hue, as Review marks a changed passage. */
+.cmp-passage--unique {
+  padding: var(--app-space-2) var(--app-space-2);
+  border-left: 3px solid var(--app-warning);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-warning-soft);
+  color: var(--app-text);
+}
+
+.cmp-prose-note {
+  margin: 0;
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+}
+
+/* A WASHED ground is not a gated ground: labels inside a washed diff cell take
+   muted, which holds on both grounds (the per-screen axe pass finds these). */
+.cmp-cell .ui-badge-tag {
+  color: var(--app-text-muted);
+}
+
+/* The phone form: one role per screen. Each role column is exactly the width
+   beside the label column, the cover snaps a column to the label's edge, and
+   the heads and labels stay put while the columns pass under them. A cell
+   that spans every column keeps its body beside the labels, so "Same" reads
+   on whichever role is showing. */
+@container compare (max-width: 600px) {
+  /* The grid runs edge to edge of the scroller: it steps out of the body's
+     gutter, so a column is the scroller's width less the label column. */
+  .compare-grid {
+    --cmp-label-w: 104px;
+    --cmp-view: calc(100cqi + 2 * var(--app-space-5));
+    grid-template-columns:
+      var(--cmp-label-w)
+      repeat(var(--cmp-columns), calc(var(--cmp-view) - var(--cmp-label-w)));
+    margin-inline: calc(-1 * var(--app-space-5));
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  /* The margin, not the scroller's padding: the label width is the grid's,
+     and the scroller sits above it. */
+  .cmp-head {
+    scroll-snap-align: start;
+    scroll-margin-left: var(--cmp-label-w);
+  }
+
+  .cmp-label {
+    padding-left: var(--app-space-2);
+    padding-right: var(--app-space-2);
+    overflow-wrap: break-word;
+  }
+
+  .cmp-span-body {
+    position: sticky;
+    left: calc(var(--cmp-label-w) + var(--app-space-3));
+    flex: none;
+    max-width: calc(var(--cmp-view) - var(--cmp-label-w) - 2 * var(--app-space-3));
+  }
+}

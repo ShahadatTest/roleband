@@ -1,0 +1,351 @@
+# Tool configuration only. Packaging stays requirements.txt + .venv (repo rule).
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = [
+    "E501",  # line length: not enforced; formatter-free repo
+    "UP042",  # str,Enum -> StrEnum changes str(member); revisit deliberately
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["tracker", "scripts", "tests"]
+
+# Layer contract (docs/architecture.md, "Backend layers") encoded against the
+# CURRENT layout. Rows run HIGHEST FIRST, the inverse of the doc's L0..L7 numbering,
+# which counts up from the bottom. Each row is annotated with the layer it
+# encodes: the Nth row is NOT LN, and reading it that way inverts the intent.
+# Delimiters (import-linter 2.13, contracts/layers.py): ":" = siblings MAY
+# import each other (grimp independent=False); "|" = siblings MUST NOT
+# (independent=True). The layer model allows same-layer imports in L4 and forbids them in L3,
+# so the L4 row below is ":" and the L3 row is "|". Both are deliberate — a
+# probe importing across the ":" row is EXPECTED to pass, and is not evidence
+# that the contract is unenforced.
+# Violations of the target model live in ignore_imports as a ratcheted
+# allowlist — shrink only, never grow.
+[tool.importlinter]
+root_packages = ["tracker"]
+
+[[tool.importlinter.contracts]]
+name = "Backend layers (strictly downward)"
+type = "layers"
+layers = [
+    # L6 interface.
+    "tracker.api : tracker.mcp",
+    # L5 workflows.
+    "tracker.workflows : tracker.daily : tracker.scheduler : tracker.watchdog : tracker.discover_roles : tracker.agents : tracker.supervisor",
+    # L4 services. ":" is the layer rule ("same-layer imports allowed in L4"), not
+    # an oversight: db/ is the shared store this whole tier is built on, so the
+    # siblings below import each other widely.
+    # Switching this row to "|" is a re-architecture, not a lint fix.
+    "tracker.db : tracker.intelligence_runtime : tracker.enrich : tracker.skills : tracker.lineage : tracker.semantic : tracker.search : tracker.profiles : tracker.user_profile : tracker.notifications : tracker.analytics : tracker.settings_store : tracker.company_store : tracker.company_discovery : tracker.company_directory : tracker.health : tracker.content : tracker.ats_detect : tracker.board_resolve : tracker.board_relocate : tracker.osnotify : tracker.scope : tracker.pay_store : tracker.usage_stats : tracker.plugins",
+    # `intelligence` composes the model backends (it owns the provider
+    # Protocol, the registry, and the adapters that wrap the two LLM clients), so
+    # it sits one layer ABOVE them. This is a tightening, not an exemption.
+    "tracker.intelligence",
+    # L3 implementations. "|" is the layer rule ("implementations never import each
+    # other"); this is the row that independence applies to. L2 contracts
+    # (connectors/base, comp_providers/base, the prices Protocol, the llm client
+    # protocol) live INSIDE these packages, so L2 has no row of its own.
+    "tracker.connectors | tracker.comp_providers | tracker.prices | tracker.cloud_llm | tracker.local_llm",
+    # L1 vocabulary.
+    "tracker.blueprint : tracker.config : tracker.company_catalog : tracker.pay_disclosure : tracker.pay_numbers : tracker.pay_period : tracker.provider_pacing : tracker.source_policy : tracker.source_review : tracker.taxonomy : tracker.levels : tracker.schema : tracker.plugin_manifest",
+    # L0 primitives. `vendored` is a leaf data registry (upstream provenance
+    # pins) that imports nothing; placed here so the contract keeps it that way.
+    "tracker.vendored",
+    # L0 platform.
+    "tracker.platform",
+]
+# `exhaustive = true` is NOT available here: it requires `containers`, which
+# rewrites every layer name into tail form (`api`, not `tracker.api`), and
+# `test_no_compat_shims.py::test_no_import_contract_names_a_retired_module`
+# matches retired names by their prefixed spelling — the flag would silently
+# blind that gate. Membership is asserted instead by
+# `tests/test_import_contracts.py`, which also freezes the allowlist below and
+# proves each contract still fires.
+exhaustive = false
+ignore_imports = [
+    # Permanent exemption (docs/architecture.md): ARTIFACT_CHECKS
+    # deliberately reach upward; exercised at test time.
+    "tracker.blueprint -> tracker.connectors",
+    # Ratchet debt: shrink only, never add. Empty: a module that reaches the
+    # store lives in a tier that may. `tests/test_import_contracts.py` keeps the
+    # list at zero.
+]
+
+# Target-model key rule: interface/workflow/service layers reach listing
+# adapters only via the ADAPTER_REGISTRY package seam, never concrete modules.
+[[tool.importlinter.contracts]]
+name = "Concrete adapters are private to the registry"
+type = "forbidden"
+# Direct imports only: everything reaches tracker.connectors.listing (the registry) legally
+# via config -> blueprint; the chain to concrete modules lives inside L3.
+allow_indirect_imports = true
+source_modules = [
+    # Every package above the adapters' row in the layers contract
+    # (`tests/test_import_contract_registry.py` holds the two equal).
+    "tracker.api",
+    "tracker.mcp",
+    "tracker.workflows",
+    "tracker.daily",
+    "tracker.scheduler",
+    "tracker.watchdog",
+    "tracker.discover_roles",
+    "tracker.agents",
+    "tracker.supervisor",
+    "tracker.db",
+    "tracker.intelligence_runtime",
+    "tracker.enrich",
+    "tracker.skills",
+    "tracker.lineage",
+    "tracker.semantic",
+    "tracker.search",
+    "tracker.profiles",
+    "tracker.user_profile",
+    "tracker.notifications",
+    "tracker.analytics",
+    "tracker.settings_store",
+    "tracker.company_store",
+    "tracker.company_discovery",
+    "tracker.company_directory",
+    "tracker.health",
+    "tracker.content",
+    "tracker.ats_detect",
+    "tracker.board_resolve",
+    "tracker.board_relocate",
+    "tracker.osnotify",
+    "tracker.scope",
+    "tracker.pay_store",
+    "tracker.usage_stats",
+    "tracker.plugins",
+    "tracker.intelligence",
+]
+forbidden_modules = [
+    "tracker.connectors.listing.accenture",
+    "tracker.connectors.listing.amazon",
+    "tracker.connectors.listing.apple",
+    "tracker.connectors.listing.ashby",
+    "tracker.connectors.listing.atlassian",
+    "tracker.connectors.listing.avature",
+    "tracker.connectors.listing.deel",
+    "tracker.connectors.listing.eightfold",
+    "tracker.connectors.listing.google",
+    "tracker.connectors.listing.jibe",
+    "tracker.connectors.listing.greenhouse",
+    "tracker.connectors.listing.kpmg",
+    "tracker.connectors.listing.lever",
+    "tracker.connectors.listing.microsoft",
+    "tracker.connectors.listing.oracle",
+    "tracker.connectors.listing.radancy",
+    "tracker.connectors.listing.shopify",
+    "tracker.connectors.listing.smartrecruiters",
+    "tracker.connectors.listing.successfactors",
+    "tracker.connectors.listing.tiktok",
+    "tracker.connectors.listing.workable",
+    "tracker.connectors.listing.workday",
+]
+
+# Listing modules and detail modules stay mutually import-free. The one
+# exemption: apple's listing hydrate calls detail's structure_job_detail.
+[[tool.importlinter.contracts]]
+name = "Listing and detail connectors are independent"
+type = "independence"
+modules = [
+    "tracker.connectors.listing",
+    "tracker.connectors.detail",
+]
+ignore_imports = [
+    "tracker.connectors.listing.apple -> tracker.connectors.detail",
+    # Same permanent exemption as the layers contract: ARTIFACT_CHECKS reach
+    # upward lazily, which otherwise chains listing -> config -> blueprint ->
+    # connectors -> detail.
+    "tracker.blueprint -> tracker.connectors",
+]
+
+# The two transports are siblings in the L6 row (":", so the layers contract
+# alone would permit them to import each other), but they are alternative front
+# doors onto the same services, not a stack: each must reach the tiers below on
+# its own (docs/architecture.md). `routers/intelligence.py` names
+# `tracker.mcp.server` only inside the argv of a subprocess, which is a string
+# and not an import.
+[[tool.importlinter.contracts]]
+name = "API and MCP are independent transports"
+type = "independence"
+modules = [
+    "tracker.api",
+    "tracker.mcp",
+]
+
+# --------------------------------------------------------------------------- #
+# Types: a narrow, honest set that grows with each extraction
+# --------------------------------------------------------------------------- #
+#
+# `follow_imports = silent` is the setting that makes a narrow set narrow. mypy
+# follows every import by default, so these modules would report errors from
+# every file they import. Silent still READS the imported modules for
+# types; it just does not report their errors.
+#
+# `files` is the typed set. It grows when code is
+# extracted or written; it does not shrink, and `tests/test_typing_pilot.py`
+# fails on a module removed from it. Nothing here may be made green with a
+# blanket `ignore_errors` or by widening a return to `Any` — that is checked
+# too, because muting is the one change that looks identical to fixing.
+[tool.mypy]
+python_version = "3.12"
+follow_imports = "silent"
+# Completeness, for the set alone: silent imports keep every report to the
+# files below. A half-annotated def is an error, an unannotated body is
+# still checked, and an ignore that no longer silences anything must go.
+check_untyped_defs = true
+disallow_incomplete_defs = true
+warn_unused_ignores = true
+# The plugin SDK and the robots matcher live outside backend/
+# (docs/plugins.md); pytest.ini puts the same paths on sys.path. The matcher
+# is its own distribution because the SDK's fake host must answer robots the
+# way the live host does, and the API may not load the SDK.
+mypy_path = "../sdk/python:../robots/python"
+files = [
+    "packaged.py",
+    "scripts/install_pg_contrib.py",
+    "scripts/package_pg_contrib.py",
+    # Vocabulary and domain contracts
+    "tracker/schema.py",
+    "tracker/pay_disclosure.py",
+    "tracker/pay_numbers.py",
+    "tracker/pay_period.py",
+    "tracker/pay_store",
+    # Usage sharing: catalogue, consent, outbox, scrub (docs/architecture.md)
+    "tracker/usage_stats",
+    "tracker/source_review.py",
+    "tracker/source_policy.py",
+    "tracker/vendored.py",
+    "tracker/blueprint.py",
+    # What a plugin manifest may declare, as the core accepts it (docs/plugins.md)
+    "tracker/plugin_manifest.py",
+    "../sdk/python/roleband_plugin_sdk",
+    # Which providers' rows the core reads
+    "tracker/plugins",
+    "tracker/db/queries/reference_pay.py",
+    # The leveling model: ladders, titles, pay
+    "tracker/levels",
+    # Daily closes for listed companies: the feed, its request budget, its key
+    "tracker/prices/provider.py",
+    "tracker/profiles/prices.py",
+    "tracker/intelligence_runtime/_profile_keys.py",
+    # Our per-level base pay and the built-in pay rows
+    "tracker/enrich/level_pay.py",
+    "tracker/enrich/builtin_pay.py",
+    "tracker/enrich/estimated_pay.py",
+    "tracker/analytics/comp_market.py",
+    "tracker/analytics/level_evaluation.py",
+    "tracker/analytics/signature_refresh.py",
+    "tracker/analytics/level_context.py",
+    "tracker/analytics/level_review.py",
+    "tracker/analytics/level_study_sources.py",
+    "scripts/review_level_sources.py",
+    "scripts/prepare_level_review.py",
+    "scripts/bench_level_context.py",
+    "scripts/refresh_level_signatures.py",
+    "scripts/bench_level_identification.py",
+    # The API's declared response shapes
+    "tracker/api/schemas",
+    # The one API answer each company-store refusal gets
+    "tracker/api/company_errors.py",
+    # What a notification says, as catalog keys
+    "tracker/notifications/say.py",
+    "tracker/notifications/catalog_format.py",
+    # L0 primitives with no tracker imports at all
+    "tracker/platform/paging.py",
+    "tracker/platform/tables.py",
+    "tracker/platform/launcher.py",
+    "tracker/platform/preparation.py",
+    "tracker/platform/releases.py",
+    "tracker/platform/paths.py",
+    "tracker/platform/backups.py",
+    # The published datasets' one check command, and the app's pinned copy of them
+    "scripts/check_datasets.py",
+    "scripts/data.py",
+    "tracker/platform/ratelimit.py",
+    "tracker/platform/sitemaps.py",
+    # Whether the machine is fully awake and on mains power
+    "tracker/platform/power.py",
+    # The machine's IANA zone, for a plan nobody has edited yet
+    "tracker/platform/local_zone.py",
+    "tracker/platform/language_tags.py",
+    # The OS region the user set, the only country usage sharing sends
+    "tracker/platform/os_region.py",
+    # The machine's memory, and the database preset it picks
+    "tracker/platform/memory.py",
+    "tracker/platform/database_presets.py",
+    "tracker/connectors/extract/sitemap.py",
+    # Extracted, pure decision modules
+    "tracker/workflows/schedule_status.py",
+    "tracker/workflows/launcher_status.py",
+    # The schedule plan: when to read everyone, and the usual on-hours
+    "tracker/workflows/schedule_plan.py",
+    "tracker/db/queries/binding_attention.py",
+    "tracker/analytics/posting_reality.py",
+    "tracker/analytics/age_basis.py",
+    # Where the Hiring tab says roles are open, each once
+    "tracker/analytics/hiring.py",
+    # The companies side and disciplines an Insights read is narrowed to
+    "tracker/db/queries/insights.py",
+    # The listing history and role age behind the route and the agent tool
+    "tracker/db/queries/listing_history.py",
+    "tracker/mcp/vocab.py",
+    "tracker/workflows/tuning.py",
+    # One role listed once per place: the rule and its rebuild
+    "tracker/lineage/place_sets.py",
+    "tracker/lineage/pairs.py",
+    "tracker/scope/axes.py",
+    "tracker/workflows/post_passes.py",
+    # The levels_backfill pass and its stored-row reading
+    "tracker/workflows/relevel.py",
+    "tracker/connectors/recipes/outcome.py",
+    # The adapter base and every listing adapter, so a new one is checked by default
+    "tracker/connectors/listing",
+    # The one seam that pairs a company's listing adapter with its detail parser
+    "tracker/connectors/__init__.py",
+    "tracker/db/ownership.py",
+    "tracker/db/reconciliation.py",
+    # The connector runtime: transports, the context, and the client each consented tier builds
+    "tracker/connectors/runtime",
+    # The one fetch of a URL a user typed, and what may activate from it
+    "tracker/platform/safe_fetch.py",
+    "tracker/board_resolve.py",
+    # Where a company's careers page moved, and what may be suggested
+    "tracker/board_relocate.py",
+    # Data retention, the one bulk delete: what it removes
+    "tracker/workflows/retention.py",
+    # The scope screens' counts from the posting inventory, and the save preview
+    "tracker/scope/inventory_joint.py",
+    "tracker/scope/preview.py",
+    # The one reader of requirement blocks and years
+    "tracker/skills/segment.py",
+    "tracker/skills/years.py",
+    # The supervisor: its store, its decisions, and the processes it runs
+    "tracker/db/job_store.py",
+    "tracker/supervisor",
+    # The documented commands for the plugin and re-estimate modules the
+    # supervisor runs (`tracker/plugins`, above)
+    "scripts/plugin.py",
+    "scripts/reestimate.py",
+]
+
+[[tool.mypy.overrides]]
+# Third-party packages that ship no stubs. This silences the IMPORT, never one
+# of our own modules: an error in a file under `files` above is always ours.
+module = [
+    "pgvector.*",
+    "selectolax.*",
+    "apple_fm_sdk.*",
+    "asyncpg.*",
+    "ijson.*",
+    # Optional (requirements-optional.txt): typed when installed, absent otherwise.
+    "playwright.*",
+]
+ignore_missing_imports = true

@@ -1,0 +1,33 @@
+{
+  "_note": "Real rows; `total` rewritten 21 -> 3 so the fixture is a whole board (each query is held to its declared total; page 2's rows moved onto page 1).",
+  "total": 3,
+  "jobPostings": [
+    {
+      "title": "Senior Backend Platform Engineer",
+      "externalPath": "/job/US-CA-Santa-Clara/Senior-Backend-Platform-Engineer_JR2021162",
+      "locationsText": "US, CA, Santa Clara",
+      "postedOn": "Posted Today",
+      "bulletFields": [
+        "JR2021162"
+      ]
+    },
+    {
+      "title": "Principal Engineer, GPU Software (Remote)",
+      "externalPath": "/job/US-Remote/Principal-Engineer--GPU-Software--Remote-_JR2029981",
+      "locationsText": "US, Remote",
+      "postedOn": "Posted 3 Days Ago",
+      "bulletFields": [
+        "JR2029981"
+      ]
+    },
+    {
+      "title": "Senior Verification Engineer -- ARM Fabric Unit Level",
+      "externalPath": "/job/India-Bengaluru/Senior-Verification-Engineer----ARM-Fabric-Unit-Level_JR2020600",
+      "locationsText": "2 Locations",
+      "postedOn": "Posted Today",
+      "bulletFields": [
+        "JR2020600"
+      ]
+    }
+  ]
+}

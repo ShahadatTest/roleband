@@ -1,0 +1,89 @@
+{
+  "repository": "https://github.com/roleband/roleband-data",
+  "commit": "474869609f467db865e2c85d53087f1815e7e951",
+  "trial": false,
+  "datasets": {
+    "atlas": {
+      "path": "tracker/levels/atlas",
+      "files": {
+        "README.md": {
+          "sha256": "19e83abc5cdd288a2217e1b3ce03b5b55d2c4c1aef0a7af03018e68de695c893",
+          "size": 18656
+        },
+        "companies.csv": {
+          "sha256": "cd1dd01e6e74b338b1a1328a5992652f5adc73e279cbd2f328901288395ba6df",
+          "size": 19070
+        },
+        "company_facts.csv": {
+          "sha256": "30425455864dd296899b94831d8e6dd8d6c7720ebf7673219d4133d32d59b355",
+          "size": 28408
+        },
+        "company_identity.csv": {
+          "sha256": "32e1e44ee94a8028698da881b90c3f5df8328111f2571072780f922949d90702",
+          "size": 14036
+        },
+        "datapackage.json": {
+          "sha256": "cbfa00e2334c9bce231d8da949ad8a197723d3ffb96f2b366048d738704d8826",
+          "size": 30652
+        },
+        "estimated_pay.csv": {
+          "sha256": "4c06f62e168ece3c25cf49a364f68a6322d628d43f3a9223cb9a74d097aa5b4b",
+          "size": 55
+        },
+        "ladders.csv": {
+          "sha256": "537245ab1a2dd0553d8bf86206f970e01e79bd9e0e908616345e767712989b28",
+          "size": 12362
+        },
+        "level_base.csv": {
+          "sha256": "fee4e54c142ae6ec9c4bf49c7cf26291b0b75bdbdf36f6e6221265045b3eb4ed",
+          "size": 141490
+        },
+        "pay_bands.csv": {
+          "sha256": "af0c588a2624d0bd55635eae2b2bb30c85a4e9df33fc51638f9e6bd3ae9cdd02",
+          "size": 31623
+        },
+        "pay_grades.csv": {
+          "sha256": "ed605b4848e1e31118a737dc5f87f6eee78222e361f2ef16b6076752341f094a",
+          "size": 4429
+        },
+        "posted_pay.csv": {
+          "sha256": "a945e2190b038ff6624ac302381feaf2905ac08bbe32f230db7cd9688c8c8962",
+          "size": 954288
+        },
+        "printed.csv": {
+          "sha256": "192da091bc6a1e858f91f160c9029b4a161a1397ce23fdf9342bb309655d07d8",
+          "size": 1110
+        },
+        "rung_titles.csv": {
+          "sha256": "b8212346321b9d9ce3ffe37a3acddf35188f130b2b9594a9cc9eb24a891ac61b",
+          "size": 1362
+        },
+        "rungs.csv": {
+          "sha256": "df7fae08eb652dd9af880d5d34098d36b88ab1eca8435279c9a93bcdaf44be30",
+          "size": 67039
+        },
+        "title_pay.csv": {
+          "sha256": "3359f5b25ad02cf3b363da3a5886455243068b9c3fd97acc71d8429ad0895cc5",
+          "size": 7868815
+        }
+      }
+    },
+    "benefits": {
+      "path": "tracker/profiles/benefits_dataset",
+      "files": {
+        "README.md": {
+          "sha256": "6c92e187352b67aad757bd1efba48812a13bdeebc84de617359799c2dbfe18c6",
+          "size": 6846
+        },
+        "observations.jsonl": {
+          "sha256": "6ac87c9c90cef3fe8c24a49a0c4525e0f6c3b0713673e0328c6262bfd8862a38",
+          "size": 860744
+        },
+        "taxonomy.json": {
+          "sha256": "242072a8ed45ceeb1da1cd5c5a0ef5f447d05669f9d3eeb2473418f5a25b85e8",
+          "size": 13784
+        }
+      }
+    }
+  }
+}

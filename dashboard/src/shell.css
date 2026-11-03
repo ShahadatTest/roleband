@@ -1,0 +1,1535 @@
+/* App chrome, on the promoted system. The topbar, breadcrumb, search,
+ * telemetry chips, freshness and sync controls, the navigation rail, and the
+ * command palette: chrome renders on every route. Chrome roots carry
+ * `data-design-system="app"` so the marker-gated shared vocabulary (icon-btn,
+ * ui-badge tones, .kbd) repaints inside them; this sheet holds only what is
+ * chrome's own, plus the structural shell (.app, .workspace, .body, .main)
+ * and the global body ground and type.
+ *
+ * The page gutter and the inherited type size are deliberate values: changing
+ * them is a rhythm and type decision for the whole app, not a local edit.
+ *
+ * The topbar strip keeps its own compact design. Raising its micro-labels to
+ * the `label`/`meta` floors bloats the telemetry and costs the row its
+ * instrument density, so the strip is the CALIBRATION REFERENCE for density
+ * across the rest of the app.
+ */
+
+/* ---- global ground ------------------------------------------------------- */
+
+/* The app's base layer: the canvas, the ambient wash, the text ink and the
+   sans stack every screen inherits, in both themes. */
+
+* { box-sizing: border-box; }
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+html {
+  background: var(--app-canvas);
+}
+
+body {
+  background-color: var(--app-canvas);
+  background-image: var(--app-ambient-image);
+  color: var(--app-text);
+  font-family: var(--app-font-sans);
+  /* The INHERITED default, not a type-role assignment. Nearly every rule in
+     the app states its own size, so this is only what the few that do not fall
+     back to. --app-type-meta is 13px, and --app-type-body (14)
+     is the role a paragraph asks for by NAME. Putting body's role here would
+     resize every element that never asked for it, which is a type decision. */
+  font-size: var(--app-type-meta);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+
+/* THE ONE FOCUS RING (docs/ui.md "One focus ring").
+   Every focusable thing wears this, and a sheet changes only WHERE it is drawn:
+   inside (`calc(-1 * --app-ring-offset)`) on a flush or clipped control, on a
+   wrapper that IS the visible control, as a stroke on an SVG shape. Never a
+   tint, a halo, a glow or another hue: those fall well under the 3:1 a focus
+   indicator needs.
+   A date or time field is several Tab stops (hours, minutes, the period, the
+   browser's own picker button); on the last the focus is INSIDE the field's
+   shadow tree, the field does not match :focus-visible, and the ring would
+   vanish mid-field. Hence the `:focus-within` line. */
+input:is([type="time"], [type="date"], [type="datetime-local"], [type="month"], [type="week"]):focus-within,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+/* The rail is dark in both themes, so the ring takes the rail's own gold:
+   the light theme's action colour measures 3.72:1 on it, the rail's 11.98:1. */
+.nav-rail :focus-visible {
+  outline-color: var(--rail-accent);
+}
+
+::selection {
+  background: var(--app-action);
+  color: var(--app-action-ink);
+}
+
+/* ---- what may be selected ------------------------------------- */
+
+/* A control's label is not prose. Dragging across the top bar must not
+   highlight its counts like a paragraph, the one gesture that makes an
+   instrument feel like text. A control's name and count are not selectable
+   text; this is that rule, stated once for the app.
+
+   It lives HERE, with `button { cursor: pointer }`, the focus ring and
+   ::selection, because this sheet owns the global element layer — and because
+   one-definition.test.ts fails any selector written in two sheets, so a
+   `design/selection.css` naming `button` would collide with this sheet.
+
+   The ROLE decides, never the class name: a gate that matches class names
+   misses a control whose class does not say "btn". Only roles the app renders are listed — a speculative selector is a
+   dead rule (design/dead-rules.test.ts), so a role joins when an element takes
+   it. No prefix-free spelling either: this build carries no autoprefixer. */
+button,
+summary,
+select,
+label,
+[role="button"],
+[role="tab"],
+[role="option"],
+[role="switch"],
+/* Declared not to be content. Brand marks, the breadcrumb slash, column heads,
+   chart axis gutters, logo monograms, legend keys: all decoration. */
+[aria-hidden="true"],
+/* Invisible text must never reach a clipboard, from notification rows, chart
+   summaries or anywhere else. */
+.sr-only,
+/* `a[href]` is deliberately NOT in this list: a link in running text — the
+   apply URL, a link inside a description — stays copyable. These are the anchor
+   shapes that are CONTROLS, which is the same distinction the control system
+   draws when it says never a button that navigates, never an anchor that acts.
+   An anchor-shaped control that HAS a component carries the mark there instead
+   (`patterns/jobs/JobLinkRow`), so it is not listed twice. And a link whose own
+   text is a job TITLE is not a control at all, whatever row it sits in: that
+   is the content floor. */
+.ui-btn,
+.stat-chip,
+.skip-link,
+.rail-item,
+/* And the shared READ-ONLY vocabulary, for the same reason and on the same
+   terms: app-wide classes, each defined once, each an instrument label rather
+   than something written to be read as a sentence — a badge states a fact about
+   a row, a kicker names the block below it. Neither is text a reader would mean
+   to take. Nothing with a COMPONENT belongs here: `ui/Kbd` marks itself, and a
+   class named in two sheets is a fork the one-definition gate refuses (.eyebrow
+   is allowlisted there, with the reason). Nor does a SCREEN-LOCAL label — that
+   list would grow forever, which is the failure this rule exists to end; a
+   screen marks its own with data-selection="chrome". */
+.ui-badge,
+.chip,
+.eyebrow {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* A field's value is the user's. Insurance rather than a fix: re-measured in
+   both engines, a form control's text stays selectable by dblclick and
+   triple-click even when it computes `none` from an ancestor, so nothing
+   depends on this rule — it states the intent where the intent is easy to
+   break. */
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* The two values a region may claim, for chrome the rule above cannot reach by
+   role: an instrument's count, a kicker, a legend, and the GAPS between them —
+   a drag that begins in a toolbar's padding has no element to be stopped by.
+
+   `chrome` belongs only on a region that is ENTIRELY chrome. Not on a `main`,
+   not on a hero, not on a row that also carries content: a drag whose anchor
+   lands in an unselectable subtree yields nothing at all in Chromium (WebKit
+   recovers, which is worse — the engines then disagree), so marking a mixed
+   region does not merely drop its chrome, it can take the content with it.
+   A mixed region marks its chrome CHILDREN instead.
+
+   `content` is the way back, and it has to sit on the element itself: a control
+   declares `none` directly, and a declaration always beats an inherited one, so
+   an island inside a button cannot be freed from above. */
+[data-selection="chrome"] {
+  -webkit-user-select: none;
+  user-select: none;
+}
+[data-selection="content"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- structural shell ---------------------------------------------------- */
+
+/* `.app`, the shell grid, is down with the nav rail — the rail IS its first
+   column. These are the rest of the frame: the column beside the rail, the row
+   under the topbar, and the scrolling canvas every screen renders into. They
+   name no colour, and the literals are the page GUTTER rather than a
+   component's inset, so they are outside the space scale on purpose — the card
+   contract measures a card's own room (design/card-inset.test.ts), and this is
+   the room the page leaves around all of them. */
+
+.workspace {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Skip link: off-screen until focused, then a real control at the top-left.
+   Not `.sr-only` — that utility is permanently hidden, and this one has to
+   APPEAR when it is reached. */
+.skip-link {
+  position: fixed;
+  top: var(--app-space-2);
+  left: var(--app-space-2);
+  z-index: 200;
+  padding: var(--app-space-2) var(--app-space-3);
+  /* Parked above the viewport until focused, then it drops into place. It stays
+     focusable throughout, which `visibility: hidden` and `display: none` would
+     both prevent — a skip link nobody can reach is the bug, not the fix. */
+  transform: translateY(-300%);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface);
+  color: var(--app-text);
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-ui);
+  font-weight: var(--app-weight-ui);
+  text-decoration: none;
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+.body:focus {
+  outline: none;
+}
+
+.body {
+  min-height: 0;
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Positioned so an absolute box in a screen (a `.sr-only` label) is laid out
+   in this scroller and moves with its content, not with the frame. */
+.main {
+  position: relative;
+  min-width: 0;
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px clamp(22px, 3vw, 48px) 64px;
+}
+
+.main > * {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---- topbar (the calibration reference) --------------------------------- */
+
+/* Mechanics, same shape as --rail-*: the cool-axis palette is copied to
+ * `--tb-*` constants, deliberately
+ * not aliased: the legacy-token ratchet stays flat, and the register material
+ * cannot recolor this row. `--app-*`
+ * names remain only where the two vocabularies are byte-identical in both
+ * themes AND the material leaves them alone: glass/raised/sunken/canvas
+ * surfaces, the font stacks, duration-fast, and danger-ink (whose pairing is
+ * pinned by design/tokens.test.ts). */
+
+.topbar {
+  --tb-text: #191a1c;
+  --tb-text-muted: #5c5e64;
+  --tb-text-faint: #6a6c74;
+  --tb-border: rgba(24, 26, 32, 0.11);
+  --tb-border-strong: rgba(24, 26, 32, 0.22);
+  --tb-hover: rgba(22, 24, 30, 0.06);
+  --tb-accent: #8a610f;
+  --tb-accent-soft: rgba(138, 97, 15, 0.1);
+  --tb-accent-line: rgba(138, 97, 15, 0.34);
+  --tb-accent-text: #77540d;
+  --tb-good: #087c4f;
+  --tb-good-soft: rgba(8, 124, 79, 0.09);
+  /* 4.84:1 on the composited glass, above AA; the chrome palette is inside
+     the contrast gate. */
+  --tb-warn: #a85812;
+  --tb-warn-soft: rgba(176, 94, 20, 0.1);
+  --tb-danger: #c64040;
+  --tb-danger-soft: rgba(198, 64, 64, 0.1);
+
+  /* ONE STRIP, ONE VOICE. The bar serves the role the macOS menu bar serves: a thin band of
+     same-height, same-size, borderless items that report and never compete
+     with the page. 44px tall; every item is 28px tall; every word is 12px;
+     mono only for a numeral; the only boxes are the ones the pointer makes. */
+  --tb-item: 30px;
+  --tb-type: 12px;
+  z-index: 20;
+  height: 44px;
+  flex: 0 0 44px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--app-surface-glass);
+  border-bottom: 1px solid var(--tb-border);
+  backdrop-filter: blur(20px) saturate(140%);
+}
+
+[data-theme="dark"] .topbar {
+  --tb-text: #eef0f3;
+  --tb-text-muted: #9a9da4;
+  --tb-text-faint: #7e818a;
+  --tb-border: rgba(230, 233, 240, 0.09);
+  --tb-border-strong: rgba(230, 233, 240, 0.18);
+  --tb-hover: rgba(255, 255, 255, 0.055);
+  --tb-accent: #dbcb90;
+  --tb-accent-soft: rgba(219, 203, 144, 0.12);
+  --tb-accent-line: rgba(219, 203, 144, 0.32);
+  --tb-accent-text: #e8dcac;
+  --tb-good: #7ef0b2;
+  --tb-good-soft: rgba(126, 240, 178, 0.09);
+  --tb-warn: #f0a45c;
+  --tb-warn-soft: rgba(240, 164, 92, 0.1);
+  --tb-danger: #ff8484;
+  --tb-danger-soft: rgba(255, 132, 132, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .topbar {
+    --tb-text: #eef0f3;
+    --tb-text-muted: #9a9da4;
+    --tb-text-faint: #7e818a;
+    --tb-border: rgba(230, 233, 240, 0.09);
+    --tb-border-strong: rgba(230, 233, 240, 0.18);
+    --tb-hover: rgba(255, 255, 255, 0.055);
+    --tb-accent: #dbcb90;
+    --tb-accent-soft: rgba(219, 203, 144, 0.12);
+    --tb-accent-line: rgba(219, 203, 144, 0.32);
+    --tb-accent-text: #e8dcac;
+    --tb-good: #7ef0b2;
+    --tb-good-soft: rgba(126, 240, 178, 0.09);
+    --tb-warn: #f0a45c;
+    --tb-warn-soft: rgba(240, 164, 92, 0.1);
+    --tb-danger: #ff8484;
+    --tb-danger-soft: rgba(255, 132, 132, 0.1);
+  }
+}
+
+.mobile-brand {
+  display: none;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--app-action);
+  color: var(--app-action-ink);
+  box-shadow: 0 0 0 1px var(--app-action-line), 0 8px 26px var(--app-action-soft);
+}
+
+.brand-mark svg {
+  width: 22px;
+  height: 22px;
+}
+
+.route-breadcrumb {
+  min-width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--tb-text-muted);
+  font-size: var(--tb-type);
+  font-weight: var(--app-weight-ui);
+  letter-spacing: -0.01em;
+}
+
+.route-breadcrumb strong {
+  color: var(--tb-text);
+  font-weight: var(--app-weight-name);
+}
+
+.route-slash {
+  color: var(--tb-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--tb-type);
+  font-weight: 400;
+}
+
+.route-spacer {
+  flex: 1;
+  min-width: 0;
+}
+
+
+/* ---- command palette chip ------------------------------------------------ */
+
+/* The one globally-scoped instrument in chrome. The board's search box lives
+   in the board's own toolbar (search leads the screen it filters), so the
+   topbar keeps one shape: the breadcrumb holds this slot on every route. */
+.tb-cmdk {
+  flex: 0 0 auto;
+  height: 22px;
+  padding: 0 7px;
+  border: 1px solid var(--tb-border);
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--tb-text-faint);
+  background: transparent;
+  font-family: var(--app-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    color var(--app-duration-fast),
+    border-color var(--app-duration-fast);
+}
+
+.tb-cmdk:hover {
+  color: var(--tb-text);
+  border-color: var(--tb-border-strong);
+}
+
+/* ---- telemetry chips ----------------------------------------------------- */
+
+/* EQUAL columns: four sections of four widths read as
+   a ragged row; sized to the widest caption they read as one instrument,
+   with the dividers at even intervals. `grid-auto-columns: 1fr` on a grid
+   whose columns are all `auto`-placed gives every cell the widest cell's
+   width; the number and its caption centre in it. */
+.top-stats {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  /* The status and the verb stand a little apart from the counts. */
+  margin-right: 6px;
+}
+
+/* A count and its unit, stacked: numeral over unit, sections divided by
+   lines, the chosen one a soft fill. What makes it read as ONE designed
+   object rather than four widgets:
+   - the numeral LEADS: 12px mono at the ui weight in the text ink, over an
+     11px sans unit in the muted ink — one step, so the number is what the
+     eye lands on and the unit is its caption;
+   - the divider lives in the GAP between sections (a 14px tick centred in a
+     10px gap), so the chosen fill never covers it and its corners stay
+     clean;
+   - the fill carries the same 6px radius every other item in the bar wears,
+     with enough inset (11px sides, 30px height around 25px of type) that
+     the highlight reads as a plate the words sit on, not a crop. */
+.stat-chip {
+  position: relative;
+  height: var(--tb-item);
+  padding: 0 11px;
+  border: 0;
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: auto;
+  align-content: center;
+  justify-items: center;
+  row-gap: 1px;
+  color: var(--tb-text);
+  text-decoration: none;
+  background: transparent;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.stat-chip + .stat-chip::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--tb-border);
+}
+
+.stat-chip .n {
+  color: var(--tb-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--tb-type);
+  font-weight: var(--app-weight-ui);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-chip .l {
+  color: var(--tb-text-muted);
+  font-size: 11px;
+  font-weight: var(--app-weight-body);
+  line-height: 1.1;
+}
+
+.stat-chip.good .n {
+  color: var(--tb-good);
+}
+
+/* `color: inherit` is load-bearing: two of the four chips are <button>s, and
+   a button's UA colour is black. */
+.stat-chip.clickable {
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition:
+    color var(--app-duration-fast),
+    background var(--app-duration-fast);
+}
+
+.stat-chip.clickable:hover {
+  background: var(--tb-hover);
+}
+
+/* The lens in force is CHOSEN, keyed on the state the chip already
+   announces (`aria-pressed` on a lens, `aria-current` on a link). The chosen
+   set, not the strip's frozen `--tb-accent*` copy of it: the values are the
+   same, and a state is painted from one place, so the good chip's figure takes
+   the chosen gold like every other chip. */
+.stat-chip.clickable:is([aria-pressed="true"], [aria-current="page"]) {
+  background: var(--app-chosen-wash);
+}
+
+.stat-chip.clickable:is([aria-pressed="true"], [aria-current="page"]) :is(.n, .l) {
+  color: var(--app-chosen-text);
+}
+
+.stat-chip.clickable:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: calc(-1 * var(--app-ring-offset));
+}
+
+.freshness-badge {
+  height: var(--tb-item);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px;
+  border: 0;
+  color: var(--tb-text-muted);
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.freshness-badge .dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tb-text-faint);
+}
+
+.freshness-badge .freshness-label {
+  display: none;
+}
+
+.freshness-badge strong {
+  color: var(--tb-text-muted);
+  font-family: var(--app-font-sans);
+  font-size: 11px;
+  font-weight: var(--app-weight-body);
+  letter-spacing: normal;
+  font-variant-numeric: tabular-nums;
+}
+
+.freshness-badge.fresh .dot {
+  background: var(--tb-good);
+}
+
+.freshness-badge.stale .dot {
+  background: var(--tb-danger);
+}
+
+.freshness-badge.stale strong {
+  color: var(--tb-danger);
+}
+
+.freshness-badge.behind .dot {
+  background: var(--tb-warn);
+}
+
+.freshness-badge.unknown .dot {
+  background: var(--tb-warn);
+}
+
+.freshness-badge.unknown strong {
+  color: var(--tb-warn);
+}
+
+
+/* ---- bell ---------------------------------------------------------------- */
+
+.bell-wrap {
+  position: relative;
+}
+
+.bell-btn {
+  position: relative;
+}
+
+.bell-btn.has-high {
+  color: var(--tb-danger);
+  /* Derived from the strip's own danger, never a literal of the dark danger
+     that would give the light bell a pink edge beside its red glyph. */
+  border-color: color-mix(in srgb, var(--tb-danger) 28%, transparent);
+}
+
+/* The count pill pairs its ink with its ground BY TOKEN: dark theme turns the
+   danger fill light, so a hard-coded white ink would fail contrast there
+   (design/tokens.test.ts holds the pair). --app-danger-ink is byte-identical
+   to the legacy --danger-ink in both themes, so the strip keeps the token, and
+   its ground is the legacy red that ink pairs with. */
+.bell-badge {
+  --ui-count-type: 9px;
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  border: 2px solid var(--app-canvas);
+  background: var(--tb-danger);
+  color: var(--app-danger-ink);
+}
+
+/* Same cap as the rail's, on the same number (format.ts `countBadge`). Keeps
+   the 2px canvas ring, which is what separates the pill from the bell glyph
+   underneath it at any size. */
+.bell-badge.bell-badge-dot {
+  --ui-count-min: 11px;
+  --ui-count-height: 11px;
+  --ui-count-pad: 0px;
+}
+
+/* ---- sync control -------------------------------------------------------- */
+
+.sync-split {
+  display: inline-flex;
+  align-items: stretch;
+  height: var(--tb-item);
+}
+
+.sync-split:has(.sync-caret) .sync-button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right-width: 0;
+}
+
+.sync-caret {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0 5px;
+  border: 1px solid var(--tb-border);
+  border-radius: 0 6px 6px 0;
+  background: transparent;
+  color: var(--tb-text-muted);
+}
+
+.sync-caret:hover {
+  color: var(--tb-text);
+  border-color: var(--tb-border-strong);
+}
+
+.sync-caret[aria-expanded="true"] {
+  color: var(--tb-accent);
+  border-color: var(--tb-accent-line);
+  background: var(--tb-accent-soft);
+}
+
+/* The one verb on the bar: a quiet hairline button in the bar's own voice,
+   sentence case, 12px, the ui weight. Its
+   states stay tinted (running, stoppable, done) because they are status. */
+.sync-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 0 10px;
+  border: 1px solid var(--tb-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--tb-text-muted);
+  font-family: var(--app-font-sans);
+  font-size: var(--tb-type);
+  font-weight: var(--app-weight-ui);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.sync-button:hover {
+  color: var(--tb-text);
+  border-color: var(--tb-border-strong);
+}
+
+.sync-button:disabled {
+  cursor: default;
+}
+
+.sync-button.is-syncing {
+  color: var(--tb-accent);
+  border-color: transparent;
+  background: var(--tb-accent-soft);
+}
+
+.sync-button.can-stop {
+  color: var(--tb-danger);
+  border-color: transparent;
+  background: var(--tb-danger-soft);
+}
+
+.sync-button.is-done {
+  color: var(--tb-good);
+  border-color: transparent;
+  background: var(--tb-good-soft);
+}
+
+.sync-icon {
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+}
+
+.sync-elapsed {
+  color: var(--tb-text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.sync-progress {
+  color: var(--tb-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.sync-scope-count {
+  color: var(--tb-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Queued, not running: muted rather than accented, so a waiting sync never
+   reads as louder than a working one. */
+.sync-queued {
+  color: var(--tb-text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.icon-spin {
+  animation: app-spin 0.9s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-spin {
+    animation: none;
+  }
+}
+
+/* The row's icon button (the bell) keeps the legacy footprint and cool
+   palette. This is the ONLY .icon-btn rule and it is complete: it states its
+   own display model and transparent ground, or the browser's grey button face
+   shows through. */
+.topbar .icon-btn {
+  width: var(--tb-item);
+  height: var(--tb-item);
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: var(--tb-text-muted);
+  transition:
+    color var(--app-duration-fast),
+    border-color var(--app-duration-fast),
+    background var(--app-duration-fast);
+}
+
+.topbar .icon-btn:hover {
+  color: var(--tb-text);
+  border-color: var(--tb-border-strong);
+  background: var(--tb-hover);
+}
+
+/* ---- navigation rail ----------------------------------------------------- */
+
+/* The shell grid lives HERE, with the rail: the first column IS the rail, and
+   `.app.nav-expanded` is a state this sheet already reasons about in a dozen
+   descendant rules. One sheet states a selector
+   (design/one-definition.test.ts), so the rule carries its 860px form too.
+   The width is --app-nav-width (design/tokens.css). The expanded state overrides the TOKEN rather than restating the column, so
+   anything positioned against the rail rather than laid out beside it — the
+   Review console, which is position:fixed and therefore clears the rail by
+   arithmetic — follows it through the cascade instead of holding a private
+   copy of 72.
+
+   The window never scrolls: every screen scrolls inside `.main` or a panel of
+   its own. `position: relative` makes the frame the containing block of any
+   absolute box no scroller below claims (a `.sr-only` label is one), so that box
+   cannot grow the document past the window. Without it the wheel chains from a
+   scroller at its end into the document and the whole frame slides up. `clip`
+   rather than `hidden`, because a hidden box still scrolls when focus or
+   scrollIntoView reaches something below its edge. */
+.app {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--app-nav-width) minmax(0, 1fr);
+  height: 100vh;
+  overflow: clip;
+  transition: grid-template-columns var(--app-duration-medium) var(--app-ease);
+}
+
+.app.nav-expanded {
+  --app-nav-width: var(--app-nav-width-expanded);
+}
+
+/* First-run setup has the window: no rail column, no top bar. */
+.app.in-setup {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* The launch hold and the welcome stand on the plain ground (data-ground, set
+   by public/theme-boot.js before the first paint and kept by App.tsx), so the
+   ambient wash's warm corner never shows beside the planet. */
+html[data-ground="plain"] body {
+  background-image: none;
+}
+
+.nav-rail {
+  /* A FIXED-DARK surface: the rail keeps the dark palette in both themes, so
+     it cannot consume theme-flipping tokens — and must not, or the register
+     material's body-level override would recolor it per route. These
+     constants mirror design/tokens.css's dark block (the accent trio IS
+     --app-action/-ink/-text dark); update them together. Same shape as the
+     ambient-wash literals in settings.css: copied, deliberately not aliased. */
+  --rail-canvas: #0d0d0f;
+  --rail-text: #dcdee2;
+  --rail-strong: #f1f3f5;
+  --rail-muted: #82858c;
+  /* 4.71:1 on --rail-canvas, above AA: it sets real text (the brand sub-line
+     and the rail section label). Still ranked below --rail-muted (5.25:1), so
+     the hierarchy holds. */
+  --rail-faint: #7a7d85;
+  --rail-line: rgba(230, 233, 240, 0.09);
+  --rail-line-strong: rgba(230, 233, 240, 0.15);
+  --rail-hover: rgba(255, 255, 255, 0.045);
+  --rail-accent: #dbcb90;
+  --rail-accent-ink: #1a1705;
+  --rail-accent-text: #e8dcac;
+  --rail-accent-soft: rgba(219, 203, 144, 0.12);
+  --rail-accent-line: rgba(219, 203, 144, 0.18);
+  --rail-accent-glow: rgba(219, 203, 144, 0.6);
+  position: relative;
+  z-index: 25;
+  min-width: 0;
+  padding: var(--app-space-4) 8px var(--app-space-3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--rail-canvas);
+  color: var(--rail-text);
+  border-right: 1px solid rgba(230, 233, 240, 0.08);
+}
+
+.app.nav-expanded .nav-rail {
+  padding-left: var(--app-space-3);
+  padding-right: var(--app-space-3);
+}
+
+.rail-top {
+  min-width: 0;
+}
+
+.rail-brand {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-2);
+  margin-bottom: var(--app-space-3);
+}
+
+.app.nav-expanded .rail-brand {
+  justify-content: flex-start;
+  padding: 0 6px;
+}
+
+.rail-brand .brand-mark {
+  flex: 0 0 34px;
+}
+
+.brand-copy {
+  min-width: 0;
+  display: none;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.app.nav-expanded .brand-copy {
+  display: flex;
+}
+
+.brand-copy strong {
+  color: var(--rail-strong);
+  font-size: var(--app-type-body);
+  letter-spacing: -0.02em;
+}
+
+.brand-copy small {
+  margin-top: 3px;
+  color: var(--rail-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.rail-toggle {
+  position: relative;
+  width: 44px;
+  min-height: 34px;
+  margin: 0 auto var(--app-space-4);
+  padding: 0;
+  border: 1px solid var(--rail-line);
+  border-radius: var(--app-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-2);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--rail-muted);
+  transition:
+    color var(--app-duration-fast),
+    background var(--app-duration-fast),
+    border-color var(--app-duration-fast);
+}
+
+.rail-toggle:hover {
+  color: var(--rail-text);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--rail-line-strong);
+}
+
+.app.nav-expanded .rail-toggle {
+  width: 100%;
+  margin-bottom: var(--app-space-4);
+  padding: 0 var(--app-space-3);
+  justify-content: flex-start;
+}
+
+.rail-toggle-label {
+  display: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+}
+
+.app.nav-expanded .rail-toggle-label {
+  display: inline;
+}
+
+.rail-section-label {
+  display: none;
+  padding: 0 var(--app-space-3);
+  margin: 0 0 var(--app-space-2);
+  color: var(--rail-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.app.nav-expanded .rail-section-label {
+  display: block;
+}
+
+.rail-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-1);
+}
+
+.rail-bottom {
+  margin-top: auto;
+}
+
+.rail-item {
+  position: relative;
+  width: 44px;
+  min-height: 40px;
+  margin: 0 auto;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--app-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-space-2);
+  background: transparent;
+  color: var(--rail-muted);
+  text-decoration: none;
+  text-align: left;
+  transition:
+    color var(--app-duration-fast),
+    background var(--app-duration-fast),
+    border-color var(--app-duration-fast);
+}
+
+.app.nav-expanded .rail-item {
+  width: 100%;
+  margin: 0;
+  padding: 0 var(--app-space-3);
+  justify-content: flex-start;
+}
+
+.rail-item:hover {
+  color: var(--rail-text);
+  background: var(--rail-hover);
+}
+
+/* The section on screen, keyed on the `aria-current` NavLink writes. The rail
+   is fixed-dark in both themes, so it paints the chosen grammar from its own
+   dark copy (`--rail-accent*` = the dark chosen set); `state-grammar.test.ts`
+   names this as the one palette exception. */
+.rail-item[aria-current="page"] {
+  color: var(--rail-accent-text);
+  background: var(--rail-accent-soft);
+  border-color: var(--rail-accent-line);
+}
+
+.rail-item[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 9px;
+  bottom: 9px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--rail-accent);
+  box-shadow: 0 0 14px var(--rail-accent-glow);
+}
+
+.app.nav-expanded .rail-item[aria-current="page"]::before {
+  left: -15px;
+}
+
+.rail-label {
+  display: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+}
+
+.app.nav-expanded .rail-label {
+  display: inline;
+}
+
+.rail-badge {
+  --ui-count-pad: 4px;
+  position: absolute;
+  top: -3px;
+  right: -2px;
+  margin-left: auto;
+  background: var(--rail-accent);
+  color: var(--rail-accent-ink);
+}
+
+.app.nav-expanded .rail-badge {
+  --ui-count-min: 20px;
+  --ui-count-height: 20px;
+  --ui-count-pad: 6px;
+  position: static;
+}
+
+/* Past the cap the badge keeps its ground and its place and drops the digits
+   (format.ts `countBadge`): the item still says "there is something here"
+   without a magnitude nobody can act on, and the exact number is in the item's
+   tooltip and accessible name. Four classes deep on purpose — it has to beat
+   `.app.nav-expanded .rail-badge` AND the dock's own badge geometry in the
+   860px block below, both of which set the box this one is shrinking. */
+.nav-rail .rail-item .rail-badge.rail-badge-dot {
+  --ui-count-min: 9px;
+  --ui-count-height: 9px;
+  --ui-count-pad: 0px;
+}
+
+.app:not(.nav-expanded) .rail-item[data-tip]::after,
+.app:not(.nav-expanded) .rail-toggle[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  z-index: 100;
+  max-width: 220px;
+  padding: var(--app-space-1) var(--app-space-2);
+  border: 1px solid rgba(230, 233, 240, 0.13);
+  border-radius: var(--app-radius-sm);
+  background: rgba(15, 15, 17, 0.98);
+  color: #eef0f3;
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.34);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(6px, -50%);
+  transition:
+    opacity var(--app-duration-fast),
+    transform var(--app-duration-fast);
+}
+
+.app:not(.nav-expanded) .rail-item[data-tip]:hover::after,
+.app:not(.nav-expanded) .rail-item[data-tip]:focus-visible::after,
+.app:not(.nav-expanded) .rail-toggle[data-tip]:hover::after,
+.app:not(.nav-expanded) .rail-toggle[data-tip]:focus-visible::after {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+/* ---- command palette ----------------------------------------------------- */
+
+/* Placement only. ui/Overlay supplies the scrim, the dialog rank (120), the
+   focus ring and the scroll lock. */
+.palette-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 16vh;
+}
+
+.palette {
+  width: 580px;
+  max-width: calc(100vw - 32px);
+  overflow: hidden;
+  background: var(--app-surface-glass);
+  backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-xl);
+  box-shadow: var(--app-shadow-pop);
+  animation: palette-in var(--app-duration-medium) var(--app-ease) both;
+}
+
+@keyframes palette-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
+  }
+}
+
+.palette-input {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  padding: var(--app-space-3) var(--app-space-3);
+  border-bottom: 1px solid var(--app-border);
+  color: var(--app-text-faint);
+}
+
+/* The field draws no ring. Focus never leaves it while the palette is open,
+   so a ring here would say nothing, and it would be a second ring beside the
+   highlighted option's, which is where the keyboard acts. The caret marks
+   the field. */
+.palette-input input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--app-text);
+  font-size: var(--app-type-name);
+}
+
+.palette-input input::placeholder {
+  color: var(--app-text-faint);
+}
+
+.palette-list {
+  max-height: 46vh;
+  overflow-y: auto;
+  padding: var(--app-space-1);
+}
+
+.palette-section {
+  padding: var(--app-space-2) var(--app-space-2) var(--app-space-1);
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.palette-item {
+  width: 100%;
+  padding: var(--app-space-2) var(--app-space-2);
+  border: 0;
+  border-radius: var(--app-radius-md);
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  background: transparent;
+  color: var(--app-text-muted);
+  text-align: left;
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-ui);
+}
+
+.palette-item svg {
+  flex: 0 0 auto;
+  color: var(--app-decor);
+}
+
+.palette-item .grow {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The option Enter acts on: the keyboard's place in the list, not a choice.
+   It wears the app's one ring, inside, over the hover fill. Not the gold wash
+   alone: that is about 1.1:1 against the list (WCAG 1.4.11 asks 3:1 of a
+   focus indicator) and the chosen look besides, which means "picked", not
+   "here". */
+.palette-item.is-cursor {
+  background: var(--app-surface-hover);
+  color: var(--app-text);
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: calc(-1 * var(--app-ring-offset));
+}
+
+.palette-item.is-cursor svg {
+  color: var(--app-text);
+}
+
+.palette-item .hint {
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+}
+
+.palette-empty {
+  padding: var(--app-space-5) var(--app-space-3);
+  text-align: center;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+}
+
+.palette-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  padding: var(--app-space-2) var(--app-space-3);
+  border-top: 1px solid var(--app-border);
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+}
+
+.palette-foot .kbd {
+  margin-right: 4px;
+}
+
+/* ---- responsive ---------------------------------------------------------- */
+
+@media (max-width: 1240px) {
+  .top-stats .stat-chip:nth-child(3) {
+    display: none;
+  }
+}
+
+/* The page gutter stops growing with the viewport. This arm is ONLY that -- two
+   padding steps. The rail does not compact here: the desktop rail is
+   permanently 72px with its labels hidden (see `.nav-rail` and `.rail-label`
+   above), so a rail rule in this arm would restate its base value and change
+   nothing at any width. */
+@media (max-width: 1120px) {
+  .main {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .topbar {
+    padding-left: var(--app-space-3);
+    padding-right: var(--app-space-3);
+  }
+}
+
+@media (max-width: 860px) {
+  .topbar {
+    height: 44px;
+    flex-basis: 44px;
+    padding: 0 var(--app-space-2);
+  }
+
+  .mobile-brand {
+    display: block;
+  }
+
+  /* The rail leaves the grid for the bottom dock, so the shell stops being two
+     columns and the dock's height becomes the page's bottom padding. */
+  .app {
+    display: flex;
+    padding-bottom: 64px;
+  }
+
+  .app.in-setup {
+    padding-bottom: 0;
+  }
+
+  /* ...which is why the workspace has to claim the width itself here: it is no
+     longer a grid track. */
+  .workspace {
+    width: 100%;
+  }
+
+  .main {
+    padding: 18px 14px 48px;
+  }
+
+  /* The rail becomes a bottom dock. */
+  .nav-rail {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    flex-direction: row;
+    align-items: stretch;
+    /* The dock SCROLLS rather than dividing the width ten ways. Ten
+       destinations at a 44px touch minimum need 440px; a 375px phone has 355px
+       after padding, so `flex: 1` would give 30px-wide targets with 64px labels
+       overflowing them. No arrangement fits
+       ten legal targets in that space, so the choice is scroll, shrink below
+       the minimum, or drop destinations; only the first keeps both the standard
+       and the whole nav. */
+    justify-content: flex-start;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    gap: 2px;
+    padding: 6px 10px max(6px, env(safe-area-inset-bottom));
+    border-right: 0;
+    border-top: 1px solid rgba(230, 233, 240, 0.08);
+  }
+
+  .app.nav-expanded .nav-rail {
+    padding: 6px 10px max(6px, env(safe-area-inset-bottom));
+  }
+
+  .rail-top {
+    width: auto;
+    /* Sized by content, so the dock's own `overflow-x` scroll is what absorbs
+       the overflow. A `flex: 5 1 0` would take 5/7 of the dock whatever it
+       held, and since a flex item overflows VISIBLY, its destinations would
+       paint over the next group's ("Review" and "Notifications" on top of
+       "Settings" and the theme toggle at phone width) while the dock never
+       scrolled, its two children adding up to exactly its width. */
+    flex: 0 0 auto;
+  }
+
+  .rail-brand,
+  .rail-section-label,
+  .rail-toggle {
+    display: none;
+  }
+
+  .app.nav-expanded .rail-section-label,
+  .app.nav-expanded .rail-toggle {
+    display: none;
+  }
+
+  .rail-group {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 2px;
+  }
+
+  .rail-bottom {
+    width: auto;
+    margin: 0;
+    /* Same reason as `.rail-top`: both groups size to content or neither
+       scrolls. */
+    flex: 0 0 auto;
+    flex-direction: row;
+  }
+
+  .rail-item {
+    width: auto;
+    /* 44px is the touch minimum, and the item is now sized by its content so a
+       label can never be wider than the box that holds it. */
+    min-width: 44px;
+    height: 52px;
+    margin: 0;
+    flex: 0 0 auto;
+    padding: 0 6px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    border-radius: var(--app-radius-md);
+  }
+
+  .app.nav-expanded .rail-item {
+    width: auto;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+  }
+
+  /* Dock labels are instrument-adjacent but still chrome: `viz` (11) with the
+     icon itself as the redundant cue. */
+  .rail-label {
+    display: block;
+    max-width: 64px;
+    /* Clipped with an ellipsis rather than allowed to spill: "Notifications"
+       does not fit any legal target width, and an overflowing label collides
+       with its neighbour. */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--app-type-viz);
+    font-weight: var(--app-weight-name);
+  }
+
+  .app.nav-expanded .rail-label {
+    display: block;
+  }
+
+  .rail-item[aria-current="page"]::before {
+    left: 25%;
+    right: 25%;
+    top: -7px;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+  }
+
+  .app.nav-expanded .rail-item[aria-current="page"]::before {
+    left: 25%;
+    right: 25%;
+    top: -7px;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+  }
+
+  .rail-badge,
+  .app.nav-expanded .rail-badge {
+    --ui-count-min: 16px;
+    --ui-count-height: 16px;
+    --ui-count-pad: 4px;
+    position: absolute;
+    top: 1px;
+    right: calc(50% - 22px);
+  }
+
+  .app:not(.nav-expanded) .rail-item[data-tip]::after,
+  .app:not(.nav-expanded) .rail-toggle[data-tip]::after {
+    display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .topbar .bell-wrap {
+    display: none;
+  }
+
+  .freshness-badge {
+    padding: 0 6px;
+  }
+
+  .freshness-badge .freshness-label,
+  .freshness-badge strong {
+    display: none;
+  }
+
+  .sync-button {
+    padding: 8px;
+  }
+
+  .sync-label,
+  .sync-elapsed,
+  .sync-progress,
+  .sync-queued {
+    display: none;
+  }
+
+  .rail-label {
+    max-width: 48px;
+  }
+}
+
+@media (max-width: 860px) {
+  .route-breadcrumb {
+    display: none;
+  }
+
+  .tb-cmdk {
+    display: none;
+  }
+
+  /* Keep the actionable new-signal count in the compact header. The other
+     telemetry stays hidden so freshness and sync retain room. */
+  .top-stats {
+    margin-left: 0;
+  }
+
+  .top-stats .stat-chip:first-child,
+  .top-stats .stat-chip:nth-child(3) {
+    display: none;
+  }
+
+  /* The first VISIBLE section carries no divider: `open` is hidden here, so
+     `new` is first on screen and its tick would stand alone. */
+  .top-stats .stat-chip:nth-child(2)::before {
+    display: none;
+  }
+
+  /* Tighter inset, same recipe. */
+  .top-stats .stat-chip {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}

@@ -1,0 +1,1241 @@
+/* Statistics, on the promoted system. The shared families the nine panels
+ * render (chart shells, the echart figure, KPI tiles, bars, data tables, mini
+ * job lists) come from design/dataviz.css + surfaces.css through the route
+ * marker; this sheet holds only what belongs to Statistics: the shell (tabbar
+ * + period lens) and each panel's own namespace.
+ *
+ * Type sits at the floors: chrome at `label` (12), facts at `meta` (13). The
+ * one instrument exception: CompTrendChart's y-axis numerals sit at `viz`
+ * (11): they are part of the drawing, and the surrounding ledger + note
+ * carry the values as text.
+ *
+ * Shared components rendered here keep their own paint: `.split-src*`
+ * (provenance chips, shared with CompanyProfiles/HoverCard) and `.chip`
+ * (CompanyChip) are styled in design/surfaces.css, not in this sheet.
+ */
+
+/* The page header pays the top air (surfaces.css, one header), so the
+   scroller does not. */
+.main.stats-main { padding-top: 0; }
+/* The full width between the gutters, like Settings, Profile and Duplicates:
+   capped at the app's 1200 and centred, the panels would start right of the
+   page title on every wide window. */
+.main.stats-main > * { max-width: none; }
+
+/* ---- shell: sub-tabs + period lens --------------------------------------- */
+
+.stats-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+  /* The scope row wraps under the tabs at the same 20px every
+     tabbed screen keeps between its tab row and what follows. */
+  row-gap: var(--app-space-4);
+  flex-wrap: wrap;
+  /* No line under the row: the tabs are filled pills and need no baseline,
+     and a line 20px above the first panel's border would draw two. The
+     Window lens rides the tab row; the gap says the rest. */
+  margin-bottom: var(--app-space-4);
+}
+
+/* The tab bar is ui/TabBar (docs/ui.md); the narrow arm below
+   only fades its edges. */
+
+.stats-period-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  flex: 0 0 auto;
+}
+
+.stats-period-label {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.stats-period {
+  flex: 0 0 auto;
+}
+
+/* Hiring, Skills and Groups wrap themselves in `.stats-view`, a plain block,
+   never a nested `.main`: the shell's `.main > *` rule would cap a nested one,
+   and those tabs would sit inside the page while the others fill it. */
+.stats-view { min-width: 0; }
+
+/* ---- basic and advanced view --------------------------------------------- */
+
+/* Above a tab the basic view does not list, opened from a link. */
+.stats-view-note {
+  margin: 0 0 var(--app-space-3);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+/* The once-only question before the advanced view: prose, so the paragraph
+   keeps its reading measure, and the two answers sit in a row at its end. */
+.stats-view-dialog {
+  display: grid;
+  gap: var(--app-space-3);
+  padding: var(--app-space-4);
+}
+
+.stats-view-dialog h2 {
+  margin: 0;
+  font-size: var(--app-type-title);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.stats-view-dialog p {
+  margin: 0;
+  font-size: var(--app-type-body);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.stats-view-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--app-space-2);
+}
+
+/* ---- panel grid + demand ------------------------------------------------- */
+
+/* auto-FIT, not auto-fill: auto-fill would keep an empty fourth track
+   beside a row of three cards on a wide screen. A row holds cards of one kind
+   and length; a table takes the full width on its own. */
+.demand-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--app-space-2);
+  align-items: start;
+}
+
+.update-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: var(--app-space-1);
+  color: var(--app-warning);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.update-counter svg {
+  flex: 0 0 auto;
+}
+
+/* ---- overview cockpit ---------------------------------------------------- */
+
+.cockpit {
+  display: flex;
+  gap: var(--app-space-5);
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: var(--app-space-3);
+}
+
+.cockpit-lead {
+  min-width: 280px;
+  flex: 1;
+}
+
+/* The cockpit headline is its panel's h2, under the screen's one page header
+   ("Insights", patterns/PageHeader), so it takes the card-heading rank like
+   Demand, Skills and Clusters' panel heads: one header for every tab makes
+   it a panel title. */
+.cockpit-lead h2 {
+  margin: var(--app-space-2) 0;
+  font-size: var(--app-type-screen);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  font-weight: var(--app-weight-name);
+}
+
+/* Three of those tabs lead with a FIGURE rather than a title — "$390K median",
+   "10 opened", "$1.1M projected TC". A figure is what `display` is for: every
+   other user of that rank is a numeral (the schedule dial's dispatch time, the
+   sync stream total, the comp price on Job detail). The class is what carries
+   the claim, so the rank cannot drift back onto a text title by inheritance,
+   and tabular figures come with it — a hero number that is not tabular
+   re-flows its own digits as it updates. */
+.cockpit-lead h2.cockpit-figure {
+  font-size: var(--app-type-display);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.cockpit-lead p {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+  max-width: 560px;
+}
+
+.cockpit-kpis {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
+  gap: var(--app-space-2);
+}
+
+/* ---- compensation -------------------------------------------------------- */
+
+.comp-hist-row {
+  grid-template-columns: 132px 1fr 56px;
+}
+
+/* Every pay row says what it rests on: a fourth column of roles. */
+.bar-row.comp-row {
+  grid-template-columns: 132px 1fr 56px 64px;
+}
+
+@media (max-width: 860px) {
+  /* The label column gives way first, as on every bar row (surfaces.css). */
+  .bar-row.comp-row {
+    grid-template-columns: 96px 1fr 52px 56px;
+  }
+}
+
+.comp-n {
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.comp-row .bar-fill.is-below {
+  background: var(--app-text-faint);
+}
+
+.pay-pair {
+  align-items: stretch;
+  margin-bottom: var(--app-space-2);
+}
+
+.comp-hist-row > span:first-child {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+.pay-skill {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.pay-premium {
+  color: var(--app-positive);
+}
+
+/* ---- trends -------------------------------------------------------------- */
+
+.trends-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+}
+
+.trends-note {
+  margin: var(--app-space-3) 0 var(--app-space-1);
+  padding: var(--app-space-2) var(--app-space-3);
+  border: 1px solid var(--app-border);
+  border-left: 2px solid var(--app-warning);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-warning-soft);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.45;
+}
+
+.trend-rows {
+  margin-top: var(--app-space-3);
+  display: flex;
+  flex-direction: column;
+}
+
+.trend-ledger-head {
+  display: grid;
+  grid-template-columns: 180px 1fr 48px 48px;
+  align-items: center;
+  gap: var(--app-space-3);
+  margin-top: var(--app-space-2);
+  padding: var(--app-space-2) 0 3px;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.trend-ledger-head span:first-child {
+  grid-column: 1 / 3;
+}
+
+.trend-ledger-head span:not(:first-child) {
+  text-align: right;
+}
+
+.trend-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 48px 48px;
+  align-items: center;
+  gap: var(--app-space-3);
+  padding: var(--app-space-1) 0;
+  border-top: 1px solid var(--app-border);
+  font-size: var(--app-type-body);
+}
+
+/* No change column: what was measured changed within the window. */
+.trend-ledger-head.is-share-only,
+.trend-row.is-share-only {
+  grid-template-columns: 180px 1fr 48px;
+}
+
+.trend-row:first-child {
+  border-top: 0;
+}
+
+.trend-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: var(--app-weight-name);
+}
+
+.trend-spark {
+  width: 100%;
+  height: 30px;
+  display: block;
+}
+
+.trend-line {
+  stroke: var(--app-action);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.trend-dot {
+  fill: var(--app-action);
+}
+
+.trend-now {
+  text-align: right;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--app-action-text);
+}
+
+.trend-delta {
+  text-align: right;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--app-text-faint);
+}
+
+.trend-delta.up {
+  color: var(--app-positive);
+}
+
+.trend-delta.down {
+  color: var(--app-danger);
+}
+
+/* ---- trajectory ---------------------------------------------------------- */
+
+.traj-slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-1);
+  margin-top: var(--app-space-3);
+  max-width: 560px;
+}
+
+.traj-slider-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.traj-slider-val {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--app-action-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.traj-slider {
+  width: 100%;
+  accent-color: var(--app-action);
+  cursor: pointer;
+}
+
+.traj-reset-row {
+  min-height: 20px;
+  margin-top: var(--app-space-2);
+}
+
+.traj-vehicle {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  font-size: var(--app-type-meta);
+  white-space: nowrap;
+}
+
+/* A listed company with a cash election has no stock exposure at all. */
+.traj-immovable td.num:last-child {
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+}
+
+/* ---- compensation over time (hand-rolled SVG) ---------------------------- */
+
+.comp-trend {
+  margin-bottom: var(--app-space-3);
+}
+
+.comp-trend-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--app-space-1);
+}
+
+.comp-trend-plot {
+  display: flex;
+  gap: var(--app-space-2);
+  margin-top: var(--app-space-3);
+}
+
+/* Instrument text: the y-axis numerals are part of the drawing (`viz`), and
+   the trend's values live as text in the legend and note beside it. */
+.comp-trend-yaxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 0 0 auto;
+  text-align: right;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-viz);
+  font-variant-numeric: tabular-nums;
+}
+
+.comp-trend-svg {
+  flex: 1;
+  width: 100%;
+  height: 132px;
+  display: block;
+}
+
+.comp-trend-band {
+  fill: color-mix(in srgb, var(--app-action) 14%, transparent);
+  stroke: none;
+}
+
+.comp-trend-line {
+  stroke-width: 1.75;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* A reference change: every estimate moved at once. */
+.comp-trend-marker {
+  stroke: var(--app-text-muted);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.comp-trend-single {
+  margin-top: var(--app-space-2);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.comp-trend-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-3);
+  margin-top: var(--app-space-2);
+}
+
+.ct-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+.ct-legend-item i {
+  width: 12px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+/* ---- overlap matrix ------------------------------------------------------ */
+
+.overlap-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+  flex-wrap: wrap;
+}
+
+.overlap-scroll {
+  margin-top: var(--app-space-3);
+  overflow-x: auto;
+}
+
+.overlap-matrix {
+  display: grid;
+  width: max-content;
+  font-size: var(--app-type-meta);
+}
+
+.ovl-corner {
+  position: sticky;
+  left: 0;
+  background: var(--app-surface-raised);
+  z-index: 2;
+}
+
+.ovl-colhead {
+  padding: 0 2px var(--app-space-2);
+  text-align: center;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+  line-height: 1.1;
+  overflow: hidden;
+}
+
+.ovl-colhead span {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 48px;
+}
+
+.ovl-rowhead {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  padding: 0 var(--app-space-3) 0 2px;
+  background: var(--app-surface-raised);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--app-text-muted);
+  font-weight: var(--app-weight-name);
+}
+
+.ovl-cell {
+  height: 40px;
+  margin: 1px;
+  border-radius: var(--app-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--app-text);
+  cursor: default;
+}
+
+.ovl-cell.diag {
+  background: var(--app-surface-sunken);
+  color: var(--app-text-faint);
+}
+
+.overlap-foot {
+  margin-top: var(--app-space-3);
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+}
+
+/* ---- clusters ------------------------------------------------------------ */
+
+/* A card in a multi-column grid takes the tighter inset: the
+   cluster and demand cards are ~370px against the 1131px of a full-measure
+   panel, so the page-level 28 would spend 15% of the card on its own margins.
+   The GRID is what declares this, not the card — the same `.panel` is a
+   page-level card one screen over. It stays declared when the grid COLLAPSES
+   to one column below ~980px: a card is narrowest exactly where the viewport
+   is, so the tighter inset is more right there, not less. */
+.demand-grid > .panel {
+  padding: var(--app-space-4);
+}
+
+/* A container that LOOKS clickable everywhere; the control inside it is what
+   actually is. `position: relative` is the anchor for that control's stretched
+   hit area. */
+.cluster-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--app-duration-fast),
+    box-shadow var(--app-duration-fast);
+}
+
+.cluster-card:hover {
+  border-color: var(--app-border-strong);
+}
+
+/* The card's one control. It reads as the title and behaves as the whole card:
+   the ::after covers the card's box, so the whole card is the click target,
+   without swallowing the company chips, which are controls in their own right.
+
+   The focus ring goes on the CARD, not on the two words of the title: the
+   thing being focused is the card, and a ring around the label alone would
+   describe a target four times smaller than the one that responds. */
+.cluster-card-select {
+  all: unset;
+  cursor: pointer;
+}
+
+.cluster-card-select::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.cluster-card:has(.cluster-card-select:focus-visible) {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+/* The open territory is CHOSEN, keyed on its own select button's
+   `aria-pressed`: gold edge and wash, its name in the chosen ink. */
+.cluster-card:has(.cluster-card-select[aria-pressed="true"]) {
+  border-color: var(--app-chosen-line);
+  background: var(--app-chosen-wash);
+  box-shadow: 0 0 0 1px var(--app-chosen-line);
+}
+
+.cluster-card-select[aria-pressed="true"] {
+  color: var(--app-chosen-text);
+}
+
+.cluster-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+}
+
+.cluster-card-head h3 {
+  margin: 0 0 2px;
+}
+
+.cluster-size {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 700;
+  color: var(--app-action-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.cluster-terms {
+  margin: var(--app-space-3) 0 var(--app-space-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-1);
+}
+
+/* No stacking rule of its own, deliberately: `.co-chip-wrap`
+   (company-chip.css) is already `position: relative`, so each chip is a
+   positioned box later in the DOM than the card control's
+   absolutely-positioned ::after and paints above it. A `position: relative`
+   here would change nothing, and a rule that cannot be made to fail is a
+   comment pretending to be code. What guards the behaviour is the browser
+   test (tests/ux/statistics.spec.ts), which fails the moment a chip stops
+   being reachable, whichever sheet stops providing it. */
+.cluster-companies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-2);
+}
+
+.cluster-co {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cluster-co-n {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 700;
+  color: var(--app-text-faint);
+}
+
+.cluster-detail {
+  margin-bottom: var(--app-space-3);
+}
+
+.cluster-detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+  margin-bottom: var(--app-space-1);
+}
+
+.cluster-detail-head h3 {
+  margin: 0 0 2px;
+}
+
+.cluster-members {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0 var(--app-space-4);
+}
+
+.cluster-landscape {
+  padding-bottom: var(--app-space-2);
+}
+
+/* ---- responsive ---------------------------------------------------------- */
+
+@media (max-width: 760px) {
+  .stats-head {
+    align-items: stretch;
+    gap: var(--app-space-2);
+  }
+
+  .stats-tabbar {
+    width: calc(100% + 28px);
+    margin-inline: -14px;
+    padding-inline: 14px 30px;
+    mask-image: linear-gradient(to right, transparent 0, #000 14px, #000 calc(100% - 26px), transparent 100%);
+  }
+
+  .stats-period-wrap {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 540px) {
+  .demand-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-panel-wide {
+    padding: var(--app-space-3) var(--app-space-3);
+  }
+
+  .chart-insight {
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.35;
+  }
+
+  .chart-skills { height: 320px; }
+  .chart-trends { height: 330px; }
+  .chart-overlap { height: 380px; }
+  .chart-clusters { height: 330px; }
+
+  .trend-ledger-head {
+    grid-template-columns: 1fr 48px 38px;
+    gap: var(--app-space-2);
+  }
+
+  .trend-ledger-head span:first-child {
+    grid-column: 1;
+  }
+
+  .trend-row {
+    grid-template-columns: 1fr 48px 38px;
+    gap: var(--app-space-2);
+  }
+
+  .trend-ledger-head.is-share-only,
+  .trend-row.is-share-only {
+    grid-template-columns: 1fr 48px;
+  }
+
+  .trend-spark {
+    display: none;
+  }
+
+}
+
+/* ---- Hiring: bounded company chart, regions, the all-companies sheet ---- */
+/* Today's openings and closings in a chart tooltip (`charts/tooltip.ts`), in
+   the bars' own colours. The tooltip hangs off the body, outside the route
+   root, so these are not scoped to it. */
+.chart-tip-new { color: var(--app-data-2); }
+.chart-tip-closed { color: var(--app-data-4); }
+
+.hiring-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+  margin-top: var(--app-space-2);
+}
+
+.hiring-foot .hiring-note {
+  margin: 0;
+}
+
+.hiring-note {
+  margin: var(--app-space-2) 0 0;
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+}
+
+.hiring-regions {
+  margin-bottom: var(--app-space-3);
+}
+
+/* A region's countries sit under it, inset by one step so the nesting reads. */
+.hiring-countries {
+  margin: 0 0 var(--app-space-2) var(--app-space-4);
+}
+
+.hiring-region-wide > span:first-child {
+  color: var(--app-text-muted);
+  font-style: italic;
+}
+
+.hiring-sheet-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-3);
+  min-height: 0;
+  height: 100%;
+}
+
+.hiring-sheet-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-2);
+}
+
+.hiring-sheet-head h3 {
+  margin: 0;
+}
+
+.hiring-sheet-list {
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1;
+}
+
+/* ---- Pace: one company table, open roles as an in-cell bar ---- */
+.vel-companies {
+  margin-bottom: var(--app-space-3);
+  overflow-x: auto;
+}
+
+.vel-open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--app-space-2);
+  width: 100%;
+}
+
+.vel-open .bar-track {
+  display: block;
+  flex: none;
+  width: 96px;
+}
+
+.vel-open .bar-fill {
+  display: block;
+}
+
+/* ---- The Insights scope: its own row under the tabs and window ---- */
+.stats-scope {
+  order: 3;
+  flex: 1 0 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--app-space-2);
+}
+
+.skills-pick {
+  display: flex;
+  margin-bottom: var(--app-space-3);
+}
+
+/* ---- Skills: what every role is expected to do, said in a line ---- */
+.skills-expected-list {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.6;
+}
+
+.skills-expected-share {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.skills-ranked {
+  overflow-x: auto;
+}
+
+/* ---- Pay: published bands, a row per level ---- */
+.pay-bands-pick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--app-space-3);
+  margin-bottom: var(--app-space-3);
+}
+
+.pay-bands-pick .hiring-note {
+  margin: 0;
+}
+
+.pay-bands-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pay-bands-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) minmax(0, 1fr) minmax(96px, 168px);
+  align-items: center;
+  gap: var(--app-space-3);
+  padding: var(--app-space-2) 0;
+}
+
+.pay-bands-level {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pay-bands-level .dim,
+.pay-bands-value.dim {
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+}
+
+.pay-bands-track {
+  position: relative;
+  display: block;
+  height: 22px;
+  border-radius: 3px;
+  background: var(--app-surface-sunken);
+}
+
+.pay-band,
+.pay-band-median {
+  position: absolute;
+  top: 50%;
+  height: 4px;
+  transform: translateY(-50%);
+  border-radius: 2px;
+}
+
+.pay-band {
+  background: var(--app-text-faint);
+  opacity: 0.22;
+}
+
+.pay-band-median {
+  height: 14px;
+  border: 1px solid var(--app-text-muted);
+  background: transparent;
+}
+
+/* The picked employer's band: the one colour on the strip, and it is the
+   chosen mark because the reader chose it, never a data series hue, which
+   would be a second colour for "chosen" on one screen. Decoration inside a
+   role="img" strip, so `data-chosen` rather than an ARIA state. */
+.pay-band[data-chosen] {
+  height: 8px;
+  background: var(--app-chosen-mark);
+  opacity: 1;
+}
+
+.pay-bands-value {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.pay-bands-axis {
+  position: relative;
+  display: block;
+  height: 14px;
+  color: var(--app-text-faint);
+  font-size: var(--app-type-meta);
+}
+
+.pay-bands-axis span {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .pay-bands-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .pay-bands-track,
+  .pay-bands-axis {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+/* ---- Levels -------------------------------------------------------------- */
+
+/* The toolbar and the column heads freeze while 121 rows scroll
+   (docs/ui.md "Sticky bands"): the heads sit under the toolbar's measured
+   height, which LevelsPanel writes here. Nothing above them sets overflow.
+   The table is capped so a code never sits a screen away from its company. */
+.levels {
+  --levels-toolbar-h: calc(var(--app-space-2) + var(--app-control-md) + var(--app-space-3));
+}
+
+.levels-panel {
+  max-width: 1240px;
+}
+
+.levels-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--app-space-3);
+  padding: var(--app-space-2) 0 var(--app-space-3);
+  background-color: var(--app-canvas);
+  background-image: linear-gradient(var(--app-surface), var(--app-surface));
+}
+
+.levels-search {
+  flex: 1 1 240px;
+  max-width: 340px;
+}
+
+.levels-status {
+  margin: var(--app-space-2) 0 0;
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+/* The containing block for the cells' screen-reader text: without it that
+ * text is placed against the page and stretches the document past the app's
+ * own scroll area. */
+.levels-table {
+  position: relative;
+  width: 100%;
+  margin-top: var(--app-space-3);
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  font-size: var(--app-type-meta);
+}
+
+.levels-table th,
+.levels-table td {
+  padding: var(--app-space-2);
+  border-bottom: 1px solid var(--app-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.levels-table thead th {
+  position: sticky;
+  top: var(--levels-toolbar-h);
+  z-index: 2;
+  color: var(--app-text-muted);
+  font-weight: var(--app-weight-name);
+  background-color: var(--app-canvas);
+  background-image: linear-gradient(var(--app-surface), var(--app-surface));
+}
+
+.levels-table thead th:first-child,
+.levels-table tbody th {
+  width: 22%;
+}
+
+.levels-table tbody th {
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-name);
+}
+
+.levels-table .lit {
+  background-color: var(--app-chosen-wash);
+}
+
+.levels-table thead th.lit {
+  color: var(--app-text);
+  background-image: linear-gradient(var(--app-chosen-wash), var(--app-chosen-wash)),
+    linear-gradient(var(--app-surface), var(--app-surface));
+}
+
+.levels-table .gated {
+  color: var(--app-text-faint);
+}
+
+.levels-table tr.pinned > * {
+  border-bottom-color: var(--app-border-strong);
+}
+
+.levels-cell {
+  all: unset;
+  display: block;
+  width: 100%;
+  font-family: var(--app-font-mono);
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.levels-cell:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+.levels-cell:hover {
+  color: var(--app-action);
+}
+
+.levels-cell[aria-pressed="true"] {
+  color: var(--app-chosen-text);
+  font-weight: var(--app-weight-name);
+}
+
+.levels-table td.muted .levels-cell {
+  color: var(--app-text-muted);
+}
+
+.levels-table td.hit {
+  box-shadow: inset 0 0 0 1px var(--app-action);
+}
+
+.levels-also {
+  font-family: var(--app-font-sans);
+  color: var(--app-text-muted);
+}
+
+.levels-skip,
+.levels-flat,
+.levels-unguided td {
+  color: var(--app-text-muted);
+}
+
+.levels-tag {
+  display: inline-block;
+  margin-left: var(--app-space-2);
+  font-size: var(--app-type-meta);
+  font-weight: normal;
+  color: var(--app-text-muted);
+}
+
+.levels-foot {
+  margin: var(--app-space-3) 0 0;
+  font-size: var(--app-type-meta);
+  color: var(--app-text-muted);
+}
+
+@media (max-width: 860px) {
+  .levels-toolbar {
+    position: static;
+  }
+
+  .levels-table thead th {
+    top: 0;
+  }
+}
+
+/* Narrow: each company is one block, its levels listed under its name. */
+@media (max-width: 760px) {
+  .levels-table,
+  .levels-table tbody,
+  .levels-table tr,
+  .levels-table th,
+  .levels-table td {
+    display: block;
+    width: auto;
+  }
+
+  .levels-table thead {
+    display: none;
+  }
+
+  .levels-table tr {
+    padding: var(--app-space-2) 0;
+    border-bottom: 1px solid var(--app-border);
+  }
+
+  .levels-table th,
+  .levels-table td {
+    padding: var(--app-space-1) 0;
+    border: 0;
+  }
+
+  .levels-table td[data-level] {
+    display: grid;
+    grid-template-columns: 9em minmax(0, 1fr);
+    gap: var(--app-space-2);
+  }
+
+  .levels-table td[data-level]::before {
+    content: attr(data-level);
+    color: var(--app-text-muted);
+  }
+
+  .levels-table td.levels-skip:not(.lit) {
+    display: none;
+  }
+}

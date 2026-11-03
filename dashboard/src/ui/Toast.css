@@ -1,0 +1,72 @@
+/* ui/Toast — the one toast. Paints --app-* only. */
+
+.ui-toast-host {
+  position: fixed;
+  right: var(--app-space-5);
+  bottom: var(--app-space-5);
+  /* The middle rank of the layer scale (ui/Overlay.css): above a cover, which
+     is a screen and the one this reports on; below a dialog, which owns its
+     own failure feedback. */
+  z-index: 110;
+  display: grid;
+  gap: var(--app-space-2);
+  justify-items: end;
+  /* The layer must never block the page; a toast takes pointer events back,
+     because it carries the way to undo. */
+  pointer-events: none;
+}
+
+.ui-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+  max-width: min(420px, calc(100vw - 2 * var(--app-space-5)));
+  min-height: var(--app-control-md);
+  padding: var(--app-space-2) var(--app-space-2) var(--app-space-2) var(--app-space-3);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface-raised);
+  box-shadow: var(--app-shadow-pop);
+  color: var(--app-text);
+  font-size: var(--app-type-body);
+  animation: ui-toast-in var(--app-duration-medium) var(--app-ease-travel) both;
+}
+
+.ui-toast-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ui-toast-error {
+  border-color: var(--app-danger);
+  background: var(--app-danger-soft);
+  color: var(--app-danger);
+}
+
+@keyframes ui-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* At 860px the nav rail becomes a fixed 64px bottom bar above this layer;
+   clear it rather than out-rank it, so the nav stays on top and Undo stays
+   clickable. */
+@media (max-width: 860px) {
+  .ui-toast-host {
+    right: var(--app-space-3);
+    left: var(--app-space-3);
+    bottom: calc(64px + var(--app-space-3) + env(safe-area-inset-bottom));
+    justify-items: stretch;
+  }
+
+  .ui-toast {
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-toast { animation: none; }
+}

@@ -1,0 +1,35 @@
+# The manifest is the plugin's whole permission set: the user approves this
+# file, and the host refuses anything it does not declare. Any change to it
+# (or to the code) needs approval again.
+
+[plugin]
+id = "plugin-template"                 # [a-z0-9-], the provider value on every row; stable forever
+name = "Plugin template"
+version = "0.1.0"
+sdk = ">=1,<2"                         # the SDK releases this plugin runs on
+entry = "roleband_plugin_template:plugin"
+repository = "https://github.com/example/roleband-plugin-template"
+licence = "MIT"
+attribution = "Example ladders from data.example.com"
+# What it does, in your words: Settings shows it under the name, as written.
+description = "Pay ladders and headcount from data.example.com"
+
+[[provides]]
+slot = "pay.levels"
+
+[[provides]]
+slot = "company.facts"
+fields = ["headcount"]  # the one company fact a plugin may answer; identity is RoleBand's
+rank = 20
+
+[network]
+hosts = ["data.example.com"]
+min_delay_seconds = 1.0
+identity = "identified"
+
+[[jobs]]
+name = "refresh"
+publishes = ["pay.levels", "company.facts"]
+schedule = "weekly"
+budget_seconds = 600
+needs = ["followed_companies"]

@@ -1,0 +1,340 @@
+/* Live sync progress: the expanded body of a running `sync_started` row
+ * (SyncProgressPanel). Rendered inside `.notif-details`, whose recessed
+ * ground is notification-row.css.
+ *
+ * Information cyan = live data in the promoted palette (the Schedule dial's
+ * discovery hue).
+ */
+
+/* ---- live sync progress (expanded sync_started row) ---------------------- */
+/* Information cyan = live data in the promoted palette (the Schedule dial's
+   discovery hue). */
+
+.notif-details .sync-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-2);
+}
+
+.notif-details .sync-progress-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+}
+
+.notif-details .sync-phase {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.notif-details .sync-percent {
+  color: var(--app-information);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+  font-variant-numeric: tabular-nums;
+}
+
+.notif-details .sync-bar {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--app-border);
+  overflow: hidden;
+}
+
+.notif-details .sync-bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--app-information);
+  transition: width var(--app-duration-medium) var(--app-ease);
+}
+
+.notif-details .sync-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: var(--app-space-2);
+}
+
+.notif-details .sync-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--app-space-2) var(--app-space-2);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface);
+  border-left: 2px solid var(--app-border-strong);
+}
+
+/* Standalone numerals take the stat role, the policy-strip anatomy. */
+.notif-details .sync-stat-value {
+  color: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-stat);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.notif-details .sync-stat-label {
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+
+.notif-details .sync-stat-hint {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.notif-details .sync-progress-note {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.5;
+}
+
+.notif-details .sync-progress-note.warn {
+  color: var(--app-warning);
+  font-weight: var(--app-weight-name);
+}
+
+/* ---- the stream: sources flowing into the holding tank ------------------- */
+/* Instrument text: the `viz` tier is legal here because every number the
+   stream draws is also printed as text in the stats grid and progress line. */
+
+.notif-details .sync-stream {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-2);
+}
+
+.notif-details .sync-stream-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.notif-details .sync-stream-eyebrow {
+  fill: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-viz);
+  font-weight: 600;
+  letter-spacing: 0.09em;
+}
+
+/* Captions sit *inside* the tank, so they land on the fill as often as on the
+   surface. Faint disappears against the held band; muted holds up on both. */
+.notif-details .sync-stream-caption {
+  fill: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-viz);
+  font-weight: 600;
+  letter-spacing: 0.09em;
+}
+
+.notif-details .sync-stream-idle { fill: var(--app-text-muted); font-size: var(--app-type-meta); }
+.notif-details .sync-stream-name { fill: var(--app-information); font-size: var(--app-type-meta); }
+
+.notif-details .sync-stream-clock {
+  fill: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-viz);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Channels converge on the tank mouth. Kept very faint: they are the route,
+   not the signal — the moving dots carry the eye. */
+.notif-details .sync-stream-channel {
+  fill: none;
+  stroke: var(--app-border);
+  stroke-width: 1;
+  opacity: 0.55;
+}
+
+.notif-details .sync-stream-spout { fill: var(--app-information); }
+
+.notif-details .sync-stream-dot {
+  fill: var(--app-information);
+  offset-rotate: 0deg;
+  animation: sync-flow 3.4s linear infinite;
+}
+
+@keyframes sync-flow {
+  0% { offset-distance: 0%; opacity: 0; }
+  8% { opacity: 1; }
+  86% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+/* The global reduce block only shortens animations, which would park every dot
+   at the end of its track as a static row. Hide them outright; the component
+   also stops rendering them, so this is the belt to that JS gate's braces. */
+@media (prefers-reduced-motion: reduce) {
+  .sync-stream-dot { display: none; }
+}
+
+.notif-details .sync-stream-tank {
+  fill: var(--app-canvas);
+  stroke: var(--app-border-strong);
+  stroke-width: 1;
+}
+
+.notif-details .sync-stream-written {
+  fill: var(--app-information);
+  opacity: 0.85;
+  transition: height var(--app-duration-medium) var(--app-ease);
+}
+
+/* The instrument hero, like the dial's dispatch time. */
+.notif-details .sync-stream-total {
+  fill: var(--app-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Readouts the on-disk band has risen behind: the component flips the fill to
+   the ground colour per label rather than letting it wash out. */
+.notif-details .sync-stream-total.on-band,
+.notif-details .sync-stream-caption.on-band { fill: var(--app-canvas); }
+
+/* ---- the contribution bar: what finished sources contributed -------------- */
+
+.notif-details .sync-contrib {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-1);
+}
+
+.notif-details .sync-contrib-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+}
+
+.notif-details .sync-contrib-total {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Overflow stays visible so a segment's tooltip can escape the bar; the
+   rounded ends move onto the first and last segments. */
+.notif-details .sync-contrib-bar {
+  display: flex;
+  height: 26px;
+  gap: 1px;
+}
+
+.notif-details .sync-contrib-seg {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3px;
+  flex-basis: 0;
+  background: var(--app-information);
+  transition: flex-grow var(--app-duration-medium) var(--app-ease);
+}
+
+.notif-details .sync-contrib-seg:first-child { border-radius: var(--app-radius-sm) 0 0 var(--app-radius-sm); }
+.notif-details .sync-contrib-seg:last-child { border-radius: 0 var(--app-radius-sm) var(--app-radius-sm) 0; }
+
+.notif-details .sync-contrib-seg:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+.notif-details .sync-contrib-seg[data-merged="yes"] { background: var(--app-border-strong); }
+
+.notif-details .sync-contrib-seg-label {
+  padding: 0 var(--app-space-2);
+  color: var(--app-canvas);
+  font-size: var(--app-type-label);
+  font-weight: var(--app-weight-name);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.notif-details .sync-contrib-seg[data-merged="yes"] .sync-contrib-seg-label {
+  color: var(--app-text-muted);
+}
+
+/* Every segment carries its name here — the bar only has room to print it on
+   the wide ones; narrow ones are focusable so this stays keyboard-reachable. */
+.notif-details .sync-contrib-tip {
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  padding: var(--app-space-1) var(--app-space-2);
+  border-radius: var(--app-radius-md);
+  white-space: nowrap;
+  background: var(--app-surface-raised);
+  border: 1px solid var(--app-border-strong);
+  box-shadow: var(--app-shadow-pop);
+  color: var(--app-text);
+  font-size: var(--app-type-meta);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity var(--app-duration-fast) var(--app-ease),
+    visibility var(--app-duration-fast) var(--app-ease);
+}
+
+.notif-details .sync-contrib-seg:hover .sync-contrib-tip,
+.notif-details .sync-contrib-seg:focus-visible .sync-contrib-tip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.notif-details .sync-contrib-foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-space-1);
+}
+
+.notif-details .sync-contrib-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--app-space-3);
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.notif-details .sync-contrib-counts b {
+  color: var(--app-text);
+  font-weight: var(--app-weight-name);
+}
+
+.notif-details .sync-contrib-bad,
+.notif-details .sync-contrib-bad b { color: var(--app-danger); }
+
+/* The queued disclosure is ui/Button link/quiet. */
+
+.notif-details .sync-contrib-names {
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  line-height: 1.5;
+}
+
+/* A source that scanned a full board and kept nothing succeeded; it renders in
+   the muted default here, never in danger or warn. */
+.notif-details .sync-contrib-names.bad { color: var(--app-danger); }
+.notif-details .sync-contrib-names.warn { color: var(--app-warning); }
+

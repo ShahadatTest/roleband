@@ -1,0 +1,140 @@
+company,family,guide,company_wide,tracks,families,flat,as_of,note
+google,company,true,true,,,,2026-10-02,
+google,software_engineering,true,false,technical,ml_ai_research|infrastructure_sre|data_engineering|security_engineering|hardware_engineering|data_science,,2026-10-02,"Individual contributors in engineering and science. II and III are the rungs below Senior (L5); L8 is titled Principal Engineer, so it is principal (the band follows the title word), and posts the same range as Engineering Director."
+google,engineering_management,false,true,,,,2026-10-02,"Managers band with the IC rung they are paid alongside (the Apple and Nvidia rule): Software Engineering Manager and its II post Staff's range, Senior Software Engineering Manager posts Senior Staff's."
+google,product_management,false,true,,,,2026-10-02,"Senior is L6 here, not L5: Senior Product Manager posts the range of Staff Product Data Scientist. Titled Senior, so senior (the band follows the title word); Google's product ladder has no Staff rung."
+google,technical_program_management,false,true,,,,2026-10-02,
+google,program_management,false,true,,,,2026-10-02,
+apple,software_engineering,true,false,technical,,,2026-10-02,
+apple,engineering_management,false,true,,,,2026-10-02,
+amazon,software_engineering,true,true,,,,2026-10-02,
+netflix,software_engineering,true,true,,,,2026-10-02,
+openai,software_engineering,true,true,,,,2026-10-02,
+anthropic,software_engineering,true,false,technical,,,2026-11-02,"Individual contributors in engineering. The titles state the rung: Staff Software Engineer is staff and Senior Staff Software Engineer is principal (the band follows the title word), and Senior Staff's posted range starts where most Staff ranges end. No posting is titled Lead or Principal Software Engineer. Estimated pay collects these two rungs as Lead and Staff; estimated_pay.csv keys them by the company's own titles, in the same order."
+nvidia,software_engineering,true,true,,,,2026-10-02,
+nvidia,engineering_management,false,true,,,,2026-10-02,
+spotify,software_engineering,true,false,technical,,,2026-10-02,
+microsoft,software_engineering,true,true,,,,2026-10-02,
+ey,company,false,true,,,,2026-10-02,"Professional-services firms rank their people, and the rank words are not a tech ladder's, so here the band does not follow the rank word: EY's entry rung is ""Staff"" and its ""Senior"" is the second rung, 3-6 years in. Bands follow the evidence: years in rank (the firms' career paths), cross-firm mappings, and the base ranges the firms post on US listings."
+kpmg,company,false,true,,,,2026-10-02,
+deloitte,company,false,true,,,,2026-10-02,
+pwc,company,false,true,,,,2026-10-02,
+accenture,company,false,true,,,,2026-10-02,"Accenture's career levels: Analyst (CL11), Senior Analyst (10), Consultant (9), Associate Manager (8), Manager (7), Senior Manager (6), Associate Director (5), then Principal Director and Managing Director. Its Manager posts less than the Big 4's, so its Associate Manager stays below senior."
+stripe,software_engineering,false,true,,,,2026-10-02,Ladders known by code only: they band the stored per-level pay rows.
+coinbase,software_engineering,false,true,,,,2026-10-02,
+airbnb,software_engineering,false,true,,,,2026-10-02,
+reddit,software_engineering,false,true,,,,2026-10-02,
+waymo,software_engineering,true,false,technical,,,2026-10-09,
+dropbox,software_engineering,true,false,technical,,,2026-10-09,
+figma,software_engineering,false,true,,,,2026-10-02,
+databricks,software_engineering,false,true,,,,2026-10-02,
+servicenow,software_engineering,true,false,technical,,,2026-10-09,
+qualcomm,software_engineering,true,false,technical,,,2026-10-09,
+zscaler,software_engineering,true,false,technical,,,2026-10-09,
+micron,software_engineering,true,false,technical,,,2026-10-09,
+okta,software_engineering,true,false,technical,,,2026-10-09,
+affirm,software_engineering,true,false,technical,,,2026-10-09,
+playstation,software_engineering,true,false,technical,,,2026-10-09,
+cadence,software_engineering,true,false,technical,,,2026-10-09,
+anduril,software_engineering,true,false,technical,,,2026-10-09,
+fortinet,software_engineering,true,false,technical,,,2026-10-09,
+snowflake,software_engineering,true,false,technical,,,2026-10-09,
+arm,software_engineering,true,false,technical,,,2026-10-09,
+tiktok,software_engineering,true,false,technical,,,2026-10-09,
+shield-ai,software_engineering,true,false,technical,,,2026-10-09,
+tsmc,software_engineering,true,false,technical,,,2026-10-09,
+palo-alto-networks,software_engineering,true,false,technical,,,2026-10-09,
+amd,software_engineering,true,false,technical,,,2026-10-09,
+salesforce,software_engineering,true,false,technical,,,2026-10-09,
+applied-materials,company,true,true,,,,2026-10-09,
+intel,software_engineering,true,false,technical,,,2026-10-09,
+roblox,software_engineering,true,false,technical,,,2026-10-09,
+palantir,software_engineering,true,false,technical,,,2026-10-09,
+mongodb,software_engineering,true,false,technical,,,2026-10-09,
+elastic,software_engineering,true,false,technical,,,2026-10-09,
+rocket-lab,software_engineering,true,false,technical,,,2026-10-09,
+zipline,software_engineering,true,false,technical,,,2026-10-09,
+zoox,software_engineering,true,false,technical,,,2026-10-09,
+asml,software_engineering,true,false,technical,,,2026-10-09,
+synopsys,software_engineering,true,false,technical,,,2026-10-09,
+electronic-arts,software_engineering,true,false,technical,,,2026-10-09,
+wise,software_engineering,true,false,technical,,,2026-10-09,
+jane-street,software_engineering,true,false,technical,,true,2026-10-09,Flat: titles carry no rung beyond the entry hire; one posted range spans experience.
+susquehanna-international-group,software_engineering,true,false,technical,,,2026-10-09,
+drw,software_engineering,true,false,technical,,,2026-10-09,
+imc-trading,software_engineering,true,false,technical,,true,2026-10-09,Flat: titles carry no rung beyond the entry hire; one posted range spans experience.
+optiver,software_engineering,true,false,technical,,,2026-10-09,
+jump-trading,software_engineering,true,false,technical,,true,2026-10-09,Flat: titles carry no rung beyond the entry hire; one posted range spans experience.
+hugging-face,software_engineering,true,false,technical,,,2026-10-09,
+runway,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung.
+ami-labs,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung.
+lovable,software_engineering,true,false,technical,,,2026-10-09,
+notion,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung.
+linear,software_engineering,true,false,technical,,,2026-10-09,
+crowdstrike,software_engineering,true,false,technical,,,2026-10-09,
+sentinelone,software_engineering,true,false,technical,,,2026-10-09,
+1password,software_engineering,true,false,technical,,,2026-10-09,
+vercel,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung; levels sit in the posted range.
+wiz,software_engineering,true,false,technical,,,2026-10-09,
+xai,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung; one posted band spans experience.
+mistral,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung; one posted band spans experience.
+scaleai,software_engineering,true,false,technical,,,2026-10-09,
+perplexity,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung; one posted band spans experience.
+cohere,software_engineering,true,false,technical,,,2026-10-09,
+datadog,software_engineering,true,false,technical,,,2026-10-09,
+cloudflare,software_engineering,true,false,technical,,,2026-10-09,
+gitlab,software_engineering,true,false,technical,,,2026-10-09,
+grafana-labs,software_engineering,true,false,technical,,,2026-10-09,
+doordash,software_engineering,true,false,technical,,,2026-10-09,
+lyft,software_engineering,true,false,technical,,,2026-10-09,
+pinterest,software_engineering,true,false,technical,,,2026-10-09,
+snap,software_engineering,true,false,technical,,,2026-10-09,
+instacart,software_engineering,true,false,technical,,,2026-10-09,
+atlassian,software_engineering,true,false,technical,,,2026-10-09,
+github,software_engineering,true,false,technical,,,2026-10-09,
+docker,software_engineering,true,false,technical,,,2026-10-09,
+hashicorp,software_engineering,true,false,technical,,,2026-10-09,
+confluent,software_engineering,true,false,technical,,,2026-10-09,
+twitch,software_engineering,true,false,technical,,,2026-10-09,
+unity,software_engineering,true,false,technical,,,2026-10-09,
+supercell,software_engineering,true,false,technical,,true,2026-10-09,"Flat: internal titles carry no Senior, Junior or Principal prefix."
+discord,software_engineering,true,false,technical,,,2026-10-09,
+valve,software_engineering,true,false,technical,,true,2026-10-09,Flat: the employee handbook says nobody has an actual title.
+riot-games,software_engineering,true,false,technical,,,2026-10-09,
+epic-games,software_engineering,true,false,technical,,,2026-10-09,
+take-two-interactive,software_engineering,true,false,technical,,,2026-10-09,
+nintendo,software_engineering,true,false,technical,,,2026-10-09,
+paypal,software_engineering,true,false,technical,,,2026-10-09,
+block,software_engineering,true,false,technical,,,2026-10-09,
+robinhood,software_engineering,true,false,technical,,,2026-10-09,
+plaid,software_engineering,true,false,technical,,,2026-10-09,
+brex,software_engineering,true,false,technical,,,2026-10-09,
+ramp,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung; one posted band spans experience.
+adyen,software_engineering,true,false,technical,,,2026-10-09,
+klarna,software_engineering,true,false,technical,,,2026-10-09,
+revolut,software_engineering,true,false,technical,,,2026-10-09,
+tower-research-capital,software_engineering,true,false,technical,,,2026-10-09,
+hudson-river-trading,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung; one posted band spans experience.
+two-sigma,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung; one posted band spans experience.
+xtx-markets,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung; one posted band spans experience.
+citadel,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung; one posted band spans experience.
+citadel-securities,software_engineering,true,false,technical,,,2026-10-09,
+samsara,software_engineering,true,false,technical,,,2026-10-09,
+skydio,software_engineering,true,false,technical,,,2026-10-09,
+nuro,software_engineering,true,false,technical,,,2026-10-09,
+aurora,software_engineering,true,false,technical,,,2026-10-09,
+figure,software_engineering,true,false,technical,,true,2026-10-09,Flat: engineering titles carry no rung; one posted band spans experience.
+tesla,software_engineering,true,false,technical,,,2026-10-09,
+boston-consulting-group,company,true,true,,,,2026-10-09,"The firm's consulting rank ladder, company-wide, from its own careers pages."
+bain-company,company,true,true,,,,2026-10-09,"The firm's consulting rank ladder, company-wide, from its own careers pages."
+roland-berger,company,true,true,,,,2026-10-09,"The firm's consulting rank ladder, company-wide, from its own careers pages."
+mckinsey-company,company,true,true,,,,2026-10-09,"The firm's consulting rank ladder, company-wide, from its own careers pages."
+oliver-wyman,company,true,true,,,,2026-10-09,"The firm's consulting rank ladder, company-wide, from its own careers pages."
+asana,software_engineering,true,false,technical,,,2026-10-09,
+gusto,software_engineering,true,false,technical,,,2026-10-09,
+meta,software_engineering,true,false,technical,,true,2026-10-09,"Flat in titles: postings print no level code; University Grad, plain, (Technical) Leadership."
+flexport,software_engineering,true,false,technical,,,2026-10-09,
+adobe,software_engineering,true,false,technical,,,2026-10-09,
+shopify,software_engineering,true,false,technical,,,2026-10-09,
+booking,software_engineering,true,false,technical,,,2026-10-09,
+uber,software_engineering,true,false,technical,,,2026-10-09,

@@ -1,0 +1,885 @@
+# RoleBand skill catalogue: the closed production vocabulary.
+#
+# Human-reviewed source of truth. No runtime auto-edit; every change lands via a
+# reviewed diff. Compiled + validated by tracker/skills/catalog.py, projected into
+# skill_concepts / skill_aliases. taxonomy_version = content hash of this file.
+#
+# Concept fields:
+#   slug, display, facet, category, description  (all required)
+#   parent: slug            optional containment hierarchy (S3 -> AWS)
+#   aliases:                list; each needs at least {alias}
+#     match: exact_ci (default) | exact_case
+#     required_context: regex — unit must also match this for the hit to count
+#     excluded_context: regex — a match overlapping the hit rejects it
+#
+# Facets: technology | professional_skill | industry |
+#         behavioral_competency | language
+# Two-bucket rule: `industry` = business vertical (the sector a company operates in;
+# a candidate has experience IN it). Everything a candidate can DO is a skill
+# (technology / professional_skill). Never present an industry as a skill.
+version: 1
+concepts:
+  # ------------------------------------------------------------- languages
+  - slug: python
+    display: Python
+    facet: technology
+    category: language
+    description: Python programming language.
+    aliases:
+      - {alias: python}
+  - slug: golang
+    display: Go
+    facet: technology
+    category: language
+    description: Go programming language. Bare "Go" only counts in a programming context.
+    aliases:
+      - {alias: golang}
+      - {alias: Go, match: exact_case, required_context: '(?i)(?:programming|language|c\+\+|python|java\b|rust|kotlin|coding)'}
+  - slug: rust
+    display: Rust
+    facet: technology
+    category: language
+    description: Rust programming language.
+    aliases:
+      - {alias: rust}
+  - slug: java
+    display: Java
+    facet: technology
+    category: language
+    description: Java programming language. Not JavaScript.
+    aliases:
+      - {alias: java, excluded_context: '(?i)javascript'}
+  - slug: cpp
+    display: C++
+    facet: technology
+    category: language
+    description: C++ programming language.
+    aliases:
+      - {alias: c++}
+      - {alias: cpp}
+  - slug: c_lang
+    display: C
+    facet: technology
+    category: language
+    description: C programming language. Bare "C" only counts in a programming-list context.
+    aliases:
+      - {alias: C, match: exact_case, required_context: '(?i)(?:programming|language|c\+\+|python|rust|golang|embedded|systems)'}
+      - {alias: c language}
+      - {alias: embedded c}
+  - slug: csharp
+    display: 'C#'
+    facet: technology
+    category: language
+    description: 'C# programming language. Distinct from the .NET platform.'
+    aliases:
+      - {alias: 'c#'}
+      - {alias: csharp}
+  - slug: dotnet
+    display: .NET
+    facet: technology
+    category: framework
+    description: '.NET platform/runtime. Distinct concept from the C# language.'
+    aliases:
+      - {alias: .net}
+      - {alias: dotnet}
+  - slug: aspnet
+    display: ASP.NET
+    facet: technology
+    category: framework
+    parent: dotnet
+    description: ASP.NET web framework on .NET.
+    aliases:
+      - {alias: asp.net}
+      - {alias: aspnet}
+  - slug: typescript
+    display: TypeScript
+    facet: technology
+    category: language
+    description: TypeScript programming language.
+    aliases:
+      - {alias: typescript}
+  - slug: javascript
+    display: JavaScript
+    facet: technology
+    category: language
+    description: JavaScript programming language.
+    aliases:
+      - {alias: javascript}
+  - slug: scala
+    display: Scala
+    facet: technology
+    category: language
+    description: Scala programming language.
+    aliases:
+      - {alias: scala}
+  - slug: kotlin
+    display: Kotlin
+    facet: technology
+    category: language
+    description: Kotlin programming language.
+    aliases:
+      - {alias: kotlin}
+  - slug: swift
+    display: Swift
+    facet: technology
+    category: language
+    description: Swift programming language (Apple platforms). Not the adjective.
+    aliases:
+      - {alias: Swift, match: exact_case, required_context: '(?i)(?:ios|apple|xcode|objective-c|mobile|kotlin|swiftui)'}
+      - {alias: swiftui}
+  - slug: objective_c
+    display: Objective-C
+    facet: technology
+    category: language
+    description: Objective-C programming language.
+    aliases:
+      - {alias: objective-c}
+      - {alias: objective c}
+  - slug: ruby
+    display: Ruby
+    facet: technology
+    category: language
+    description: Ruby programming language.
+    aliases:
+      - {alias: ruby}
+  - slug: r_lang
+    display: R
+    facet: technology
+    category: language
+    description: R statistical programming language. Bare "R" only counts in a programming/statistics context.
+    aliases:
+      - {alias: R, match: exact_case, required_context: '(?i)(?:python|sql|statistic|programming|language|data analysis|sas\b)'}
+  - slug: sql
+    display: SQL
+    facet: technology
+    category: language
+    description: SQL query language.
+    aliases:
+      - {alias: sql}
+  - slug: bash_shell
+    display: Shell / Bash
+    facet: technology
+    category: language
+    description: Unix shell scripting (bash, zsh, shell).
+    aliases:
+      - {alias: bash}
+      - {alias: shell scripting}
+  # ------------------------------------------------------------- ML / AI
+  - slug: machine_learning
+    display: Machine Learning
+    facet: professional_skill
+    category: ml_ai
+    description: Applying/building machine learning systems and models.
+    aliases:
+      - {alias: machine learning}
+      - {alias: ML, match: exact_case}
+      - {alias: ai/ml}
+  - slug: deep_learning
+    display: Deep Learning
+    facet: professional_skill
+    category: ml_ai
+    parent: machine_learning
+    description: Neural-network model development and training.
+    aliases:
+      - {alias: deep learning}
+      - {alias: neural network}
+      - {alias: neural networks}
+  - slug: llm
+    display: LLMs
+    facet: technology
+    category: ml_ai
+    description: Large language models as a technology area (building on/with LLMs).
+    aliases:
+      - {alias: LLM, match: exact_case}
+      - {alias: LLMs, match: exact_case}
+      - {alias: large language model}
+      - {alias: large language models}
+  - slug: transformers
+    display: Transformers
+    facet: professional_skill
+    category: ml_ai
+    description: Transformer model architecture (attention-based neural networks). Not electrical transformers.
+    aliases:
+      - {alias: transformer, required_context: '(?i)(?:model|neural|architecture|llm|language|attention|deep learning|hugging\s*face)', excluded_context: '(?i)(?:electrical|power|voltage)\s+transformer'}
+      - {alias: transformers, required_context: '(?i)(?:model|neural|architecture|llm|language|attention|deep learning|hugging\s*face)', excluded_context: '(?i)(?:electrical|power|voltage)\s+transformer'}
+  - slug: rl
+    display: Reinforcement Learning
+    facet: professional_skill
+    category: ml_ai
+    parent: machine_learning
+    description: Reinforcement learning methods.
+    aliases:
+      - {alias: reinforcement learning}
+      - {alias: RL, match: exact_case}
+  - slug: rlhf
+    display: RLHF
+    facet: professional_skill
+    category: ml_ai
+    parent: rl
+    description: Reinforcement learning from human feedback.
+    aliases:
+      - {alias: rlhf}
+      - {alias: reinforcement learning from human feedback}
+  - slug: rag
+    display: RAG
+    facet: professional_skill
+    category: ml_ai
+    description: Retrieval-augmented generation systems.
+    aliases:
+      - {alias: RAG, match: exact_case}
+      - {alias: retrieval augmented generation}
+      - {alias: retrieval-augmented generation}
+      - {alias: retrieval-augmented}
+  - slug: nlp
+    display: NLP
+    facet: professional_skill
+    category: ml_ai
+    description: Natural language processing.
+    aliases:
+      - {alias: nlp}
+      - {alias: natural language processing}
+  - slug: computer_vision
+    display: Computer Vision
+    facet: professional_skill
+    category: ml_ai
+    description: Computer vision methods and systems.
+    aliases:
+      - {alias: computer vision}
+  - slug: diffusion
+    display: Diffusion Models
+    facet: professional_skill
+    category: ml_ai
+    description: Diffusion model methods (image/video/audio generation).
+    aliases:
+      - {alias: diffusion model}
+      - {alias: diffusion models}
+  - slug: fine_tuning
+    display: Fine-tuning
+    facet: professional_skill
+    category: ml_ai
+    description: Fine-tuning pretrained models.
+    aliases:
+      - {alias: fine-tuning}
+      - {alias: fine tuning}
+      - {alias: finetuning}
+  - slug: generative_ai
+    display: Generative AI
+    facet: professional_skill
+    category: ml_ai
+    description: Generative AI systems and applications.
+    aliases:
+      - {alias: generative ai}
+      - {alias: genai}
+      - {alias: gen ai}
+  - slug: foundation_models
+    display: Foundation Models
+    facet: professional_skill
+    category: ml_ai
+    description: Training/adapting large foundation models.
+    aliases:
+      - {alias: foundation model}
+      - {alias: foundation models}
+  - slug: model_training
+    display: Model Training
+    facet: professional_skill
+    category: ml_ai
+    description: Building and running model training pipelines, including pretraining.
+    aliases:
+      - {alias: model training}
+      - {alias: training pipeline}
+      - {alias: pretraining}
+      - {alias: pre-training}
+  - slug: model_eval
+    display: Model Evaluation
+    facet: professional_skill
+    category: ml_ai
+    description: Evaluating model quality (benchmarks, evals, A/B measurement of models).
+    aliases:
+      - {alias: model evaluation}
+      - {alias: model evals}
+      - {alias: evals}
+  - slug: inference
+    display: Inference / Serving
+    facet: professional_skill
+    category: ml_ai
+    description: Model inference optimization and serving systems.
+    aliases:
+      - {alias: model inference}
+      - {alias: inference optimization}
+      - {alias: model serving}
+  - slug: cuda
+    display: CUDA / GPU
+    facet: technology
+    category: ml_ai
+    description: CUDA and GPU programming.
+    aliases:
+      - {alias: cuda}
+      - {alias: gpu programming}
+  - slug: distributed_training
+    display: Distributed Training
+    facet: professional_skill
+    category: ml_ai
+    description: Multi-GPU / multi-node model training (model/data parallelism).
+    aliases:
+      - {alias: distributed training}
+      - {alias: multi-gpu}
+      - {alias: model parallelism}
+      - {alias: data parallelism}
+  - slug: mlops
+    display: MLOps
+    facet: professional_skill
+    category: ml_ai
+    description: ML infrastructure, platforms, and operations.
+    aliases:
+      - {alias: mlops}
+      - {alias: ml infrastructure}
+      - {alias: ml platform}
+  - slug: mcp
+    display: MCP
+    facet: technology
+    category: ml_ai
+    description: Model Context Protocol for agent/tool integration.
+    aliases:
+      - {alias: MCP, match: exact_case}
+      - {alias: model context protocol}
+  - slug: ai_agents
+    display: AI Agents
+    facet: professional_skill
+    category: ml_ai
+    description: Building agentic AI systems (tool use, multi-step autonomy).
+    aliases:
+      - {alias: ai agents}
+      - {alias: agentic}
+      - {alias: agentic systems}
+  # ------------------------------------------------------------- frameworks
+  - slug: pytorch
+    display: PyTorch
+    facet: technology
+    category: framework
+    description: PyTorch deep learning framework.
+    aliases:
+      - {alias: pytorch}
+  - slug: tensorflow
+    display: TensorFlow
+    facet: technology
+    category: framework
+    description: TensorFlow deep learning framework.
+    aliases:
+      - {alias: tensorflow}
+  - slug: jax
+    display: JAX
+    facet: technology
+    category: framework
+    description: JAX numerical computing / ML framework.
+    aliases:
+      - {alias: jax}
+  - slug: react
+    display: React
+    facet: technology
+    category: framework
+    description: React web UI framework. Not the ReAct prompting pattern; not the verb "react".
+    aliases:
+      - {alias: React, match: exact_case, excluded_context: '(?i)\breact\w*\s+(?:to|quickly|fast|swiftly|accordingly|appropriately|calmly)\b'}
+      - {alias: react.js}
+      - {alias: reactjs}
+  - slug: nodejs
+    display: Node.js
+    facet: technology
+    category: framework
+    description: Node.js JavaScript runtime.
+    aliases:
+      - {alias: node.js}
+      - {alias: nodejs}
+      - {alias: node js}
+  - slug: kubernetes
+    display: Kubernetes
+    facet: technology
+    category: infra
+    description: Kubernetes container orchestration.
+    aliases:
+      - {alias: kubernetes}
+      - {alias: k8s}
+  - slug: docker
+    display: Docker
+    facet: technology
+    category: infra
+    description: Docker containers / containerization.
+    aliases:
+      - {alias: docker}
+      - {alias: containerization}
+  - slug: ray
+    display: Ray
+    facet: technology
+    category: framework
+    description: Ray distributed compute framework. Not ray tracing or X-ray.
+    aliases:
+      - {alias: Ray, match: exact_case, required_context: '(?i)(?:distributed|cluster|python|training|compute|framework|spark|dask)', excluded_context: '(?i)ray[\s-]?tracing|x[\s-]?ray'}
+  - slug: spark
+    display: Spark
+    facet: technology
+    category: data
+    description: Apache Spark data processing engine. Not the ordinary verb/noun.
+    aliases:
+      - {alias: apache spark}
+      - {alias: Spark, match: exact_case, excluded_context: '(?i)sparks?\s+(?:of|creativity|joy|innovation|curiosity|interest|your)'}
+  - slug: pyspark
+    display: PySpark
+    facet: technology
+    category: data
+    parent: spark
+    description: PySpark Python API for Spark.
+    aliases:
+      - {alias: pyspark}
+  - slug: kafka
+    display: Kafka
+    facet: technology
+    category: data
+    description: Apache Kafka event streaming.
+    aliases:
+      - {alias: kafka}
+  - slug: airflow
+    display: Airflow
+    facet: technology
+    category: data
+    description: Apache Airflow workflow orchestration.
+    aliases:
+      - {alias: airflow}
+  - slug: flink
+    display: Flink
+    facet: technology
+    category: data
+    description: Apache Flink stream processing.
+    aliases:
+      - {alias: flink}
+  - slug: grpc
+    display: gRPC
+    facet: technology
+    category: framework
+    description: gRPC remote procedure call framework.
+    aliases:
+      - {alias: grpc}
+  - slug: graphql
+    display: GraphQL
+    facet: technology
+    category: framework
+    description: GraphQL API query language.
+    aliases:
+      - {alias: graphql}
+  - slug: terraform
+    display: Terraform
+    facet: technology
+    category: infra
+    description: Terraform infrastructure as code.
+    aliases:
+      - {alias: terraform}
+  - slug: linux
+    display: Linux
+    facet: technology
+    category: infra
+    description: Linux systems knowledge.
+    aliases:
+      - {alias: linux}
+  # ------------------------------------------------------------- cloud
+  - slug: aws
+    display: AWS
+    facet: technology
+    category: cloud
+    description: Amazon Web Services cloud platform (as a candidate-facing requirement, not Amazon marketing copy).
+    aliases:
+      - {alias: aws}
+      - {alias: amazon web services}
+  - slug: aws_s3
+    display: AWS S3
+    facet: technology
+    category: cloud
+    parent: aws
+    description: Amazon S3 object storage.
+    aliases:
+      - {alias: aws s3}
+      - {alias: amazon s3}
+      - {alias: S3, match: exact_case}
+  - slug: gcp
+    display: GCP
+    facet: technology
+    category: cloud
+    description: Google Cloud Platform.
+    aliases:
+      - {alias: gcp}
+      - {alias: google cloud}
+  - slug: azure
+    display: Azure
+    facet: technology
+    category: cloud
+    description: Microsoft Azure cloud platform.
+    aliases:
+      - {alias: azure}
+  - slug: bigquery
+    display: BigQuery
+    facet: technology
+    category: cloud
+    parent: gcp
+    description: Google BigQuery data warehouse.
+    aliases:
+      - {alias: bigquery}
+  # ------------------------------------------------------------- data
+  - slug: postgres
+    display: PostgreSQL
+    facet: technology
+    category: data
+    description: PostgreSQL relational database.
+    aliases:
+      - {alias: postgres}
+      - {alias: postgresql}
+  - slug: mysql
+    display: MySQL
+    facet: technology
+    category: data
+    description: MySQL relational database.
+    aliases:
+      - {alias: mysql}
+  - slug: redis
+    display: Redis
+    facet: technology
+    category: data
+    description: Redis in-memory data store.
+    aliases:
+      - {alias: redis}
+  - slug: snowflake
+    display: Snowflake
+    facet: technology
+    category: data
+    description: Snowflake cloud data warehouse.
+    aliases:
+      - {alias: snowflake}
+  - slug: elasticsearch
+    display: Elasticsearch
+    facet: technology
+    category: data
+    description: Elasticsearch search engine.
+    aliases:
+      - {alias: elasticsearch}
+      - {alias: elastic search}
+  - slug: data_pipeline
+    display: Data Pipelines
+    facet: professional_skill
+    category: data
+    description: Building data pipelines / ETL.
+    aliases:
+      - {alias: data pipeline}
+      - {alias: data pipelines}
+      - {alias: etl}
+  - slug: data_warehouse
+    display: Data Warehousing
+    facet: professional_skill
+    category: data
+    description: Data warehouse / data lake design and operation.
+    aliases:
+      - {alias: data warehouse}
+      - {alias: data warehousing}
+      - {alias: data lake}
+  - slug: vector_db
+    display: Vector Databases
+    facet: technology
+    category: data
+    description: Vector databases and similarity search stores.
+    aliases:
+      - {alias: vector database}
+      - {alias: vector databases}
+      - {alias: vector db}
+      - {alias: pgvector}
+  # ------------------------------------------------------------- infra / systems
+  - slug: distributed_systems
+    display: Distributed Systems
+    facet: professional_skill
+    category: infra
+    description: Designing/building distributed systems.
+    aliases:
+      - {alias: distributed systems}
+      - {alias: distributed system}
+  - slug: microservices
+    display: Microservices
+    facet: professional_skill
+    category: infra
+    description: Microservice architecture.
+    aliases:
+      - {alias: microservice}
+      - {alias: microservices}
+  - slug: api_design
+    display: API Design
+    facet: professional_skill
+    category: infra
+    description: Designing/building service APIs (REST etc.).
+    aliases:
+      - {alias: api design}
+      - {alias: restful api}
+      - {alias: restful apis}
+      - {alias: rest api}
+      - {alias: rest apis}
+  - slug: cicd
+    display: CI/CD
+    facet: professional_skill
+    category: infra
+    description: Continuous integration and delivery practice/tooling.
+    aliases:
+      - {alias: ci/cd}
+      - {alias: continuous integration}
+      - {alias: continuous delivery}
+  - slug: observability
+    display: Observability
+    facet: professional_skill
+    category: infra
+    description: Monitoring, alerting, and observability practice.
+    aliases:
+      - {alias: observability}
+      - {alias: monitoring and alerting}
+  - slug: sre
+    display: SRE / Reliability
+    facet: professional_skill
+    category: infra
+    description: Site reliability / reliability engineering.
+    aliases:
+      - {alias: site reliability}
+      - {alias: reliability engineering}
+  - slug: low_latency
+    display: Low Latency
+    facet: professional_skill
+    category: infra
+    description: Low-latency / high-throughput system engineering.
+    aliases:
+      - {alias: low latency}
+      - {alias: low-latency}
+      - {alias: high throughput}
+      - {alias: high-throughput}
+  - slug: high_availability
+    display: High Availability
+    facet: professional_skill
+    category: infra
+    description: Fault-tolerant, highly available system design.
+    aliases:
+      - {alias: high availability}
+      - {alias: fault tolerant}
+      - {alias: fault-tolerant}
+  # ------------------------------------------------------------- security
+  - slug: cryptography
+    display: Cryptography
+    facet: professional_skill
+    category: security
+    description: Cryptography knowledge and engineering.
+    aliases:
+      - {alias: cryptography}
+      - {alias: cryptographic}
+  - slug: authentication
+    display: AuthN / AuthZ
+    facet: professional_skill
+    category: security
+    description: Authentication/authorization systems.
+    aliases:
+      - {alias: authentication}
+      - {alias: authorization}
+      - {alias: oauth}
+  - slug: threat_modeling
+    display: Threat Modeling
+    facet: professional_skill
+    category: security
+    description: Security threat modeling.
+    aliases:
+      - {alias: threat modeling}
+      - {alias: threat model}
+  - slug: appsec
+    display: Application Security
+    facet: professional_skill
+    category: security
+    description: Application/product security engineering.
+    aliases:
+      - {alias: application security}
+      - {alias: appsec}
+      - {alias: product security}
+  # --- Applied ML problem-domains (skills a candidate builds, NOT industries) ---
+  - slug: recommendation
+    display: Recommendation Systems
+    facet: professional_skill
+    category: ml_ai
+    description: Building recommender systems / personalization.
+    aliases:
+      - {alias: recommendation system}
+      - {alias: recommendation systems}
+      - {alias: recommender}
+      - {alias: personalization}
+  - slug: search_ranking
+    display: Search / Ranking
+    facet: professional_skill
+    category: ml_ai
+    description: Search, ranking, and information-retrieval engineering.
+    aliases:
+      - {alias: search ranking}
+      - {alias: information retrieval}
+      - {alias: ranking system}
+      - {alias: ranking systems}
+  # ------------------------------------------------------------- industry (business verticals)
+  # A vertical is the sector a company operates in, never a candidate skill. Extraction's
+  # actor/aspect gating already keeps employer-marketing mentions ("we are a healthcare
+  # company") out of requirement evidence; candidate-facing mentions ("experience in the
+  # healthcare industry") ground normally.
+  - slug: healthcare
+    display: Healthcare
+    facet: industry
+    category: industry
+    description: Healthcare / life-sciences industry vertical. Not medical benefits in the offer.
+    aliases:
+      - {alias: healthcare, excluded_context: '(?i)healthcare\s+(?:coverage|benefits|plan|insurance)'}
+      - {alias: clinical}
+      - {alias: medical, excluded_context: '(?i)medical\s+(?:coverage|insurance|benefits?|leave|plans?|dental|condition)'}
+  - slug: payments
+    display: Payments / Fintech
+    facet: industry
+    category: industry
+    description: Payments / fintech industry vertical. Not compensation/bonus payments in the offer.
+    aliases:
+      - {alias: payments, excluded_context: '(?i)(?:sign[\s-]?on|referral|bonus|severance)\s+payments?|payments?\s+(?:of|will be|are made)'}
+      - {alias: fintech}
+      - {alias: payment processing}
+  - slug: ads
+    display: Advertising
+    facet: industry
+    category: industry
+    description: Advertising / ad-tech industry vertical.
+    aliases:
+      - {alias: advertising}
+      - {alias: ad tech}
+      - {alias: adtech}
+  - slug: ecommerce
+    display: E-commerce / Retail
+    facet: industry
+    category: industry
+    description: E-commerce / online-retail industry vertical.
+    aliases:
+      - {alias: e-commerce}
+      - {alias: ecommerce}
+      - {alias: online retail}
+  - slug: gaming
+    display: Gaming
+    facet: industry
+    category: industry
+    description: Video-game / gaming industry vertical.
+    aliases:
+      - {alias: gaming}
+      - {alias: video game}
+      - {alias: video games}
+      - {alias: games industry}
+  - slug: social_media
+    display: Social Media
+    facet: industry
+    category: industry
+    description: Social-media / social-networking industry vertical.
+    aliases:
+      - {alias: social media}
+      - {alias: social network}
+      - {alias: social networking}
+  - slug: robotics_av
+    display: Robotics / Autonomous Systems
+    facet: industry
+    category: industry
+    description: Robotics / autonomous-vehicle industry vertical.
+    aliases:
+      - {alias: robotics}
+      - {alias: autonomous vehicles}
+      - {alias: self-driving}
+      - {alias: autonomous driving}
+  # ------------------------------------------------------------- behavioural
+  - slug: technical_leadership
+    display: Technical Leadership
+    facet: behavioral_competency
+    category: leadership
+    description: Leading technical work/teams (tech lead role behaviour).
+    aliases:
+      - {alias: technical leadership}
+      - {alias: tech lead}
+      - {alias: technical lead}
+  - slug: mentorship
+    display: Mentorship
+    facet: behavioral_competency
+    category: leadership
+    description: Mentoring and developing engineers.
+    aliases:
+      - {alias: mentorship}
+      - {alias: mentoring}
+      - {alias: mentor}
+  - slug: people_management
+    display: People Management
+    facet: behavioral_competency
+    category: leadership
+    description: Managing people/teams directly (not project management).
+    aliases:
+      - {alias: people management}
+      - {alias: managing engineers}
+      - {alias: direct reports}
+      - {alias: performance management}
+  - slug: cross_functional
+    display: Cross-functional Collaboration
+    facet: behavioral_competency
+    category: collaboration
+    description: Working across functions/teams.
+    aliases:
+      - {alias: cross-functional}
+      - {alias: cross functional}
+  - slug: stakeholder_mgmt
+    display: Stakeholder Management
+    facet: behavioral_competency
+    category: collaboration
+    description: Managing and communicating with stakeholders.
+    aliases:
+      - {alias: stakeholder management}
+      - {alias: stakeholders}
+      - {alias: stakeholder}
+  - slug: communication
+    display: Communication
+    facet: behavioral_competency
+    category: collaboration
+    description: Written/verbal communication as an explicit requirement.
+    aliases:
+      - {alias: communication skills}
+      - {alias: written and verbal communication}
+      - {alias: verbal and written communication}
+  - slug: hiring
+    display: Hiring / Team Building
+    facet: behavioral_competency
+    category: leadership
+    description: Hiring and building teams as a role behaviour. Not the employer's recruiting process copy.
+    aliases:
+      - {alias: hiring, excluded_context: '(?i)(?:recruit(?:er|ing)\s+(?:partner|process|team)|hiring\s+process|equal\s+opportunity)'}
+      - {alias: team building}
+  # ------------------------------------------------------------- prof. process
+  - slug: project_management
+    display: Project Management
+    facet: professional_skill
+    category: process
+    description: Planning/coordinating projects and programs.
+    aliases:
+      - {alias: project management}
+      - {alias: program management}
+  - slug: roadmap
+    display: Roadmapping
+    facet: professional_skill
+    category: process
+    description: Owning/driving product or technical roadmaps.
+    aliases:
+      - {alias: roadmap}
+      - {alias: roadmaps}
+      - {alias: roadmapping}
+  - slug: experimentation
+    display: Experimentation / A-B Testing
+    facet: professional_skill
+    category: process
+    description: Running experiments and A/B tests.
+    aliases:
+      - {alias: a/b testing}
+      - {alias: a/b tests}
+      - {alias: ab testing}
+      - {alias: experimentation}
+  - slug: causal_inference
+    display: Causal Inference
+    facet: professional_skill
+    category: ml_ai
+    description: Causal inference methods.
+    aliases:
+      - {alias: causal inference}

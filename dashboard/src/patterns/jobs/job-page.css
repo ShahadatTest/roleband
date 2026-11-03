@@ -1,0 +1,21 @@
+/* Shared page geometry for the Opportunities and Saved lists. */
+
+.main.board-main {
+  /* Scrollport edge == sticky edge: a sticky offset resolves against the
+     content box, so `.main`'s scroll padding would park `top: 0` that far
+     low. The hero pays its own top air instead. */
+  padding-top: 0;
+  /* Saved renders this same root with NO docked bar: its column head pins at
+     the scrollport edge itself. The Board's arithmetic lands below, gated on
+     the bar actually existing. */
+  --board-toolbar-h: 0px;
+}
+
+/* One measure for the page, for BOTH screens that render this root. Every
+   tab's title sits at one left edge (page-header.spec), so the content
+   joins the hero, not the reverse: the count, the list and each state that
+   replaces it (loading, failure, empty) take the same measure, and the list
+   keeps the Board's beacon margin inside it. */
+.board-main > * {
+  max-width: 1460px;
+}

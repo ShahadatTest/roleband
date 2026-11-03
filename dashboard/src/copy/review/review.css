@@ -1,0 +1,59 @@
+/* The copy review deck (dev only). */
+.copy-review {
+  max-width: 1200px;
+  margin: auto;
+  padding: 24px;
+  font-family: var(--app-font-sans, sans-serif);
+}
+.review-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  padding: 12px;
+  background: var(--app-bg, white);
+  z-index: 1;
+}
+.copy-review article {
+  border-top: 1px solid #999;
+  padding: 24px 0;
+}
+.copy-review h2 {
+  font-size: 16px;
+}
+.copy-review dl {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+}
+.copy-review dd {
+  margin: 0;
+}
+.review-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+}
+.review-variant {
+  margin: 16px 0;
+}
+.review-sample {
+  min-width: 0;
+}
+.review-sample span {
+  display: block;
+  white-space: pre-wrap;
+  overflow: auto;
+}
+.review-sample small {
+  display: block;
+  color: #c00;
+}
+.copy-review code {
+  overflow-wrap: anywhere;
+}
+.copy-review h2,
+.copy-review pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

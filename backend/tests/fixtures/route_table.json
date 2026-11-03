@@ -1,0 +1,842 @@
+{
+ "_why": "The route table is frozen so the router split cannot add or drop an endpoint silently. `modelled_count` is the SECOND claim: how many of these routes declare a response_model. It is deliberately reported as 'N of M' rather than as a pass, because this gate does not verify response shapes it was never given. The number may only rise.",
+ "modelled_count": 161,
+ "route_count": 167,
+ "routes": [
+  {
+   "method": "DELETE",
+   "path": "/api/company-profiles/{slug}/manual/{field}",
+   "response_schema": "CompanyProfileFieldWrite"
+  },
+  {
+   "method": "DELETE",
+   "path": "/api/intelligence/cloud-models/{profile_id}",
+   "response_schema": "CloudModelState"
+  },
+  {
+   "method": "DELETE",
+   "path": "/api/intelligence/local-models/{profile_id}",
+   "response_schema": "LocalModelState"
+  },
+  {
+   "method": "DELETE",
+   "path": "/api/jobs/{job_id}/favorite",
+   "response_schema": "FavoriteResponse"
+  },
+  {
+   "method": "DELETE",
+   "path": "/api/jobs/{job_id}/feedback",
+   "response_schema": "UndismissResponse"
+  },
+  {
+   "method": "DELETE",
+   "path": "/api/lineage/links/{link_id}",
+   "response_schema": "LineageLinkRejected"
+  },
+  {
+   "method": "DELETE",
+   "path": "/api/plugins/{plugin_id}",
+   "response_schema": "PluginActionResponse"
+  },
+  {
+   "method": "DELETE",
+   "path": "/api/profile/pay-floor",
+   "response_schema": "PayFloorResponse"
+  },
+  {
+   "method": "DELETE",
+   "path": "/api/scope/rules/{rule_id}",
+   "response_schema": "ScopeRuleDeleteResponse"
+  },
+  {
+   "method": "DELETE",
+   "path": "/api/settings/price-feed",
+   "response_schema": "PriceFeedState"
+  },
+  {
+   "method": "GET",
+   "path": "/",
+   "response_schema": null
+  },
+  {
+   "method": "GET",
+   "path": "/api/clusters",
+   "response_schema": "ClusterListResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/clusters/{cluster_id}",
+   "response_schema": "ClusterDetailResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/companies",
+   "response_schema": "CompanyListResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/companies/directory",
+   "response_schema": "CompanyDirectorySearchResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/companies/directory/status",
+   "response_schema": "CompanyDirectoryStatus"
+  },
+  {
+   "method": "GET",
+   "path": "/api/companies/discovery",
+   "response_schema": "CompanyDiscoveryResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/companies/names",
+   "response_schema": "CompanyNamesResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/companies/open-counts",
+   "response_schema": "CompanyOpenCountsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/companies/{company}/recipe-rebind/{binding_id}",
+   "response_schema": "RecipeReconciliation"
+  },
+  {
+   "method": "GET",
+   "path": "/api/companies/{slug}/card",
+   "response_schema": "CompanyCardResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/company-profiles",
+   "response_schema": "CompanyProfileListResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/company-profiles/{slug}",
+   "response_schema": "CompanyProfileDetailResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/company-profiles/{slug}/claims",
+   "response_schema": "CompanyClaimsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/company-profiles/{slug}/prices",
+   "response_schema": "CompanyPricesResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/compare-selection",
+   "response_schema": "CompareSelectionOut"
+  },
+  {
+   "method": "GET",
+   "path": "/api/connector-recipes",
+   "response_schema": "RecipeList"
+  },
+  {
+   "method": "GET",
+   "path": "/api/connector-recipes/{slug}",
+   "response_schema": "RecipeDetail"
+  },
+  {
+   "method": "GET",
+   "path": "/api/connectors/capabilities",
+   "response_schema": "AdapterCapabilityTable"
+  },
+  {
+   "method": "GET",
+   "path": "/api/demand",
+   "response_schema": "DemandResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/facets",
+   "response_schema": "FacetsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/health",
+   "response_schema": "HealthResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/intelligence",
+   "response_schema": "IntelligenceStateResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/intelligence/agents",
+   "response_schema": "AgentAccessResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/intelligence/cloud-models",
+   "response_schema": "CloudModelState"
+  },
+  {
+   "method": "GET",
+   "path": "/api/intelligence/fit",
+   "response_schema": "IntelligenceFitResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/intelligence/fit/band/{band}",
+   "response_schema": "IntelligenceFitBandResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/intelligence/local-models",
+   "response_schema": "LocalModelState"
+  },
+  {
+   "method": "GET",
+   "path": "/api/intelligence/local-models/server",
+   "response_schema": "LocalServerStatus"
+  },
+  {
+   "method": "GET",
+   "path": "/api/jobs",
+   "response_schema": "JobListResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/jobs/{job_id}",
+   "response_schema": "JobDetailResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/jobs/{job_id}/history",
+   "response_schema": "ListingHistoryResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/jobs/{job_id}/lineage",
+   "response_schema": "JobLineageResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/jobs/{job_id}/place-set",
+   "response_schema": "JobPlaceSetResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/jobs/{job_id}/similar",
+   "response_schema": "SimilarJobsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/jobs/{job_id}/twins",
+   "response_schema": "JobTwinsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/launcher-health",
+   "response_schema": "LauncherHealthResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/lineage/review",
+   "response_schema": "DuplicateReviewResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/notifications",
+   "response_schema": "NotificationListResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/pay-coverage",
+   "response_schema": "PayCoverage"
+  },
+  {
+   "method": "GET",
+   "path": "/api/plugins",
+   "response_schema": "PluginsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/plugins/{plugin_id}",
+   "response_schema": "PluginDetail"
+  },
+  {
+   "method": "GET",
+   "path": "/api/plugins/{plugin_id}/robots",
+   "response_schema": "PluginRobots"
+  },
+  {
+   "method": "GET",
+   "path": "/api/profile",
+   "response_schema": "ProfileStateResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/profile/pay-floor",
+   "response_schema": "PayFloorResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/profile/suggestions",
+   "response_schema": "ProfileSuggestionListResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/pursuits",
+   "response_schema": "PursuitListResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/release-notes",
+   "response_schema": "ReleaseNotesResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/runs",
+   "response_schema": "RunListResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/schedule",
+   "response_schema": "SchedulePayload"
+  },
+  {
+   "method": "GET",
+   "path": "/api/scope/catalog",
+   "response_schema": "ScopeCatalogResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/scope/places",
+   "response_schema": "PlaceSearchResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/scope/rules",
+   "response_schema": "ScopeRuleList"
+  },
+  {
+   "method": "GET",
+   "path": "/api/settings",
+   "response_schema": "ScopeAxes"
+  },
+  {
+   "method": "GET",
+   "path": "/api/settings/locale",
+   "response_schema": "LocaleSettings"
+  },
+  {
+   "method": "GET",
+   "path": "/api/settings/price-feed",
+   "response_schema": "PriceFeedState"
+  },
+  {
+   "method": "GET",
+   "path": "/api/settings/retention",
+   "response_schema": "RetentionState"
+  },
+  {
+   "method": "GET",
+   "path": "/api/skills/overlap",
+   "response_schema": "SkillOverlapResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/skills/top",
+   "response_schema": "TopSkillsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/skills/trends",
+   "response_schema": "SkillTrendsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/statistics/comp-trajectory",
+   "response_schema": "CompTrajectoryResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/statistics/comp-trends",
+   "response_schema": "CompTrendsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/statistics/compensation",
+   "response_schema": "CompensationStatsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/statistics/disclosure-trends",
+   "response_schema": "DisclosureTrendsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/statistics/equity-validation",
+   "response_schema": "EquityValidationResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/statistics/levels",
+   "response_schema": "LevelGuideResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/statistics/overview",
+   "response_schema": "StatisticsOverviewResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/statistics/velocity",
+   "response_schema": "VelocityOut"
+  },
+  {
+   "method": "GET",
+   "path": "/api/stats",
+   "response_schema": "StatsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/status",
+   "response_schema": "SystemStatusResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/sync/targets",
+   "response_schema": "SyncTargetsResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/twins/review",
+   "response_schema": "TwinReviewResponse"
+  },
+  {
+   "method": "GET",
+   "path": "/api/usage",
+   "response_schema": "UsageState"
+  },
+  {
+   "method": "GET",
+   "path": "/api/usage/preview",
+   "response_schema": "UsagePreview"
+  },
+  {
+   "method": "GET",
+   "path": "/api/usage/sent",
+   "response_schema": "UsageSent"
+  },
+  {
+   "method": "GET",
+   "path": "/docs",
+   "response_schema": null
+  },
+  {
+   "method": "GET",
+   "path": "/docs/oauth2-redirect",
+   "response_schema": null
+  },
+  {
+   "method": "GET",
+   "path": "/openapi.json",
+   "response_schema": null
+  },
+  {
+   "method": "GET",
+   "path": "/redoc",
+   "response_schema": null
+  },
+  {
+   "method": "GET",
+   "path": "/{full_path:path}",
+   "response_schema": null
+  },
+  {
+   "method": "PATCH",
+   "path": "/api/companies/{slug}",
+   "response_schema": "TrackedCompanyRow"
+  },
+  {
+   "method": "PATCH",
+   "path": "/api/company-profiles/{slug}",
+   "response_schema": "CompanyProfileFieldWrite"
+  },
+  {
+   "method": "PATCH",
+   "path": "/api/schedule/{binding_id}",
+   "response_schema": "SchedulePayload"
+  },
+  {
+   "method": "POST",
+   "path": "/api/companies",
+   "response_schema": "TrackedCompanyRow"
+  },
+  {
+   "method": "POST",
+   "path": "/api/companies/{company}/recipe",
+   "response_schema": "RecipeBindingRow"
+  },
+  {
+   "method": "POST",
+   "path": "/api/companies/{company}/recipe-rebind",
+   "response_schema": "RecipeReconciliation"
+  },
+  {
+   "method": "POST",
+   "path": "/api/companies/{company}/recipe-rebind/{binding_id}/activate",
+   "response_schema": "RecipeReconciliation"
+  },
+  {
+   "method": "POST",
+   "path": "/api/companies/{company}/recipe-rebind/{binding_id}/decisions",
+   "response_schema": "RecipeReconciliation"
+  },
+  {
+   "method": "POST",
+   "path": "/api/companies/{company}/recipe-rebind/{binding_id}/rollback",
+   "response_schema": "RecipeReconciliation"
+  },
+  {
+   "method": "POST",
+   "path": "/api/companies/{slug}/board/find",
+   "response_schema": "BoardSearchResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/connector-recipes",
+   "response_schema": "SavedRevision"
+  },
+  {
+   "method": "POST",
+   "path": "/api/connector-recipes/{slug}/activate",
+   "response_schema": "RecipeSummary"
+  },
+  {
+   "method": "POST",
+   "path": "/api/connector-recipes/{slug}/revisions/{revision_id}/validate",
+   "response_schema": "RecipeCheckResult"
+  },
+  {
+   "method": "POST",
+   "path": "/api/connectors/preview",
+   "response_schema": "RecipeCheckResult"
+  },
+  {
+   "method": "POST",
+   "path": "/api/intelligence/cloud-models",
+   "response_schema": "CloudModelProfile"
+  },
+  {
+   "method": "POST",
+   "path": "/api/intelligence/cloud-models/{profile_id}/test",
+   "response_schema": "CloudModelTestResult"
+  },
+  {
+   "method": "POST",
+   "path": "/api/intelligence/local-models",
+   "response_schema": "LocalModelProfile"
+  },
+  {
+   "method": "POST",
+   "path": "/api/intelligence/local-models/server",
+   "response_schema": "LocalServerControlResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/intelligence/local-models/{profile_id}/test",
+   "response_schema": "LocalModelTestResult"
+  },
+  {
+   "method": "POST",
+   "path": "/api/intelligence/matching/resume",
+   "response_schema": "IntelligenceStateResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/intelligence/matching/stop",
+   "response_schema": "MatchingStopResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/intelligence/test",
+   "response_schema": "IntelligenceTestResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/jobs/{job_id}/place-set/review",
+   "response_schema": "JobPlaceSetResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/jobs/{job_id}/posting-page",
+   "response_schema": "PostingPageResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/jobs/{job_id}/view",
+   "response_schema": "JobViewResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/lineage/links/{link_id}/analyze",
+   "response_schema": "RelationshipAssessment"
+  },
+  {
+   "method": "POST",
+   "path": "/api/lineage/links/{link_id}/review",
+   "response_schema": "DuplicateVerdictResult"
+  },
+  {
+   "method": "POST",
+   "path": "/api/notifications/read_all",
+   "response_schema": "NotificationReadAllResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/notifications/unread",
+   "response_schema": "NotificationUnreadResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/notifications/{notification_id}/dismiss",
+   "response_schema": "NotificationRow"
+  },
+  {
+   "method": "POST",
+   "path": "/api/notifications/{notification_id}/read",
+   "response_schema": "NotificationRow"
+  },
+  {
+   "method": "POST",
+   "path": "/api/notifications/{notification_id}/restore",
+   "response_schema": "NotificationRow"
+  },
+  {
+   "method": "POST",
+   "path": "/api/notifications/{notification_id}/unread",
+   "response_schema": "NotificationRow"
+  },
+  {
+   "method": "POST",
+   "path": "/api/plugins/{plugin_id}/approve",
+   "response_schema": "PluginActionResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/plugins/{plugin_id}/disable",
+   "response_schema": "PluginActionResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/plugins/{plugin_id}/enable",
+   "response_schema": "PluginActionResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/plugins/{plugin_id}/pause",
+   "response_schema": "PluginActionResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/plugins/{plugin_id}/refresh",
+   "response_schema": "PluginRefreshResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/plugins/{plugin_id}/remove-data",
+   "response_schema": "PluginRemoveDataResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/plugins/{plugin_id}/resume",
+   "response_schema": "PluginActionResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/profile/suggestions/{suggestion_id}/accept",
+   "response_schema": "ProfileSuggestionAcceptResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/profile/suggestions/{suggestion_id}/dismiss",
+   "response_schema": "ProfileSuggestionDismissResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/scope/preview",
+   "response_schema": "ScopePreviewResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/scope/refresh",
+   "response_schema": "ScopeRefreshResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/scope/rules",
+   "response_schema": "ScopeRuleCreateResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/settings/price-feed/refresh",
+   "response_schema": "PriceFeedState"
+  },
+  {
+   "method": "POST",
+   "path": "/api/sync",
+   "response_schema": "SyncResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/sync/cancel",
+   "response_schema": "SyncCancelResponse"
+  },
+  {
+   "method": "POST",
+   "path": "/api/twins/links",
+   "response_schema": "TwinLinkCreated"
+  },
+  {
+   "method": "POST",
+   "path": "/api/twins/links/{link_id}/analyze",
+   "response_schema": "RelationshipAssessment"
+  },
+  {
+   "method": "POST",
+   "path": "/api/twins/links/{link_id}/review",
+   "response_schema": "TwinVerdictResult"
+  },
+  {
+   "method": "POST",
+   "path": "/api/usage/install-id/reset",
+   "response_schema": "UsageState"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/companies/directory/follow",
+   "response_schema": "CompanyDirectoryStatus"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/companies/selection",
+   "response_schema": "CompanyDiscoveryResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/companies/{slug}/board",
+   "response_schema": "TrackedCompanyRow"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/compare-selection",
+   "response_schema": "CompareSelectionOut"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/intelligence",
+   "response_schema": "IntelligenceStateResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/intelligence/agents",
+   "response_schema": "AgentAccessResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/intelligence/cloud-models/{profile_id}",
+   "response_schema": "CloudModelProfile"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/intelligence/egress",
+   "response_schema": "IntelligenceStateResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/intelligence/local-models/active/select",
+   "response_schema": "LocalModelState"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/intelligence/local-models/enabled",
+   "response_schema": "LocalModelState"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/intelligence/local-models/{profile_id}",
+   "response_schema": "LocalModelProfile"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/intelligence/matching/tier",
+   "response_schema": "IntelligenceStateResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/jobs/{job_id}/favorite",
+   "response_schema": "FavoriteResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/jobs/{job_id}/feedback",
+   "response_schema": "DismissResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/jobs/{job_id}/pursuit",
+   "response_schema": "PursuitWriteResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/plugins/{plugin_id}/robots",
+   "response_schema": "PluginActionResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/plugins/{plugin_id}/schedule",
+   "response_schema": "PluginActionResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/profile/pay-floor",
+   "response_schema": "PayFloorResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/schedule/plan",
+   "response_schema": "SchedulePayload"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/settings",
+   "response_schema": "SettingsSaveResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/settings/intent",
+   "response_schema": "IntentStatementResponse"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/settings/locale",
+   "response_schema": "LocaleSettings"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/settings/price-feed",
+   "response_schema": "PriceFeedState"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/settings/retention",
+   "response_schema": "RetentionState"
+  },
+  {
+   "method": "PUT",
+   "path": "/api/usage/consent",
+   "response_schema": "UsageState"
+  }
+ ]
+}

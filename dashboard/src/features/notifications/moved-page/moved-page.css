@@ -1,0 +1,38 @@
+/* The answers under "{Company}'s careers page is gone". Indented to
+ * the notification's copy column, so they read as that row's, not the list's. */
+.moved-page {
+  display: grid;
+  gap: var(--app-space-2);
+  margin: var(--app-space-2) 0 0 calc(var(--app-icon-lg) + var(--app-space-2));
+}
+
+.moved-page-note {
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-2);
+  margin: 0;
+  color: var(--app-text-muted);
+}
+
+.moved-page-actions,
+.moved-page-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--app-space-2);
+}
+
+.moved-page-form input {
+  box-sizing: border-box;
+  flex: 1 1 16rem;
+  min-width: 0;
+  min-height: var(--app-control-sm);
+  padding: 0 var(--app-control-sm-pad);
+  border: 1px solid var(--app-border-strong);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-surface);
+  color: var(--app-text);
+  font: inherit;
+}
+
+.moved-page-form input::placeholder { color: var(--app-text-faint); }

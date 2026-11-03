@@ -1,0 +1,825 @@
+/* The Walk: Profile › Looking for as a path of five screens, a
+   Summary, and a progress rail at the right. Consumes `--app-*` only; the
+   colours and surfaces come from the register material the route mounts.
+
+   Look: small, light, spaced. Its rules are ScopeSection.css's and are
+   reused by class: `.scope-step-head` (the banded head), `.scope-step-title`,
+   `.scope-step-note`, `.scope-step-body`, `.select-card`, `.persona-rail`,
+   `.scope-rail-card`, `.persona-rail-title`, `.persona-fact`,
+   `.scope-impact`, so the walk cannot drift from the scope surface.
+   What is stated here is the walk's own geometry: the strip, the frame that
+   keeps Back and Continue still, the progress rows, the funnel. */
+
+.walk {
+  --walk-frame-height: 440px;
+  display: grid;
+  /* The app's tab-row gap: content 20px under the tabs, as on Settings,
+     Insights and Duplicates (page-header.spec.ts). */
+  gap: var(--app-space-4);
+}
+/* Why the later tabs are locked sits on the bar's own line, so the card
+   below stays where it is when the reason goes. Without room beside the
+   bar it takes a line under it. */
+.walk-tabs-row {
+  /* As a grid item it may be narrower than its tabs: the bar scrolls inside
+     it, and the page never scrolls sideways. */
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--app-space-1) var(--app-space-3);
+}
+.walk-tabs-row .walk-note { margin-left: auto; }
+
+/* ---- First-run setup has the window: one centred column a little below the
+   top, under a header in the welcome's voice (an eyebrow saying where setup
+   stands over the title), with a gold line for how far along it is. */
+.walk.walk--setup {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding-top: clamp(0px, 12vh - 24px, 140px);
+}
+.walk.walk--setup > .page-hero {
+  margin: 0 0 var(--app-space-4);
+  padding: 0;
+  border-bottom: 0;
+}
+.walk.walk--setup > .page-hero .eyebrow { margin-bottom: var(--app-space-2); }
+.walk-setup-progress {
+  height: 2px;
+  border-radius: 2px;
+  background: var(--app-border);
+}
+.walk-setup-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--app-action);
+  transition: width var(--app-duration-medium) var(--app-ease);
+}
+@media (max-width: 640px) {
+  .walk.walk--setup { padding-top: var(--app-space-3); }
+  .walk.walk--setup > .page-hero { flex-direction: column; align-items: flex-start; gap: var(--app-space-2); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .walk-setup-progress > span { transition: none; }
+}
+
+/* ---- Body: the step at the left, the rail at the right. Same breakpoint as
+   the settings shell, so the two screens fold together. */
+.walk-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: var(--app-space-5);
+  align-items: start;
+}
+@media (max-width: 1240px) {
+  .walk-body { grid-template-columns: minmax(0, 1fr); }
+}
+.walk-step { min-width: 0; }
+
+/* ---- The card: the scope step anatomy, with a frame. A step enters
+   with a short fade at the register's tempo; the three that decide, the
+   Summary and setup's companies step share one frame so Back and Continue
+   never move; the two that sharpen take a taller minimum so the filter cannot
+   collapse the grid. */
+.walk-card {
+  /* clip, not hidden: it rounds the head's fill without becoming a scroll
+     container, which would trap step 5's sticky list chooser. */
+  overflow: clip;
+  animation: walk-in var(--app-duration-fast) var(--app-ease) both;
+  display: flex;
+  flex-direction: column;
+}
+@keyframes walk-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.walk-card-headrow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+}
+.walk-card-head .scope-step-title:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+  border-radius: 4px;
+}
+.walk-card-body {
+  display: flex;
+  flex-direction: column;
+  /* The pick cards ask this box, not the viewport, how many fit a row. */
+  container: walk-step / inline-size;
+  flex: 1;
+}
+/* Snug to the tallest closed stage-1 answer (Where, three bases): Back and
+   Continue stay put across Role, Level and Where. A fourth base, the country
+   chooser or the level table grows the card for that moment; the reader
+   asked. */
+.walk-card--stage1 { min-height: var(--walk-frame-height); }
+.walk-card:not(.walk-card--stage1) .walk-card-body { min-height: 420px; }
+@media (max-width: 640px) {
+  .walk-card--stage1 { min-height: 0; }
+  .walk-card--stage1 .walk-card-body,
+  .walk-card:not(.walk-card--stage1) .walk-card-body { min-height: 0; }
+}
+/* One column the card's width: a search field's natural width (wider than a
+   phone's card) would otherwise size it, and every row would run past the
+   card's edge. */
+.walk-question {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  align-content: start;
+}
+.walk-step-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 16px;
+}
+.walk-question + .walk-step-foot { padding-top: 24px; }
+.walk-step-foot .ui-btn { min-width: 112px; }
+/* Skip sits against Continue, the quieter of the two, so Continue keeps its
+   place on every step. */
+.walk-step-foot .walk-step-skip {
+  margin-left: auto;
+  margin-right: var(--app-space-2);
+}
+/* The reason Continue is shut sits against it, so Back and Continue keep
+   their places whether it shows or not. */
+.walk-step-foot .walk-note {
+  margin-left: auto;
+  padding-right: var(--app-space-3);
+  text-align: end;
+}
+/* A narrow card has no room between the two buttons: the reason takes a line
+   of its own above them. */
+@container walk-step (max-width: 560px) {
+  .walk-step-foot { flex-wrap: wrap; }
+  .walk-step-foot .walk-note {
+    order: -1;
+    flex-basis: 100%;
+    margin-left: 0;
+    padding: 0 0 var(--app-space-2);
+    text-align: start;
+  }
+  /* Three buttons at the floor width overflow a phone's card: with Skip
+     there, each is as wide as its word, and the three keep one row. */
+  .walk-step-foot:has(.walk-step-skip) .ui-btn { min-width: 0; }
+}
+.walk-note {
+  margin: 0;
+  font-size: var(--app-type-label);
+  line-height: 1.5;
+  color: var(--app-text-muted);
+  max-width: 64ch;
+}
+.walk-empty {
+  margin: 0;
+  padding: 12px 0;
+  border-top: 1px solid var(--app-border-strong);
+  border-bottom: 1px solid var(--app-border);
+  font-size: var(--app-type-label);
+  color: var(--app-text-muted);
+}
+
+/* ---- Heads inside a step: the rail's eyebrow, everywhere, at one weight. */
+.walk-head,
+.walk-register-title {
+  display: block;
+  margin: 0;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+.walk-register-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--app-space-3);
+  padding: 0 0 8px;
+}
+.walk-register {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-top: 1px solid var(--app-border-strong);
+}
+.walk-register .settings-row {
+  min-height: 40px;
+  padding: 8px 0;
+  border-top: 0;
+  border-bottom: 1px solid var(--app-border);
+}
+.walk-register .settings-row-title { font-size: var(--app-type-meta); }
+.walk-register .settings-row-desc { font-size: var(--app-type-label); }
+.walk-register .settings-row.is-action {
+  margin: 0 calc(-1 * var(--app-space-2));
+  padding-left: var(--app-space-2);
+  padding-right: var(--app-space-2);
+}
+.walk-register .settings-row-trailing { gap: var(--app-space-3); }
+
+/* ---- The walk's one selection object: the select-card, on steps 1, 4 and 5.
+   ScopeSection.css owns the card's paint; the walk owns its geometry, and
+   states it once. Every card grid in the walk is `.walk-cards`, a fixed four
+   columns of the step card, so a card is the
+   same width on every step and a short list leaves empty columns rather than
+   stretching its cards into another shape. A column count, not a minimum
+   track width, so the count never lands on three: step 1's four answers are
+   peers, and three plus an orphan says one of them is lesser. Four needs a
+   card of ~182px, the width at which "Developer & Productivity Platform"
+   still takes two lines; below a 752px grid (the rail beside the step at
+   1241-1270px, a tablet) it is two, one on a phone. The count steps down on
+   the step card's own width, never the viewport's.
+   The height is fixed from the line budget (a name of up to two lines, a
+   sub-line of up to two, both clamped), so a wrapped hint never makes one
+   card taller than its neighbours or than the same card on another step.
+   profile.spec.ts measures the three steps against each other. */
+.walk-cards {
+  --walk-card-name-lh: 16px;
+  --walk-card-sub-lh: 15px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@container walk-step (max-width: 751px) {
+  .walk-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container walk-step (max-width: 360px) {
+  .walk-cards { grid-template-columns: minmax(0, 1fr); }
+}
+.walk-cards .select-card {
+  /* The name and its hint are one unit, centred in the card: the height is
+     the worst case (two lines of each), and most cards use two or three
+     lines, so pinned to the top they would leave dead space below.
+     Discipline pins its names instead (`.walk-roles`, below).
+     `space-1` between the name and its hint reads as a caption under a
+     heading; 3px reads as one crowded block. */
+  align-content: center;
+  gap: var(--app-space-1) var(--app-space-2);
+  /* The right inset is ragged text edge, so it takes the smaller step: at the
+     narrowest four-across card (~182px) a 13px name needs 129px for "Developer
+     & Productivity Platform" to hold two lines, and 14px on both sides left
+     127. The checkbox's UA margin is zeroed in ScopeSection.css for the same
+     reason. */
+  padding-right: var(--app-space-2);
+  /* padding 2 x space-2, border 1 + 1, row gap space-1, two lines of each. */
+  height: calc(2 * var(--app-space-2) + 2px + var(--app-space-1) + 2 * var(--walk-card-name-lh) + 2 * var(--walk-card-sub-lh));
+  min-height: 0;
+}
+.walk-cards .select-card .select-card-label,
+.walk-cards .select-card small {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.walk-cards .select-card .select-card-label { line-height: var(--walk-card-name-lh); }
+.walk-cards .select-card small {
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-micro);
+  font-variant-numeric: normal;
+  line-height: var(--walk-card-sub-lh);
+  color: var(--app-text-muted);
+}
+/* Discipline sets cards with hints of one line and of two side by side, and
+   a few names of two lines, so a centred unit would start the names of one
+   row at different heights. Here every name starts on the same line, the
+   checkbox beside its first line; the inset leaves the usual card (a name of
+   one line, a hint of two) close to centred. */
+.walk-roles .walk-cards .select-card {
+  align-content: start;
+  padding-top: var(--app-space-3);
+}
+.walk-roles .walk-cards .select-card > input {
+  align-self: start;
+  margin-top: calc((var(--walk-card-name-lh) - 15px) / 2);
+}
+@container walk-step (max-width: 360px) {
+  /* One card to a row has no neighbour to line up with: centred again. */
+  .walk-roles .walk-cards .select-card { align-content: center; padding-top: var(--app-space-2); }
+  .walk-roles .walk-cards .select-card > input { align-self: center; margin-top: 0; }
+}
+/* ---- Step 5: which list a tick lands in. The step's first decision, so it
+   is the largest object on the step and never leaves sight: sticky at the top
+   of the page scroll (the step card clips with `overflow: clip`, which, unlike
+   `hidden`, is not a scroll container and so does not trap it), opaque so
+   the cards pass beneath it. Each list has its own colour, and the colour
+   carries: the chosen card, the group heads, a ticked card and the tag on a
+   card held by the other list all wear it. Interested is the chosen set (the
+   app's one "chosen" grammar); not interested is the same grammar
+   in the danger hue, the app's one "keep this out" colour, and the only
+   chosen state allowed another hue (`state-grammar.test.ts` names it). */
+.walk-mode {
+  --walk-mode-ink: var(--app-chosen-text);
+  --walk-mode-soft: var(--app-chosen-wash);
+  --walk-mode-line: var(--app-chosen-line);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  gap: var(--app-space-2);
+  min-width: 0;
+  margin: calc(-1 * var(--app-space-3)) 0 0;
+  padding: var(--app-space-3) 0;
+  border: 0;
+  border-bottom: 1px solid var(--app-border);
+  background-color: var(--app-canvas);
+  background-image: linear-gradient(var(--app-surface), var(--app-surface));
+}
+.walk-mode[data-verb="avoid"],
+.walk-picker[data-verb="avoid"],
+.walk-mode-option[data-verb="avoid"],
+.walk-card-tag[data-verb="avoid"] {
+  --walk-mode-ink: var(--app-danger);
+  --walk-mode-soft: var(--app-danger-soft);
+  --walk-mode-line: var(--app-danger);
+}
+.walk-mode-option[data-verb="interested"],
+.walk-card-tag[data-verb="interested"] {
+  --walk-mode-ink: var(--app-chosen-text);
+  --walk-mode-soft: var(--app-chosen-wash);
+  --walk-mode-line: var(--app-chosen-line);
+}
+.walk-mode-legend {
+  float: left; /* a legend sits in the border otherwise; floated it is a row */
+  width: 100%;
+  margin: 0 0 var(--app-space-2);
+  padding: 0;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+.walk-mode-options {
+  clear: both;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--app-space-2);
+}
+.walk-mode .walk-mode-option {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  align-content: start;
+  gap: var(--app-space-1) var(--app-space-2);
+  min-height: 0;
+  padding: var(--app-space-3) var(--app-space-4);
+  border-radius: var(--app-radius-lg);
+  background: transparent;
+}
+.walk-mode .walk-mode-option input { width: 16px; height: 16px; accent-color: var(--walk-mode-ink); }
+.walk-mode-title {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-name);
+  font-weight: var(--app-weight-name);
+  line-height: 1.25;
+}
+.walk-mode-state {
+  justify-self: end;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.walk-mode .walk-mode-option small {
+  grid-column: 2 / 4;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-meta);
+  font-variant-numeric: normal;
+  line-height: 1.4;
+}
+.walk-mode-count {
+  grid-column: 2 / 4;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-label);
+}
+/* The chosen list: filled in its colour, its name and state in full ink. */
+.walk-mode .walk-mode-option:has(> input:checked) {
+  border-color: var(--walk-mode-line);
+  background: var(--walk-mode-soft);
+  box-shadow: inset 0 0 0 1px var(--walk-mode-line);
+}
+.walk-mode .walk-mode-option:has(> input:checked) .walk-mode-title,
+.walk-mode .walk-mode-option:has(> input:checked) .walk-mode-state { color: var(--walk-mode-ink); }
+.walk-mode .walk-mode-option:has(> input:checked) .walk-mode-count { color: var(--app-text-muted); }
+/* The other list reads as the way across: it lifts on hover like any card. */
+.walk-mode .walk-mode-option:not(:has(> input:checked)):hover .walk-mode-title,
+.walk-mode .walk-mode-option:not(:has(> input:checked)):hover .walk-mode-state { color: var(--app-text); }
+/* Below the list: the group heads and every tick speak the chosen list's colour. */
+.walk-picker .walk-head { color: var(--walk-mode-ink); }
+.walk-picker[data-verb="avoid"] .select-card:has(> input:checked) { border-color: var(--walk-mode-line); background: var(--walk-mode-soft); }
+.walk-picker[data-verb="avoid"] .select-card:has(> input:checked) .select-card-label { color: var(--walk-mode-ink); }
+.walk-picker[data-verb="avoid"] .select-card input { accent-color: var(--walk-mode-ink); }
+.walk-card-tag[data-verb] { color: var(--walk-mode-ink); }
+@container walk-step (max-width: 560px) {
+  /* On a phone the pair must stay small enough to stick (stacked with its
+     sentences it takes a third of the screen): side by side, each
+     its name and its count, and the fill alone says which is chosen. What
+     each list does is still said on the Summary, in the sentence. */
+  .walk-mode .walk-mode-option {
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--app-space-1);
+    padding: var(--app-space-2);
+    align-items: start;
+  }
+  .walk-mode .walk-mode-option small,
+  .walk-mode-state { display: none; }
+  .walk-mode-count { grid-column: 2; }
+}
+.select-card.is-other { border-style: dashed; }
+.walk-card-tag {
+  display: inline-block;
+  color: var(--app-text-faint);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-whisper);
+  font-weight: var(--app-type-whisper-weight);
+  letter-spacing: var(--app-type-whisper-track);
+  text-transform: uppercase;
+}
+.walk-filter { max-width: 340px; }
+.walk-roles .walk-register-head { margin-top: 4px; }
+/* The craft switch never sets the block's width: on a phone its names run
+   wider than the step, and a grid column sized to it would push every card
+   past the screen edge. It scrolls sideways inside the block instead. */
+.walk-crafts { justify-self: start; max-width: 100%; overflow-x: auto; margin-bottom: 4px; }
+
+/* ---- Step 3: the search with Go worldwide on its row, then the bases as
+   rows. Two bases fit the stage-1 frame; a third grows the card rather than
+   scrolling, since a short scroll box cuts the third row in half. */
+.walk-add-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--app-space-2);
+}
+.walk-add-base {
+  display: grid;
+  gap: 8px;
+  flex: 1 1 320px;
+  min-width: 0;
+  max-width: 560px;
+}
+/* The far side of the search's row; under it on a narrow card. */
+.walk-worldwide { margin-left: auto; flex: none; }
+.walk-places {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  max-height: 176px;
+  overflow-y: auto;
+  border-top: 1px solid var(--app-border-strong);
+}
+.walk-places li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+  min-height: 34px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--app-border);
+  font-size: var(--app-type-meta);
+}
+.walk-places .walk-empty { border: 0; padding: 8px 0; }
+.walk-place-lineage {
+  font-size: var(--app-type-micro);
+  color: var(--app-text-faint);
+  text-align: right;
+}
+@media (max-width: 640px) {
+  .walk-bases .settings-row-trailing { margin-left: 0; width: 100%; justify-content: space-between; flex-wrap: wrap; }
+  /* The reach switch takes a line of its own, so a place, its country and
+     its region fit side by side; Remove and the links share the line below.
+     As the craft switch does, a switch still wider than that scrolls
+     sideways inside it. */
+  .walk-bases .ui-seg { order: -1; flex: 1 1 100%; min-width: 0; overflow-x: auto; }
+}
+
+/* ---- Step 4 and 5 blocks. */
+.walk-roles { display: grid; grid-template-columns: minmax(0, 1fr); }
+.walk-roles + .walk-roles { margin-top: 12px; }
+.walk-picker { --walk-mode-ink: var(--app-action-text); display: grid; gap: 14px; }
+.walk-picker-kind { display: grid; gap: 8px; }
+.walk-picker-kind .walk-head { padding-bottom: 5px; border-bottom: 1px solid var(--app-border-strong); }
+
+/* ---- The Summary. */
+.walk-summary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "choices funnel" "pay experience";
+  gap: 24px 32px;
+}
+@media (max-width: 900px) {
+  .walk-summary-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "choices" "pay" "funnel" "experience"; }
+}
+.walk-summary-block { display: grid; gap: 10px; align-content: start; }
+.walk-summary-choices { grid-area: choices; }
+.walk-summary-funnel { grid-area: funnel; }
+.walk-summary-pay { grid-area: pay; }
+.walk-summary-cv { grid-area: experience; }
+.walk-summary-pay,
+.walk-summary-cv { border-top: 1px solid var(--app-border); padding-top: var(--app-space-3); }
+/* Setup has no Your experience, so the pay floor takes the right column,
+   under the funnel when there is one: below the answers it would push the
+   Summary past the frame every other step keeps, and Start would not land
+   where Continue was. One column stacks it as Profile does. */
+.walk-summary-grid--setup { grid-template-areas: "choices funnel" "choices pay"; grid-template-rows: auto 1fr; }
+.walk-summary-grid--setup:not(:has(.walk-summary-funnel)) { grid-template-areas: "choices pay"; grid-template-rows: auto; }
+.walk-summary-grid--setup:not(:has(.walk-summary-funnel)) .walk-summary-pay { border-top: 0; padding-top: 0; }
+@media (max-width: 900px) {
+  .walk-summary-grid--setup,
+  .walk-summary-grid--setup:not(:has(.walk-summary-funnel)) { grid-template-areas: "choices" "pay" "funnel" "experience"; grid-template-rows: none; }
+  .walk-summary-grid--setup:not(:has(.walk-summary-funnel)) .walk-summary-pay { border-top: 1px solid var(--app-border); padding-top: var(--app-space-3); }
+}
+.walk-summary-section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--app-space-2); }
+.walk-summary-section-title { margin: 0; font-size: var(--app-type-body); font-weight: var(--app-weight-name); }
+/* The way back sits to the right of the answer, never on a line of its own:
+   a row's height is its answer's. */
+.walk-fact-value { display: flex; align-items: flex-start; gap: 10px; }
+.walk-fact-text { flex: 1; min-width: 0; }
+.walk-fact-value .walk-summary-adjust { flex: none; }
+/* Every fact row is at most two lines: one line of up to
+   two, or two lines of one each. The helpers name a few and count the rest;
+   the clamp is the guarantee for a long name at a narrow width, and the
+   line's title still says what it cut. */
+.walk-fact-line {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.walk-fact-line:not(:only-child) { -webkit-line-clamp: 1; }
+.walk-floor-form { display: flex; flex-wrap: wrap; align-items: center; gap: var(--app-space-2); padding: var(--app-space-3); background: var(--app-surface-subtle); border: 1px solid var(--app-border-strong); border-radius: var(--app-radius-md); }
+.walk-floor-amount {
+  width: 12ch;
+  /* The control scale's md rank, the height of the Select and the Save
+     button beside it. */
+  height: var(--app-control-md);
+  padding: 0 var(--app-control-md-pad);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  color: var(--app-text);
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+}
+.walk-floor-unit,
+.walk-floor-pending { color: var(--app-text-muted); }
+.walk-floor-error { flex-basis: 100%; color: var(--app-danger-ink); font-size: var(--app-type-label); }
+.walk-summary-facts {
+  margin-top: 0;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 8px;
+}
+/* One label column for every fact, as wide as the longest label: a label
+   never breaks onto a second line, and the answers start on one edge. */
+.walk-summary-facts .persona-fact { grid-column: 1 / -1; grid-template-columns: subgrid; }
+.walk-summary-facts .persona-fact-label { white-space: nowrap; }
+.walk-summary-adjust { margin-inline-start: var(--app-space-1); font-size: var(--app-type-micro); white-space: nowrap; }
+.walk-summary-empty,
+.walk-summary-line {
+  margin: 0;
+  font-size: var(--app-type-meta);
+  line-height: 1.5;
+  color: var(--app-text-muted);
+}
+.walk-summary-line { color: var(--app-text); }
+.walk-funnel {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.walk-funnel-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) 96px;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--app-type-meta);
+}
+.walk-funnel-label { color: var(--app-text-muted); }
+.walk-funnel-bar {
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--app-surface-sunken);
+  overflow: hidden;
+}
+.walk-funnel-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--app-action);
+  transition: width var(--app-duration-medium) var(--app-ease);
+}
+.walk-funnel-value {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-micro);
+  font-variant-numeric: tabular-nums;
+  color: var(--app-text);
+}
+.walk-funnel-share { color: var(--app-text-faint); min-width: 3ch; text-align: right; }
+.walk-summary-foot {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.walk-summary-more {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--app-border);
+}
+.walk-summary-more .profile-suggestions { margin: 0; }
+.walk-summary-more .worlds-rules { margin-top: 0; }
+
+/* ---- The rail, right of the step: the count line and Review changes with
+   the one Save. It never hides on a narrow screen: it folds under the step,
+   because Save lives on it. */
+.walk-rail { display: flex; top: var(--app-space-4); gap: var(--app-space-3); }
+@media (max-width: 1240px) {
+  .walk-rail { position: static; }
+}
+.walk-progress {
+  display: flex;
+  flex-direction: column;
+  min-height: var(--walk-frame-height);
+  padding: 0;
+  overflow: clip;
+  background: linear-gradient(150deg, var(--app-action-soft), transparent 65%), var(--app-surface);
+}
+.walk-progress-head {
+  padding: var(--app-space-3) var(--app-space-4);
+  border-bottom: 1px solid var(--app-border);
+  background: var(--app-surface-subtle);
+}
+.walk-progress-head h2 {
+  margin: 0;
+  font-size: var(--app-type-title);
+  font-weight: var(--app-weight-name);
+  line-height: 1.4;
+}
+.walk-progress-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--app-space-3) var(--app-space-4) var(--app-space-4);
+}
+.walk-progress-source {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--app-space-2);
+  font-size: var(--app-type-label);
+  line-height: 1.5;
+  color: var(--app-text-muted);
+}
+.walk-progress-source-share {
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-name);
+  color: var(--app-text-muted);
+}
+/* The diagram is illustrative; persistent labels carry the real shares.
+   Fine connectors pair each band with its answer. Only the active band and
+   the result use full action ink. */
+.walk-pyramid { margin-top: var(--app-space-3); }
+.walk-pyramid-drawing { position: relative; max-width: 360px; margin: 0 auto; }
+.walk-pyramid-svg { display: block; width: 100%; max-width: 360px; height: auto; margin: 0 auto; overflow: visible; }
+.walk-pyramid-labels {
+  position: absolute;
+  inset: 0 0 0 61.6667%;
+  display: grid;
+  grid-template-rows: repeat(var(--pyramid-layers), 1fr);
+  pointer-events: none;
+}
+.walk-pyramid-caption { display: flex; align-items: center; justify-content: space-between; gap: var(--app-space-1); }
+.walk-pyramid-caption strong { color: var(--app-text); font-size: var(--app-type-meta); font-weight: var(--app-weight-name); line-height: 1.2; white-space: nowrap; }
+.walk-pyramid-caption > span { color: var(--app-text-muted); font-size: var(--app-type-label); line-height: 1.2; white-space: nowrap; }
+.walk-pyramid-caption[data-chosen] strong { color: var(--app-chosen-text); }
+/* An answer is longer than a share: it goes under the layer's name, and a
+   long one ends in an ellipsis (the layer's description says it whole). */
+.walk-pyramid--named .walk-pyramid-caption { flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px; min-width: 0; }
+.walk-pyramid--named .walk-pyramid-caption > span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.walk-pyramid-hit { fill: transparent; }
+.walk-pyramid-layer { outline: none; }
+.walk-pyramid-layer[role="button"]:not([aria-disabled]) { cursor: pointer; }
+.walk-pyramid-shape {
+  fill: var(--pyramid-fill);
+  fill-opacity: calc(0.65 + 0.35 * var(--depth, 0));
+  stroke: var(--app-action-line);
+  stroke-width: 1;
+  stroke-linejoin: round;
+  transition: fill var(--app-duration-fast), stroke var(--app-duration-fast), opacity var(--app-duration-fast);
+}
+.walk-pyramid-layer.is-open .walk-pyramid-shape { fill: var(--app-surface-subtle); stroke: var(--app-border-strong); stroke-dasharray: 3 3; }
+.walk-pyramid-layer.is-uncounted .walk-pyramid-shape { fill: var(--app-action-soft); }
+.walk-pyramid-layer.is-pending .walk-pyramid-shape { stroke-dasharray: 1 3; }
+.walk-pyramid-layer.is-locked .walk-pyramid-shape { fill: transparent; stroke: var(--app-border-strong); stroke-dasharray: 3 3; }
+.walk-pyramid-layer.is-hovered .walk-pyramid-shape,
+.walk-pyramid-layer:focus-visible .walk-pyramid-shape { fill: var(--app-action); fill-opacity: 0.62; }
+.walk-pyramid-layer.is-locked.is-hovered .walk-pyramid-shape { fill: transparent; }
+.walk-pyramid-layer[aria-current="step"] .walk-pyramid-shape { stroke: var(--app-chosen-mark); stroke-width: 1.6; }
+.walk-pyramid-layer:focus-visible .walk-pyramid-shape { stroke: var(--app-action); }
+.walk-pyramid-guide { stroke: var(--app-border-strong); stroke-width: 1; }
+.walk-pyramid-marker { fill: var(--app-text-faint); }
+.walk-pyramid-layer[aria-current="step"] .walk-pyramid-marker { fill: var(--app-chosen-mark); }
+.walk-pyramid-layer[aria-current="step"] .walk-pyramid-guide { stroke: var(--app-chosen-line); }
+.walk-pyramid-layer:focus-visible .walk-pyramid-hit {
+  stroke: var(--app-action);
+  stroke-width: var(--app-ring-width);
+}
+.walk-progress-result { margin-top: auto; padding-top: var(--app-space-3); border-top: 1px solid var(--app-action-line); }
+/* Before anything is read there is no result to rule off. */
+.walk-progress-result:empty { display: none; }
+.walk-progress-outcome { display: flex; align-items: center; gap: var(--app-space-3); }
+.walk-progress-outcome strong {
+  color: var(--app-action-text);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-display);
+  font-weight: var(--app-weight-ui);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.walk-progress-outcome span { color: var(--app-text); font-size: var(--app-type-meta); line-height: 1.35; }
+.walk-progress-line { margin: var(--app-space-1) 0 0; font-size: var(--app-type-label); line-height: 1.5; color: var(--app-text-muted); }
+.walk-progress-line .num { font-family: var(--app-font-mono); font-variant-numeric: tabular-nums; }
+.walk-progress-note {
+  margin: 8px 0 0;
+  font-size: var(--app-type-micro);
+  color: var(--app-text-muted);
+}
+.walk-rail .scope-action-card .persona-rail-title { margin-bottom: 4px; }
+.walk-rail .scope-action-card .walk-review-preview { margin: 8px 0 0; line-height: 1.5; }
+
+@media (prefers-reduced-motion: reduce) {
+  .walk-card { animation: none; }
+  .walk-funnel-fill,
+  .walk-pyramid-shape { transition: none; }
+}
+
+/* ---- Step 3: choosing inside a place. The `.loc-pick` checkbox rows
+   (ScopeSection.css), laid in columns; the list scrolls inside
+   the room the search and the anywhere row give up while it is open. */
+.walk-chooser { display: grid; gap: 8px; margin-top: 4px; }
+.walk-chooser-list {
+  list-style: none;
+  margin: 0;
+  padding: 6px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0 var(--app-space-2);
+  /* Four rows exactly: a half-cut row reads as a rendering fault. */
+  max-height: 134px;
+  overflow-y: auto;
+  scroll-snap-type: y proximity;
+  scroll-padding-top: 6px;
+  border-top: 1px solid var(--app-border-strong);
+}
+.walk-chooser-list .loc-pick { min-height: 32px; height: 32px; padding: 4px 8px; }
+.walk-chooser-list .loc-pick-name { font-size: var(--app-type-meta); }
+.walk-chooser-list li { scroll-snap-align: start; }
+.walk-chooser-list .walk-empty { grid-column: 1 / -1; padding: 8px 0; }
+.walk-funnel-pending { color: var(--app-text-faint); font-size: var(--app-type-micro); }
+
+/* A search result is one rounded row, the whole width a target. */
+.walk-places li { padding: 2px 0; }
+.walk-places .walk-place {
+  width: 100%;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+  min-height: 34px;
+  padding: 0 8px;
+  border-color: transparent;
+  background: transparent;
+  border-radius: var(--app-radius-md);
+  font-weight: inherit;
+  text-align: left;
+}
+.walk-places .walk-place-name { color: var(--app-text); font-size: var(--app-type-meta); }
+.walk-places .walk-place:disabled .walk-place-name { color: var(--app-text-muted); }
+.walk-places .walk-place:hover:not(:disabled),
+.walk-places .walk-place:focus-visible { background: var(--app-surface-hover); border-color: transparent; }
+.walk-places li { border-bottom: 0; }

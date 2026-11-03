@@ -1,0 +1,81 @@
+/* The Notifications SCREEN shell, on the promoted design system. Every value
+ * comes from --app-* (src/design/tokens.css). Gated like the ledger's
+ * stylesheets: --app-* consumption only, no literal font-size, sizes from the
+ * ten type roles (design/tokens.test.ts).
+ *
+ * This sheet owns the page frame only — hero measure, the docked toolbar band,
+ * and the rail/list shell. The list's rows are notification-row.css; the
+ * expanded bodies are diagnostics/ and sync-progress/; the header bell's
+ * popover is notification-bell.css.
+ */
+
+/* ---- center shell -------------------------------------------------------- */
+
+/* The list-screen family's skeleton (the Board, the Companies register): a
+   title-only .page-hero, the shared sticky .app-toolbar with search first,
+   the count as a fact beside it and the screen's one verb at the end, then
+   the filter register beside the list at rail widths. The shell that PLACES
+   the rail is this screen's own physics, keyed to its measured toolbar —
+   the register's --register-* plumbing, the Board's --board-toolbar-h. */
+
+.main.notif-center {
+  /* Scrollport edge == sticky edge: a sticky offset resolves against the
+     content box, and `.main`'s 22px scroll-pad parks `top: 0` 22px low. The
+     hero pays its own top air instead, as on board.css. */
+  padding-top: 0;
+  /* The docked band's height — the shared .app-toolbar arithmetic (its air,
+     one control, the gap it holds open). NotificationScreen writes the
+     measured box height here when the bar wraps (hooks/useMeasuredCssSize). */
+  --notif-toolbar-h: calc(var(--app-space-2) + var(--app-control-md) + var(--app-space-4));
+}
+
+/* The hero pays the page's top air (surfaces.css, one header), so the
+   scroller does not: the sticky toolbar pins at the scrollport edge. */
+.main.notif-center { padding-top: 0; }
+
+/* Widened measure, the Board's: rail + gutter + the 1200 measure, so the
+   list keeps its full width beside the register. One left edge for hero,
+   toolbar and shell. */
+.notif-center > .page-hero,
+.notif-center > .notif-toolbar,
+.notif-center > .notif-shell,
+.notif-center > .notif-content {
+  max-width: 1460px;
+}
+
+/* ---- toolbar ------------------------------------------------------------- */
+
+/* ui/SearchField at md; the class only gives it its share of the band. */
+.notif-search {
+  flex: 1 1 240px;
+  max-width: 340px;
+}
+
+.notif-toolbar-end {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--app-space-3);
+}
+
+/* Why "Mark all read" is disabled, beside it. */
+.notif-toolbar-why {
+  color: var(--app-text-muted);
+  font-size: var(--app-type-meta);
+  white-space: nowrap;
+}
+
+/* ---- the shell row: the register beside the list ------------------------ */
+
+/* The two-column shell itself is patterns/rail-shell.css — the grid, the
+   sticky register and the rail-mode arm are the same composition the Board
+   wears. What stays here is this screen's own wiring: the height
+   its register pins under, which the shared sheet reads as --rail-shell-top. */
+.notif-shell {
+  --rail-shell-top: var(--notif-toolbar-h);
+}
+
+.notif-content {
+  min-width: 0;
+}
+

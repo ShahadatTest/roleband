@@ -1,0 +1,76 @@
+/* The header bell's popover (NotificationBell), the notifications domain's
+ * second surface. The bell BUTTON and its count badge are topbar chrome and
+ * live in shell.css, where the badge's ink-pair contrast gate
+ * (shell.test.ts) reads them.
+ *
+ * The line anatomy inside the panel (`.notif-icon`, `.notif-copy` and their
+ * state tints) is notification-row.css, which this component also imports.
+ */
+
+/* ---- bell popover -------------------------------------------------------- */
+/* Rides ui/Popover + the app-overlay doorway. OPAQUE on the wrapper AND the
+   inner panel — the app-overlay skin's glass is overridden on purpose; the
+   pinned UX test reads the wrapper's computed background alpha. */
+
+.notif-popover,
+.notif-popover .ui-popover-inner {
+  background: var(--app-surface-raised);
+}
+
+.notif-popover {
+  border-radius: var(--app-radius-lg);
+}
+
+.notif-popover .ui-popover-inner {
+  width: 396px;
+  max-width: calc(100vw - 24px);
+  padding: 0;
+  border-radius: var(--app-radius-lg);
+  overflow: hidden;
+}
+
+.notif-popover-head {
+  padding: var(--app-space-3) var(--app-space-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--app-border);
+  color: var(--app-text);
+  font-size: var(--app-type-body);
+  font-weight: var(--app-weight-name);
+}
+
+.notif-popover-head span {
+  color: var(--app-text-muted);
+  font-family: var(--app-font-mono);
+  font-size: var(--app-type-meta);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.notif-popover-list {
+  max-height: 420px;
+  overflow-y: auto;
+  padding: var(--app-space-1);
+}
+
+.notif-empty {
+  padding: var(--app-space-5) var(--app-space-3);
+  text-align: center;
+  color: var(--app-text-muted);
+  font-size: var(--app-type-body);
+}
+
+.notif-item {
+  padding: var(--app-space-2);
+  border-radius: var(--app-radius-md);
+  cursor: pointer;
+  font: inherit;
+}
+
+.notif-item:hover { background: var(--app-surface-hover); }
+
+/* ui/Button ghost/md, stretched across the popover's foot. */
+.notif-view-all {
+  width: 100%;
+}

@@ -1,0 +1,2307 @@
+{
+ "_why": "The schema as the models declare it, frozen so a change to a column, index, constraint or default cannot land without showing up in a reviewer's diff. `alembic check` already answers 'do the models and the migrations agree?', but only against a live cluster and only in a CI log; this fixture answers 'did the models change at all?' with no database, in the pull request itself. The two claims are independent: a model edit WITH a matching migration keeps `check` green and still belongs in review, which is what this catches. Regenerate deliberately, in the same change as the migration: `.venv/bin/python -m scripts.freeze_schema_metadata`.",
+ "embedding_dim": 768,
+ "table_count": 71,
+ "classes": {
+  "AiTaskLog": "ai_task_log",
+  "AppSetting": "app_settings",
+  "BindingReconciliationDecision": "binding_reconciliation_decisions",
+  "Cluster": "clusters",
+  "CompMetric": "comp_metrics",
+  "CompSnapshot": "comp_snapshot",
+  "CompanyBenefit": "company_benefit",
+  "CompanyCompLevel": "company_comp_level",
+  "CompanyFact": "company_fact",
+  "CompanyPrice": "company_price",
+  "CompanyPriceBar": "company_price_history",
+  "CompanyProfile": "company_profile",
+  "CompanyScopeRule": "company_scope_rules",
+  "CompareSelection": "compare_selection",
+  "ConnectorRecipe": "connector_recipes",
+  "ConnectorRecipeRevision": "connector_recipe_revisions",
+  "DemandMetric": "demand_metrics",
+  "DerivationState": "derivation_state",
+  "DirectoryCheck": "directory_checks",
+  "DisclosureSnapshot": "disclosure_snapshot",
+  "ExternalCompObservation": "external_comp_observation",
+  "Favorite": "favorites",
+  "Job": "jobs",
+  "JobCompEstimate": "job_comp_estimate",
+  "JobFeedback": "job_feedback",
+  "JobLifecycleEvent": "job_lifecycle_events",
+  "JobLineage": "job_lineage",
+  "JobLineageLink": "job_lineage_link",
+  "JobObservation": "job_observations",
+  "JobPlaceSet": "job_place_set",
+  "JobPlaceSetMember": "job_place_set_member",
+  "JobQualification": "job_qualifications",
+  "JobRelevanceReview": "job_relevance_reviews",
+  "JobRequest": "job_requests",
+  "JobRun": "job_runs",
+  "JobSimilarity": "job_similarity",
+  "JobSkill": "job_skills",
+  "JobSkillEvidence": "job_skill_evidence",
+  "JobSourceIdentity": "job_source_identities",
+  "JobStatus": "job_status",
+  "JobTwinLink": "job_twin_link",
+  "MachineAwakeSample": "machine_awake_samples",
+  "Notification": "notifications",
+  "PluginCoverage": "plugin_coverage",
+  "PluginInstall": "plugin_install",
+  "PluginReport": "plugin_report",
+  "PluginRun": "plugin_run",
+  "PluginState": "plugin_state",
+  "PostingInventory": "posting_inventory",
+  "PriceFeedRequest": "price_feed_requests",
+  "ProfileClaim": "profile_claims",
+  "ProfileSuggestion": "profile_suggestions",
+  "ProviderPressureState": "provider_pressure_state",
+  "Pursuit": "pursuits",
+  "PursuitEvent": "pursuit_events",
+  "ReferenceChange": "reference_change",
+  "ReferenceState": "reference_state",
+  "RoleCatalog": "role_catalog",
+  "SchedulePlanRun": "schedule_plan_runs",
+  "ScrapeRun": "scrape_runs",
+  "ScrapeSourceRun": "scrape_source_runs",
+  "SkillAlias": "skill_aliases",
+  "SkillCandidate": "skill_candidates",
+  "SkillConcept": "skill_concepts",
+  "SkillDemandDaily": "skill_demand_daily",
+  "SkillRelation": "skill_relations",
+  "SourceBinding": "source_bindings",
+  "SourceBindingTuning": "source_binding_tuning",
+  "SyncScheduleState": "sync_schedule_state",
+  "TrackedCompany": "tracked_company",
+  "UsageEvent": "usage_events"
+ },
+ "tables": {
+  "ai_task_log": {
+   "create": [
+    "CREATE TABLE ai_task_log (",
+    "    id BIGSERIAL NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    task_type VARCHAR(32) NOT NULL,",
+    "    provider VARCHAR(24) NOT NULL,",
+    "    availability_state VARCHAR(32) NOT NULL,",
+    "    latency_ms INTEGER,",
+    "    input_tokens INTEGER,",
+    "    output_tokens INTEGER,",
+    "    validation_result VARCHAR(16) NOT NULL,",
+    "    failure_class VARCHAR(32),",
+    "    prompt_version VARCHAR(32),",
+    "    model_id VARCHAR(64),",
+    "    job_id INTEGER,",
+    "    route_reason VARCHAR(32),",
+    "    meta JSONB NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE SET NULL",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_ai_task_log_created_at ON ai_task_log (created_at)",
+    "CREATE INDEX ix_ai_task_log_job_id ON ai_task_log (job_id)",
+    "CREATE INDEX ix_ai_task_log_task_type ON ai_task_log (task_type)",
+    "CREATE INDEX ix_ai_task_log_type_time ON ai_task_log (task_type, created_at)"
+   ],
+   "python_defaults": {
+    "meta": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "app_settings": {
+   "create": [
+    "CREATE TABLE app_settings (",
+    "    key VARCHAR(64) NOT NULL,",
+    "    value JSONB NOT NULL,",
+    "    PRIMARY KEY (key)",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {
+    "value": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "binding_reconciliation_decisions": {
+   "create": [
+    "CREATE TABLE binding_reconciliation_decisions (",
+    "    id BIGSERIAL NOT NULL,",
+    "    binding_id INTEGER NOT NULL,",
+    "    job_id INTEGER,",
+    "    source_key VARCHAR(256),",
+    "    decision VARCHAR(24) NOT NULL,",
+    "    evidence JSONB NOT NULL,",
+    "    actor VARCHAR(16) NOT NULL,",
+    "    reason TEXT,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(binding_id) REFERENCES source_bindings (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE SET NULL",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_binding_reconciliation_decisions_binding_id ON binding_reconciliation_decisions (binding_id)",
+    "CREATE INDEX ix_binding_reconciliation_decisions_decision ON binding_reconciliation_decisions (decision)"
+   ],
+   "python_defaults": {
+    "actor": "'system'",
+    "evidence": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "clusters": {
+   "create": [
+    "CREATE TABLE clusters (",
+    "    id SERIAL NOT NULL,",
+    "    model_version VARCHAR(48) NOT NULL,",
+    "    label TEXT NOT NULL,",
+    "    top_terms JSONB NOT NULL,",
+    "    family_hint VARCHAR(64),",
+    "    size INTEGER NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id)",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {
+    "size": "0",
+    "top_terms": "list()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "comp_metrics": {
+   "create": [
+    "CREATE TABLE comp_metrics (",
+    "    id BIGSERIAL NOT NULL,",
+    "    metric_date TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    dim VARCHAR(16) NOT NULL,",
+    "    key VARCHAR(64) NOT NULL,",
+    "    count INTEGER NOT NULL,",
+    "    p25 FLOAT,",
+    "    p50 FLOAT,",
+    "    p75 FLOAT,",
+    "    p90 FLOAT,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_comp_slice UNIQUE (metric_date, dim, key)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_comp_metrics_dim ON comp_metrics (dim)",
+    "CREATE INDEX ix_comp_metrics_key ON comp_metrics (key)",
+    "CREATE INDEX ix_comp_metrics_metric_date ON comp_metrics (metric_date)"
+   ],
+   "python_defaults": {
+    "count": "0"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "comp_snapshot": {
+   "create": [
+    "CREATE TABLE comp_snapshot (",
+    "    id BIGSERIAL NOT NULL,",
+    "    metric_date TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    company VARCHAR(64) NOT NULL,",
+    "    level_band VARCHAR(32) NOT NULL,",
+    "    family VARCHAR(64) NOT NULL,",
+    "    comp_values INTEGER[] NOT NULL,",
+    "    source VARCHAR(64) DEFAULT 'mixed' NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_comp_snapshot UNIQUE (metric_date, company, level_band, family, source)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_comp_snapshot_company ON comp_snapshot (company)",
+    "CREATE INDEX ix_comp_snapshot_metric_date ON comp_snapshot (metric_date)",
+    "CREATE INDEX ix_comp_snapshot_source ON comp_snapshot (source)"
+   ],
+   "python_defaults": {
+    "comp_values": "list()",
+    "family": "''",
+    "level_band": "''"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "company_benefit": {
+   "create": [
+    "CREATE TABLE company_benefit (",
+    "    id BIGSERIAL NOT NULL,",
+    "    company_slug VARCHAR(64) NOT NULL,",
+    "    perk_id INTEGER,",
+    "    category VARCHAR(48) NOT NULL,",
+    "    name VARCHAR(128) NOT NULL,",
+    "    value_usd BIGINT,",
+    "    value_text TEXT,",
+    "    description TEXT,",
+    "    detail JSONB NOT NULL,",
+    "    country VARCHAR(2),",
+    "    provider VARCHAR(32) NOT NULL,",
+    "    fetched_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    retired_at TIMESTAMP WITH TIME ZONE,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_company_benefit UNIQUE NULLS NOT DISTINCT (provider, company_slug, name, country),",
+    "    FOREIGN KEY(company_slug) REFERENCES company_profile (slug) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_company_benefit_category ON company_benefit (category)",
+    "CREATE INDEX ix_company_benefit_company_slug ON company_benefit (company_slug)",
+    "CREATE INDEX ix_company_benefit_provider ON company_benefit (provider)"
+   ],
+   "python_defaults": {
+    "detail": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "company_comp_level": {
+   "create": [
+    "CREATE TABLE company_comp_level (",
+    "    id BIGSERIAL NOT NULL,",
+    "    company_slug VARCHAR(64) NOT NULL,",
+    "    family VARCHAR(48) NOT NULL,",
+    "    level_label VARCHAR(48) NOT NULL,",
+    "    band VARCHAR(24),",
+    "    band_source VARCHAR(16),",
+    "    aliases TEXT[] DEFAULT '{}' NOT NULL,",
+    "    currency VARCHAR(3) DEFAULT 'USD' NOT NULL,",
+    "    tc_median BIGINT,",
+    "    base_amount BIGINT,",
+    "    stock_amount BIGINT,",
+    "    bonus_amount BIGINT,",
+    "    base_pct FLOAT,",
+    "    stock_pct FLOAT,",
+    "    bonus_pct FLOAT,",
+    "    provider VARCHAR(32) NOT NULL,",
+    "    source_url TEXT,",
+    "    vendor_family VARCHAR(48),",
+    "    country VARCHAR(2),",
+    "    as_of DATE,",
+    "    retired_at TIMESTAMP WITH TIME ZONE,",
+    "    fetched_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_company_comp_level UNIQUE NULLS NOT DISTINCT (provider, company_slug, family, level_label, country),",
+    "    FOREIGN KEY(company_slug) REFERENCES company_profile (slug) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_company_comp_level_band ON company_comp_level (band)",
+    "CREATE INDEX ix_company_comp_level_company_slug ON company_comp_level (company_slug)",
+    "CREATE INDEX ix_company_comp_level_provider ON company_comp_level (provider)"
+   ],
+   "python_defaults": {
+    "aliases": "list()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "company_fact": {
+   "create": [
+    "CREATE TABLE company_fact (",
+    "    id BIGSERIAL NOT NULL,",
+    "    company_slug VARCHAR(64) NOT NULL,",
+    "    field VARCHAR(48) NOT NULL,",
+    "    value JSONB,",
+    "    source VARCHAR(32) NOT NULL,",
+    "    confidence FLOAT NOT NULL,",
+    "    observed_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    fetched_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(company_slug) REFERENCES company_profile (slug) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_company_fact_company_slug ON company_fact (company_slug)",
+    "CREATE INDEX ix_company_fact_field ON company_fact (field)",
+    "CREATE INDEX ix_company_fact_lookup ON company_fact (company_slug, field, source)",
+    "CREATE INDEX ix_company_fact_observed_at ON company_fact (observed_at)",
+    "CREATE INDEX ix_company_fact_source ON company_fact (source)"
+   ],
+   "python_defaults": {
+    "confidence": "1.0"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "company_price": {
+   "create": [
+    "CREATE TABLE company_price (",
+    "    company_slug VARCHAR(64) NOT NULL,",
+    "    ticker VARCHAR(12) NOT NULL,",
+    "    price NUMERIC(14, 4) NOT NULL,",
+    "    currency VARCHAR(8) NOT NULL,",
+    "    change_abs NUMERIC(14, 4),",
+    "    change_pct FLOAT,",
+    "    as_of DATE NOT NULL,",
+    "    source VARCHAR(24) NOT NULL,",
+    "    fetched_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (company_slug),",
+    "    FOREIGN KEY(company_slug) REFERENCES company_profile (slug) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {
+    "currency": "'USD'",
+    "source": "'market'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "company_price_history": {
+   "create": [
+    "CREATE TABLE company_price_history (",
+    "    id BIGSERIAL NOT NULL,",
+    "    company_slug VARCHAR(64) NOT NULL,",
+    "    date DATE NOT NULL,",
+    "    open NUMERIC(14, 4),",
+    "    high NUMERIC(14, 4),",
+    "    low NUMERIC(14, 4),",
+    "    close NUMERIC(14, 4) NOT NULL,",
+    "    volume BIGINT,",
+    "    source VARCHAR(24) NOT NULL,",
+    "    fetched_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_company_price_bar UNIQUE (company_slug, date),",
+    "    FOREIGN KEY(company_slug) REFERENCES company_profile (slug) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_company_price_history_company_slug ON company_price_history (company_slug)"
+   ],
+   "python_defaults": {
+    "source": "'market'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "company_profile": {
+   "create": [
+    "CREATE TABLE company_profile (",
+    "    slug VARCHAR(64) NOT NULL,",
+    "    display_name VARCHAR(128) NOT NULL,",
+    "    is_public BOOLEAN,",
+    "    ticker VARCHAR(12),",
+    "    headcount INTEGER,",
+    "    hq_city VARCHAR(64),",
+    "    website TEXT,",
+    "    year_founded INTEGER,",
+    "    equity_vehicle VARCHAR(16),",
+    "    vesting_schedule VARCHAR(32),",
+    "    comp_notes TEXT,",
+    "    logo_url TEXT,",
+    "    brand_color VARCHAR(16),",
+    "    manual_fields TEXT[] NOT NULL,",
+    "    field_meta JSONB NOT NULL,",
+    "    data_health VARCHAR(16) NOT NULL,",
+    "    profile_updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (slug)",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {
+    "data_health": "'missing'",
+    "field_meta": "dict()",
+    "manual_fields": "list()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "company_scope_rules": {
+   "create": [
+    "CREATE TABLE company_scope_rules (",
+    "    id SERIAL NOT NULL,",
+    "    company VARCHAR(64) NOT NULL,",
+    "    kind VARCHAR(16) NOT NULL,",
+    "    value TEXT NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_company_scope_rule UNIQUE (company, kind, value)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_company_scope_rules_company ON company_scope_rules (company)"
+   ],
+   "python_defaults": {},
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "compare_selection": {
+   "create": [
+    "CREATE TABLE compare_selection (",
+    "    id SERIAL NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    position INTEGER NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_compare_selection_job UNIQUE (job_id),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_compare_selection_job_id ON compare_selection (job_id)"
+   ],
+   "python_defaults": {
+    "position": "0"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "connector_recipe_revisions": {
+   "create": [
+    "CREATE TABLE connector_recipe_revisions (",
+    "    id SERIAL NOT NULL,",
+    "    recipe_id INTEGER NOT NULL,",
+    "    version INTEGER NOT NULL,",
+    "    document JSONB NOT NULL,",
+    "    checksum VARCHAR(64) NOT NULL,",
+    "    validation JSONB NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    created_by VARCHAR(32) NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_recipe_revision_version UNIQUE (recipe_id, version),",
+    "    FOREIGN KEY(recipe_id) REFERENCES connector_recipes (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_recipe_revisions_checksum ON connector_recipe_revisions (checksum)",
+    "CREATE INDEX ix_recipe_revisions_recipe_id ON connector_recipe_revisions (recipe_id)"
+   ],
+   "python_defaults": {
+    "created_by": "'system'",
+    "validation": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "connector_recipes": {
+   "create": [
+    "CREATE TABLE connector_recipes (",
+    "    id SERIAL NOT NULL,",
+    "    slug VARCHAR(64) NOT NULL,",
+    "    kind VARCHAR(32) NOT NULL,",
+    "    format_version INTEGER NOT NULL,",
+    "    default_revision_id INTEGER,",
+    "    status VARCHAR(16) NOT NULL,",
+    "    provenance JSONB NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE UNIQUE INDEX ix_connector_recipes_slug ON connector_recipes (slug)",
+    "CREATE INDEX ix_connector_recipes_status ON connector_recipes (status)"
+   ],
+   "python_defaults": {
+    "format_version": "1",
+    "kind": "'job_listing'",
+    "provenance": "dict()",
+    "status": "'draft'"
+   },
+   "python_onupdate": {
+    "updated_at": "now()"
+   },
+   "comment": null,
+   "column_comments": {}
+  },
+  "demand_metrics": {
+   "create": [
+    "CREATE TABLE demand_metrics (",
+    "    id BIGSERIAL NOT NULL,",
+    "    metric_date TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    company VARCHAR(64) NOT NULL,",
+    "    family VARCHAR(64),",
+    "    location_group VARCHAR(64),",
+    "    open_count INTEGER NOT NULL,",
+    "    new_count INTEGER NOT NULL,",
+    "    closed_count INTEGER NOT NULL,",
+    "    reposted_count INTEGER NOT NULL,",
+    "    long_open_count INTEGER NOT NULL,",
+    "    median_days_open FLOAT,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_demand_slice UNIQUE (metric_date, company, family, location_group)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_demand_metrics_company ON demand_metrics (company)",
+    "CREATE INDEX ix_demand_metrics_metric_date ON demand_metrics (metric_date)"
+   ],
+   "python_defaults": {
+    "closed_count": "0",
+    "long_open_count": "0",
+    "new_count": "0",
+    "open_count": "0",
+    "reposted_count": "0"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "derivation_state": {
+   "create": [
+    "CREATE TABLE derivation_state (",
+    "    name VARCHAR(32) NOT NULL,",
+    "    last_run_at TIMESTAMP WITH TIME ZONE,",
+    "    last_ok_at TIMESTAMP WITH TIME ZONE,",
+    "    last_status VARCHAR(16) NOT NULL,",
+    "    detail JSONB NOT NULL,",
+    "    PRIMARY KEY (name)",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {
+    "detail": "dict()",
+    "last_status": "'ok'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "directory_checks": {
+   "create": [
+    "CREATE TABLE directory_checks (",
+    "    slug VARCHAR(80) NOT NULL,",
+    "    checked_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    outcome VARCHAR(16) NOT NULL,",
+    "    scanned INTEGER NOT NULL,",
+    "    roles_for_you INTEGER NOT NULL,",
+    "    error TEXT,",
+    "    PRIMARY KEY (slug)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_directory_checks_checked_at ON directory_checks (checked_at)"
+   ],
+   "python_defaults": {
+    "roles_for_you": "0",
+    "scanned": "0"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "disclosure_snapshot": {
+   "create": [
+    "CREATE TABLE disclosure_snapshot (",
+    "    id BIGSERIAL NOT NULL,",
+    "    metric_date TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    company VARCHAR(64) NOT NULL,",
+    "    level_band VARCHAR(32) NOT NULL,",
+    "    pay_basis VARCHAR(8) NOT NULL,",
+    "    roles INTEGER NOT NULL,",
+    "    checked INTEGER NOT NULL,",
+    "    bands JSONB NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_disclosure_snapshot UNIQUE (metric_date, company, level_band, pay_basis)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_disclosure_snapshot_company ON disclosure_snapshot (company)",
+    "CREATE INDEX ix_disclosure_snapshot_metric_date ON disclosure_snapshot (metric_date)"
+   ],
+   "python_defaults": {
+    "bands": "list()",
+    "checked": "0",
+    "level_band": "''",
+    "pay_basis": "''",
+    "roles": "0"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "external_comp_observation": {
+   "create": [
+    "CREATE TABLE external_comp_observation (",
+    "    id BIGSERIAL NOT NULL,",
+    "    provider VARCHAR(32) NOT NULL,",
+    "    company_slug VARCHAR(64) NOT NULL,",
+    "    source_level VARCHAR(48) NOT NULL,",
+    "    band VARCHAR(24),",
+    "    function VARCHAR(48),",
+    "    location VARCHAR(64),",
+    "    yoe INTEGER,",
+    "    family VARCHAR(48),",
+    "    total_amount BIGINT,",
+    "    base_amount BIGINT,",
+    "    equity_amount BIGINT,",
+    "    bonus_amount BIGINT,",
+    "    currency VARCHAR(3) NOT NULL,",
+    "    country VARCHAR(2),",
+    "    snapshot_date DATE NOT NULL,",
+    "    dedup_key VARCHAR(200) NOT NULL,",
+    "    ingested_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_external_comp_obs UNIQUE (provider, dedup_key)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_external_comp_observation_band ON external_comp_observation (band)",
+    "CREATE INDEX ix_external_comp_observation_company_slug ON external_comp_observation (company_slug)",
+    "CREATE INDEX ix_external_comp_observation_provider ON external_comp_observation (provider)",
+    "CREATE INDEX ix_external_comp_observation_snapshot_date ON external_comp_observation (snapshot_date)"
+   ],
+   "python_defaults": {},
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "favorites": {
+   "create": [
+    "CREATE TABLE favorites (",
+    "    id SERIAL NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_favorite_job UNIQUE (job_id),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_favorites_job_id ON favorites (job_id)"
+   ],
+   "python_defaults": {},
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_comp_estimate": {
+   "create": [
+    "CREATE TABLE job_comp_estimate (",
+    "    job_id INTEGER NOT NULL,",
+    "    source VARCHAR(64) NOT NULL,",
+    "    comp_low BIGINT,",
+    "    comp_high BIGINT,",
+    "    comp_median BIGINT,",
+    "    comp_currency VARCHAR(8) NOT NULL,",
+    "    comp_provenance TEXT,",
+    "    comp_base_low BIGINT,",
+    "    comp_base_median BIGINT,",
+    "    comp_base_high BIGINT,",
+    "    comp_component VARCHAR(8),",
+    "    comp_provider VARCHAR(32),",
+    "    comp_as_of DATE,",
+    "    sources JSONB NOT NULL,",
+    "    ref_fp VARCHAR(64),",
+    "    estimated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (job_id, source),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_comp_estimate_source ON job_comp_estimate (source)"
+   ],
+   "python_defaults": {
+    "comp_currency": "'USD'",
+    "sources": "list()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_feedback": {
+   "create": [
+    "CREATE TABLE job_feedback (",
+    "    id SERIAL NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    verdict VARCHAR(16) NOT NULL,",
+    "    reason VARCHAR(32),",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE UNIQUE INDEX ix_job_feedback_job_id ON job_feedback (job_id)"
+   ],
+   "python_defaults": {
+    "verdict": "'dismissed'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_lifecycle_events": {
+   "create": [
+    "CREATE TABLE job_lifecycle_events (",
+    "    id BIGSERIAL NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    run_id INTEGER,",
+    "    event_type VARCHAR(24) NOT NULL,",
+    "    detail JSONB NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(run_id) REFERENCES scrape_runs (id) ON DELETE SET NULL",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_lifecycle_events_created_at ON job_lifecycle_events (created_at)",
+    "CREATE INDEX ix_job_lifecycle_events_event_type ON job_lifecycle_events (event_type)",
+    "CREATE INDEX ix_job_lifecycle_events_job_id ON job_lifecycle_events (job_id)"
+   ],
+   "python_defaults": {
+    "detail": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_lineage": {
+   "create": [
+    "CREATE TABLE job_lineage (",
+    "    id BIGSERIAL NOT NULL,",
+    "    company VARCHAR(64) NOT NULL,",
+    "    root_job_id INTEGER NOT NULL,",
+    "    size INTEGER NOT NULL,",
+    "    open_members INTEGER NOT NULL,",
+    "    first_seen TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    last_seen TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(root_job_id) REFERENCES jobs (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_lineage_company ON job_lineage (company)",
+    "CREATE UNIQUE INDEX uq_job_lineage_root ON job_lineage (root_job_id)"
+   ],
+   "python_defaults": {
+    "open_members": "0",
+    "size": "1"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_lineage_link": {
+   "create": [
+    "CREATE TABLE job_lineage_link (",
+    "    id BIGSERIAL NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    prior_job_id INTEGER NOT NULL,",
+    "    relation VARCHAR(12) NOT NULL,",
+    "    method VARCHAR(24) NOT NULL,",
+    "    score FLOAT,",
+    "    title_similarity FLOAT,",
+    "    gap_days INTEGER,",
+    "    confidence VARCHAR(12) NOT NULL,",
+    "    status VARCHAR(12) NOT NULL,",
+    "    reviewed_at TIMESTAMP WITH TIME ZONE,",
+    "    detector_version VARCHAR(32) NOT NULL,",
+    "    evidence JSONB NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_job_lineage_link UNIQUE (job_id, prior_job_id),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(prior_job_id) REFERENCES jobs (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_lineage_link_job_id ON job_lineage_link (job_id)",
+    "CREATE INDEX ix_job_lineage_link_prior_job_id ON job_lineage_link (prior_job_id)",
+    "CREATE INDEX ix_job_lineage_link_review ON job_lineage_link (status, confidence, created_at)"
+   ],
+   "python_defaults": {
+    "evidence": "dict()",
+    "status": "'pending'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_observations": {
+   "create": [
+    "CREATE TABLE job_observations (",
+    "    id BIGSERIAL NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    run_id INTEGER NOT NULL,",
+    "    observed_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    title TEXT NOT NULL,",
+    "    level_band VARCHAR(32) NOT NULL,",
+    "    family VARCHAR(64),",
+    "    locations TEXT[] NOT NULL,",
+    "    comp_median BIGINT,",
+    "    payload JSONB NOT NULL,",
+    "    binding_id INTEGER,",
+    "    source_identity_id BIGINT,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(run_id) REFERENCES scrape_runs (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(binding_id) REFERENCES source_bindings (id) ON DELETE SET NULL,",
+    "    FOREIGN KEY(source_identity_id) REFERENCES job_source_identities (id) ON DELETE SET NULL",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_observations_binding_id ON job_observations (binding_id)",
+    "CREATE INDEX ix_job_observations_job_id ON job_observations (job_id)",
+    "CREATE INDEX ix_job_observations_run_id ON job_observations (run_id)"
+   ],
+   "python_defaults": {
+    "locations": "list()",
+    "payload": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_place_set": {
+   "create": [
+    "CREATE TABLE job_place_set (",
+    "    id BIGSERIAL NOT NULL,",
+    "    company VARCHAR(64) NOT NULL,",
+    "    title TEXT NOT NULL,",
+    "    text_hash VARCHAR(32) NOT NULL,",
+    "    size INTEGER NOT NULL,",
+    "    places TEXT[] NOT NULL,",
+    "    rule_version VARCHAR(32) NOT NULL,",
+    "    evidence JSONB NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_job_place_set_identity UNIQUE (company, title, text_hash)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_place_set_company ON job_place_set (company)"
+   ],
+   "python_defaults": {
+    "evidence": "dict()",
+    "places": "list()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_place_set_member": {
+   "create": [
+    "CREATE TABLE job_place_set_member (",
+    "    job_id INTEGER NOT NULL,",
+    "    set_id BIGINT,",
+    "    status VARCHAR(12) NOT NULL,",
+    "    evidence JSONB NOT NULL,",
+    "    reviewed_at TIMESTAMP WITH TIME ZONE,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (job_id),",
+    "    CONSTRAINT ck_job_place_set_member_status CHECK (status IN ('auto', 'rejected')),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(set_id) REFERENCES job_place_set (id) ON DELETE SET NULL",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_place_set_member_set_id ON job_place_set_member (set_id)"
+   ],
+   "python_defaults": {
+    "evidence": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_qualifications": {
+   "create": [
+    "CREATE TABLE job_qualifications (",
+    "    id BIGSERIAL NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    kind VARCHAR(16) NOT NULL,",
+    "    display TEXT NOT NULL,",
+    "    value JSONB,",
+    "    modality VARCHAR(12) NOT NULL,",
+    "    confidence VARCHAR(8) NOT NULL,",
+    "    section_key VARCHAR(64),",
+    "    section_title TEXT,",
+    "    quote TEXT NOT NULL,",
+    "    start_offset INTEGER NOT NULL,",
+    "    end_offset INTEGER NOT NULL,",
+    "    extractor_version VARCHAR(16) NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_qualifications_job_id ON job_qualifications (job_id)"
+   ],
+   "python_defaults": {
+    "confidence": "'high'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_relevance_reviews": {
+   "create": [
+    "CREATE TABLE job_relevance_reviews (",
+    "    id SERIAL NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    domain VARCHAR(64),",
+    "    relevance VARCHAR(16) NOT NULL,",
+    "    confidence FLOAT NOT NULL,",
+    "    rationale TEXT NOT NULL,",
+    "    tracked_worlds TEXT[],",
+    "    prompt_version VARCHAR(64) NOT NULL,",
+    "    provider VARCHAR(64),",
+    "    model_id VARCHAR(64),",
+    "    reviewed_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT ck_relevance_review_verdict CHECK (relevance IN ('relevant','irrelevant','uncertain')),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE UNIQUE INDEX ix_job_relevance_reviews_job_id ON job_relevance_reviews (job_id)"
+   ],
+   "python_defaults": {},
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_requests": {
+   "create": [
+    "CREATE TABLE job_requests (",
+    "    id BIGSERIAL NOT NULL,",
+    "    job VARCHAR(32) NOT NULL,",
+    "    key VARCHAR(96) NOT NULL,",
+    "    args JSONB DEFAULT '{}'::jsonb NOT NULL,",
+    "    coalesce_key VARCHAR(160) NOT NULL,",
+    "    requested_by VARCHAR(32) NOT NULL,",
+    "    requested_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    state VARCHAR(16) DEFAULT 'queued' NOT NULL,",
+    "    claimed_at TIMESTAMP WITH TIME ZONE,",
+    "    attempts INTEGER DEFAULT 0 NOT NULL,",
+    "    ended_at TIMESTAMP WITH TIME ZONE,",
+    "    note TEXT,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT ck_job_requests_state CHECK (state IN ('queued', 'claimed', 'done', 'cancelled', 'failed'))",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_requests_key_state ON job_requests (key, state)",
+    "CREATE UNIQUE INDEX uq_job_requests_queued ON job_requests (coalesce_key) WHERE state = 'queued'"
+   ],
+   "python_defaults": {
+    "args": "dict()",
+    "attempts": "0",
+    "state": "'queued'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_runs": {
+   "create": [
+    "CREATE TABLE job_runs (",
+    "    id BIGSERIAL NOT NULL,",
+    "    job VARCHAR(32) NOT NULL,",
+    "    key VARCHAR(96) NOT NULL,",
+    "    trigger VARCHAR(16) NOT NULL,",
+    "    request_id BIGINT,",
+    "    state VARCHAR(16) DEFAULT 'starting' NOT NULL,",
+    "    started_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    ended_at TIMESTAMP WITH TIME ZONE,",
+    "    exit_code INTEGER,",
+    "    pid INTEGER,",
+    "    pgid INTEGER,",
+    "    proc_started_at TIMESTAMP WITH TIME ZONE,",
+    "    code_version VARCHAR(64),",
+    "    cancel_requested_at TIMESTAMP WITH TIME ZONE,",
+    "    cancel_reason VARCHAR(32),",
+    "    log_path TEXT,",
+    "    log_offset BIGINT,",
+    "    log_rotated BOOLEAN DEFAULT false NOT NULL,",
+    "    progress JSONB DEFAULT '{}'::jsonb NOT NULL,",
+    "    result JSONB,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT ck_job_runs_state CHECK (state IN ('starting', 'running', 'exited', 'timed_out', 'cancelled', 'lost', 'spawn_failed')),",
+    "    FOREIGN KEY(request_id) REFERENCES job_requests (id) ON DELETE SET NULL",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_runs_key_started ON job_runs (key, started_at)",
+    "CREATE INDEX ix_job_runs_request_id ON job_runs (request_id)",
+    "CREATE UNIQUE INDEX uq_job_runs_live ON job_runs (key) WHERE state IN ('starting', 'running')"
+   ],
+   "python_defaults": {
+    "log_rotated": "False",
+    "progress": "dict()",
+    "state": "'starting'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_similarity": {
+   "create": [
+    "CREATE TABLE job_similarity (",
+    "    id BIGSERIAL NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    neighbor_job_id INTEGER NOT NULL,",
+    "    scope VARCHAR(12) NOT NULL,",
+    "    rank INTEGER NOT NULL,",
+    "    score FLOAT NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_job_similarity UNIQUE (job_id, scope, neighbor_job_id),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(neighbor_job_id) REFERENCES jobs (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_similarity_job_id ON job_similarity (job_id)",
+    "CREATE INDEX ix_job_similarity_lookup ON job_similarity (job_id, scope, rank)"
+   ],
+   "python_defaults": {},
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_skill_evidence": {
+   "create": [
+    "CREATE TABLE job_skill_evidence (",
+    "    id BIGSERIAL NOT NULL,",
+    "    job_skill_id BIGINT NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    concept_id INTEGER NOT NULL,",
+    "    section_key VARCHAR(64),",
+    "    section_title TEXT,",
+    "    unit_index INTEGER NOT NULL,",
+    "    quote TEXT NOT NULL,",
+    "    start_offset INTEGER NOT NULL,",
+    "    end_offset INTEGER NOT NULL,",
+    "    aspect VARCHAR(16) NOT NULL,",
+    "    modality VARCHAR(16) NOT NULL,",
+    "    proficiency VARCHAR(16),",
+    "    years FLOAT,",
+    "    actor VARCHAR(12) NOT NULL,",
+    "    boilerplate_score FLOAT,",
+    "    extractor VARCHAR(12) NOT NULL,",
+    "    confidence VARCHAR(8) NOT NULL,",
+    "    score INTEGER NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(job_skill_id) REFERENCES job_skills (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(concept_id) REFERENCES skill_concepts (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_skill_evidence_job_id ON job_skill_evidence (job_id)",
+    "CREATE INDEX ix_job_skill_evidence_job_skill_id ON job_skill_evidence (job_skill_id)"
+   ],
+   "python_defaults": {
+    "confidence": "'high'",
+    "extractor": "'dictionary'",
+    "score": "0",
+    "unit_index": "0"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_skills": {
+   "create": [
+    "CREATE TABLE job_skills (",
+    "    id BIGSERIAL NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    concept_id INTEGER NOT NULL,",
+    "    importance_score INTEGER NOT NULL,",
+    "    importance_band VARCHAR(12) NOT NULL,",
+    "    confidence VARCHAR(8) NOT NULL,",
+    "    modality VARCHAR(16) NOT NULL,",
+    "    proficiency VARCHAR(16) NOT NULL,",
+    "    evidence_count INTEGER NOT NULL,",
+    "    content_hash VARCHAR(32) NOT NULL,",
+    "    extractor_version VARCHAR(16) NOT NULL,",
+    "    taxonomy_version VARCHAR(16) NOT NULL,",
+    "    extracted_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_job_skill UNIQUE (job_id, concept_id),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(concept_id) REFERENCES skill_concepts (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_skills_concept_id ON job_skills (concept_id)",
+    "CREATE INDEX ix_job_skills_job_id ON job_skills (job_id)"
+   ],
+   "python_defaults": {
+    "evidence_count": "1",
+    "proficiency": "'unspecified'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_source_identities": {
+   "create": [
+    "CREATE TABLE job_source_identities (",
+    "    id BIGSERIAL NOT NULL,",
+    "    binding_id INTEGER NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    source_key VARCHAR(256) NOT NULL,",
+    "    first_seen TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    last_seen TIMESTAMP WITH TIME ZONE,",
+    "    origin VARCHAR(24) NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_identity_binding_source_key UNIQUE (binding_id, source_key),",
+    "    FOREIGN KEY(binding_id) REFERENCES source_bindings (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_identity_job ON job_source_identities (job_id)",
+    "CREATE INDEX ix_job_source_identities_binding_id ON job_source_identities (binding_id)"
+   ],
+   "python_defaults": {
+    "origin": "'exact_auto'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_status": {
+   "create": [
+    "CREATE TABLE job_status (",
+    "    key VARCHAR(96) NOT NULL,",
+    "    job VARCHAR(32) NOT NULL,",
+    "    state VARCHAR(16) NOT NULL,",
+    "    reason VARCHAR(32),",
+    "    since TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    next_at TIMESTAMP WITH TIME ZONE,",
+    "    run_id BIGINT,",
+    "    detail JSONB DEFAULT '{}'::jsonb NOT NULL,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (key)",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {
+    "detail": "dict()"
+   },
+   "python_onupdate": {
+    "updated_at": "now()"
+   },
+   "comment": null,
+   "column_comments": {}
+  },
+  "job_twin_link": {
+   "create": [
+    "CREATE TABLE job_twin_link (",
+    "    id BIGSERIAL NOT NULL,",
+    "    job_a_id INTEGER NOT NULL,",
+    "    job_b_id INTEGER NOT NULL,",
+    "    method VARCHAR(24) NOT NULL,",
+    "    score FLOAT,",
+    "    title_similarity FLOAT,",
+    "    confidence VARCHAR(12) NOT NULL,",
+    "    status VARCHAR(12) NOT NULL,",
+    "    detector_version VARCHAR(32) NOT NULL,",
+    "    evidence JSONB NOT NULL,",
+    "    reviewed_at TIMESTAMP WITH TIME ZONE,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT ck_job_twin_link_canonical_pair CHECK (job_a_id < job_b_id),",
+    "    CONSTRAINT uq_job_twin_link_pair UNIQUE (job_a_id, job_b_id),",
+    "    FOREIGN KEY(job_a_id) REFERENCES jobs (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(job_b_id) REFERENCES jobs (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_job_twin_link_job_a_id ON job_twin_link (job_a_id)",
+    "CREATE INDEX ix_job_twin_link_job_b_id ON job_twin_link (job_b_id)",
+    "CREATE INDEX ix_job_twin_link_review ON job_twin_link (status, confidence, created_at)"
+   ],
+   "python_defaults": {
+    "evidence": "dict()",
+    "status": "'pending'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "jobs": {
+   "create": [
+    "CREATE TABLE jobs (",
+    "    id SERIAL NOT NULL,",
+    "    company VARCHAR(64) NOT NULL,",
+    "    req_id VARCHAR(128) NOT NULL,",
+    "    dedupe_key VARCHAR(256) NOT NULL,",
+    "    title TEXT NOT NULL,",
+    "    url TEXT NOT NULL,",
+    "    department TEXT,",
+    "    team TEXT,",
+    "    description_html TEXT,",
+    "    description_text TEXT,",
+    "    description_sections JSONB NOT NULL,",
+    "    description_fetched_at TIMESTAMP WITH TIME ZONE,",
+    "    locations TEXT[] NOT NULL,",
+    "    location_groups TEXT[] NOT NULL,",
+    "    domains TEXT[],",
+    "    location_cities TEXT[] DEFAULT '{}' NOT NULL,",
+    "    workplace_type VARCHAR(16) NOT NULL,",
+    "    raw_level VARCHAR(128),",
+    "    level_band VARCHAR(32) NOT NULL,",
+    "    level_confidence VARCHAR(16) NOT NULL,",
+    "    level_basis VARCHAR(16),",
+    "    family VARCHAR(64),",
+    "    track VARCHAR(32) NOT NULL,",
+    "    comp_low BIGINT,",
+    "    comp_high BIGINT,",
+    "    comp_median BIGINT,",
+    "    comp_currency VARCHAR(8) NOT NULL,",
+    "    comp_provenance TEXT,",
+    "    comp_base_low BIGINT,",
+    "    comp_base_median BIGINT,",
+    "    comp_base_high BIGINT,",
+    "    comp_component VARCHAR(8),",
+    "    comp_provider VARCHAR(32),",
+    "    comp_as_of DATE,",
+    "    comp_ref_fp VARCHAR(64),",
+    "    status VARCHAR(16) NOT NULL,",
+    "    in_scope BOOLEAN NOT NULL,",
+    "    posted_at TIMESTAMP WITH TIME ZONE,",
+    "    first_posted_at TIMESTAMP WITH TIME ZONE,",
+    "    first_seen TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    arrival VARCHAR(16),",
+    "    last_seen TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    viewed_at TIMESTAMP WITH TIME ZONE,",
+    "    closed_at TIMESTAMP WITH TIME ZONE,",
+    "    closure_basis VARCHAR(48),",
+    "    closure_run_id INTEGER,",
+    "    absent_scans INTEGER DEFAULT '0' NOT NULL,",
+    "    absent_since TIMESTAMP WITH TIME ZONE,",
+    "    total_days_open INTEGER NOT NULL,",
+    "    repost_count INTEGER NOT NULL,",
+    "    search_vector TSVECTOR,",
+    "    content_hash VARCHAR(32),",
+    "    content_changed_at TIMESTAMP WITH TIME ZONE,",
+    "    embedding VECTOR(768),",
+    "    embedded_at TIMESTAMP WITH TIME ZONE,",
+    "    embedded_tier VARCHAR(8),",
+    "    source_facts JSONB,",
+    "    disclosed_base_min BIGINT,",
+    "    disclosed_base_max BIGINT,",
+    "    disclosed_currency VARCHAR(8),",
+    "    disclosed_pay_basis VARCHAR(8),",
+    "    disclosed_pay_period VARCHAR(8),",
+    "    disclosed_snippet TEXT,",
+    "    disclosed_confidence VARCHAR(8),",
+    "    disclosed_bonus_pct FLOAT,",
+    "    disclosed_source VARCHAR(12),",
+    "    structured_at TIMESTAMP WITH TIME ZONE,",
+    "    structured_prompt_version VARCHAR(32),",
+    "    disclosed_place_key VARCHAR(200),",
+    "    requirements_content_hash VARCHAR(32),",
+    "    requirements_extractor_version VARCHAR(16),",
+    "    requirements_taxonomy_version VARCHAR(16),",
+    "    requirements_extracted_at TIMESTAMP WITH TIME ZONE,",
+    "    required_years FLOAT,",
+    "    cluster_id INTEGER,",
+    "    cluster_distance FLOAT,",
+    "    lineage_id BIGINT,",
+    "    lineage_seq INTEGER,",
+    "    lineage_role VARCHAR(12),",
+    "    lineage_first_seen TIMESTAMP WITH TIME ZONE,",
+    "    lineage_checked_at TIMESTAMP WITH TIME ZONE,",
+    "    lineage_detector_version VARCHAR(32),",
+    "    lineage_input_key VARCHAR(32),",
+    "    twin_checked_at TIMESTAMP WITH TIME ZONE,",
+    "    twin_detector_version VARCHAR(32),",
+    "    twin_input_key VARCHAR(32),",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT ck_jobs_arrival CHECK (arrival IN ('new', 'already_listed', 'first_read')),",
+    "    FOREIGN KEY(closure_run_id) REFERENCES scrape_runs (id) ON DELETE SET NULL,",
+    "    FOREIGN KEY(cluster_id) REFERENCES clusters (id) ON DELETE SET NULL,",
+    "    FOREIGN KEY(lineage_id) REFERENCES job_lineage (id) ON DELETE SET NULL",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_jobs_cluster_id ON jobs (cluster_id)",
+    "CREATE INDEX ix_jobs_company ON jobs (company)",
+    "CREATE INDEX ix_jobs_company_family_level ON jobs (company, family, level_band)",
+    "CREATE INDEX ix_jobs_company_status ON jobs (company, status)",
+    "CREATE INDEX ix_jobs_company_trgm ON jobs USING gin (company gin_trgm_ops)",
+    "CREATE UNIQUE INDEX ix_jobs_dedupe_key ON jobs (dedupe_key)",
+    "CREATE INDEX ix_jobs_effective_age ON jobs (COALESCE(lineage_first_seen, first_seen))",
+    "CREATE INDEX ix_jobs_embedding_hnsw ON jobs USING hnsw (embedding vector_cosine_ops)",
+    "CREATE INDEX ix_jobs_family ON jobs (family)",
+    "CREATE INDEX ix_jobs_in_scope ON jobs (in_scope)",
+    "CREATE INDEX ix_jobs_level_band ON jobs (level_band)",
+    "CREATE INDEX ix_jobs_lineage ON jobs (lineage_id, lineage_seq)",
+    "CREATE INDEX ix_jobs_lineage_role ON jobs (lineage_role)",
+    "CREATE INDEX ix_jobs_open_listed_since ON jobs (least(first_posted_at, first_seen)) WHERE status = 'open'",
+    "CREATE INDEX ix_jobs_search_vector ON jobs USING gin (search_vector)",
+    "CREATE INDEX ix_jobs_status ON jobs (status)",
+    "CREATE INDEX ix_jobs_status_in_scope ON jobs (status, in_scope)",
+    "CREATE INDEX ix_jobs_title_trgm ON jobs USING gin (title gin_trgm_ops)",
+    "CREATE INDEX ix_jobs_track ON jobs (track)"
+   ],
+   "python_defaults": {
+    "absent_scans": "0",
+    "comp_currency": "'USD'",
+    "description_sections": "list()",
+    "in_scope": "True",
+    "level_confidence": "'confirmed'",
+    "location_cities": "list()",
+    "location_groups": "list()",
+    "locations": "list()",
+    "repost_count": "0",
+    "status": "'open'",
+    "total_days_open": "0",
+    "track": "'technical'",
+    "workplace_type": "'unknown'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "machine_awake_samples": {
+   "create": [
+    "CREATE TABLE machine_awake_samples (",
+    "    seen_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    source VARCHAR(8) NOT NULL,",
+    "    PRIMARY KEY (seen_at)",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {},
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "notifications": {
+   "create": [
+    "CREATE TABLE notifications (",
+    "    id BIGSERIAL NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    priority VARCHAR(8) NOT NULL,",
+    "    category VARCHAR(32) NOT NULL,",
+    "    title TEXT NOT NULL,",
+    "    body TEXT,",
+    "    job_id INTEGER,",
+    "    run_id INTEGER,",
+    "    source_type VARCHAR(8) NOT NULL,",
+    "    source_id BIGINT NOT NULL,",
+    "    read_at TIMESTAMP WITH TIME ZONE,",
+    "    dismissed_at TIMESTAMP WITH TIME ZONE,",
+    "    meta JSONB NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_notification_source UNIQUE (source_type, source_id, category),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(run_id) REFERENCES scrape_runs (id) ON DELETE SET NULL",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_notifications_category ON notifications (category)",
+    "CREATE INDEX ix_notifications_created_at ON notifications (created_at)",
+    "CREATE INDEX ix_notifications_job_id ON notifications (job_id)",
+    "CREATE INDEX ix_notifications_unread ON notifications (dismissed_at, read_at, created_at)"
+   ],
+   "python_defaults": {
+    "meta": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "plugin_coverage": {
+   "create": [
+    "CREATE TABLE plugin_coverage (",
+    "    provider VARCHAR(32) NOT NULL,",
+    "    slot VARCHAR(32) NOT NULL,",
+    "    company_slug VARCHAR(64) NOT NULL,",
+    "    last_attempt_at TIMESTAMP WITH TIME ZONE,",
+    "    last_published_at TIMESTAMP WITH TIME ZONE,",
+    "    rows INTEGER DEFAULT '0' NOT NULL,",
+    "    last_run_id BIGINT,",
+    "    complete_at TIMESTAMP WITH TIME ZONE,",
+    "    PRIMARY KEY (provider, slot, company_slug)",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {
+    "rows": "0"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "plugin_install": {
+   "create": [
+    "CREATE TABLE plugin_install (",
+    "    plugin_id VARCHAR(32) NOT NULL,",
+    "    name TEXT NOT NULL,",
+    "    version VARCHAR(64) NOT NULL,",
+    "    source_dir TEXT NOT NULL,",
+    "    code_sha VARCHAR(64) NOT NULL,",
+    "    commit_sha VARCHAR(64),",
+    "    manifest_sha VARCHAR(64) NOT NULL,",
+    "    lock_sha VARCHAR(64),",
+    "    manifest JSONB NOT NULL,",
+    "    fingerprint VARCHAR(64) NOT NULL,",
+    "    approved_fingerprint VARCHAR(64),",
+    "    approved_at TIMESTAMP WITH TIME ZONE,",
+    "    approved_text JSONB,",
+    "    enabled BOOLEAN DEFAULT false NOT NULL,",
+    "    enabled_at TIMESTAMP WITH TIME ZONE,",
+    "    installed_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    removed_at TIMESTAMP WITH TIME ZONE,",
+    "    schedule VARCHAR(16),",
+    "    paused_at TIMESTAMP WITH TIME ZONE,",
+    "    sdk_version VARCHAR(32),",
+    "    robots_consent JSONB,",
+    "    robots_consent_at TIMESTAMP WITH TIME ZONE,",
+    "    robots_seen JSONB,",
+    "    PRIMARY KEY (plugin_id)",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {
+    "enabled": "False"
+   },
+   "python_onupdate": {
+    "updated_at": "now()"
+   },
+   "comment": null,
+   "column_comments": {}
+  },
+  "plugin_report": {
+   "create": [
+    "CREATE TABLE plugin_report (",
+    "    plugin_id VARCHAR(32) NOT NULL,",
+    "    key VARCHAR(64) NOT NULL,",
+    "    value BIGINT NOT NULL,",
+    "    label VARCHAR(160) NOT NULL,",
+    "    reported_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (plugin_id, key),",
+    "    FOREIGN KEY(plugin_id) REFERENCES plugin_install (plugin_id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {},
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "plugin_run": {
+   "create": [
+    "CREATE TABLE plugin_run (",
+    "    id BIGSERIAL NOT NULL,",
+    "    plugin_id VARCHAR(32) NOT NULL,",
+    "    job VARCHAR(32) NOT NULL,",
+    "    trigger VARCHAR(16) NOT NULL,",
+    "    fingerprint VARCHAR(64) NOT NULL,",
+    "    outcome VARCHAR(16) DEFAULT 'running' NOT NULL,",
+    "    started_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    heartbeat_at TIMESTAMP WITH TIME ZONE,",
+    "    ended_at TIMESTAMP WITH TIME ZONE,",
+    "    pid INTEGER,",
+    "    progress_done INTEGER,",
+    "    progress_total INTEGER,",
+    "    published JSONB DEFAULT '{}'::jsonb NOT NULL,",
+    "    refusals JSONB DEFAULT '[]'::jsonb NOT NULL,",
+    "    message TEXT,",
+    "    summary TEXT,",
+    "    continues BOOLEAN DEFAULT false NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT ck_plugin_run_outcome CHECK (outcome IN ('running', 'clean', 'partial', 'bounded', 'stopped', 'error')),",
+    "    FOREIGN KEY(plugin_id) REFERENCES plugin_install (plugin_id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_plugin_run_clean ON plugin_run (plugin_id, outcome)",
+    "CREATE INDEX ix_plugin_run_plugin_id ON plugin_run (plugin_id)"
+   ],
+   "python_defaults": {
+    "continues": "False",
+    "outcome": "'running'",
+    "published": "dict()",
+    "refusals": "list()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "plugin_state": {
+   "create": [
+    "CREATE TABLE plugin_state (",
+    "    plugin_id VARCHAR(32) NOT NULL,",
+    "    key VARCHAR(128) NOT NULL,",
+    "    value JSONB,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (plugin_id, key),",
+    "    FOREIGN KEY(plugin_id) REFERENCES plugin_install (plugin_id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {},
+   "python_onupdate": {
+    "updated_at": "now()"
+   },
+   "comment": null,
+   "column_comments": {}
+  },
+  "posting_inventory": {
+   "create": [
+    "CREATE TABLE posting_inventory (",
+    "    id BIGSERIAL NOT NULL,",
+    "    dedupe_key VARCHAR(256) NOT NULL,",
+    "    company VARCHAR(64) NOT NULL,",
+    "    req_id VARCHAR(128) NOT NULL,",
+    "    binding_id INTEGER,",
+    "    title TEXT NOT NULL,",
+    "    url TEXT NOT NULL,",
+    "    department TEXT,",
+    "    team TEXT,",
+    "    raw_level TEXT,",
+    "    locations TEXT[] NOT NULL,",
+    "    workplace_type VARCHAR(16) NOT NULL,",
+    "    posted_at TIMESTAMP WITH TIME ZONE,",
+    "    level_band VARCHAR(32) NOT NULL,",
+    "    level_confidence VARCHAR(16) NOT NULL,",
+    "    level_basis VARCHAR(16),",
+    "    family VARCHAR(64),",
+    "    track VARCHAR(32) NOT NULL,",
+    "    location_groups TEXT[] NOT NULL,",
+    "    domains TEXT[],",
+    "    content_hash VARCHAR(64) NOT NULL,",
+    "    first_seen_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    last_seen_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    last_seen_run_id INTEGER,",
+    "    gone_at TIMESTAMP WITH TIME ZONE,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(binding_id) REFERENCES source_bindings (id) ON DELETE SET NULL,",
+    "    FOREIGN KEY(last_seen_run_id) REFERENCES scrape_runs (id) ON DELETE SET NULL",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_posting_inventory_company_gone ON posting_inventory (company, gone_at)",
+    "CREATE UNIQUE INDEX ix_posting_inventory_dedupe_key ON posting_inventory (dedupe_key)",
+    "CREATE INDEX ix_posting_inventory_live_role ON posting_inventory (family, level_band, track) WHERE gone_at IS NULL",
+    "CREATE INDEX ix_posting_inventory_location_groups ON posting_inventory USING gin (location_groups)"
+   ],
+   "python_defaults": {
+    "location_groups": "list()",
+    "locations": "list()",
+    "workplace_type": "'unknown'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "price_feed_requests": {
+   "create": [
+    "CREATE TABLE price_feed_requests (",
+    "    id BIGSERIAL NOT NULL,",
+    "    provider VARCHAR(16) NOT NULL,",
+    "    key_fingerprint VARCHAR(16) NOT NULL,",
+    "    purpose VARCHAR(16) NOT NULL,",
+    "    symbol VARCHAR(16) NOT NULL,",
+    "    requested_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    finished_at TIMESTAMP WITH TIME ZONE,",
+    "    outcome VARCHAR(16) DEFAULT 'pending' NOT NULL,",
+    "    http_status INTEGER,",
+    "    bytes INTEGER,",
+    "    PRIMARY KEY (id)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_price_feed_requests_requested_at ON price_feed_requests (requested_at)"
+   ],
+   "python_defaults": {
+    "outcome": "'pending'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "profile_claims": {
+   "create": [
+    "CREATE TABLE profile_claims (",
+    "    id SERIAL NOT NULL,",
+    "    field VARCHAR(64) NOT NULL,",
+    "    value JSONB NOT NULL,",
+    "    source VARCHAR(16) NOT NULL,",
+    "    confidence FLOAT NOT NULL,",
+    "    evidence JSONB,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    superseded_at TIMESTAMP WITH TIME ZONE,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT ck_profile_claim_source CHECK (source IN ('user','linkedin')),",
+    "    CONSTRAINT ck_profile_claim_field CHECK (field IN ('identity','experience','skill'))",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_profile_claims_field ON profile_claims (field)",
+    "CREATE INDEX ix_profile_claims_superseded_at ON profile_claims (superseded_at)"
+   ],
+   "python_defaults": {
+    "confidence": "1.0"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "profile_suggestions": {
+   "create": [
+    "CREATE TABLE profile_suggestions (",
+    "    id SERIAL NOT NULL,",
+    "    kind VARCHAR(32) NOT NULL,",
+    "    dedupe_key VARCHAR(128) NOT NULL,",
+    "    payload JSONB NOT NULL,",
+    "    basis JSONB NOT NULL,",
+    "    status VARCHAR(16) NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    resolved_at TIMESTAMP WITH TIME ZONE,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT ck_profile_suggestion_status CHECK (status IN ('pending','accepted','dismissed')),",
+    "    CONSTRAINT ck_profile_suggestion_kind CHECK (kind IN ('world_on','world_off'))",
+    ")"
+   ],
+   "indexes": [
+    "CREATE UNIQUE INDEX ix_profile_suggestions_dedupe_key ON profile_suggestions (dedupe_key)",
+    "CREATE INDEX ix_profile_suggestions_status ON profile_suggestions (status)"
+   ],
+   "python_defaults": {
+    "status": "'pending'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "provider_pressure_state": {
+   "create": [
+    "CREATE TABLE provider_pressure_state (",
+    "    pressure_key VARCHAR(128) NOT NULL,",
+    "    state VARCHAR(24) NOT NULL,",
+    "    cooldown_until TIMESTAMP WITH TIME ZONE,",
+    "    last_started_at TIMESTAMP WITH TIME ZONE,",
+    "    last_finished_at TIMESTAMP WITH TIME ZONE,",
+    "    consecutive_pressure_events INTEGER NOT NULL,",
+    "    last_outcome VARCHAR(24),",
+    "    evidence JSONB NOT NULL,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (pressure_key)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_provider_pressure_state_cooldown_until ON provider_pressure_state (cooldown_until)",
+    "CREATE INDEX ix_provider_pressure_state_state ON provider_pressure_state (state)"
+   ],
+   "python_defaults": {
+    "consecutive_pressure_events": "0",
+    "evidence": "dict()",
+    "state": "'ready'"
+   },
+   "python_onupdate": {
+    "updated_at": "now()"
+   },
+   "comment": null,
+   "column_comments": {}
+  },
+  "pursuit_events": {
+   "create": [
+    "CREATE TABLE pursuit_events (",
+    "    id BIGSERIAL NOT NULL,",
+    "    pursuit_id INTEGER NOT NULL,",
+    "    actor VARCHAR(16) NOT NULL,",
+    "    event_type VARCHAR(24) NOT NULL,",
+    "    from_stage VARCHAR(24),",
+    "    to_stage VARCHAR(24) NOT NULL,",
+    "    detail JSONB NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(pursuit_id) REFERENCES pursuits (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_pursuit_events_created_at ON pursuit_events (created_at)",
+    "CREATE INDEX ix_pursuit_events_pursuit_id ON pursuit_events (pursuit_id)"
+   ],
+   "python_defaults": {
+    "detail": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "pursuits": {
+   "create": [
+    "CREATE TABLE pursuits (",
+    "    id SERIAL NOT NULL,",
+    "    job_id INTEGER NOT NULL,",
+    "    stage VARCHAR(24) NOT NULL,",
+    "    priority INTEGER NOT NULL,",
+    "    notes TEXT,",
+    "    next_action TEXT,",
+    "    next_action_due TIMESTAMP WITH TIME ZONE,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT ck_pursuit_stage CHECK (stage IN ('saved','researching','networking','applied','interviewing','offer','rejected','withdrawn')),",
+    "    CONSTRAINT ck_pursuit_priority CHECK (priority BETWEEN 1 AND 5),",
+    "    FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE UNIQUE INDEX ix_pursuits_job_id ON pursuits (job_id)",
+    "CREATE INDEX ix_pursuits_next_action_due ON pursuits (next_action_due)",
+    "CREATE INDEX ix_pursuits_stage ON pursuits (stage)",
+    "CREATE INDEX ix_pursuits_updated_at ON pursuits (updated_at)"
+   ],
+   "python_defaults": {
+    "priority": "3",
+    "stage": "'saved'"
+   },
+   "python_onupdate": {
+    "updated_at": "now()"
+   },
+   "comment": null,
+   "column_comments": {}
+  },
+  "reference_change": {
+   "create": [
+    "CREATE TABLE reference_change (",
+    "    id BIGSERIAL NOT NULL,",
+    "    at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    from_fp VARCHAR(64),",
+    "    to_fp VARCHAR(64) NOT NULL,",
+    "    providers JSONB DEFAULT '{}'::jsonb NOT NULL,",
+    "    moved_report JSONB DEFAULT '{}'::jsonb NOT NULL,",
+    "    PRIMARY KEY (id)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_reference_change_at ON reference_change (at)"
+   ],
+   "python_defaults": {
+    "moved_report": "dict()",
+    "providers": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "reference_state": {
+   "create": [
+    "CREATE TABLE reference_state (",
+    "    id SERIAL NOT NULL,",
+    "    applied_fp VARCHAR(64),",
+    "    applied_providers JSONB DEFAULT '{}'::jsonb NOT NULL,",
+    "    target_fp VARCHAR(64),",
+    "    target_providers JSONB DEFAULT '{}'::jsonb NOT NULL,",
+    "    target_report JSONB DEFAULT '{}'::jsonb NOT NULL,",
+    "    cursor_job_id BIGINT,",
+    "    last_change_id BIGINT,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT ck_reference_state_singleton CHECK (id = 1)",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {
+    "applied_providers": "dict()",
+    "target_providers": "dict()",
+    "target_report": "dict()"
+   },
+   "python_onupdate": {
+    "updated_at": "now()"
+   },
+   "comment": null,
+   "column_comments": {}
+  },
+  "role_catalog": {
+   "create": [
+    "CREATE TABLE role_catalog (",
+    "    id SERIAL NOT NULL,",
+    "    role_group VARCHAR(64) NOT NULL,",
+    "    company VARCHAR(64) NOT NULL,",
+    "    count INTEGER NOT NULL,",
+    "    band_counts JSONB NOT NULL,",
+    "    band_track_counts JSONB NOT NULL,",
+    "    scope_cells JSONB DEFAULT '[]' NOT NULL,",
+    "    examples JSONB NOT NULL,",
+    "    domain_counts JSONB NOT NULL,",
+    "    domain_examples JSONB NOT NULL,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_role_company UNIQUE (role_group, company)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_role_catalog_company ON role_catalog (company)",
+    "CREATE INDEX ix_role_catalog_role_group ON role_catalog (role_group)"
+   ],
+   "python_defaults": {
+    "band_counts": "dict()",
+    "band_track_counts": "dict()",
+    "count": "0",
+    "domain_counts": "dict()",
+    "domain_examples": "dict()",
+    "examples": "list()",
+    "scope_cells": "list()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "schedule_plan_runs": {
+   "create": [
+    "CREATE TABLE schedule_plan_runs (",
+    "    id SERIAL NOT NULL,",
+    "    kind VARCHAR(8) NOT NULL,",
+    "    started_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    finished_at TIMESTAMP WITH TIME ZONE,",
+    "    companies INTEGER NOT NULL,",
+    "    roster INTEGER NOT NULL,",
+    "    outcome VARCHAR(12),",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT ck_schedule_plan_runs_kind CHECK (kind IN ('full', 'quick', 'manual', 'continue'))",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_schedule_plan_runs_started_at ON schedule_plan_runs (started_at)"
+   ],
+   "python_defaults": {},
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "scrape_runs": {
+   "create": [
+    "CREATE TABLE scrape_runs (",
+    "    id SERIAL NOT NULL,",
+    "    started_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    finished_at TIMESTAMP WITH TIME ZONE,",
+    "    heartbeat_at TIMESTAMP WITH TIME ZONE,",
+    "    status VARCHAR(16) NOT NULL,",
+    "    scope VARCHAR(16) DEFAULT 'full' NOT NULL,",
+    "    code_version VARCHAR(64),",
+    "    process_group INTEGER,",
+    "    jobs_seen INTEGER NOT NULL,",
+    "    jobs_new INTEGER NOT NULL,",
+    "    jobs_closed INTEGER NOT NULL,",
+    "    per_source JSONB NOT NULL,",
+    "    drift_alerts JSONB NOT NULL,",
+    "    notes TEXT,",
+    "    PRIMARY KEY (id)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_scrape_runs_scope_status ON scrape_runs (scope, status)"
+   ],
+   "python_defaults": {
+    "drift_alerts": "list()",
+    "jobs_closed": "0",
+    "jobs_new": "0",
+    "jobs_seen": "0",
+    "per_source": "dict()",
+    "scope": "'full'",
+    "status": "'running'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "scrape_source_runs": {
+   "create": [
+    "CREATE TABLE scrape_source_runs (",
+    "    id BIGSERIAL NOT NULL,",
+    "    run_id INTEGER NOT NULL,",
+    "    binding_id INTEGER NOT NULL,",
+    "    company_slug VARCHAR(64) NOT NULL,",
+    "    provider_key VARCHAR(128) NOT NULL,",
+    "    scan_mode VARCHAR(16) NOT NULL,",
+    "    outcome VARCHAR(24) NOT NULL,",
+    "    started_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    finished_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    scanned INTEGER NOT NULL,",
+    "    kept INTEGER NOT NULL,",
+    "    jobs_new INTEGER NOT NULL,",
+    "    jobs_closed INTEGER NOT NULL,",
+    "    request_count INTEGER,",
+    "    retry_count INTEGER,",
+    "    bytes_received BIGINT,",
+    "    list_complete BOOLEAN NOT NULL,",
+    "    closure_eligible BOOLEAN NOT NULL,",
+    "    errors JSONB NOT NULL,",
+    "    drift JSONB NOT NULL,",
+    "    stats JSONB NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_scrape_source_run_binding UNIQUE (run_id, binding_id),",
+    "    FOREIGN KEY(run_id) REFERENCES scrape_runs (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(binding_id) REFERENCES source_bindings (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_scrape_source_runs_binding_finished ON scrape_source_runs (binding_id, finished_at)",
+    "CREATE INDEX ix_scrape_source_runs_binding_id ON scrape_source_runs (binding_id)",
+    "CREATE INDEX ix_scrape_source_runs_binding_started ON scrape_source_runs (binding_id, started_at)",
+    "CREATE INDEX ix_scrape_source_runs_company_slug ON scrape_source_runs (company_slug)",
+    "CREATE INDEX ix_scrape_source_runs_outcome ON scrape_source_runs (outcome)",
+    "CREATE INDEX ix_scrape_source_runs_provider_finished ON scrape_source_runs (provider_key, finished_at)",
+    "CREATE INDEX ix_scrape_source_runs_provider_key ON scrape_source_runs (provider_key)",
+    "CREATE INDEX ix_scrape_source_runs_run_id ON scrape_source_runs (run_id)",
+    "CREATE INDEX ix_scrape_source_runs_scan_mode ON scrape_source_runs (scan_mode)"
+   ],
+   "python_defaults": {
+    "closure_eligible": "False",
+    "drift": "list()",
+    "errors": "list()",
+    "jobs_closed": "0",
+    "jobs_new": "0",
+    "kept": "0",
+    "list_complete": "False",
+    "scanned": "0",
+    "stats": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "skill_aliases": {
+   "create": [
+    "CREATE TABLE skill_aliases (",
+    "    id SERIAL NOT NULL,",
+    "    concept_id INTEGER NOT NULL,",
+    "    alias VARCHAR(96) NOT NULL,",
+    "    match_mode VARCHAR(16) NOT NULL,",
+    "    required_context TEXT,",
+    "    excluded_context TEXT,",
+    "    source VARCHAR(32) NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_skill_alias UNIQUE (concept_id, alias),",
+    "    FOREIGN KEY(concept_id) REFERENCES skill_concepts (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_skill_aliases_concept_id ON skill_aliases (concept_id)"
+   ],
+   "python_defaults": {
+    "match_mode": "'exact_ci'",
+    "source": "'catalog'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "skill_candidates": {
+   "create": [
+    "CREATE TABLE skill_candidates (",
+    "    id SERIAL NOT NULL,",
+    "    label VARCHAR(96) NOT NULL,",
+    "    proposed_facet VARCHAR(32),",
+    "    job_count INTEGER NOT NULL,",
+    "    requirement_context_count INTEGER NOT NULL,",
+    "    sample_quotes JSONB,",
+    "    ambiguity_notes TEXT,",
+    "    proposed_by VARCHAR(64),",
+    "    verdict VARCHAR(16) NOT NULL,",
+    "    verdict_reason TEXT,",
+    "    concept_id INTEGER,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    UNIQUE (label),",
+    "    FOREIGN KEY(concept_id) REFERENCES skill_concepts (id) ON DELETE SET NULL",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {
+    "job_count": "0",
+    "requirement_context_count": "0",
+    "verdict": "'open'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "skill_concepts": {
+   "create": [
+    "CREATE TABLE skill_concepts (",
+    "    id SERIAL NOT NULL,",
+    "    slug VARCHAR(64) NOT NULL,",
+    "    display VARCHAR(96) NOT NULL,",
+    "    facet VARCHAR(32) NOT NULL,",
+    "    category VARCHAR(32) NOT NULL,",
+    "    parent_id INTEGER,",
+    "    description TEXT NOT NULL,",
+    "    external_refs JSONB,",
+    "    status VARCHAR(16) NOT NULL,",
+    "    taxonomy_version VARCHAR(16) NOT NULL,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(parent_id) REFERENCES skill_concepts (id) ON DELETE SET NULL",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_skill_concepts_facet ON skill_concepts (facet)",
+    "CREATE UNIQUE INDEX ix_skill_concepts_slug ON skill_concepts (slug)"
+   ],
+   "python_defaults": {
+    "status": "'active'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "skill_demand_daily": {
+   "create": [
+    "CREATE TABLE skill_demand_daily (",
+    "    id BIGSERIAL NOT NULL,",
+    "    metric_date TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    company VARCHAR(64) NOT NULL,",
+    "    family VARCHAR(64),",
+    "    concept_id INTEGER NOT NULL,",
+    "    job_count INTEGER NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_skill_demand_slice UNIQUE (metric_date, company, family, concept_id),",
+    "    FOREIGN KEY(concept_id) REFERENCES skill_concepts (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_skill_demand_daily_company ON skill_demand_daily (company)",
+    "CREATE INDEX ix_skill_demand_daily_concept_id ON skill_demand_daily (concept_id)",
+    "CREATE INDEX ix_skill_demand_daily_metric_date ON skill_demand_daily (metric_date)"
+   ],
+   "python_defaults": {
+    "job_count": "0"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "skill_relations": {
+   "create": [
+    "CREATE TABLE skill_relations (",
+    "    id SERIAL NOT NULL,",
+    "    from_id INTEGER NOT NULL,",
+    "    to_id INTEGER NOT NULL,",
+    "    kind VARCHAR(32) NOT NULL,",
+    "    strength FLOAT,",
+    "    source VARCHAR(32) NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_skill_relation UNIQUE (from_id, to_id, kind),",
+    "    CONSTRAINT ck_skill_relation_no_self CHECK (from_id <> to_id),",
+    "    FOREIGN KEY(from_id) REFERENCES skill_concepts (id) ON DELETE CASCADE,",
+    "    FOREIGN KEY(to_id) REFERENCES skill_concepts (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_skill_relations_from_id ON skill_relations (from_id)",
+    "CREATE INDEX ix_skill_relations_to_id ON skill_relations (to_id)"
+   ],
+   "python_defaults": {
+    "source": "'catalog'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "source_binding_tuning": {
+   "create": [
+    "CREATE TABLE source_binding_tuning (",
+    "    id SERIAL NOT NULL,",
+    "    binding_id INTEGER NOT NULL,",
+    "    query_key VARCHAR(120) NOT NULL,",
+    "    page_samples JSONB NOT NULL,",
+    "    duration_samples JSONB NOT NULL,",
+    "    declared_total_last INTEGER,",
+    "    saturated BOOLEAN NOT NULL,",
+    "    stop_reason_hist JSONB NOT NULL,",
+    "    tuned_max_pages INTEGER,",
+    "    tuned_budget_seconds FLOAT,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT uq_source_binding_tuning_query UNIQUE (binding_id, query_key),",
+    "    FOREIGN KEY(binding_id) REFERENCES source_bindings (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_source_binding_tuning_binding_id ON source_binding_tuning (binding_id)"
+   ],
+   "python_defaults": {
+    "duration_samples": "list()",
+    "page_samples": "list()",
+    "saturated": "False",
+    "stop_reason_hist": "dict()"
+   },
+   "python_onupdate": {
+    "updated_at": "now()"
+   },
+   "comment": null,
+   "column_comments": {}
+  },
+  "source_bindings": {
+   "create": [
+    "CREATE TABLE source_bindings (",
+    "    id SERIAL NOT NULL,",
+    "    company_slug VARCHAR(64) NOT NULL,",
+    "    connector_kind VARCHAR(32) NOT NULL,",
+    "    connector_id VARCHAR(128) NOT NULL,",
+    "    recipe_revision_id INTEGER,",
+    "    status VARCHAR(16) NOT NULL,",
+    "    closure_capability VARCHAR(16) NOT NULL,",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    activated_at TIMESTAMP WITH TIME ZONE,",
+    "    retired_at TIMESTAMP WITH TIME ZONE,",
+    "    notes TEXT,",
+    "    PRIMARY KEY (id),",
+    "    FOREIGN KEY(company_slug) REFERENCES tracked_company (slug) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE INDEX ix_source_bindings_company_slug ON source_bindings (company_slug)",
+    "CREATE INDEX ix_source_bindings_company_status ON source_bindings (company_slug, status)",
+    "CREATE UNIQUE INDEX ix_source_bindings_one_active_per_company ON source_bindings (company_slug) WHERE status = 'stable'",
+    "CREATE INDEX ix_source_bindings_status ON source_bindings (status)"
+   ],
+   "python_defaults": {
+    "closure_capability": "'none'",
+    "status": "'proposed'"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "sync_schedule_state": {
+   "create": [
+    "CREATE TABLE sync_schedule_state (",
+    "    id SERIAL NOT NULL,",
+    "    binding_id INTEGER NOT NULL,",
+    "    provider_key VARCHAR(128) NOT NULL,",
+    "    discovery_enabled BOOLEAN NOT NULL,",
+    "    discovery_cadence_seconds INTEGER NOT NULL,",
+    "    reconcile_cadence_seconds INTEGER NOT NULL,",
+    "    last_discovery_at TIMESTAMP WITH TIME ZONE,",
+    "    last_reconcile_at TIMESTAMP WITH TIME ZONE,",
+    "    next_discovery_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    next_reconcile_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    discovery_anchor_minute INTEGER,",
+    "    reconcile_anchor_minute INTEGER,",
+    "    schedule_timezone VARCHAR(64),",
+    "    manual_requested_at TIMESTAMP WITH TIME ZONE,",
+    "    manual_previous_reconcile_at TIMESTAMP WITH TIME ZONE,",
+    "    last_outcome VARCHAR(24),",
+    "    last_new_count INTEGER NOT NULL,",
+    "    consecutive_empty_discoveries INTEGER NOT NULL,",
+    "    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (id),",
+    "    CONSTRAINT ck_sync_schedule_discovery_anchor_minute CHECK (discovery_anchor_minute IS NULL OR discovery_anchor_minute BETWEEN 0 AND 1439),",
+    "    CONSTRAINT ck_sync_schedule_reconcile_anchor_minute CHECK (reconcile_anchor_minute IS NULL OR reconcile_anchor_minute BETWEEN 0 AND 1439),",
+    "    FOREIGN KEY(binding_id) REFERENCES source_bindings (id) ON DELETE CASCADE",
+    ")"
+   ],
+   "indexes": [
+    "CREATE UNIQUE INDEX ix_sync_schedule_state_binding_id ON sync_schedule_state (binding_id)",
+    "CREATE INDEX ix_sync_schedule_state_next_discovery_at ON sync_schedule_state (next_discovery_at)",
+    "CREATE INDEX ix_sync_schedule_state_next_reconcile_at ON sync_schedule_state (next_reconcile_at)",
+    "CREATE INDEX ix_sync_schedule_state_provider_key ON sync_schedule_state (provider_key)"
+   ],
+   "python_defaults": {
+    "consecutive_empty_discoveries": "0",
+    "discovery_cadence_seconds": "21600",
+    "discovery_enabled": "True",
+    "last_new_count": "0",
+    "reconcile_cadence_seconds": "86400"
+   },
+   "python_onupdate": {
+    "updated_at": "now()"
+   },
+   "comment": null,
+   "column_comments": {}
+  },
+  "tracked_company": {
+   "create": [
+    "CREATE TABLE tracked_company (",
+    "    slug VARCHAR(64) NOT NULL,",
+    "    display VARCHAR(128) NOT NULL,",
+    "    adapter VARCHAR(32),",
+    "    board_token VARCHAR(128),",
+    "    board_region VARCHAR(16),",
+    "    careers_url VARCHAR(512),",
+    "    status VARCHAR(16) NOT NULL,",
+    "    enabled BOOLEAN NOT NULL,",
+    "    visible BOOLEAN NOT NULL,",
+    "    source VARCHAR(16) NOT NULL,",
+    "    detected_family VARCHAR(64),",
+    "    pending_reason VARCHAR(24),",
+    "    role_catalog_status VARCHAR(16) NOT NULL,",
+    "    role_catalog_scanned_at TIMESTAMP WITH TIME ZONE,",
+    "    role_catalog_error TEXT,",
+    "    role_catalog_places VARCHAR[],",
+    "    role_catalog_unplaced INTEGER,",
+    "    role_catalog_unsorted INTEGER,",
+    "    consented_at TIMESTAMP WITH TIME ZONE,",
+    "    consent_text TEXT,",
+    "    consent_fingerprint VARCHAR(128),",
+    "    consent_locale VARCHAR(35),",
+    "    created_at TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,",
+    "    PRIMARY KEY (slug)",
+    ")"
+   ],
+   "indexes": [],
+   "python_defaults": {
+    "enabled": "True",
+    "role_catalog_status": "'pending'",
+    "source": "'catalog'",
+    "status": "'active'",
+    "visible": "True"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  },
+  "usage_events": {
+   "create": [
+    "CREATE TABLE usage_events (",
+    "    id BIGSERIAL NOT NULL,",
+    "    dedupe_key VARCHAR(160) NOT NULL,",
+    "    kind VARCHAR(16) NOT NULL,",
+    "    name VARCHAR(64) NOT NULL,",
+    "    consent_group VARCHAR(16) NOT NULL,",
+    "    props JSONB NOT NULL,",
+    "    day DATE,",
+    "    count INTEGER NOT NULL,",
+    "    first_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    last_at TIMESTAMP WITH TIME ZONE NOT NULL,",
+    "    attempted_at TIMESTAMP WITH TIME ZONE,",
+    "    sent_at TIMESTAMP WITH TIME ZONE,",
+    "    rejected_at TIMESTAMP WITH TIME ZONE,",
+    "    withdrawn_at TIMESTAMP WITH TIME ZONE,",
+    "    PRIMARY KEY (id)",
+    ")"
+   ],
+   "indexes": [
+    "CREATE UNIQUE INDEX ix_usage_events_dedupe_key ON usage_events (dedupe_key)",
+    "CREATE INDEX ix_usage_events_sent_at ON usage_events (sent_at)"
+   ],
+   "python_defaults": {
+    "count": "1",
+    "props": "dict()"
+   },
+   "python_onupdate": {},
+   "comment": null,
+   "column_comments": {}
+  }
+ }
+}

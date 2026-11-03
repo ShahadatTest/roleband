@@ -1,0 +1,47 @@
+# Core
+httpx[http2]==0.28.1
+curl_cffi==0.15.0  # TLS-fingerprint fetch tier, consent-gated per walled company (connectors/runtime/tiers.py)
+ijson==3.3.0
+selectolax==1.0.2
+python-dateutil==2.9.0.post0
+cryptography==50.0.2  # seals saved API keys at rest (platform/secrets.py)
+
+# DB
+sqlalchemy[asyncio]==2.0.36
+asyncpg==0.30.0
+psycopg2-binary==2.9.13
+alembic==1.20.0
+greenlet==3.1.1
+pgvector==0.5.1
+
+# Embedded Postgres: the app ships its own server, so a user installs no Docker
+# and configures no connection. Real PG binaries in a wheel (16.14 + 18.4,
+# pgvector 0.8.5, full client toolchain). Pinned — the PGDATA format and the
+# bundled majors are part of the contract.
+# Setup installs the matching prebuilt pg_trgm from tracker/platform/pgcontrib.
+pixeltable-pgserver==0.6.0
+
+# Semantic embeddings (local, CPU-only — no cloud, no torch). The model weights
+# are NOT a dependency: the app provisions its own pinned artifacts at first
+# startup (tracker/semantic/provision.py + manifest.py).
+numpy==2.1.3
+onnxruntime==1.31.0
+tokenizers==0.22.2
+scikit-learn==1.9.0  # KMeans + silhouette in keywords/cluster.py (was only transitive)
+
+# API
+fastapi==0.136.3
+uvicorn[standard]==0.34.0
+mcp==1.30.0
+
+# Config
+pydantic==2.13.4
+pydantic-settings==2.7.1
+
+# On-device AI lives in requirements-optional.txt, which setup.sh installs in a
+# non-fatal pass. A package here is mandatory at INSTALL time, and
+# `apple-fm-sdk` ships an sdist needing full Xcode to build — so an optional
+# feature was failing the whole setup on macOS.
+
+# Test and lint tooling lives in requirements-dev.txt: `deploy/install.sh`
+# installs this file alone, and the always-on runtime has no use for pytest.

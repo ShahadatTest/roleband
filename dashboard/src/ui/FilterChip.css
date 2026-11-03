@@ -1,0 +1,58 @@
+/* ui/FilterChip — a pill that turns one facet of a view on or off.
+ *
+ * It is a BUTTON, not a Badge: Badge states a fact, this changes what you are
+ * looking at. The distinction is why it lives here rather than growing a
+ * clickable variant of Badge (docs/ui.md).
+ */
+
+.ui-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--app-space-1);
+  min-height: var(--app-control-sm);
+  padding: 0 var(--app-control-sm-pad);
+  border: 1px solid var(--app-border-control);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--app-text-muted);
+  font-family: var(--app-font-sans);
+  font-size: var(--app-type-meta);
+  font-weight: var(--app-weight-name);
+  cursor: pointer;
+  transition:
+    background var(--app-duration-fast),
+    border-color var(--app-duration-fast),
+    color var(--app-duration-fast);
+}
+
+.ui-chip:not(:disabled):hover {
+  border-color: var(--app-text-faint);
+  color: var(--app-text);
+}
+
+.ui-chip:not(:disabled):active {
+  background: var(--app-surface-hover);
+}
+
+.ui-chip:focus-visible {
+  outline: var(--app-ring-width) solid var(--app-action);
+  outline-offset: var(--app-ring-offset);
+}
+
+.ui-chip:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+/* ON is `aria-pressed`, the same single convention the button ranks use — not
+   a `.on` class: only the attribute also tells a screen reader what it is
+   looking at. */
+.ui-chip[aria-pressed="true"] {
+  border-color: var(--app-chosen-line);
+  background: var(--app-chosen-wash);
+  color: var(--app-chosen-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-chip { transition: none; }
+}
