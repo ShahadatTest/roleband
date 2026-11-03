@@ -556,12 +556,12 @@ ai-availability-apple-intelligence-disabled = Apple Intelligence is turned off. 
 ai-availability-device-ineligible = This Mac doesn't support Apple Intelligence.
 # kind=sentence
 ai-availability-model-not-ready = The on-device model isn't ready yet. It may still be downloading.
-# kind=sentence wording=as-is
-ai-availability-not-configured = No model profile is selected. Add one in Settings / Intelligence.
+# kind=sentence
+ai-availability-not-configured = No model is set up. Add one in Settings › AI.
 # kind=sentence wording=as-is
 ai-availability-server-unreachable = The model server did not respond. Check that it is running at the configured address.
-# kind=sentence wording=as-is
-ai-availability-egress-not-permitted = Sending job text off this Mac is turned off. Enable cloud models in Settings / Intelligence to use them.
+# kind=sentence
+ai-availability-egress-not-permitted = Sending postings to online model services is off. Turn it on in Settings › AI.
 # kind=label wording=as-is
 ai-origin-none = No model ran
 # kind=status

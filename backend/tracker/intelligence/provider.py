@@ -54,15 +54,15 @@ AVAILABILITY_MESSAGES: dict[AvailabilityState, str] = {
         "The on-device model isn't ready yet — it may still be downloading."
     ),
     AvailabilityState.NOT_CONFIGURED: (
-        "No model profile is selected. Add one in Settings / Intelligence."
+        "No model is set up. Add one in Settings › AI."
     ),
     AvailabilityState.SERVER_UNREACHABLE: (
         "The model server did not respond. Check that it is running at the "
         "configured address."
     ),
     AvailabilityState.EGRESS_NOT_PERMITTED: (
-        "Sending job text off this Mac is turned off. Enable cloud models in "
-        "Settings / Intelligence to use them."
+        "Sending postings to online model services is off. Turn it on in "
+        "Settings › AI."
     ),
 }
 

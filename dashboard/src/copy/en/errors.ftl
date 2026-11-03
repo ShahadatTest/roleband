@@ -93,7 +93,7 @@ error-link-to-itself = A posting can't be linked to itself.
 # kind=error next=none
 error-already-linked = These postings are already linked.
 # kind=error
-error-verdict-decided = You already decided these. Change it in History.
+error-verdict-decided = You already decided these. Change it under Decided.
 # kind=error next=none
 error-pair-refused = These postings can't be linked.
 # kind=error next=none

@@ -28,7 +28,7 @@ describe("the AI screen's server codes", () => {
   it("names origins and fit bands by code, the middle band as Fair", () => {
     expect(originText("cloud")).toBe("Sent to a cloud provider");
     expect(["strong", "good", "some", "weak"].map((k) => fitBandName(k as "some"))).toEqual(["Strong", "Good", "Fair", "Weak"]);
-    expect(availabilityText("egress_not_permitted")).toMatch(/^Sending job text off this Mac is turned off/);
+    expect(availabilityText("egress_not_permitted")).toMatch(/^Sending postings to online model services is off/);
   });
 
   it("follows the active language, never the server's English", async () => {
